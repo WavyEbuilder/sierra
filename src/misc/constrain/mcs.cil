@@ -1,0 +1,38 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(defaultrange blk_file source low)
+(defaultrange chr_file source low)
+(defaultrange dir source low)
+(defaultrange fifo_file source low)
+(defaultrange file source low)
+(defaultrange lnk_file source low)
+(defaultrange sock_file source low)
+
+(block mcs
+
+  (mlsconstrain (constrainobject (create relabelto))
+		(or (neq t1 constrained.typeattr)
+		    (and (dom h1 h2) (eq l2 h2))))
+
+  (mlsconstrain (constrainobject (append getattr read setattr write))
+		(or (dom h1 h2)
+		    (neq t1 constrained.typeattr)))
+
+  (mlsconstrain
+   (process (dyntransition getrlimit getsched ptrace setrlimit setsched
+			   sigchld sigkill signal signull sigstop
+			   transition))
+   (or (dom h1 h2)
+       (neq t1 constrained.typeattr)))
+
+  (mlsconstrain (fifo_file (append getattr read write setattr))
+		(or (dom h1 h2)
+		    (neq t1 constrained.typeattr)))
+
+  (block constrained
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)))

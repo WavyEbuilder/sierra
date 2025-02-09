@@ -1,0 +1,15 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(handleunknown allow)
+(mls true)
+
+(policycap "always_check_network")
+(policycap "cgroup_seclabel")
+(policycap "extended_socket_class")
+(policycap "genfs_seclabel_symlinks")
+(policycap "network_peer_controls")
+(policycap "nnp_nosuid_transition")
+(policycap "open_perms")
+(policycap "ioctl_skip_cloexec")
+(policycap "userspace_initial_context")

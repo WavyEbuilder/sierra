@@ -1,0 +1,8 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block sock
+
+  (fsuse task "sockfs" fs_context)
+
+  (blockinherit .seclabelfs.base_template))

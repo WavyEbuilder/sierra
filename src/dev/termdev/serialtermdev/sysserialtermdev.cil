@@ -1,0 +1,14 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(in serialtermdev.unconfined
+
+    (call .sys.loginserialtermdev_all_type_change_serialtermdev (typeattr)))
+
+(in sys
+
+    (macro loginserialtermdev_all_type_change_serialtermdev ((type ARG1))
+	   (call .loginserialtermdev.all_type_change
+		 (ARG1 serialtermdev)))
+
+    (blockinherit .serialtermdev.template))

@@ -1,0 +1,10 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(in selinux
+
+    (genfscon "selinuxfs" "/" fs_context)
+
+    (blockinherit .noseclabelfs.template)
+
+    (call .rbacsep.exempt.obj.type (fs)))

@@ -1,0 +1,17 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block removable
+
+  (filecon "/dev/fd[^/]+" block stordev_context)
+  (filecon "/dev/mmcblk[0-9]+" block stordev_context)
+  (filecon "/dev/mmcblk[0-9]boot[^/]+" block stordev_context)
+  (filecon "/dev/mmcblk[0-9]p[^/]+" block stordev_context)
+  (filecon "/dev/mmcblk[0-9]rpmb" char stordev_context)
+  (filecon "/dev/mspblk[0-9]+" block stordev_context)
+  (filecon "/dev/mspblk[0-9]boot[^/]+" block stordev_context)
+  (filecon "/dev/mspblk[0-9]p[^/]+" block stordev_context)
+  (filecon "/dev/mspblk[0-9]rpmb" char stordev_context)
+  (filecon "/dev/sr[0-9]+" block stordev_context)
+
+  (blockinherit .stordev.template))

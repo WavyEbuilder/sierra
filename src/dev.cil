@@ -1,0 +1,48 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block dev
+
+  (macro type ((type ARG1))
+	 (typeattributeset typeattr ARG1))
+
+  (typeattribute typeattr)
+
+  (blockinherit .file.all_macro_template_blk_files)
+  (blockinherit .file.all_macro_template_chr_files)
+
+  (call .obj.type (typeattr))
+
+  (call .devtmp.associate_fs (typeattr))
+
+  (block except
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (blockinherit .file.all_macro_template_blk_files)
+    (blockinherit .file.all_macro_template_chr_files)
+
+    (typeattribute typeattr)
+
+    (typeattributeset typeattr (and dev.typeattr (not (exception.typeattr)))))
+
+  (block exception
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (call dev.type (typeattr)))
+
+  (block unconfined
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)))
+
+(in unconfined
+
+    (call .dev.unconfined.type (typeattr)))

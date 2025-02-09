@@ -1,0 +1,10 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block nvme
+
+  (filecon "/dev/ng[0-9]n[^/]+" char stordev_context)
+  (filecon "/dev/nvme[0-9]+" char stordev_context)
+  (filecon "/dev/nvme[0-9]n[^/]+" block stordev_context)
+
+  (blockinherit .stordev.template))

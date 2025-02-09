@@ -1,0 +1,9 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block drm
+
+  (genfscon "drm" "/" fs_context)
+
+  (blockinherit .fs.macro_template_fs)
+  (blockinherit .noseclabelfs.base_template))

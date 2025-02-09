@@ -1,0 +1,188 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block stordev
+
+  (macro mounton_all_chr_files ((type ARG1))
+	 (allow ARG1 typeattr mounton_chr_file))
+
+  (macro type ((type ARG1))
+	 (typeattributeset typeattr ARG1))
+
+  (typeattribute typeattr)
+
+  (blockinherit .file.all_macro_template_blk_files)
+  (blockinherit .file.all_macro_template_chr_files)
+
+  (call .dev.exception.type (typeattr))
+
+  (block base_template
+
+    (blockabstract base_template)
+
+    (context stordev_context (.sys.id .sys.role stordev .sys.lowlow))
+
+    (type stordev)
+    (call .stordev.type (stordev)))
+
+  (block macro_template_blk_files
+
+    (blockabstract macro_template_blk_files)
+
+    (macro append_stordev_blk_files ((type ARG1))
+	   (allow ARG1 stordev append_blk_file))
+
+    (macro appendinherited_stordev_blk_files ((type ARG1))
+	   (allow ARG1 stordev appendinherited_blk_file))
+
+    (macro create_stordev_blk_files ((type ARG1))
+	   (allow ARG1 stordev create_blk_file))
+
+    (macro delete_stordev_blk_files ((type ARG1))
+	   (allow ARG1 stordev delete_blk_file))
+
+    (macro manage_stordev_blk_files ((type ARG1))
+	   (allow ARG1 stordev manage_blk_file))
+
+    (macro read_stordev_blk_files ((type ARG1))
+	   (allow ARG1 stordev read_blk_file))
+
+    (macro readinherited_stordev_blk_files ((type ARG1))
+	   (allow ARG1 stordev readinherited_blk_file))
+
+    (macro readwrite_stordev_blk_files ((type ARG1))
+	   (allow ARG1 stordev readwrite_blk_file))
+
+    (macro readwriteinherited_stordev_blk_files ((type ARG1))
+	   (allow ARG1 stordev readwriteinherited_blk_file))
+
+    (macro relabel_stordev_blk_files ((type ARG1))
+	   (allow ARG1 stordev relabel_blk_file))
+
+    (macro relabelfrom_stordev_blk_files ((type ARG1))
+	   (allow ARG1 stordev relabelfrom_blk_file))
+
+    (macro relabelto_stordev_blk_files ((type ARG1))
+	   (allow ARG1 stordev relabelto_blk_file))
+
+    (macro rename_stordev_blk_files ((type ARG1))
+	   (allow ARG1 stordev rename_blk_file))
+
+    (macro write_stordev_blk_files ((type ARG1))
+	   (allow ARG1 stordev write_blk_file))
+
+    (macro writeinherited_stordev_blk_files ((type ARG1))
+	   (allow ARG1 stordev writeinherited_blk_file)))
+
+  (block macro_template_chr_files
+
+    (blockabstract macro_template_chr_files)
+
+    (macro append_stordev_chr_files ((type ARG1))
+	   (allow ARG1 stordev append_chr_file))
+
+    (macro appendinherited_stordev_chr_files ((type ARG1))
+	   (allow ARG1 stordev appendinherited_chr_file))
+
+    (macro create_stordev_chr_files ((type ARG1))
+	   (allow ARG1 stordev create_chr_file))
+
+    (macro delete_stordev_chr_files ((type ARG1))
+	   (allow ARG1 stordev delete_chr_file))
+
+    (macro manage_stordev_chr_files ((type ARG1))
+	   (allow ARG1 stordev manage_chr_file))
+
+    (macro mapexecute_stordev_chr_files ((type ARG1))
+	   (allow ARG1 stordev mapexecute_chr_file))
+
+    (macro read_stordev_chr_files ((type ARG1))
+	   (allow ARG1 stordev read_chr_file))
+
+    (macro readinherited_stordev_chr_files ((type ARG1))
+	   (allow ARG1 stordev readinherited_chr_file))
+
+    (macro readwrite_stordev_chr_files ((type ARG1))
+	   (allow ARG1 stordev readwrite_chr_file))
+
+    (macro readwriteinherited_stordev_chr_files ((type ARG1))
+	   (allow ARG1 stordev readwriteinherited_chr_file))
+
+    (macro relabel_stordev_chr_files ((type ARG1))
+	   (allow ARG1 stordev relabel_chr_file))
+
+    (macro relabelfrom_stordev_chr_files ((type ARG1))
+	   (allow ARG1 stordev relabelfrom_chr_file))
+
+    (macro relabelto_stordev_chr_files ((type ARG1))
+	   (allow ARG1 stordev relabelto_chr_file))
+
+    (macro rename_stordev_chr_files ((type ARG1))
+	   (allow ARG1 stordev rename_chr_file))
+
+    (macro write_stordev_chr_files ((type ARG1))
+	   (allow ARG1 stordev write_chr_file))
+
+    (macro writeinherited_stordev_chr_files ((type ARG1))
+	   (allow ARG1 stordev writeinherited_chr_file)))
+
+  (block template
+
+    (blockabstract template)
+
+    (blockinherit .stordev.base_template)
+    (blockinherit .stordev.macro_template_blk_files)
+    (blockinherit .stordev.macro_template_chr_files))
+
+  (block read
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute not_typeattr)
+    (typeattribute typeattr)
+
+    (typeattributeset not_typeattr (not typeattr))
+
+    (neverallow not_typeattr stordev.typeattr (blk_file (read)))
+    (neverallow not_typeattr stordev.typeattr (chr_file (read))))
+
+  (block readwrite
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (call read.type (typeattr))
+    (call write.type (typeattr)))
+
+  (block unconfined
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (allow typeattr stordev.typeattr
+	   (blk_file (not (audit_access execmod map))))
+    (allow typeattr stordev.typeattr (chr_file (not (audit_access execmod))))
+
+    (call readwrite.type (typeattr)))
+
+  (block write
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute not_typeattr)
+    (typeattribute typeattr)
+
+    (typeattributeset not_typeattr (not typeattr))
+
+    (neverallow not_typeattr stordev.typeattr (blk_file (append write)))
+    (neverallow not_typeattr stordev.typeattr (chr_file (append write)))))
+
+(in dev.unconfined
+
+    (call .stordev.unconfined.type (typeattr)))

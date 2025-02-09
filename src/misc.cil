@@ -1,0 +1,704 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(sidcontext init (sys.id sys.role sys.subj sys.lowlow)) ;; userspace_initial_context
+
+(in boot
+
+    (filecon "/boot" dir file_context)
+    (filecon "/boot/.*" any file_context)
+
+    (macro root_file_type_transition_file ((type ARG1))
+	   (call .root.file_type_transition
+		 (ARG1 file dir "boot"))))
+
+(in bpf
+
+    (filecon "/sys/fs/bpf" dir ())
+    (filecon "/sys/fs/bpf/.*" any ()))
+
+(in cache
+
+    (filecon "/var/cache" dir file_context)
+    (filecon "/var/cache/.*" any file_context)
+
+    (macro var_file_type_transition_file ((type ARG1))
+	   (call .var.file_type_transition
+		 (ARG1 file dir "cache")))
+
+    (call .root.associate_fs (file)))
+
+(in cert
+
+    (filecon "/etc/ca-certificates" dir file_context)
+    (filecon "/etc/ca-certificates/.*" any file_context)
+
+    (filecon "/etc/ca-certificates\.conf" file file_context)
+    (filecon "/etc/ca-certificates\.conf\..*" file file_context)
+
+    (filecon "/etc/ssl" dir file_context)
+    (filecon "/etc/ssl/.*" any file_context)
+
+    (filecon "/usr/share/ca-certificates" dir file_context)
+    (filecon "/usr/share/ca-certificates/.*" any file_context)
+
+    (macro conf_file_type_transition_file ((type ARG1))
+	   (call .conf.file_type_transition
+		 (ARG1 file dir "ca-certificates"))
+	   (call .conf.file_type_transition
+		 (ARG1 file dir "ssl"))
+	   (call .conf.file_type_transition
+		 (ARG1 file file "ca-certificates.conf"))
+	   (call .conf.file_type_transition
+		 (ARG1 file file "ca-certificates.conf.dpkg-new")))
+
+    (macro data_file_type_transition_file ((type ARG1))
+	   (call .data.file_type_transition
+		 (ARG1 file dir "ca-certificates"))))
+
+(in cgroup
+
+    (filecon "/sys/fs/cgroup" dir fs_context)
+    (filecon "/sys/fs/cgroup/.*" any ())
+
+    (allow fs self (filesystem (associate)))
+
+    (call .rbacsep.exempt.obj.type (fs))
+
+    (call .sys.associate_fs (fs)))
+
+(in conf
+
+    (filecon "/etc" dir file_context)
+    (filecon "/etc/.*" any file_context)
+
+    (macro data_file_type_transition_file ((type ARG1))
+	   (call .data.file_type_transition
+		 (ARG1 file dir "etc")))
+
+    (macro root_file_type_transition_file ((type ARG1))
+	   (call .root.file_type_transition
+		 (ARG1 file dir "etc"))))
+
+(in config
+
+    (filecon "/sys/kernel/config" dir ())
+    (filecon "/sys/kernel/config/.*" any ()))
+
+(in data
+
+    (filecon "/opt" dir file_context)
+    (filecon "/opt/.*" any file_context)
+
+    (filecon "/usr" dir file_context)
+    (filecon "/usr/.*" any file_context)
+
+    (filecon "/tmp" symlink file_context)
+
+    (macro root_file_type_transition_file ((type ARG1))
+	   (call .root.file_type_transition
+		 (ARG1 file dir "opt"))
+	   (call .root.file_type_transition
+		 (ARG1 file dir "usr"))))
+
+(in db
+
+    (filecon "/var/db" dir file_context)
+    (filecon "/var/db/.*" any file_context)
+
+    (macro var_file_type_transition_file ((type ARG1))
+	   (call .var.file_type_transition
+		 (ARG1 file dir "db"))))
+
+(in debug
+
+    (filecon "/sys/kernel/debug" dir ())
+    (filecon "/sys/kernel/debug/.*" any ()))
+
+(in dev
+
+    (filecon "/dev" dir file_context)
+    (filecon "/dev/.*" block file_context)
+    (filecon "/dev/.*" char file_context)
+    (filecon "/dev/.*" dir file_context)
+    (filecon "/dev/.*" file file_context)
+    (filecon "/dev/.*" pipe file_context)
+    (filecon "/dev/.*" socket file_context)
+    (filecon "/dev/.*" symlink file_context)
+
+    (macro root_file_type_transition_file ((type ARG1))
+	   (call .root.file_type_transition
+		 (ARG1 file dir "dev")))
+
+    (call .tmp.associate_fs (typeattr))
+
+    (call .tmp.associate_fs (file))
+
+    (call .xattr.associate_fs (file)))
+
+(in devpts
+
+    (filecon "/dev/pts" dir ())
+    (filecon "/dev/pts/.*" any ()))
+
+(in devtmp
+
+    (allow fs self (filesystem (associate))))
+
+(in dos
+
+    (filecon "/boot/efi" dir fs_context)
+    (filecon "/boot/efi/.*" any ())
+
+    (filecon "/efi" dir fs_context)
+    (filecon "/efi/.*" any ())
+
+    (macro boot_file_type_transition_fs ((type ARG1))
+	   (call .boot.file_type_transition
+		 (ARG1 fs dir "efi")))
+
+    (macro root_file_type_transition_fs ((type ARG1))
+	   (call .boot.file_type_transition
+		 (ARG1 fs dir "efi")))
+
+    (call .xattr.associate_fs (fs)))
+
+(in efivar
+
+    (filecon "/sys/firmware/efi/efivars" dir ())
+    (filecon "/sys/firmware/efi/efivars/.*" any ()))
+
+(in exec
+
+    (filecon "/usr/bin" dir file_context)
+    (filecon "/usr/bin/.*" any file_context)
+
+    (macro data_file_type_transition_file ((type ARG1))
+	   (call .data.file_type_transition
+		 (ARG1 file dir "bin"))
+	   (call .data.file_type_transition
+		 (ARG1 file dir "libexec"))
+	   (call .data.file_type_transition
+		 (ARG1 file dir "sbin")))
+
+    (macro root_file_type_transition_file ((type ARG1))
+	   (call .root.file_type_transition
+		 (ARG1 file dir "bin"))
+	   (call .root.file_type_transition
+		 (ARG1 file dir "sbin"))))
+
+(in file.run
+
+    (call .xattr.associate_fs (typeattr)))
+
+(in file.tmp
+
+    (call .xattr.associate_fs (typeattr)))
+
+(in file.unconfined
+
+    (call .boot.root_file_type_transition_file (typeattr))
+    (call .cache.var_file_type_transition_file (typeattr))
+    (call .cert.conf_file_type_transition_file (typeattr))
+    (call .cert.data_file_type_transition_file (typeattr))
+    (call .conf.data_file_type_transition_file (typeattr))
+    (call .conf.root_file_type_transition_file (typeattr))
+    (call .data.root_file_type_transition_file (typeattr))
+    (call .db.var_file_type_transition_file (typeattr))
+    (call .dev.root_file_type_transition_file (typeattr))
+    (call .exec.data_file_type_transition_file (typeattr))
+    (call .exec.root_file_type_transition_file (typeattr))
+    (call .home.root_file_type_transition_file (typeattr))
+    (call .lib.data_file_type_transition_file (typeattr))
+    (call .lib.root_file_type_transition_file (typeattr))
+    (call .log.var_file_type_transition_file (typeattr))
+    (call .lostfound.boot_file_type_transition_file (typeattr))
+    (call .lostfound.cache_file_type_transition_file (typeattr))
+    (call .lostfound.conf_file_type_transition_file (typeattr))
+    (call .lostfound.data_file_type_transition_file (typeattr))
+    (call .lostfound.db_file_type_transition_file (typeattr))
+    (call .lostfound.home_file_type_transition_file (typeattr))
+    (call .lostfound.log_file_type_transition_file (typeattr))
+    (call .lostfound.root_file_type_transition_file (typeattr))
+    (call .lostfound.run_file_type_transition_file (typeattr))
+    (call .lostfound.spool_file_type_transition_file (typeattr))
+    (call .lostfound.state_file_type_transition_file (typeattr))
+    (call .lostfound.tmp_file_type_transition_file (typeattr))
+    (call .lostfound.var_file_type_transition_file (typeattr))
+    (call .mail.spool.spool_file_type_transition_file (typeattr))
+    (call .mail.spool.var_file_type_transition_file (typeattr))
+    (call .media.root_file_type_transition_file (typeattr))
+    (call .media.run_file_type_transition_file (typeattr))
+    (call .mod.lib_file_type_transition_file (typeattr))
+    (call .run.root_file_type_transition_file (typeattr))
+    (call .run.var_file_type_transition_file (typeattr))
+    (call .runlock.run_file_type_transition_file (typeattr))
+    (call .runlock.var_file_type_transition_file (typeattr))
+    (call .runuser.run_file_type_transition_file (typeattr))
+    (call .spool.var_file_type_transition_file (typeattr))
+    (call .src.data_file_type_transition_file (typeattr))
+    (call .state.var_file_type_transition_file (typeattr))
+    (call .sys.home.root_file_type_transition_file (typeattr))
+    (call .tmp.data_file_type_transition_file (typeattr))
+    (call .tmp.root_file_type_transition_file (typeattr))
+    (call .tmp.var_file_type_transition_file (typeattr))
+    (call .var.root_file_type_transition_file (typeattr)))
+
+(in fs.unconfined
+
+    (call .dos.boot_file_type_transition_fs (typeattr))
+    (call .dos.root_file_type_transition_fs (typeattr))
+    (call .proc.root_file_type_transition_fs (typeattr))
+    (call .sys.root_file_type_transition_fs (typeattr)))
+
+(in fuse
+
+    (filecon "/sys/fs/fuse/connections" dir ())
+    (filecon "/sys/fs/fuse/connections/.*" any ()))
+
+(in home
+
+    (filecon "/home" dir file_context)
+    (filecon "/home/.*" any file_context)
+
+    (macro root_file_type_transition_file ((type ARG1))
+	   (call .root.file_type_transition
+		 (ARG1 file dir "home"))))
+
+(in hugetlb
+
+    (filecon "/dev/hugepages" dir ())
+    (filecon "/dev/hugepages/.*" any ())
+
+    (allow fs self (filesystem (associate))))
+
+(in lib
+
+    (filecon "/usr/lib" dir file_context)
+    (filecon "/usr/lib/.*" any file_context)
+
+    (macro data_file_type_transition_file ((type ARG1))
+	   (call .data.file_type_transition
+		 (ARG1 file dir "lib"))
+	   (call .data.file_type_transition
+		 (ARG1 file dir "lib64")))
+
+    (macro root_file_type_transition_file ((type ARG1))
+	   (call .root.file_type_transition
+		 (ARG1 file dir "lib"))
+	   (call .root.file_type_transition
+		 (ARG1 file dir "lib64"))))
+
+(in log
+
+    (filecon "/var/log" dir file_context)
+    (filecon "/var/log/.*" any file_context)
+
+    (macro var_file_type_transition_file ((type ARG1))
+	   (call .var.file_type_transition
+		 (ARG1 file dir "log")))
+
+    (call .tmp.associate_fs (file)))
+
+(in lostfound
+
+    (filecon "/\.journal" file ())
+    (filecon "/lost\+found" dir file_context)
+
+    (filecon "/boot/\.journal" file ())
+    (filecon "/boot/lost\+found" dir file_context)
+
+    (filecon "/etc/\.journal" file ())
+    (filecon "/etc/lost\+found" dir file_context)
+
+    (filecon "/home/\.journal" file ())
+    (filecon "/home/lost\+found" dir file_context)
+
+    (filecon "/opt/\.journal" file ())
+    (filecon "/opt/lost\+found" dir file_context)
+
+    (filecon "/run/\.journal" file ())
+    (filecon "/run/lost\+found" dir file_context)
+
+    (filecon "/srv/\.journal" file ())
+    (filecon "/srv/lost\+found" dir file_context)
+
+    (filecon "/tmp/\.journal" file ())
+    (filecon "/tmp/lost\+found" dir file_context)
+
+    (filecon "/usr/\.journal" file ())
+    (filecon "/usr/lost\+found" dir file_context)
+
+    (filecon "/usr/tmp/\.journal" file ())
+    (filecon "/usr/tmp/lost\+found" dir file_context)
+
+    (filecon "/var/\.journal" file ())
+    (filecon "/var/lost\+found" dir file_context)
+
+    (filecon "/var/cache/\.journal" file ())
+    (filecon "/var/cache/lost\+found" dir file_context)
+
+    (filecon "/var/db/\.journal" file ())
+    (filecon "/var/db/lost\+found" dir file_context)
+
+    (filecon "/var/lib/\.journal" file ())
+    (filecon "/var/lib/lost\+found" dir file_context)
+
+    (filecon "/var/log/\.journal" file ())
+    (filecon "/var/log/lost\+found" dir file_context)
+
+    (filecon "/var/run/\.journal" file ())
+    (filecon "/var/run/lost\+found" dir file_context)
+
+    (filecon "/var/spool/\.journal" file ())
+    (filecon "/var/spool/lost\+found" dir file_context)
+
+    (filecon "/var/tmp/\.journal" file ())
+    (filecon "/var/tmp/lost\+found" dir file_context)
+
+    (macro boot_file_type_transition_file ((type ARG1))
+	   (call .boot.file_type_transition
+		 (ARG1 file dir "lost+found")))
+
+    (macro cache_file_type_transition_file ((type ARG1))
+	   (call .cache.file_type_transition
+		 (ARG1 file dir "lost+found")))
+
+    (macro conf_file_type_transition_file ((type ARG1))
+	   (call .conf.file_type_transition
+		 (ARG1 file dir "lost+found")))
+
+    (macro data_file_type_transition_file ((type ARG1))
+	   (call .data.file_type_transition
+		 (ARG1 file dir "lost+found")))
+
+    (macro db_file_type_transition_file ((type ARG1))
+	   (call .db.file_type_transition
+		 (ARG1 file dir "lost+found")))
+
+    (macro home_file_type_transition_file ((type ARG1))
+	   (call .home.file_type_transition
+		 (ARG1 file dir "lost+found")))
+
+    (macro log_file_type_transition_file ((type ARG1))
+	   (call .log.file_type_transition
+		 (ARG1 file dir "lost+found")))
+
+    (macro root_file_type_transition_file ((type ARG1))
+	   (call .root.file_type_transition
+		 (ARG1 file dir "lost+found")))
+
+    (macro run_file_type_transition_file ((type ARG1))
+	   (call .run.file_type_transition
+		 (ARG1 file dir "lost+found")))
+
+    (macro spool_file_type_transition_file ((type ARG1))
+	   (call .spool.file_type_transition
+		 (ARG1 file dir "lost+found")))
+
+    (macro state_file_type_transition_file ((type ARG1))
+	   (call .state.file_type_transition
+		 (ARG1 file dir "lost+found")))
+
+    (macro tmp_file_type_transition_file ((type ARG1))
+	   (call .tmp.file_type_transition
+		 (ARG1 file dir "lost+found")))
+
+    (macro var_file_type_transition_file ((type ARG1))
+	   (call .var.file_type_transition
+		 (ARG1 file dir "lost+found"))))
+
+(in mail.spool
+
+    (filecon "/var/spool/mail" dir file_context)
+    (filecon "/var/spool/mail/.*" any file_context)
+
+    (macro spool_file_type_transition_file ((type ARG1))
+	   (call .spool.file_type_transition
+		 (ARG1 file dir "mail")))
+
+    (macro var_file_type_transition_file ((type ARG1))
+	   (call .var.file_type_transition
+		 (ARG1 file dir "mail"))))
+
+(in media
+
+    (filecon "/media" dir file_context)
+    (filecon "/media/cdrom" symlink file_context)
+    (filecon "/media/.*" any ())
+
+    (filecon "/mnt" dir file_context)
+    (filecon "/mnt/.*" any ())
+
+    (filecon "/run/media" dir file_context)
+    (filecon "/run/media/.*" any ())
+
+    (macro root_file_type_transition_file ((type ARG1))
+	   (call .root.file_type_transition
+		 (ARG1 file dir "media"))
+	   (call .root.file_type_transition
+		 (ARG1 file dir "mnt")))
+
+    (macro run_file_type_transition_file ((type ARG1))
+	   (call .run.file_type_transition
+		 (ARG1 file dir "media")))
+
+    (call .tmp.associate_fs (file)))
+
+(in mod
+
+    (filecon "/usr/lib/modules" dir file_context)
+    (filecon "/usr/lib/modules/.*" any file_context)
+
+    (macro lib_file_type_transition_file ((type ARG1))
+	   (call .lib.file_type_transition
+		 (ARG1 file dir "modules"))))
+
+(in mqueue
+
+    (filecon "/dev/mqueue" dir ())
+    (filecon "/dev/mqueue/.*" any ())
+
+    (allow fs self (filesystem (associate))))
+
+(in proc
+
+    (filecon "/proc" dir fs_context)
+    (filecon "/proc/.*" any ())
+
+    (macro root_file_type_transition_fs ((type ARG1))
+	   (call .root.file_type_transition
+		 (ARG1 fs dir "proc")))
+
+    (call .xattr.associate_fs (fs)))
+
+(in pstore
+
+    (filecon "/sys/fs/pstore" dir ())
+    (filecon "/sys/fs/pstore/.*" any ()))
+
+(in root
+
+    (filecon "/usr/bin" symlink file_context)
+    (filecon "/usr/lib" symlink file_context)
+
+    (allow fs self (filesystem (associate))))
+
+(in rpcpipe
+
+    (filecon "/run/rpc_pipefs" dir ())
+    (filecon "/run/rpc_pipefs/.*" any ()))
+
+(in run
+
+    (filecon "/run" dir file_context)
+    (filecon "/run/.*" any file_context)
+
+    (macro root_file_type_transition_file ((type ARG1))
+	   (call .root.file_type_transition
+		 (ARG1 file dir "run")))
+
+    (macro var_file_type_transition_file ((type ARG1))
+	   (call .var.file_type_transition
+		 (ARG1 file dir "run")))
+
+    (call .root.associate_fs (file)))
+
+(in runlock
+
+    (filecon "/run/lock" dir file_context)
+    (filecon "/run/lock/.*" any file_context)
+
+    (macro run_file_type_transition_file ((type ARG1))
+	   (call .run.file_type_transition
+		 (ARG1 file dir "lock")))
+
+    (macro var_file_type_transition_file ((type ARG1))
+	   (call .var.file_type_transition
+		 (ARG1 file dir "lock"))))
+
+(in runuser
+
+    (filecon "/run/user" dir file_context)
+    (filecon "/run/user/.*" any file_context)
+
+    (macro run_file_type_transition_file ((type ARG1))
+	   (call .run.file_type_transition
+		 (ARG1 file dir "user"))))
+
+(in security
+
+    (filecon "/sys/kernel/security" dir ())
+    (filecon "/sys/kernel/security/.*" any ()))
+
+(in selinux
+
+    (filecon "/sys/fs/selinux" dir ())
+    (filecon "/sys/fs/selinux/.*" any ()))
+
+(in spool
+
+    (filecon "/var/spool" dir file_context)
+    (filecon "/var/spool/.*" any file_context)
+
+    (macro var_file_type_transition_file ((type ARG1))
+	   (call .var.file_type_transition
+		 (ARG1 file dir "spool"))))
+
+(in src
+
+    (filecon "/usr/src" dir file_context)
+    (filecon "/usr/src/.*" any file_context)
+
+    (macro data_file_type_transition_file ((type ARG1))
+	   (call .data.file_type_transition
+		 (ARG1 file dir "src"))))
+
+(in state
+
+    (filecon "/var/lib" dir file_context)
+    (filecon "/var/lib/.*" any file_context)
+
+    (macro var_file_type_transition_file ((type ARG1))
+	   (call .var.file_type_transition
+		 (ARG1 file dir "lib")))
+
+    (call .root.associate_fs (file)))
+
+(in sys
+
+    (filecon "/sys" dir fs_context)
+    (filecon "/sys/.*" any ())
+
+    (macro root_file_type_transition_fs ((type ARG1))
+	   (call .root.file_type_transition
+		 (ARG1 fs dir "sys")))
+
+    (allow fs self (filesystem (associate)))
+
+    (call hugetlbfs.hugetlb_fs_type_transition_file (subj "*"))
+
+    (call mqueuefs.mqueue_fs_type_transition_file (subj "*"))
+
+    (call tmp.tmp_file_type_transition_file (subj dir "*"))
+    (call tmp.tmp_file_type_transition_file (subj fifo_file "*"))
+    (call tmp.tmp_file_type_transition_file (subj file "*"))
+    (call tmp.tmp_file_type_transition_file (subj lnk_file "*"))
+    (call tmp.tmp_file_type_transition_file (subj sock_file "*"))
+
+    (call tmpfs.tmp_fs_type_transition_file (subj dir "*"))
+    (call tmpfs.tmp_fs_type_transition_file (subj fifo_file "*"))
+    (call tmpfs.tmp_fs_type_transition_file (subj file "*"))
+    (call tmpfs.tmp_fs_type_transition_file (subj lnk_file "*"))
+    (call tmpfs.tmp_fs_type_transition_file (subj sock_file "*"))
+
+    (call .tmp.sys_tmp_file_type_transition_file (subj))
+
+    (call .xattr.associate_fs (fs)))
+
+(in sys.home
+
+    (filecon "/root" dir file_context)
+    (filecon "/root/.*" any file_context)
+
+    (macro root_file_type_transition_file ((type ARG1))
+	   (call .root.fs_type_transition
+		 (ARG1 file dir "root"))))
+
+(in sys.hugetlbfs
+
+    (macro hugetlb_fs_type_transition_file ((type ARG1)(name ARG2))
+	   (call .hugetlb.fs_type_transition
+		 (ARG1 file file ARG2))))
+
+(in sys.mqueuefs
+
+    (macro mqueue_fs_type_transition_file ((type ARG1)(name ARG2))
+	   (call .mqueue.fs_type_transition
+		 (ARG1 file file ARG2))))
+
+(in sys.tmp
+
+    (macro tmp_file_type_transition_file ((type ARG1)(class ARG2)(name ARG3))
+	   (call .tmp.file_type_transition
+		 (ARG1 file ARG2 ARG3))))
+
+(in sys.tmpfs
+
+    (macro tmp_fs_type_transition_file ((type ARG1)(class ARG2)(name ARG3))
+	   (call .tmp.fs_type_transition
+		 (ARG1 file ARG2 ARG3))))
+
+(in sys.unconfined
+
+    (allow typeattr subj (system (reboot reload start status stop))))
+
+(in tmp
+
+    (filecon "/dev/shm" dir fs_context)
+    (filecon "/dev/shm/.*" any ())
+
+    (filecon "/run/initramfs/.*" any ())
+
+    (filecon "/tmp" dir file_context)
+    (filecon "/tmp/.*" any ())
+
+    (filecon "/tmp/\.font-unix" dir file_context)
+    (filecon "/tmp/\.font-unix/.*" any ())
+    (filecon "/tmp/\.ICE-unix" dir file_context)
+    (filecon "/tmp/\.ICE-unix/.*" any ())
+    (filecon "/tmp/\.Test-unix" dir file_context)
+    (filecon "/tmp/\.Test-unix/.*" any ())
+    (filecon "/tmp/\.X11-unix" dir file_context)
+    (filecon "/tmp/\.X11-unix/.*" any ())
+    (filecon "/tmp/\.XIM-unix" dir file_context)
+    (filecon "/tmp/\.XIM-unix/.*" any ())
+
+    (macro data_file_type_transition_file ((type ARG1))
+	   (call .data.file_type_transition
+		 (ARG1 file dir "tmp")))
+
+    (macro root_file_type_transition_file ((type ARG1))
+	   (call .root.file_type_transition
+		 (ARG1 file dir "tmp")))
+
+    (macro sys_tmp_file_type_transition_file ((type ARG1))
+	   (call .sys.tmp.file_type_transition
+		 (ARG1 file dir "tmp")))
+
+    (macro var_file_type_transition_file ((type ARG1))
+	   (call .var.file_type_transition
+		 (ARG1 file dir "tmp")))
+
+    (allow fs self (filesystem (associate)))
+
+    (call .devtmp.associate_fs (fs)))
+
+(in trace
+
+    (filecon "/sys/kernel/tracing" dir ())
+    (filecon "/sys/kernel/tracing/.*" any ()))
+
+(in var
+
+    (filecon "/run" symlink file_context)
+    (filecon "/run/lock" symlink file_context)
+
+    (filecon "/srv" dir file_context)
+    (filecon "/srv/.*" any file_context)
+
+    (filecon "/var" dir file_context)
+    (filecon "/var/.*" any file_context)
+
+    (filecon "/var/spool/mail" symlink file_context)
+
+    (macro root_file_type_transition_file ((type ARG1))
+	   (call .root.file_type_transition
+		 (ARG1 file dir "srv"))
+	   (call .root.file_type_transition
+		 (ARG1 file dir "var"))))
+
+(typealias dpkg_script_t)
+(in sys (typealiasactual dpkg_script_t subj))
+
+(boolean xserver_object_manager false)

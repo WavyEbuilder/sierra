@@ -1,0 +1,142 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block cgroupfile
+
+  (macro type ((type ARG1))
+	 (typeattributeset typeattr ARG1))
+
+  (typeattribute typeattr)
+
+  (blockinherit .file.all_macro_template_dirs)
+  (blockinherit .file.all_macro_template_files)
+
+  (call .obj.type (typeattr))
+
+  (call .cgroup.associate_fs (typeattr))
+
+  (block base_template
+
+    (blockabstract base_template)
+
+    (context cgroupfile_context (.sys.id .sys.role cgroupfile .sys.lowlow))
+
+    (type cgroupfile)
+    (call .cgroupfile.type (cgroupfile)))
+
+  (block macro_template_dirs
+
+    (blockabstract macro_template_dirs)
+
+    (macro addname_cgroupfile_dirs ((type ARG1))
+	   (allow ARG1 cgroupfile addname_dir))
+
+    (macro create_cgroupfile_dirs ((type ARG1))
+	   (allow ARG1 cgroupfile create_dir))
+
+    (macro delete_cgroupfile_dirs ((type ARG1))
+	   (allow ARG1 cgroupfile delete_dir))
+
+    (macro deletename_cgroupfile_dirs ((type ARG1))
+	   (allow ARG1 cgroupfile deletename_dir))
+
+    (macro list_cgroupfile_dirs ((type ARG1))
+	   (allow ARG1 cgroupfile list_dir))
+
+    (macro listinherited_cgroupfile_dirs ((type ARG1))
+	   (allow ARG1 cgroupfile listinherited_dir))
+
+    (macro manage_cgroupfile_dirs ((type ARG1))
+	   (allow ARG1 cgroupfile manage_dir))
+
+    (macro mounton_cgroupfile_dirs ((type ARG1))
+	   (allow ARG1 cgroupfile mounton_dir))
+
+    (macro readwrite_cgroupfile_dirs ((type ARG1))
+	   (allow ARG1 cgroupfile readwrite_dir))
+
+    (macro readwriteinherited_cgroupfile_dirs ((type ARG1))
+	   (allow ARG1 cgroupfile readwriteinherited_dir))
+
+    (macro rename_cgroupfile_dirs ((type ARG1))
+	   (allow ARG1 cgroupfile rename_dir))
+
+    (macro search_cgroupfile_dirs ((type ARG1))
+	   (allow ARG1 cgroupfile search_dir))
+
+    (macro write_cgroupfile_dirs ((type ARG1))
+	   (allow ARG1 cgroupfile write_dir))
+
+    (macro writeinherited_cgroupfile_dirs ((type ARG1))
+	   (allow ARG1 cgroupfile writeinherited_dir)))
+
+  (block macro_template_files
+
+    (blockabstract macro_template_files)
+
+    (macro append_cgroupfile_files ((type ARG1))
+	   (allow ARG1 cgroupfile append_file))
+
+    (macro appendinherited_cgroupfile_files ((type ARG1))
+	   (allow ARG1 cgroupfile appendinherited_file))
+
+    (macro create_cgroupfile_files ((type ARG1))
+	   (allow ARG1 cgroupfile create_file))
+
+    (macro delete_cgroupfile_files ((type ARG1))
+	   (allow ARG1 cgroupfile delete_file))
+
+    (macro execute_cgroupfile_files ((type ARG1))
+	   (allow ARG1 cgroupfile execute_file))
+
+    (macro manage_cgroupfile_files ((type ARG1))
+	   (allow ARG1 cgroupfile manage_file))
+
+    (macro mapexecute_cgroupfile_files ((type ARG1))
+	   (allow ARG1 cgroupfile mapexecute_file))
+
+    (macro mounton_cgroupfile_files ((type ARG1))
+	   (allow ARG1 cgroupfile mounton_file))
+
+    (macro read_cgroupfile_files ((type ARG1))
+	   (allow ARG1 cgroupfile read_file))
+
+    (macro readinherited_cgroupfile_files ((type ARG1))
+	   (allow ARG1 cgroupfile readinherited_file))
+
+    (macro readwrite_cgroupfile_files ((type ARG1))
+	   (allow ARG1 cgroupfile readwrite_file))
+
+    (macro readwriteinherited_cgroupfile_files ((type ARG1))
+	   (allow ARG1 cgroupfile readwriteinherited_file))
+
+    (macro rename_cgroupfile_files ((type ARG1))
+	   (allow ARG1 cgroupfile rename_file))
+
+    (macro write_cgroupfile_files ((type ARG1))
+	   (allow ARG1 cgroupfile write_file))
+
+    (macro writeinherited_cgroupfile_files ((type ARG1))
+	   (allow ARG1 cgroupfile writeinherited_file)))
+
+  (block template
+
+    (blockabstract template)
+
+    (blockinherit .cgroupfile.base_template)
+    (blockinherit .cgroupfile.macro_template_files))
+
+  (block unconfined
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (allow typeattr cgroupfile.typeattr (dir (not (audit_access execmod))))
+    (allow typeattr cgroupfile.typeattr
+	   (file (not (audit_access entrypoint execmod))))))
+
+(in sys.unconfined
+
+    (call .cgroupfile.unconfined.type (typeattr)))

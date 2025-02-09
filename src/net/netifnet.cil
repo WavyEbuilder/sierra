@@ -1,0 +1,101 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(sidcontext netif (sys.id sys.role net.netif sys.lowlow))
+
+(class netif (egress ingress))
+(classorder (unordered netif))
+
+(macro egress_invalid_netifs ((type ARG1))
+       (allow ARG1 invalid (netif (egress))))
+
+(macro egressingress_invalid_netifs ((type ARG1))
+       (allow ARG1 invalid (netif (egress ingress))))
+
+(macro ingress_invalid_netifs ((type ARG1))
+       (allow ARG1 invalid (netif (ingress))))
+
+(tunableif (or invalid_associations invalid_peers)
+	   (true
+
+	    (call net.netif.egressingress_all_netifs (invalid))))
+
+(in invalid.unconfined
+
+    (allow typeattr .invalid (netif (all))))
+
+(in mcs
+
+    (mlsconstrain (netif (egress ingress))
+		  (or (dom h1 h2)
+		      (neq t1 constrained.typeattr))))
+
+(in net
+
+    (blockinherit netif.template)
+
+    (block netif
+
+      (macro type ((type ARG1))
+	     (typeattributeset typeattr ARG1))
+
+      (typeattribute typeattr)
+
+      (blockinherit all_macro_template)
+
+      (call .obj.type (typeattr))
+
+      (block all_macro_template
+
+	(blockabstract all_macro_template)
+
+	(macro egress_all_netifs ((type ARG1))
+	       (allow ARG1 typeattr (netif (egress))))
+
+	(macro egressingress_all_netifs ((type ARG1))
+	       (allow ARG1 typeattr (netif (egress ingress))))
+
+	(macro ingress_all_netifs ((type ARG1))
+	       (allow ARG1 typeattr (netif (ingress)))))
+
+      (block base_template
+
+	(blockabstract base_template)
+
+	(context netif_context (.sys.id .sys.role netif .sys.lowlow))
+
+	(type netif)
+	(call .net.netif.type (netif)))
+
+      (block macro_template
+
+	(blockabstract macro_template)
+
+	(macro egress_netifs ((type ARG1))
+	       (allow ARG1 netif (netif (egress))))
+
+	(macro egressingress_netifs ((type ARG1))
+	       (allow ARG1 netif (netif (egress ingress))))
+
+	(macro ingress_netifs ((type ARG1))
+	       (allow ARG1 netif (netif (ingress)))))
+
+      (block template
+
+	(blockabstract template)
+
+	(blockinherit .net.netif.base_template)
+	(blockinherit .net.netif.macro_template))
+
+      (block unconfined
+
+	(macro type ((type ARG1))
+	       (typeattributeset typeattr ARG1))
+
+	(typeattribute typeattr)
+
+	(allow typeattr netif.typeattr (netif (all))))))
+
+(in net.unconfined
+
+    (call .net.netif.unconfined.type (typeattr)))

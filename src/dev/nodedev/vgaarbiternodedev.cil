@@ -1,0 +1,8 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block vgaarbiter
+
+  (filecon "/dev/vga_arbiter" char nodedev_context)
+
+  (blockinherit .nodedev.template))

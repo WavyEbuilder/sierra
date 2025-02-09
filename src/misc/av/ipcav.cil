@@ -1,0 +1,140 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(class ipc ())
+(classorder (unordered ipc))
+
+(class msgq (enqueue))
+(classorder (unordered msgq))
+
+(class sem ())
+(classorder (unordered sem))
+
+(class shm (lock))
+(classorder (unordered shm))
+
+(classcommon ipc common_ipc)
+(classcommon msgq common_ipc)
+(classcommon sem common_ipc)
+(classcommon shm common_ipc)
+
+(common common_ipc
+	(associate create destroy getattr read setattr unix_read unix_write
+		   write))
+
+(classpermission create_ipc)
+(classpermission create_msgq)
+(classpermission create_sem)
+(classpermission create_shm)
+
+(classpermission read_ipc)
+(classpermission read_msgq)
+(classpermission read_sem)
+(classpermission read_shm)
+
+(classpermission readwrite_ipc)
+(classpermission readwrite_msgq)
+(classpermission readwrite_sem)
+(classpermission readwrite_shm)
+
+(classpermissionset create_ipc
+		    (ipc (associate create destroy getattr read setattr
+				    unix_read unix_write write)))
+(classpermissionset create_msgq
+		    (msgq (associate create destroy enqueue getattr read setattr
+				     unix_read unix_write write)))
+(classpermissionset create_sem
+		    (sem (associate create destroy getattr read setattr
+				    unix_read unix_write write)))
+(classpermissionset create_shm
+		    (shm (associate create destroy getattr read setattr
+				    unix_read unix_write write)))
+
+(classpermissionset read_ipc (ipc (associate getattr read unix_read)))
+(classpermissionset read_msgq (msgq (associate getattr read unix_read)))
+(classpermissionset read_sem (sem (associate getattr read unix_read)))
+(classpermissionset read_shm (shm (associate getattr read unix_read)))
+
+(classpermissionset readwrite_ipc
+		    (ipc (associate getattr read unix_read unix_write write)))
+(classpermissionset readwrite_msgq
+		    (msgq (associate enqueue getattr read unix_read unix_write
+				     write)))
+(classpermissionset readwrite_sem
+		    (sem (associate getattr read unix_read unix_write write)))
+(classpermissionset readwrite_shm
+		    (shm (associate getattr read unix_read unix_write write)))
+
+(classmap constrainipcsubject (create getattr read setattr write))
+
+(classmapping constrainipcsubject create (ipc (create)))
+(classmapping constrainipcsubject create (msgq (create)))
+(classmapping constrainipcsubject create (sem (create)))
+(classmapping constrainipcsubject create (shm (create)))
+
+(classmapping constrainipcsubject getattr (ipc (getattr)))
+(classmapping constrainipcsubject getattr (msgq (getattr)))
+(classmapping constrainipcsubject getattr (sem (getattr)))
+(classmapping constrainipcsubject getattr (shm (getattr)))
+
+(classmapping constrainipcsubject read (ipc (read)))
+(classmapping constrainipcsubject read (msgq (read)))
+(classmapping constrainipcsubject read (sem (read)))
+(classmapping constrainipcsubject read (shm (read)))
+
+(classmapping constrainipcsubject setattr (ipc (setattr)))
+(classmapping constrainipcsubject setattr (msgq (setattr)))
+(classmapping constrainipcsubject setattr (sem (setattr)))
+(classmapping constrainipcsubject setattr (shm (setattr)))
+
+(classmapping constrainipcsubject write (ipc (write)))
+(classmapping constrainipcsubject write (msgq (write)))
+(classmapping constrainipcsubject write (sem (write)))
+(classmapping constrainipcsubject write (shm (write)))
+
+(in ibac
+
+    (constrain (constrainipcsubject (create))
+	       (or (or (or (eq u1 u2)
+			   (and (eq t1 subjchangesys.typeattr) (eq u2 .sys.id)))
+		       (eq t1 subjchange.typeattr))
+		   (eq t1 exempt.typeattr))))
+
+(in invalid.unconfined
+
+    (allow typeattr .invalid (ipc (all)))
+    (allow typeattr .invalid (msgq (all)))
+    (allow typeattr .invalid (sem (all)))
+    (allow typeattr .invalid (shm (all))))
+
+(in mcs
+
+    (mlsconstrain (constrainipcsubject (create getattr read setattr write))
+		  (or (dom h1 h2)
+		      (neq t1 constrained.typeattr))))
+
+(in rbac
+
+    (constrain (constrainipcsubject (create))
+	       (or (or (or (eq r1 r2)
+			   (and (eq t1 subjchangesys.typeattr)
+				(eq r2 .sys.role)))
+		       (eq t1 subjchange.typeattr))
+		   (eq t1 exempt.typeattr))))
+
+(in rbacsep
+
+    (constrain (constrainipcsubject (getattr read setattr write))
+	       (or (or (or (eq r1 r2)
+			   (and (eq r1 exempt.roleattr)
+				(neq t1 constrained.typeattr)))
+		       (eq t1 exempt.subj.typeattr))
+		   (and (eq t1 exemptsource.typeattr)
+			(eq t2 exempttarget.typeattr)))))
+
+(in subj.unconfined
+
+    (allow typeattr subj.typeattr (ipc (all)))
+    (allow typeattr subj.typeattr (msgq (all)))
+    (allow typeattr subj.typeattr (sem (all)))
+    (allow typeattr subj.typeattr (shm (all))))

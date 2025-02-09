@@ -1,0 +1,172 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block sysfile
+
+  (macro type ((type ARG1))
+	 (typeattributeset typeattr ARG1))
+
+  (typeattribute typeattr)
+
+  (blockinherit .file.all_macro_template_dirs)
+  (blockinherit .file.all_macro_template_files)
+  (blockinherit .file.all_macro_template_lnk_files)
+
+  (call .obj.type (typeattr))
+
+  (call .sys.associate_fs (typeattr))
+
+  (block base_template
+
+    (blockabstract base_template)
+
+    (context sysfile_context (.sys.id .sys.role sysfile .sys.lowlow))
+
+    (type sysfile)
+    (call .sysfile.type (sysfile)))
+
+  (block macro_template_dirs
+
+    (blockabstract macro_template_dirs)
+
+    (macro addname_sysfile_dirs ((type ARG1))
+	   (allow ARG1 sysfile addname_dir))
+
+    (macro create_sysfile_dirs ((type ARG1))
+	   (allow ARG1 sysfile create_dir))
+
+    (macro delete_sysfile_dirs ((type ARG1))
+	   (allow ARG1 sysfile delete_dir))
+
+    (macro deletename_sysfile_dirs ((type ARG1))
+	   (allow ARG1 sysfile deletename_dir))
+
+    (macro list_sysfile_dirs ((type ARG1))
+	   (allow ARG1 sysfile list_dir))
+
+    (macro listinherited_sysfile_dirs ((type ARG1))
+	   (allow ARG1 sysfile listinherited_dir))
+
+    (macro manage_sysfile_dirs ((type ARG1))
+	   (allow ARG1 sysfile manage_dir))
+
+    (macro mounton_sysfile_dirs ((type ARG1))
+	   (allow ARG1 sysfile mounton_dir))
+
+    (macro readwrite_sysfile_dirs ((type ARG1))
+	   (allow ARG1 sysfile readwrite_dir))
+
+    (macro readwriteinherited_sysfile_dirs ((type ARG1))
+	   (allow ARG1 sysfile readwriteinherited_dir))
+
+    (macro rename_sysfile_dirs ((type ARG1))
+	   (allow ARG1 sysfile rename_dir))
+
+    (macro search_sysfile_dirs ((type ARG1))
+	   (allow ARG1 sysfile search_dir))
+
+    (macro write_sysfile_dirs ((type ARG1))
+	   (allow ARG1 sysfile write_dir))
+
+    (macro writeinherited_sysfile_dirs ((type ARG1))
+	   (allow ARG1 sysfile writeinherited_dir)))
+
+  (block macro_template_files
+
+    (blockabstract macro_template_files)
+
+    (macro append_sysfile_files ((type ARG1))
+	   (allow ARG1 sysfile append_file))
+
+    (macro appendinherited_sysfile_files ((type ARG1))
+	   (allow ARG1 sysfile appendinherited_file))
+
+    (macro create_sysfile_files ((type ARG1))
+	   (allow ARG1 sysfile create_file))
+
+    (macro delete_sysfile_files ((type ARG1))
+	   (allow ARG1 sysfile delete_file))
+
+    (macro execute_sysfile_files ((type ARG1))
+	   (allow ARG1 sysfile execute_file))
+
+    (macro manage_sysfile_files ((type ARG1))
+	   (allow ARG1 sysfile manage_file))
+
+    (macro mapexecute_sysfile_files ((type ARG1))
+	   (allow ARG1 sysfile mapexecute_file))
+
+    (macro mounton_sysfile_files ((type ARG1))
+	   (allow ARG1 sysfile mounton_file))
+
+    (macro read_sysfile_files ((type ARG1))
+	   (allow ARG1 sysfile read_file))
+
+    (macro readinherited_sysfile_files ((type ARG1))
+	   (allow ARG1 sysfile readinherited_file))
+
+    (macro readwrite_sysfile_files ((type ARG1))
+	   (allow ARG1 sysfile readwrite_file))
+
+    (macro readwriteinherited_sysfile_files ((type ARG1))
+	   (allow ARG1 sysfile readwriteinherited_file))
+
+    (macro rename_sysfile_files ((type ARG1))
+	   (allow ARG1 sysfile rename_file))
+
+    (macro write_sysfile_files ((type ARG1))
+	   (allow ARG1 sysfile write_file))
+
+    (macro writeinherited_sysfile_files ((type ARG1))
+	   (allow ARG1 sysfile writeinherited_file)))
+
+  (block macro_template_lnk_files
+
+    (blockabstract macro_template_lnk_files)
+
+    (macro create_sysfile_lnk_files ((type ARG1))
+	   (allow ARG1 sysfile create_lnk_file))
+
+    (macro delete_sysfile_lnk_files ((type ARG1))
+	   (allow ARG1 sysfile delete_lnk_file))
+
+    (macro manage_sysfile_lnk_files ((type ARG1))
+	   (allow ARG1 sysfile manage_lnk_file))
+
+    (macro read_sysfile_lnk_files ((type ARG1))
+	   (allow ARG1 sysfile read_lnk_file))
+
+    (macro readwrite_sysfile_lnk_files ((type ARG1))
+	   (allow ARG1 sysfile readwrite_lnk_file))
+
+    (macro rename_sysfile_lnk_files ((type ARG1))
+	   (allow ARG1 sysfile rename_lnk_file))
+
+    (macro write_sysfile_lnk_files ((type ARG1))
+	   (allow ARG1 sysfile write_lnk_file)))
+
+  (block template
+
+    (blockabstract template)
+
+    (blockinherit .sysfile.base_template)
+    (blockinherit .sysfile.macro_template_dirs)
+    (blockinherit .sysfile.macro_template_files)
+    (blockinherit .sysfile.macro_template_lnk_files))
+
+  (block unconfined
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (allow typeattr sysfile.typeattr (dir (not (audit_access execmod))))
+    (allow typeattr sysfile.typeattr
+	   (file (not (audit_access entrypoint execmod))))
+    (allow typeattr sysfile.typeattr
+	   (lnk_file (not (audit_access execmod map mounton))))))
+
+(in sys.unconfined
+
+    (call .sysfile.unconfined.type (typeattr)))

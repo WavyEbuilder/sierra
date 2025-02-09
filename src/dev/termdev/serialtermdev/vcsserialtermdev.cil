@@ -1,0 +1,8 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block vcs
+
+  (filecon "/dev/vcs[^/]*" char serialtermdev_context)
+
+  (blockinherit .serialtermdev.template))

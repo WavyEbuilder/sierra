@@ -1,0 +1,8 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block poweroffcmd
+
+  (genfscon "proc" "/sys/kernel/poweroff_cmd" sysctlfile_context)
+
+  (blockinherit .sysctlfile.kernel.template))

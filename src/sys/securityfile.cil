@@ -1,0 +1,182 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block securityfile
+
+  (macro type ((type ARG1))
+	 (typeattributeset typeattr ARG1))
+
+  (typeattribute typeattr)
+
+  (blockinherit .file.all_macro_template_dirs)
+  (blockinherit .file.all_macro_template_files)
+  (blockinherit .file.all_macro_template_lnk_files)
+
+  (call .obj.type (typeattr))
+
+  (call .security.associate_fs (typeattr))
+
+  (block base_template
+
+    (blockabstract base_template)
+
+    (context securityfile_context
+	     (.sys.id .sys.role securityfile .sys.lowlow))
+
+    (type securityfile)
+    (call .securityfile.type (securityfile)))
+
+  (block macro_template_dirs
+
+    (blockabstract macro_template_dirs)
+
+    (macro addname_securityfile_dirs ((type ARG1))
+	   (allow ARG1 securityfile addname_dir))
+
+    (macro create_securityfile_dirs ((type ARG1))
+	   (allow ARG1 securityfile create_dir))
+
+    (macro delete_securityfile_dirs ((type ARG1))
+	   (allow ARG1 securityfile delete_dir))
+
+    (macro deletename_securityfile_dirs ((type ARG1))
+	   (allow ARG1 securityfile deletename_dir))
+
+    (macro list_securityfile_dirs ((type ARG1))
+	   (allow ARG1 securityfile list_dir))
+
+    (macro listinherited_securityfile_dirs ((type ARG1))
+	   (allow ARG1 securityfile listinherited_dir))
+
+    (macro manage_securityfile_dirs ((type ARG1))
+	   (allow ARG1 securityfile manage_dir))
+
+    (macro mounton_securityfile_dirs ((type ARG1))
+	   (allow ARG1 securityfile mounton_dir))
+
+    (macro readwrite_securityfile_dirs ((type ARG1))
+	   (allow ARG1 securityfile readwrite_dir))
+
+    (macro readwriteinherited_securityfile_dirs ((type ARG1))
+	   (allow ARG1 securityfile readwriteinherited_dir))
+
+    (macro rename_securityfile_dirs ((type ARG1))
+	   (allow ARG1 securityfile rename_dir))
+
+    (macro search_securityfile_dirs ((type ARG1))
+	   (allow ARG1 securityfile search_dir))
+
+    (macro write_securityfile_dirs ((type ARG1))
+	   (allow ARG1 securityfile write_dir))
+
+    (macro writeinherited_securityfile_dirs ((type ARG1))
+	   (allow ARG1 securityfile writeinherited_dir)))
+
+  (block macro_template_files
+
+    (blockabstract macro_template_files)
+
+    (macro append_securityfile_files ((type ARG1))
+	   (allow ARG1 securityfile append_file))
+
+    (macro appendinherited_securityfile_files ((type ARG1))
+	   (allow ARG1 securityfile appendinherited_file))
+
+    (macro create_securityfile_files ((type ARG1))
+	   (allow ARG1 securityfile create_file))
+
+    (macro delete_securityfile_files ((type ARG1))
+	   (allow ARG1 securityfile delete_file))
+
+    (macro execute_securityfile_files ((type ARG1))
+	   (allow ARG1 securityfile execute_file))
+
+    (macro manage_securityfile_files ((type ARG1))
+	   (allow ARG1 securityfile manage_file))
+
+    (macro mapexecute_securityfile_files ((type ARG1))
+	   (allow ARG1 securityfile mapexecute_file))
+
+    (macro mounton_securityfile_files ((type ARG1))
+	   (allow ARG1 securityfile mounton_file))
+
+    (macro read_securityfile_files ((type ARG1))
+	   (allow ARG1 securityfile read_file))
+
+    (macro readinherited_securityfile_files ((type ARG1))
+	   (allow ARG1 securityfile readinherited_file))
+
+    (macro readwrite_securityfile_files ((type ARG1))
+	   (allow ARG1 securityfile readwrite_file))
+
+    (macro readwriteinherited_securityfile_files ((type ARG1))
+	   (allow ARG1 securityfile readwriteinherited_file))
+
+    (macro rename_securityfile_files ((type ARG1))
+	   (allow ARG1 securityfile rename_file))
+
+    (macro write_securityfile_files ((type ARG1))
+	   (allow ARG1 securityfile write_file))
+
+    (macro writeinherited_securityfile_files ((type ARG1))
+	   (allow ARG1 securityfile writeinherited_file)))
+
+  (block macro_template_lnk_files
+
+    (blockabstract macro_template_lnk_files)
+
+    (macro create_securityfile_lnk_files ((type ARG1))
+	   (allow ARG1 securityfile create_lnk_file))
+
+    (macro delete_securityfile_lnk_files ((type ARG1))
+	   (allow ARG1 securityfile delete_lnk_file))
+
+    (macro manage_securityfile_lnk_files ((type ARG1))
+	   (allow ARG1 securityfile manage_lnk_file))
+
+    (macro read_securityfile_lnk_files ((type ARG1))
+	   (allow ARG1 securityfile read_lnk_file))
+
+    (macro readwrite_securityfile_lnk_files ((type ARG1))
+	   (allow ARG1 securityfile readwrite_lnk_file))
+
+    (macro relabel_securityfile_lnk_files ((type ARG1))
+	   (allow ARG1 securityfile relabel_lnk_file))
+
+    (macro relabelfrom_securityfile_lnk_files ((type ARG1))
+	   (allow ARG1 securityfile relabelfrom_lnk_file))
+
+    (macro relabelto_securityfile_lnk_files ((type ARG1))
+	   (allow ARG1 securityfile relabelto_lnk_file))
+
+    (macro rename_securityfile_lnk_files ((type ARG1))
+	   (allow ARG1 securityfile rename_lnk_file))
+
+    (macro write_securityfile_lnk_files ((type ARG1))
+	   (allow ARG1 securityfile write_lnk_file)))
+
+  (block template
+
+    (blockabstract template)
+
+    (blockinherit .securityfile.base_template)
+    (blockinherit .securityfile.macro_template_files))
+
+  (block unconfined
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (allow typeattr securityfile.typeattr
+	   (dir (not (audit_access execmod relabelfrom relabelto))))
+    (allow typeattr securityfile.typeattr
+	   (file (not (audit_access entrypoint execmod relabelfrom relabelto))))
+    (allow typeattr securityfile.typeattr
+	   (lnk_file (not (audit_access execmod map mounton relabelfrom
+					relabelto))))))
+
+(in sys.unconfined
+
+    (call .securityfile.unconfined.type (typeattr)))

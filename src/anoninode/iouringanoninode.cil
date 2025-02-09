@@ -1,0 +1,44 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block iouring
+
+  (blockinherit anon_inode.template)
+
+  (block anon_inode
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (blockinherit .anon_inode.all_macro_template_anon_inodes)
+
+    (call .anon_inode.type (typeattr))
+
+    (block base_template
+
+      (blockabstract base_template)
+
+      (blockinherit .anon_inode.base_template)
+
+      (call .iouring.anon_inode.type (anon_inode)))
+
+    (block template
+
+      (macro map_anon_inode_anon_inodes ((type ARG1))
+	     (allow ARG1 anon_inode (anon_inode (map))))
+
+      (macro self_type_transition_anon_inode ((type ARG1))
+	     (call self_type_transition
+		   (ARG1 anon_inode "[io_uring]")))
+
+      (blockabstract template)
+
+      (blockinherit .anon_inode.macro_template_anon_inodes)
+
+      (blockinherit .iouring.anon_inode.base_template))))
+
+(in anon_inode.unconfined
+
+    (call .iouring.self_type_transition_anon_inode (typeattr)))

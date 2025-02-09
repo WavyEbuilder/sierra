@@ -1,0 +1,92 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(class fd (use))
+(classorder (unordered fd))
+
+(macro use_invalid_fds ((type ARG1))
+       (allow ARG1 invalid (fd (use))))
+
+(in invalid.unconfined
+
+    (allow typeattr .invalid (fd (all))))
+
+(in mcs
+
+    (mlsconstrain (fd (use))
+		  (or (or (dom h1 h2)
+			  (neq t1 constrained.typeattr))
+		      (and (eq t1 usefdsource.typeattr)
+			   (eq t2 usefdtarget.typeattr))))
+
+    (block usefdsource
+
+      (macro type ((type ARG1))
+	     (typeattributeset typeattr ARG1))
+
+      (typeattribute typeattr))
+
+    (block usefdtarget
+
+      (macro type ((type ARG1))
+	     (typeattributeset typeattr ARG1))
+
+      (typeattribute typeattr)))
+
+(in rbacsep
+
+    (constrain (fd (use))
+	       (or (or (or (eq r1 r2)
+			   (and (eq r1 exempt.roleattr)
+				(neq t1 constrained.typeattr)))
+		       (eq t1 exempt.subj.typeattr))
+		   (and (eq t1 usefdsource.typeattr)
+			(eq t2 usefdtarget.typeattr))))
+
+    (block usefdsource
+
+      (macro type ((type ARG1))
+	     (typeattributeset typeattr ARG1))
+
+      (typeattribute typeattr))
+
+    (block usefdtarget
+
+      (macro type ((type ARG1))
+	     (typeattributeset typeattr ARG1))
+
+      (typeattribute typeattr)))
+
+(in subj
+
+    (block interactivefd
+
+      (macro type ((type ARG1))
+	     (typeattributeset typeattr ARG1))
+
+      (typeattribute typeattr)
+
+      (call .mcs.usefdtarget.type (typeattr)))
+
+    (block useinteractivefd
+
+      (macro type ((type ARG1))
+	     (typeattributeset typeattr ARG1))
+
+      (typeattribute typeattr)
+
+      (allow typeattr interactivefd.typeattr (fd (use)))))
+
+(in subj.all_macro_template
+
+    (macro use_all_fds ((type ARG1))
+	   (allow ARG1 typeattr (fd (use)))))
+
+(in subj.macro_template
+
+    (macro use_subj_fds ((type ARG1))
+	   (allow ARG1 subj (fd (use)))))
+
+(in subj.unconfined
+
+    (allow typeattr subj.typeattr (fd (all))))

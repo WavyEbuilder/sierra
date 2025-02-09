@@ -1,0 +1,49 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block mem
+
+  (filecon "/dev/mem" char nodedev_context)
+  (filecon "/dev/port" char nodedev_context)
+
+  (blockinherit .nodedev.template)
+
+  (call .nodedev.exception.type (nodedev))
+
+  (block read
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute not_typeattr)
+    (typeattribute typeattr)
+
+    (typeattributeset not_typeattr (not typeattr))
+
+    (neverallow not_typeattr mem.nodedev (chr_file (read))))
+
+  (block readwrite
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (call read.type (typeattr))
+    (call write.type (typeattr)))
+
+  (block write
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute not_typeattr)
+    (typeattribute typeattr)
+
+    (typeattributeset not_typeattr (not typeattr))
+
+    (neverallow not_typeattr mem.nodedev (chr_file (append write)))))
+
+(in nodedev.unconfined
+
+    (call .mem.readwrite.type (typeattr)))

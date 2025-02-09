@@ -1,0 +1,41 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(class binder (call impersonate set_context_mgr transfer))
+(classorder (unordered binder))
+
+(macro call_invalid_binders ((type ARG1))
+       (allow ARG1 .invalid (binder (call))))
+
+(macro transfer_invalid_binders ((type ARG1))
+       (allow ARG1 .invalid (binder (transfer))))
+
+(in invalid.unconfined
+
+    (allow typeattr .invalid (binder (not (impersonate set_context_mgr)))))
+
+(in subj
+
+    (macro call_all_binders ((type ARG1))
+	   (allow ARG1 typeattr (binder (call))))
+
+    (macro impersonate_all_binders ((type ARG1))
+	   (allow ARG1 typeattr (binder (impersonate))))
+
+    (macro transfer_all_binders ((type ARG1))
+	   (allow ARG1 typeattr (binder (transfer)))))
+
+(in subj.macro_template
+
+    (macro call_subj_binders ((type ARG1))
+	   (allow ARG1 subj (binder (call))))
+
+    (macro impersonate_subj_binders ((type ARG1))
+	   (allow ARG1 subj (binder (impersonate))))
+
+    (macro transfer_subj_binders ((type ARG1))
+	   (allow ARG1 subj (binder (transfer)))))
+
+(in subj.unconfined
+
+    (allow typeattr .subj.typeattr (binder (all))))

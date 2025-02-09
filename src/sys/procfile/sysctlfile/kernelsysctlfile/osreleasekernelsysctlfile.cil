@@ -1,0 +1,8 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block osrelease
+
+  (genfscon "proc" "/sys/kernel/osrelease" sysctlfile_context)
+
+  (blockinherit .sysctlfile.kernel.template))

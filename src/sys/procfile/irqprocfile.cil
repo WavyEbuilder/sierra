@@ -1,0 +1,9 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block irq
+
+  (genfscon "proc" "/irq" procfile_context)
+
+  (blockinherit .procfile.macro_template_dirs)
+  (blockinherit .procfile.template))

@@ -1,0 +1,8 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block slabinfo
+
+  (genfscon "proc" "/slabinfo" procfile_context)
+
+  (blockinherit .procfile.template))

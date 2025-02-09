@@ -1,0 +1,25 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(class memprotect (mmap_zero))
+(classorder (unordered memprotect))
+
+(in subj
+
+    (block mmapzero
+
+      (macro type ((type ARG1))
+	     (typeattributeset typeattr ARG1))
+
+      (typeattribute not_typeattr)
+      (typeattribute typeattr)
+
+      (typeattributeset not_typeattr (not typeattr))
+
+      (neverallow not_typeattr self (memprotect (mmap_zero)))))
+
+(in subj.unconfined
+
+    (allow typeattr self (memprotect (all)))
+
+    (call mmapzero.type (typeattr)))

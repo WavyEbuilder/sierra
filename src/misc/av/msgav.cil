@@ -1,0 +1,31 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(class msg (receive send))
+(classorder (unordered msg))
+
+(defaultrole msg source)
+
+(in invalid.unconfined
+
+    (allow typeattr .invalid (msg (all))))
+
+(in mcs
+
+    (mlsconstrain (msg (send))
+		  (or (dom h1 h2)
+		      (neq t1 constrained.typeattr))))
+
+(in rbacsep
+
+    (constrain (msg (send))
+	       (or (or (or (eq r1 r2)
+			   (and (eq r1 exempt.roleattr)
+				(neq t1 constrained.typeattr)))
+		       (eq t1 exempt.subj.typeattr))
+		   (and (eq t1 exemptsource.typeattr)
+			(eq t2 exempttarget.typeattr)))))
+
+(in subj.unconfined
+
+    (allow typeattr subj.typeattr (msg (all))))

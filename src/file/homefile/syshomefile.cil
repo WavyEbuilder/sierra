@@ -1,0 +1,11 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(in sys
+
+    (block home
+
+      (blockinherit .file.home.template)
+      (blockinherit .file.macro_template_all_files)
+      (blockinherit .file.macro_template_blk_files)
+      (blockinherit .file.macro_template_chr_files)))

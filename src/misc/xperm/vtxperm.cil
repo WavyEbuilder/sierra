@@ -1,0 +1,68 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(permissionx IOCTLVT
+	     (ioctl chr_file (0x0001 0x0002 0x0004 0x0008 0x5600 0x5601 0x5602
+				     0x5603 0x5604 0x5605 0x5606 0x5607 0x5708
+				     0x5609 0x560A 0x560B 0x560C 0x560D 0x560E
+				     0x560F)))
+
+;; Console switch
+(permissionx VT_EVENT_SWITCH (ioctl chr_file (0x0001)))
+
+;; Screen blank
+(permissionx VT_EVENT_BLANK (ioctl chr_file (0x0002)))
+
+;; Screen unblank
+(permissionx VT_EVENT_UNBLANK (ioctl chr_file (0x0004)))
+
+;; Resize display
+(permissionx VT_EVENT_RESIZE (ioctl chr_file (0x0008)))
+
+;; Find available VT
+(permissionx VT_OPENQRY (ioctl chr_file (0x5600)))
+
+;; Get mode of active VT
+(permissionx VT_GETMODE (ioctl chr_file (0x5601)))
+
+;; Set mode of active VT
+(permissionx VT_SETMODE (ioctl chr_file (0x5602)))
+
+;; Get global VT state info
+(permissionx VT_GETSTATE (ioctl chr_file (0x5603)))
+
+;; Signal to send to bitmask VT
+(permissionx VT_SENDSIG (ioctl chr_file (0x5604)))
+
+;; Release display
+(permissionx VT_RELDISP (ioctl chr_file (0x5605)))
+
+;; Make VT active
+(permissionx VT_ACTIVATE (ioctl chr_file (0x5606)))
+
+;; Wait for VT active
+(permissionx VT_WAITACTIVE (ioctl chr_file (0x5607)))
+
+;; Free memory associated with VT
+(permissionx VT_DISALLOCATE (ioctl chr_file (0x5608)))
+
+;; Set kernel idea of screensize
+(permissionx VT_RESIZE (ioctl chr_file (0x5609)))
+
+;; Set kernel idea of screensize + more
+(permissionx VT_RESIZEX (ioctl chr_file (0x560A)))
+
+;; Disallow VT switching
+(permissionx VT_LOCKSWITCH (ioctl chr_file (0x560B)))
+
+;; Allow VT switching
+(permissionx VT_UNLOCKSWITCH (ioctl chr_file (0x560C)))
+
+;; Return hi font mask
+(permissionx VT_GETHIFONTMASK (ioctl chr_file (0x560D)))
+
+;; Wait for an event
+(permissionx VT_WAITEVENT (ioctl chr_file (0x560E)))
+
+;; Activate and set the mode of VT
+(permissionx VT_SETACTIVATE (ioctl chr_file (0x560F)))

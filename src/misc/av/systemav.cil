@@ -1,0 +1,60 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(class system
+       (halt ipc_info module_load module_request reboot reload start status
+	     stop syslog_console syslog_mod syslog_read))
+(classorder (unordered system))
+
+(in sys
+
+    (macro ipcinfo_system ((type ARG1))
+	   (allow ARG1 subj (system (ipc_info))))
+
+    (macro modulerequest_system ((type ARG1))
+	   (allow ARG1 subj (system (module_request))))
+
+    (macro syslogconsole_system ((type ARG1))
+	   (allow ARG1 subj (system (syslog_console))))
+
+    (macro syslogmod_system ((type ARG1))
+	   (allow ARG1 subj (system (syslog_mod))))
+
+    (macro syslogread_system ((type ARG1))
+	   (allow ARG1 subj (system (syslog_read))))
+
+    (block moduleload
+
+      (macro type ((type ARG1))
+	     (typeattributeset typeattr ARG1))
+
+      (typeattribute not_typeattr)
+      (typeattribute typeattr)
+
+      (typeattributeset not_typeattr (not typeattr))
+
+      (neverallow not_typeattr self (system (module_load))))
+
+    (block unconfined
+
+      (macro type ((type ARG1))
+	     (typeattributeset typeattr ARG1))
+
+      (typeattribute typeattr)
+
+      (allow typeattr self (system (module_load)))
+      (allow typeattr subj
+	     (system (ipc_info module_request syslog_console syslog_mod
+			       syslog_read)))
+
+      ;; potentially happens in autorelabel.target on policy model change
+      (allow typeattr .invalid (system (module_load)))
+
+      ;; potentially happens in autorelabel.target on fresh install
+      (allow typeattr .unlabeled (system (module_load)))
+
+      (call moduleload.type (typeattr))))
+
+(in unconfined
+
+    (call .sys.unconfined.type (typeattr)))

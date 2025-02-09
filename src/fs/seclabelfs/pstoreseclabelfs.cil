@@ -1,0 +1,12 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block pstore
+
+  (genfscon "pstore" "/" fs_context)
+
+  (blockinherit .fs.macro_template_dirs)
+  (blockinherit .fs.macro_template_files)
+  (blockinherit .seclabelfs.template)
+
+  (allow fs self (filesystem (associate))))

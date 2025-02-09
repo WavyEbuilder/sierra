@@ -1,0 +1,250 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(class anon_inode ())
+(classorder (unordered anon_inode))
+
+(classcommon anon_inode common_file)
+
+(classmapping constrainobject append (anon_inode (append)))
+(classmapping constrainobject create (anon_inode (create)))
+(classmapping constrainobject getattr (anon_inode (getattr)))
+(classmapping constrainobject read (anon_inode (read)))
+(classmapping constrainobject relabelto (anon_inode (relabelto)))
+(classmapping constrainobject setattr (anon_inode (setattr)))
+(classmapping constrainobject write (anon_inode (write)))
+
+(classpermission append_anon_inode)
+(classpermission create_anon_inode)
+(classpermission delete_anon_inode)
+(classpermission manage_anon_inode)
+(classpermission mapexecute_anon_inode)
+(classpermission mounton_anon_inode)
+(classpermission read_anon_inode)
+(classpermission readwrite_anon_inode)
+(classpermission relabel_anon_inode)
+(classpermission relabelfrom_anon_inode)
+(classpermission relabelto_anon_inode)
+(classpermission rename_anon_inode)
+(classpermission write_anon_inode)
+
+(classpermissionset append_anon_inode
+		    (anon_inode (append getattr ioctl lock open)))
+(classpermissionset create_anon_inode (anon_inode (create getattr)))
+(classpermissionset delete_anon_inode (anon_inode (getattr unlink)))
+(classpermissionset manage_anon_inode
+		    (anon_inode (append create getattr ioctl link lock open read
+					rename setattr unlink write)))
+(classpermissionset mapexecute_anon_inode (anon_inode (execute map)))
+(classpermissionset mounton_anon_inode (anon_inode (getattr mounton)))
+(classpermissionset read_anon_inode (anon_inode (getattr ioctl lock open read)))
+(classpermissionset readwrite_anon_inode
+		    (anon_inode (append getattr ioctl lock open read write)))
+(classpermissionset relabel_anon_inode
+		    (anon_inode (getattr relabelfrom relabelto)))
+(classpermissionset relabelfrom_anon_inode (anon_inode (getattr relabelfrom)))
+(classpermissionset relabelto_anon_inode (anon_inode (getattr relabelto)))
+(classpermissionset rename_anon_inode (anon_inode (getattr rename)))
+(classpermissionset write_anon_inode
+		    (anon_inode (append getattr ioctl lock open write)))
+
+(defaultrole anon_inode source)
+
+(macro append_invalid_anon_inodes ((type ARG1))
+       (allow ARG1 .invalid append_anon_inode))
+
+(macro create_invalid_anon_inodes ((type ARG1))
+       (allow ARG1 .invalid create_anon_inode))
+
+(macro delete_invalid_anon_inodes ((type ARG1))
+       (allow ARG1 .invalid delete_anon_inode))
+
+(macro manage_invalid_anon_inodes ((type ARG1))
+       (allow ARG1 .invalid manage_anon_inode))
+
+(macro mapexecute_invalid_anon_inodes ((type ARG1))
+       (allow ARG1 .invalid mapexecute_anon_inode))
+
+(macro mounton_invalid_anon_inodes ((type ARG1))
+       (allow ARG1 .invalid mounton_anon_inode))
+
+(macro read_invalid_anon_inodes ((type ARG1))
+       (allow ARG1 .invalid read_anon_inode))
+
+(macro readwrite_invalid_anon_inodes ((type ARG1))
+       (allow ARG1 .invalid readwrite_anon_inode))
+
+(macro relabel_invalid_anon_inodes ((type ARG1))
+       (allow ARG1 .invalid relabel_anon_inode))
+
+(macro relabelfrom_invalid_anon_inodes ((type ARG1))
+       (allow ARG1 .invalid relabelfrom_anon_inode))
+
+(macro relabelto_invalid_anon_inodes ((type ARG1))
+       (allow ARG1 .invalid relabelto_anon_inode))
+
+(macro rename_invalid_anon_inodes ((type ARG1))
+       (allow ARG1 .invalid rename_anon_inode))
+
+(macro write_invalid_anon_inodes ((type ARG1))
+       (allow ARG1 .invalid write_anon_inode))
+
+(block anon_inode
+
+  (macro type ((type ARG1))
+	 (typeattributeset typeattr ARG1))
+
+  (typeattribute typeattr)
+
+  (blockinherit all_macro_template_anon_inodes)
+
+  (call .obj.type (typeattr))
+
+  (block all_macro_template_anon_inodes
+
+    (blockabstract all_macro_template_anon_inodes)
+
+    (macro append_all_anon_inodes ((type ARG1))
+	   (allow ARG1 typeattr append_anon_inode))
+
+    (macro create_all_anon_inodes ((type ARG1))
+	   (allow ARG1 typeattr create_anon_inode))
+
+    (macro delete_all_anon_inodes ((type ARG1))
+	   (allow ARG1 typeattr delete_anon_inode))
+
+    (macro manage_all_anon_inodes ((type ARG1))
+	   (allow ARG1 typeattr manage_anon_inode))
+
+    (macro mapexecute_all_anon_inodes ((type ARG1))
+	   (allow ARG1 typeattr mapexecute_anon_inode))
+
+    (macro mounton_all_anon_inodes ((type ARG1))
+	   (allow ARG1 typeattr mounton_anon_inode))
+
+    (macro read_all_anon_inodes ((type ARG1))
+	   (allow ARG1 typeattr read_anon_inode))
+
+    (macro readwrite_all_anon_inodes ((type ARG1))
+	   (allow ARG1 typeattr readwrite_anon_inode))
+
+    (macro relabel_all_anon_inodes ((type ARG1))
+	   (allow ARG1 typeattr relabel_anon_inode))
+
+    (macro relabelfrom_all_anon_inodes ((type ARG1))
+	   (allow ARG1 typeattr relabelfrom_anon_inode))
+
+    (macro relabelto_all_anon_inodes ((type ARG1))
+	   (allow ARG1 typeattr relabelto_anon_inode))
+
+    (macro rename_all_anon_inodes ((type ARG1))
+	   (allow ARG1 typeattr rename_anon_inode))
+
+    (macro write_all_anon_inodes ((type ARG1))
+	   (allow ARG1 typeattr write_anon_inode)))
+
+  (block base_template
+
+    (blockabstract base_template)
+
+    (type anon_inode)
+    (call .anon_inode.type (anon_inode)))
+
+  (block except
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (blockinherit anon_inode.all_macro_template_anon_inodes)
+
+    (typeattribute typeattr)
+
+    (typeattributeset typeattr
+		      (and anon_inode.typeattr (not (exception.typeattr)))))
+
+  (block exception
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (call anon_inode.type (typeattr)))
+
+  (block macro_template_anon_inodes
+
+    (blockabstract macro_template_anon_inodes)
+
+    (macro append_anon_inode_anon_inodes ((type ARG1))
+	   (allow ARG1 anon_inode append_anon_inode))
+
+    (macro create_anon_inode_anon_inodes ((type ARG1))
+	   (allow ARG1 anon_inode create_anon_inode))
+
+    (macro delete_anon_inode_anon_inodes ((type ARG1))
+	   (allow ARG1 anon_inode delete_anon_inode))
+
+    (macro manage_anon_inode_anon_inodes ((type ARG1))
+	   (allow ARG1 anon_inode manage_anon_inode))
+
+    (macro mapexecute_anon_inode_anon_inodes ((type ARG1))
+	   (allow ARG1 anon_inode mapexecute_anon_inode))
+
+    (macro mounton_anon_inode_anon_inodes ((type ARG1))
+	   (allow ARG1 anon_inode mounton_anon_inode))
+
+    (macro read_anon_inode_anon_inodes ((type ARG1))
+	   (allow ARG1 anon_inode read_anon_inode))
+
+    (macro readwrite_anon_inode_anon_inodes ((type ARG1))
+	   (allow ARG1 anon_inode readwrite_anon_inode))
+
+    (macro relabel_anon_inode_anon_inodes ((type ARG1))
+	   (allow ARG1 anon_inode relabel_anon_inode))
+
+    (macro relabelfrom_anon_inode_anon_inodes ((type ARG1))
+	   (allow ARG1 anon_inode relabelfrom_anon_inode))
+
+    (macro relabelto_anon_inode_anon_inodes ((type ARG1))
+	   (allow ARG1 anon_inode relabelto_anon_inode))
+
+    (macro rename_anon_inode_anon_inodes ((type ARG1))
+	   (allow ARG1 anon_inode rename_anon_inode))
+
+    (macro self_type_transition ((type ARG1)(type ARG2)(name ARG3))
+	   (typetransition ARG1 ARG1 anon_inode ARG3 ARG2))
+
+    (macro write_anon_inode_anon_inodes ((type ARG1))
+	   (allow ARG1 anon_inode write_anon_inode)))
+
+  (block template
+
+    (blockabstract template)
+
+    (blockinherit .anon_inode.base_template)
+    (blockinherit .anon_inode.macro_template_anon_inodes))
+
+  (block unconfined
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (allow typeattr anon_inode.typeattr
+	   (anon_inode (not (audit_access execmod mounton))))))
+
+(in invalid.unconfined
+
+    (allow typeattr .invalid
+	   (anon_inode (not (audit_access create execmod mounton)))))
+
+(in subj.unconfined
+
+    (allow typeattr self (anon_inode (create)))
+    (allow typeattr subj.typeattr
+	   (anon_inode (not (audit_access create execmod mounton)))))
+
+(in unconfined
+
+    (call .anon_inode.unconfined.type (typeattr)))

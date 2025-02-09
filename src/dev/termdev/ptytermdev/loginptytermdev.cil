@@ -1,0 +1,49 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block loginptytermdev
+
+  (macro all_type_change ((type ARG1)(type ARG2))
+	 (typechange ARG1 typeattr chr_file ARG2))
+
+  (macro type ((type ARG1))
+	 (typeattributeset typeattr ARG1))
+
+  (typeattribute typeattr)
+
+  (blockinherit .file.all_macro_template_chr_files)
+
+  (call .ptytermdev.type (typeattr))
+
+  (block base_template
+
+    (blockabstract base_template)
+
+    (blockinherit .ptytermdev.base_template)
+
+    (call .loginptytermdev.type (ptytermdev)))
+
+  (block template
+
+    (blockabstract template)
+
+    (macro ptytermdev_type_change ((type ARG1)(type ARG2))
+	   (typechange ARG1 ptytermdev chr_file ARG2))
+
+    (blockinherit .loginptytermdev.base_template)
+    (blockinherit .ptytermdev.macro_template_chr_files)))
+
+(in after loginptytermdev.appendinherited_all_chr_files
+    (allowx ARG1 typeattr IOCTLCONSOLE_NOT_TIOCLINUX)
+    (allowx ARG1 typeattr IOCTLTTY_NOT_TIOCSTI)
+    (allowx ARG1 typeattr IOCTLVT))
+
+(in after loginptytermdev.readwriteinherited_all_chr_files
+    (allowx ARG1 typeattr IOCTLCONSOLE_NOT_TIOCLINUX)
+    (allowx ARG1 typeattr IOCTLTTY_NOT_TIOCSTI)
+    (allowx ARG1 typeattr IOCTLVT))
+
+(in after loginptytermdev.writeinherited_all_chr_files
+    (allowx ARG1 typeattr IOCTLCONSOLE_NOT_TIOCLINUX)
+    (allowx ARG1 typeattr IOCTLTTY_NOT_TIOCSTI)
+    (allowx ARG1 typeattr IOCTLVT))

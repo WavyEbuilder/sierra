@@ -1,0 +1,48 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(class kernel_service (create_files_as use_as_override))
+(classorder (unordered kernel_service))
+
+(macro createfilesas_invalid_kernel_services ((type ARG1))
+       (allow ARG1 invalid (kernel_service (create_files_as))))
+
+(macro createfilesas_unlabeled_kernel_services ((type ARG1))
+       (allow ARG1 unlabeled (kernel_service (create_files_as))))
+
+(macro useasoverride_invalid_kernel_services ((type ARG1))
+       (allow ARG1 invalid (kernel_service (use_as_override))))
+
+(in file
+
+    (blockinherit all_macro_template_kernel_services)
+
+    (block all_macro_template_kernel_services
+
+      (blockabstract all_macro_template_kernel_services)
+
+      (macro createfileas_all_kernel_services ((type ARG1))
+	     (allow ARG1 typeattr (kernel_service (create_files_as)))))
+
+    (block macro_template_kernel_services
+
+      (blockabstract macro_template_kernel_services)
+
+      (macro createfileas_file_kernel_services ((type ARG1))
+	     (allow ARG1 file (kernel_service (create_files_as))))))
+
+(in file.unconfined
+
+    (allow typeattr file.typeattr (kernel_service (create_files_as))))
+
+(in invalid.unconfined
+
+    (allow typeattr .invalid (kernel_service (all))))
+
+(in subj.unconfined
+
+    (allow typeattr subj.typeattr (kernel_service (use_as_override))))
+
+(in unlabeled.unconfined
+
+    (allow typeattr .unlabeled (kernel_service (create_files_as))))

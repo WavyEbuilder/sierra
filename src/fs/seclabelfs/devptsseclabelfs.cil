@@ -1,0 +1,11 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block devpts
+
+  (fsuse trans "devpts" fs_context)
+
+  (blockinherit .fs.macro_template_dirs)
+  (blockinherit .fs.macro_template_chr_files)
+  (blockinherit .fs.macro_template_fs)
+  (blockinherit .seclabelfs.base_template))

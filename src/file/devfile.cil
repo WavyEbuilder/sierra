@@ -1,0 +1,50 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(in dev
+
+    (blockinherit .file.dev.template)
+    (blockinherit .file.macro_template_all_files)
+    (blockinherit .file.macro_template_blk_files)
+    (blockinherit .file.macro_template_chr_files))
+
+(in file
+
+    (block dev
+
+      (macro type ((type ARG1))
+	     (typeattributeset typeattr ARG1))
+
+      (blockinherit file.all_macro_template_all_files)
+      (blockinherit file.all_macro_template_blk_files)
+      (blockinherit file.all_macro_template_chr_files)
+      (blockinherit file.all_macro_template_dirs)
+      (blockinherit file.all_macro_template_fifo_files)
+      (blockinherit file.all_macro_template_files)
+      (blockinherit file.all_macro_template_lnk_files)
+      (blockinherit file.all_macro_template_sock_files)
+
+      (typeattribute typeattr)
+
+      (call file.type (typeattr))
+
+      (call .devtmp.associate_fs (typeattr))
+
+      (block base_template
+
+	(blockabstract base_template)
+
+	(blockinherit .file.base_template)
+
+	(call .file.dev.type (file)))
+
+      (block template
+
+	(blockabstract template)
+
+	(blockinherit .file.dev.base_template)
+	(blockinherit .file.macro_template_dirs)
+	(blockinherit .file.macro_template_fifo_files)
+	(blockinherit .file.macro_template_files)
+	(blockinherit .file.macro_template_lnk_files)
+	(blockinherit .file.macro_template_sock_files))))

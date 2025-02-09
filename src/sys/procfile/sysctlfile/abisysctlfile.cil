@@ -1,0 +1,38 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block abi
+
+  (genfscon "proc" "/sys/abi" sysctlfile_context)
+
+  (blockinherit .sysctlfile.abi.template)
+  (blockinherit .sysctlfile.macro_template_dirs))
+
+(in sysctlfile
+
+    (block abi
+
+      (macro type ((type ARG1))
+	     (typeattributeset typeattr ARG1))
+
+      (typeattribute typeattr)
+
+      (blockinherit .file.all_macro_template_dirs)
+      (blockinherit .file.all_macro_template_files)
+
+      (call .sysctlfile.type (typeattr))
+
+      (block base_template
+
+	(blockabstract base_template)
+
+	(blockinherit .sysctlfile.base_template)
+
+	(call .sysctlfile.abi.type (sysctlfile)))
+
+      (block template
+
+	(blockabstract template)
+
+	(blockinherit .sysctlfile.abi.base_template)
+	(blockinherit .sysctlfile.macro_template_files))))

@@ -1,0 +1,8 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block src
+
+  (blockinherit .file.data.template)
+
+  (call .xattr.associate_fs (file)))

@@ -1,0 +1,16 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(in fuse
+
+    (genfscon "fuse" "/" fs_context)
+    (genfscon "fuseblk" "/" fs_context)
+    (genfscon "fusectl" "/" fs_context)
+
+    (macro map_fs_files ((type ARG1))
+	   (allow ARG1 fs (file (map))))
+
+    (blockinherit .fs.macro_template_lnk_files)
+    (blockinherit .noseclabelfs.template)
+
+    (call .rbacsep.exempt.obj.type (fs)))

@@ -1,0 +1,11 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block v4l
+
+  (filecon "/dev/media([0-9]+)?" char nodedev_context)
+  (filecon "/dev/video([0-9]+)?" char nodedev_context)
+
+  (blockinherit .nodedev.template)
+
+  (call .rbacsep.exempt.obj.type (nodedev)))

@@ -1,0 +1,48 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block kcore
+
+  (genfscon "proc" "/kcore" procfile_context)
+
+  (blockinherit .procfile.template)
+
+  (call .procfile.exception.type (procfile))
+
+  (block read
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute not_typeattr)
+    (typeattribute typeattr)
+
+    (typeattributeset not_typeattr (not typeattr))
+
+    (neverallow not_typeattr procfile (file (read))))
+
+  (block readwrite
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (call read.type (typeattr))
+    (call write.type (typeattr)))
+
+  (block write
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute not_typeattr)
+    (typeattribute typeattr)
+
+    (typeattributeset not_typeattr (not typeattr))
+
+    (neverallow not_typeattr procfile (file (append write)))))
+
+(in procfile.unconfined
+
+    (call .kcore.readwrite.type (typeattr)))

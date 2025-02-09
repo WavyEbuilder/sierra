@@ -1,0 +1,11 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block usb
+
+  (filecon "/dev/bus/usb/.+" char nodedev_context)
+  (filecon "/dev/usb.+" char nodedev_context)
+
+  (blockinherit .nodedev.template)
+
+  (call .rbacsep.exempt.obj.type (nodedev)))

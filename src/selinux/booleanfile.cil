@@ -1,0 +1,93 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block booleanfile
+
+  (macro type ((type ARG1))
+	 (typeattributeset typeattr ARG1))
+
+  (typeattribute typeattr)
+
+  (blockinherit .file.all_macro_template_files)
+
+  (call .obj.type (typeattr))
+
+  (block base_template
+
+    (blockabstract base_template)
+
+    (context booleanfile_context (.sys.id .sys.role booleanfile .sys.lowlow))
+
+    (type booleanfile)
+    (call .booleanfile.type (booleanfile)))
+
+  (block macro_template_files
+
+    (blockabstract macro_template_files)
+
+    (macro append_booleanfile_files ((type ARG1))
+	   (allow ARG1 booleanfile append_file))
+
+    (macro appendinherited_booleanfile_files ((type ARG1))
+	   (allow ARG1 booleanfile appendinherited_file))
+
+    (macro create_booleanfile_files ((type ARG1))
+	   (allow ARG1 booleanfile create_file))
+
+    (macro delete_booleanfile_files ((type ARG1))
+	   (allow ARG1 booleanfile delete_file))
+
+    (macro execute_booleanfile_files ((type ARG1))
+	   (allow ARG1 booleanfile execute_file))
+
+    (macro manage_booleanfile_files ((type ARG1))
+	   (allow ARG1 booleanfile manage_file))
+
+    (macro mapexecute_booleanfile_files ((type ARG1))
+	   (allow ARG1 booleanfile mapexecute_file))
+
+    (macro mounton_booleanfile_files ((type ARG1))
+	   (allow ARG1 booleanfile mounton_file))
+
+    (macro read_booleanfile_files ((type ARG1))
+	   (allow ARG1 booleanfile read_file))
+
+    (macro readinherited_booleanfile_files ((type ARG1))
+	   (allow ARG1 booleanfile readinherited_file))
+
+    (macro readwrite_booleanfile_files ((type ARG1))
+	   (allow ARG1 booleanfile readwrite_file))
+
+    (macro readwriteinherited_booleanfile_files ((type ARG1))
+	   (allow ARG1 booleanfile readwriteinherited_file))
+
+    (macro rename_booleanfile_files ((type ARG1))
+	   (allow ARG1 booleanfile rename_file))
+
+    (macro write_booleanfile_files ((type ARG1))
+	   (allow ARG1 booleanfile write_file))
+
+    (macro writeinherited_booleanfile_files ((type ARG1))
+	   (allow ARG1 booleanfile writeinherited_file)))
+
+  (block template
+
+    (blockabstract template)
+
+    (blockinherit .booleanfile.base_template)
+    (blockinherit .booleanfile.macro_template_files))
+
+  (block unconfined
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (allow typeattr booleanfile.typeattr
+	   (file (not (audit_access entrypoint execmod relabelfrom
+				    relabelto))))))
+
+(in selinux.unconfined
+
+    (call .booleanfile.unconfined.type (typeattr)))

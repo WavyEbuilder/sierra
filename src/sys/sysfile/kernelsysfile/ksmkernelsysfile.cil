@@ -1,0 +1,9 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(in ksm
+
+    (genfscon "sysfs" "/kernel/mm/ksm" sysfile_context)
+
+    (blockinherit .sysfile.kernel.template)
+    (blockinherit .sysfile.macro_template_dirs))

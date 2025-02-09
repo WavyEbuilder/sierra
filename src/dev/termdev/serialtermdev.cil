@@ -1,0 +1,119 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block serialtermdev
+
+  (macro type ((type ARG1))
+	 (typeattributeset typeattr ARG1))
+
+  (typeattribute typeattr)
+
+  (blockinherit .file.all_macro_template_chr_files)
+
+  (call .termdev.type (typeattr))
+
+  (block base_template
+
+    (blockabstract base_template)
+
+    (context serialtermdev_context
+	     (.sys.id .sys.role serialtermdev .sys.lowlow))
+
+    (type serialtermdev)
+    (call .serialtermdev.type (serialtermdev)))
+
+  (block macro_template_chr_files
+
+    (blockabstract macro_template_chr_files)
+
+    (macro append_serialtermdev_chr_files ((type ARG1))
+	   (allow ARG1 serialtermdev append_chr_file))
+
+    (macro appendinherited_serialtermdev_chr_files ((type ARG1))
+	   (allow ARG1 serialtermdev appendinherited_chr_file)
+	   (allowx ARG1 serialtermdev IOCTLCONSOLE_NOT_TIOCLINUX)
+	   (allowx ARG1 serialtermdev IOCTLTTY_NOT_TIOCSTI)
+	   (allowx ARG1 serialtermdev IOCTLVT))
+
+    (macro create_serialtermdev_chr_files ((type ARG1))
+	   (allow ARG1 serialtermdev create_chr_file))
+
+    (macro delete_serialtermdev_chr_files ((type ARG1))
+	   (allow ARG1 serialtermdev delete_chr_file))
+
+    (macro manage_serialtermdev_chr_files ((type ARG1))
+	   (allow ARG1 serialtermdev manage_chr_file))
+
+    (macro mapexecute_serialtermdev_chr_files ((type ARG1))
+	   (allow ARG1 serialtermdev mapexecute_chr_file))
+
+    (macro read_serialtermdev_chr_files ((type ARG1))
+	   (allow ARG1 serialtermdev read_chr_file))
+
+    (macro readinherited_serialtermdev_chr_files ((type ARG1))
+	   (allow ARG1 serialtermdev readinherited_chr_file))
+
+    (macro readwrite_serialtermdev_chr_files ((type ARG1))
+	   (allow ARG1 serialtermdev readwrite_chr_file))
+
+    (macro readwriteinherited_serialtermdev_chr_files ((type ARG1))
+	   (allow ARG1 serialtermdev readwriteinherited_chr_file)
+	   (allowx ARG1 serialtermdev IOCTLCONSOLE_NOT_TIOCLINUX)
+	   (allowx ARG1 serialtermdev IOCTLTTY_NOT_TIOCSTI)
+	   (allowx ARG1 serialtermdev IOCTLVT))
+
+    (macro relabel_serialtermdev_chr_files ((type ARG1))
+	   (allow ARG1 serialtermdev relabel_chr_file))
+
+    (macro relabelfrom_serialtermdev_chr_files ((type ARG1))
+	   (allow ARG1 serialtermdev relabelfrom_chr_file))
+
+    (macro relabelto_serialtermdev_chr_files ((type ARG1))
+	   (allow ARG1 serialtermdev relabelto_chr_file))
+
+    (macro rename_serialtermdev_chr_files ((type ARG1))
+	   (allow ARG1 serialtermdev rename_chr_file))
+
+    (macro write_serialtermdev_chr_files ((type ARG1))
+	   (allow ARG1 serialtermdev write_chr_file))
+
+    (macro writeinherited_serialtermdev_chr_files ((type ARG1))
+	   (allow ARG1 serialtermdev writeinherited_chr_file)
+	   (allowx ARG1 serialtermdev IOCTLCONSOLE_NOT_TIOCLINUX)
+	   (allowx ARG1 serialtermdev IOCTLTTY_NOT_TIOCSTI)
+	   (allowx ARG1 serialtermdev IOCTLVT)))
+
+  (block template
+
+    (blockabstract template)
+
+    (blockinherit .serialtermdev.base_template)
+    (blockinherit .serialtermdev.macro_template_chr_files))
+
+  (block unconfined
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (allow typeattr serialtermdev.typeattr (chr_file (not (audit_access execmod))))))
+
+(in termdev.unconfined
+
+    (call .serialtermdev.unconfined.type (typeattr)))
+
+(in after serialtermdev.appendinherited_all_chr_files
+    (allowx ARG1 typeattr IOCTLCONSOLE_NOT_TIOCLINUX)
+    (allowx ARG1 typeattr IOCTLTTY_NOT_TIOCSTI)
+    (allowx ARG1 typeattr IOCTLVT))
+
+(in after serialtermdev.readwriteinherited_all_chr_files
+    (allowx ARG1 typeattr IOCTLCONSOLE_NOT_TIOCLINUX)
+    (allowx ARG1 typeattr IOCTLTTY_NOT_TIOCSTI)
+    (allowx ARG1 typeattr IOCTLVT))
+
+(in after serialtermdev.writeinherited_all_chr_files
+    (allowx ARG1 typeattr IOCTLCONSOLE_NOT_TIOCLINUX)
+    (allowx ARG1 typeattr IOCTLTTY_NOT_TIOCSTI)
+    (allowx ARG1 typeattr IOCTLVT))

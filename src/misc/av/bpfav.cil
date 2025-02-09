@@ -1,0 +1,30 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(class bpf (map_create map_read map_write prog_load prog_run))
+(classorder (unordered bpf))
+
+(in invalid.unconfined
+
+    (allow typeattr .invalid (bpf (map_read map_write prog_run))))
+
+(in mcs
+
+    (mlsconstrain (bpf (map_read map_write prog_run))
+		  (or (dom h1 h2)
+		      (neq t1 constrained.typeattr))))
+
+(in rbacsep
+
+    (constrain (bpf (map_read map_write prog_run))
+	       (or (or (or (eq r1 r2)
+			   (and (eq r1 exempt.roleattr)
+				(neq t1 constrained.typeattr)))
+		       (eq t1 exempt.subj.typeattr))
+		   (and (eq t1 exemptsource.typeattr)
+			(eq t2 exempttarget.typeattr)))))
+
+(in subj.unconfined
+
+    (allow typeattr self (bpf (not (map_read map_write prog_run))))
+    (allow typeattr subj.typeattr (bpf (map_read map_write prog_run))))

@@ -1,0 +1,193 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block procfile
+
+  (macro type ((type ARG1))
+	 (typeattributeset typeattr ARG1))
+
+  (typeattribute typeattr)
+
+  (blockinherit .file.all_macro_template_dirs)
+  (blockinherit .file.all_macro_template_files)
+  (blockinherit .file.all_macro_template_lnk_files)
+
+  (call .obj.type (typeattr))
+
+  (block base_template
+
+    (blockabstract base_template)
+
+    (context procfile_context (.sys.id .sys.role procfile .sys.lowlow))
+
+    (type procfile)
+    (call .procfile.type (procfile)))
+
+  (block except
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (blockinherit file.all_macro_template_dirs)
+    (blockinherit file.all_macro_template_files)
+    (blockinherit file.all_macro_template_lnk_files)
+
+    (typeattribute typeattr)
+
+    (typeattributeset typeattr
+		      (and procfile.typeattr (not (exception.typeattr)))))
+
+  (block exception
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (call procfile.type (typeattr)))
+
+  (block macro_template_dirs
+
+    (blockabstract macro_template_dirs)
+
+    (macro addname_procfile_dirs ((type ARG1))
+	   (allow ARG1 procfile addname_dir))
+
+    (macro create_procfile_dirs ((type ARG1))
+	   (allow ARG1 procfile create_dir))
+
+    (macro delete_procfile_dirs ((type ARG1))
+	   (allow ARG1 procfile delete_dir))
+
+    (macro deletename_procfile_dirs ((type ARG1))
+	   (allow ARG1 procfile deletename_dir))
+
+    (macro list_procfile_dirs ((type ARG1))
+	   (allow ARG1 procfile list_dir))
+
+    (macro listinherited_procfile_dirs ((type ARG1))
+	   (allow ARG1 procfile listinherited_dir))
+
+    (macro manage_procfile_dirs ((type ARG1))
+	   (allow ARG1 procfile manage_dir))
+
+    (macro mounton_procfile_dirs ((type ARG1))
+	   (allow ARG1 procfile mounton_dir))
+
+    (macro readwrite_procfile_dirs ((type ARG1))
+	   (allow ARG1 procfile readwrite_dir))
+
+    (macro readwriteinherited_procfile_dirs ((type ARG1))
+	   (allow ARG1 procfile readwriteinherited_dir))
+
+    (macro rename_procfile_dirs ((type ARG1))
+	   (allow ARG1 procfile rename_dir))
+
+    (macro search_procfile_dirs ((type ARG1))
+	   (allow ARG1 procfile search_dir))
+
+    (macro write_procfile_dirs ((type ARG1))
+	   (allow ARG1 procfile write_dir))
+
+    (macro writeinherited_procfile_dirs ((type ARG1))
+	   (allow ARG1 procfile writeinherited_dir)))
+
+  (block macro_template_files
+
+    (blockabstract macro_template_files)
+
+    (macro append_procfile_files ((type ARG1))
+	   (allow ARG1 procfile append_file))
+
+    (macro appendinherited_procfile_files ((type ARG1))
+	   (allow ARG1 procfile appendinherited_file))
+
+    (macro create_procfile_files ((type ARG1))
+	   (allow ARG1 procfile create_file))
+
+    (macro delete_procfile_files ((type ARG1))
+	   (allow ARG1 procfile delete_file))
+
+    (macro execute_procfile_files ((type ARG1))
+	   (allow ARG1 procfile execute_file))
+
+    (macro manage_procfile_files ((type ARG1))
+	   (allow ARG1 procfile manage_file))
+
+    (macro mapexecute_procfile_files ((type ARG1))
+	   (allow ARG1 procfile mapexecute_file))
+
+    (macro mounton_procfile_files ((type ARG1))
+	   (allow ARG1 procfile mounton_file))
+
+    (macro read_procfile_files ((type ARG1))
+	   (allow ARG1 procfile read_file))
+
+    (macro readinherited_procfile_files ((type ARG1))
+	   (allow ARG1 procfile readinherited_file))
+
+    (macro readwrite_procfile_files ((type ARG1))
+	   (allow ARG1 procfile readwrite_file))
+
+    (macro readwriteinherited_procfile_files ((type ARG1))
+	   (allow ARG1 procfile readwriteinherited_file))
+
+    (macro rename_procfile_files ((type ARG1))
+	   (allow ARG1 procfile rename_file))
+
+    (macro write_procfile_files ((type ARG1))
+	   (allow ARG1 procfile write_file))
+
+    (macro writeinherited_procfile_files ((type ARG1))
+	   (allow ARG1 procfile writeinherited_file)))
+
+  (block macro_template_lnk_files
+
+    (blockabstract macro_template_lnk_files)
+
+    (macro create_procfile_lnk_files ((type ARG1))
+	   (allow ARG1 procfile create_lnk_file))
+
+    (macro delete_procfile_lnk_files ((type ARG1))
+	   (allow ARG1 procfile delete_lnk_file))
+
+    (macro manage_procfile_lnk_files ((type ARG1))
+	   (allow ARG1 procfile manage_lnk_file))
+
+    (macro read_procfile_lnk_files ((type ARG1))
+	   (allow ARG1 procfile read_lnk_file))
+
+    (macro readwrite_procfile_lnk_files ((type ARG1))
+	   (allow ARG1 procfile readwrite_lnk_file))
+
+    (macro rename_procfile_lnk_files ((type ARG1))
+	   (allow ARG1 procfile rename_lnk_file))
+
+    (macro write_procfile_lnk_files ((type ARG1))
+	   (allow ARG1 procfile write_lnk_file)))
+
+  (block template
+
+    (blockabstract template)
+
+    (blockinherit .procfile.base_template)
+    (blockinherit .procfile.macro_template_files))
+
+  (block unconfined
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (allow typeattr procfile.typeattr
+	   (dir (not (audit_access execmod relabelfrom relabelto))))
+    (allow typeattr procfile.typeattr
+	   (file (not (audit_access entrypoint execmod relabelfrom relabelto))))
+    (allow typeattr procfile.typeattr
+	   (lnk_file (not (audit_access execmod map mounton relabelfrom
+					relabelto))))))
+
+(in sys.unconfined
+
+    (call .procfile.unconfined.type (typeattr)))

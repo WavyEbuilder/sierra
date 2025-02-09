@@ -1,0 +1,36 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block xattr
+
+  (fsuse xattr "bcachefs" fs_context)
+  (fsuse xattr "btrfs" fs_context)
+  (fsuse xattr "ceph" fs_context)
+  (fsuse xattr "encfs" fs_context)
+  (fsuse xattr "erofs" fs_context)
+  (fsuse xattr "ext2" fs_context)
+  (fsuse xattr "ext3" fs_context)
+  (fsuse xattr "ext4" fs_context)
+  (fsuse xattr "ext4dev" fs_context)
+  (fsuse xattr "f2fs" fs_context)
+  (fsuse xattr "gfs" fs_context)
+  (fsuse xattr "gfs2" fs_context)
+  (fsuse xattr "gpfs" fs_context)
+  (fsuse xattr "incremental-fs" fs_context)
+  (fsuse xattr "jffs2" fs_context)
+  (fsuse xattr "jfs" fs_context)
+  (fsuse xattr "lustre" fs_context)
+  (fsuse xattr "ocfs2" fs_context)
+  (fsuse xattr "odms" fs_context)
+  (fsuse xattr "overlay" fs_context)
+  (fsuse xattr "shiftfs" fs_context)
+  (fsuse xattr "squashfs" fs_context)
+  (fsuse xattr "ubifs" fs_context)
+  (fsuse xattr "virtiofs" fs_context)
+  (fsuse xattr "vxclonefs" fs_context)
+  (fsuse xattr "vxfs" fs_context)
+  (fsuse xattr "xfs" fs_context)
+  (fsuse xattr "yaffs2" fs_context)
+  (fsuse xattr "zfs" fs_context)
+
+  (blockinherit .seclabelfs.template))

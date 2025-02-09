@@ -1,0 +1,110 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(sidcontext netmsg (sys.id sys.role net.peer sys.lowlow))
+
+(class peer (recv))
+(classorder (unordered peer))
+
+(macro recv_invalid_peers ((type ARG1))
+       (allow ARG1 invalid (peer (recv))))
+
+(tunableif invalid_peers
+	   (true
+
+	    (call association_invalid_sctp_sockets
+		  (invalidpeers.except.typeattr))
+	    (call recv_invalid_peers (invalidpeers.except.typeattr))))
+
+(in invalid.unconfined
+
+    (allow typeattr .invalid (peer (all))))
+
+(in mcs
+
+    (mlsconstrain (peer (recv))
+		  (or (dom h1 h2)
+		      (and
+		       (neq t1 constrained.typeattr)
+		       (neq t2 constrained.typeattr)))))
+
+(in net
+
+    (blockinherit peer.template)
+
+    (block peer
+
+      (macro type ((type ARG1))
+	     (typeattributeset typeattr ARG1))
+
+      (typeattribute typeattr)
+
+      (blockinherit all_macro_template)
+
+      (call .mcs.constrained.type (typeattr))
+
+      (call .obj.type (typeattr))
+
+      (block all_macro_template
+
+	(blockabstract all_macro_template)
+
+	(macro recv_all_peers ((type ARG1))
+	       (allow ARG1 typeattr (peer (recv))))
+
+	(macro association_all_sctp_sockets ((type ARG1))
+	       (allow ARG1 typeattr (sctp_socket (association)))))
+
+      (block base_template
+
+	(blockabstract base_template)
+
+	(context peer_context (.sys.id .sys.role peer .sys.lowlow))
+
+	(type peer)
+	(call .net.peer.type (peer)))
+
+      (block macro_template
+
+	(blockabstract macro_template)
+
+	(macro recv_peers ((type ARG1))
+	       (allow ARG1 peer (peer (recv))))
+
+	(macro association_peer_sctp_sockets ((type ARG1))
+	       (allow ARG1 peer (sctp_socket (association)))))
+
+      (block template
+
+	(blockabstract template)
+
+	(blockinherit .net.peer.base_template)
+	(blockinherit .net.peer.macro_template))
+
+      (block unconfined
+
+	(macro type ((type ARG1))
+	       (typeattributeset typeattr ARG1))
+
+	(typeattribute typeattr)
+
+	(allow typeattr peer.typeattr (peer (all)))
+	(allow typeattr peer.typeattr (sctp_socket (association))))))
+
+(in net.unconfined
+
+    (call .net.peer.unconfined.type (typeattr)))
+
+(in subj
+
+    (macro recv_all_peers ((type ARG1))
+	   (allow ARG1 typeattr (peer (recv)))))
+
+(in subj.macro_template
+
+    (macro recv_subj_peers ((type ARG1))
+	   (allow ARG1 subj (peer (recv)))))
+
+(in subj.unconfined
+
+    (allow typeattr .subj.typeattr (peer (recv))))

@@ -1,0 +1,9 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block sd
+
+  (filecon "/dev/sd[^/]+" block stordev_context)
+
+  (blockinherit .stordev.base_template)
+  (blockinherit .stordev.macro_template_blk_files))

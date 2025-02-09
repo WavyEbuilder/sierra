@@ -1,0 +1,21 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block dos
+
+  (genfscon "fat" "/" fs_context)
+  (genfscon "hfs" "/" fs_context)
+  (genfscon "hfsplus" "/" fs_context)
+  (genfscon "msdos" "/" fs_context)
+  (genfscon "ntfs" "/" fs_context)
+  (genfscon "ntfs-3g" "/" fs_context)
+  (genfscon "ntfs3" "/" fs_context)
+  (genfscon "vfat" "/" fs_context)
+  (genfscon "exfat" "/" fs_context)
+
+  (macro map_fs_files ((type ARG1))
+	 (allow ARG1 fs (file (map))))
+
+  (blockinherit .noseclabelfs.template)
+
+  (call .rbacsep.exempt.obj.type (fs)))

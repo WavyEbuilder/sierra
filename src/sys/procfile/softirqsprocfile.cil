@@ -1,0 +1,8 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block softirqs
+
+  (genfscon "proc" "/softirqs" procfile_context)
+
+  (blockinherit .procfile.template))

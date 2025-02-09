@@ -1,0 +1,35 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(tunable invalid_associations true)
+
+(block invalid_associations
+
+  (genfscon "selinuxfs" "/booleans/invalid_associations" booleanfile_context)
+
+  (blockinherit .booleanfile.template))
+
+(block invalidassociations
+
+  (macro type ((type ARG1))
+	 (typeattributeset typeattr ARG1))
+
+  (typeattribute typeattr)
+
+  (block except
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (typeattributeset typeattr
+		      (and invalidassociations.typeattr
+			   (not (exception.typeattr)))))
+
+  (block exception
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)))

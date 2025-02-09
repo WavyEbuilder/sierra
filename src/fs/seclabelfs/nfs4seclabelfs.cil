@@ -1,0 +1,10 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block nfs4
+
+  (genfscon "nfs4" "/" fs_context)
+
+  (blockinherit .seclabelfs.template)
+
+  (allow fs self (filesystem (associate))))

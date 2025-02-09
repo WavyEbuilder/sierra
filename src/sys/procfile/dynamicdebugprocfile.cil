@@ -1,0 +1,9 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block dynamicdebug
+
+  (genfscon "proc" "/dynamic_debug" procfile_context)
+
+  (blockinherit .procfile.macro_template_dirs)
+  (blockinherit .procfile.base_template))

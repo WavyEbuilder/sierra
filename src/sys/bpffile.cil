@@ -1,0 +1,144 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block bpffile
+
+  (macro type ((type ARG1))
+	 (typeattributeset typeattr ARG1))
+
+  (typeattribute typeattr)
+
+  (blockinherit .file.all_macro_template_dirs)
+  (blockinherit .file.all_macro_template_files)
+
+  (call .obj.type (typeattr))
+
+  (call .bpf.associate_fs (typeattr))
+
+  (block base_template
+
+    (blockabstract base_template)
+
+    (context bpffile_context (.sys.id .sys.role bpffile .sys.lowlow))
+
+    (type bpffile)
+    (call .bpffile.type (bpffile)))
+
+  (block macro_template_dirs
+
+    (blockabstract macro_template_dirs)
+
+    (macro addname_bpffile_dirs ((type ARG1))
+	   (allow ARG1 bpffile addname_dir))
+
+    (macro create_bpffile_dirs ((type ARG1))
+	   (allow ARG1 bpffile create_dir))
+
+    (macro delete_bpffile_dirs ((type ARG1))
+	   (allow ARG1 bpffile delete_dir))
+
+    (macro deletename_bpffile_dirs ((type ARG1))
+	   (allow ARG1 bpffile deletename_dir))
+
+    (macro list_bpffile_dirs ((type ARG1))
+	   (allow ARG1 bpffile list_dir))
+
+    (macro listinherited_bpffile_dirs ((type ARG1))
+	   (allow ARG1 bpffile listinherited_dir))
+
+    (macro manage_bpffile_dirs ((type ARG1))
+	   (allow ARG1 bpffile manage_dir))
+
+    (macro mounton_bpffile_dirs ((type ARG1))
+	   (allow ARG1 bpffile mounton_dir))
+
+    (macro readwrite_bpffile_dirs ((type ARG1))
+	   (allow ARG1 bpffile readwrite_dir))
+
+    (macro readwriteinherited_bpffile_dirs ((type ARG1))
+	   (allow ARG1 bpffile readwriteinherited_dir))
+
+    (macro rename_bpffile_dirs ((type ARG1))
+	   (allow ARG1 bpffile rename_dir))
+
+    (macro search_bpffile_dirs ((type ARG1))
+	   (allow ARG1 bpffile search_dir))
+
+    (macro write_bpffile_dirs ((type ARG1))
+	   (allow ARG1 bpffile write_dir))
+
+    (macro writeinherited_bpffile_dirs ((type ARG1))
+	   (allow ARG1 bpffile writeinherited_dir)))
+
+  (block macro_template_files
+
+    (blockabstract macro_template_files)
+
+    (macro append_bpffile_files ((type ARG1))
+	   (allow ARG1 bpffile append_file))
+
+    (macro appendinherited_bpffile_files ((type ARG1))
+	   (allow ARG1 bpffile appendinherited_file))
+
+    (macro create_bpffile_files ((type ARG1))
+	   (allow ARG1 bpffile create_file))
+
+    (macro delete_bpffile_files ((type ARG1))
+	   (allow ARG1 bpffile delete_file))
+
+    (macro execute_bpffile_files ((type ARG1))
+	   (allow ARG1 bpffile execute_file))
+
+    (macro manage_bpffile_files ((type ARG1))
+	   (allow ARG1 bpffile manage_file))
+
+    (macro mapexecute_bpffile_files ((type ARG1))
+	   (allow ARG1 bpffile mapexecute_file))
+
+    (macro mounton_bpffile_files ((type ARG1))
+	   (allow ARG1 bpffile mounton_file))
+
+    (macro read_bpffile_files ((type ARG1))
+	   (allow ARG1 bpffile read_file))
+
+    (macro readinherited_bpffile_files ((type ARG1))
+	   (allow ARG1 bpffile readinherited_file))
+
+    (macro readwrite_bpffile_files ((type ARG1))
+	   (allow ARG1 bpffile readwrite_file))
+
+    (macro readwriteinherited_bpffile_files ((type ARG1))
+	   (allow ARG1 bpffile readwriteinherited_file))
+
+    (macro rename_bpffile_files ((type ARG1))
+	   (allow ARG1 bpffile rename_file))
+
+    (macro write_bpffile_files ((type ARG1))
+	   (allow ARG1 bpffile write_file))
+
+    (macro writeinherited_bpffile_files ((type ARG1))
+	   (allow ARG1 bpffile writeinherited_file)))
+
+  (block template
+
+    (blockabstract template)
+
+    (blockinherit .bpffile.base_template)
+    (blockinherit .bpffile.macro_template_files))
+
+  (block unconfined
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (allow typeattr bpffile.typeattr
+	   (dir (not (audit_access execmod relabelfrom relabelto))))
+    (allow typeattr bpffile.typeattr
+	   (file (not (audit_access entrypoint execmod relabelfrom
+				    relabelto))))))
+
+(in sys.unconfined
+
+    (call .bpffile.unconfined.type (typeattr)))

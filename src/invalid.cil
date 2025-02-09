@@ -1,0 +1,441 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(sidcontext unlabeled (sys.id sys.role invalid sys.lowlow))
+
+(macro addname_invalid_dirs ((type ARG1))
+       (allow ARG1 invalid addname_dir))
+
+(macro append_invalid_blk_files ((type ARG1))
+       (allow ARG1 invalid append_blk_file))
+
+(macro append_invalid_chr_files ((type ARG1))
+       (allow ARG1 invalid append_chr_file))
+
+(macro append_invalid_fifo_files ((type ARG1))
+       (allow ARG1 invalid append_fifo_file))
+
+(macro append_invalid_files ((type ARG1))
+       (allow ARG1 invalid append_file))
+
+(macro appendinherited_invalid_blk_files ((type ARG1))
+       (allow ARG1 invalid appendinherited_blk_file))
+
+(macro appendinherited_invalid_chr_files ((type ARG1))
+       (allow ARG1 invalid appendinherited_chr_file))
+
+(macro appendinherited_invalid_fifo_files ((type ARG1))
+       (allow ARG1 invalid appendinherited_fifo_file))
+
+(macro appendinherited_invalid_files ((type ARG1))
+       (allow ARG1 invalid appendinherited_file))
+
+(macro create_invalid ((type ARG1))
+       (allow ARG1 invalid (files (create))))
+
+(macro create_invalid_blk_files ((type ARG1))
+       (allow ARG1 invalid create_blk_file))
+
+(macro create_invalid_chr_files ((type ARG1))
+       (allow ARG1 invalid create_chr_file))
+
+(macro create_invalid_dirs ((type ARG1))
+       (allow ARG1 invalid create_dir))
+
+(macro create_invalid_fifo_files ((type ARG1))
+       (allow ARG1 invalid create_fifo_file))
+
+(macro create_invalid_files ((type ARG1))
+       (allow ARG1 invalid create_file))
+
+(macro create_invalid_lnk_files ((type ARG1))
+       (allow ARG1 invalid create_lnk_file))
+
+(macro create_invalid_sock_files ((type ARG1))
+       (allow ARG1 invalid create_sock_file))
+
+(macro delete_invalid ((type ARG1))
+       (allow ARG1 invalid (files (delete))))
+
+(macro delete_invalid_blk_files ((type ARG1))
+       (allow ARG1 invalid delete_blk_file))
+
+(macro delete_invalid_chr_files ((type ARG1))
+       (allow ARG1 invalid delete_chr_file))
+
+(macro delete_invalid_dirs ((type ARG1))
+       (allow ARG1 invalid delete_dir))
+
+(macro delete_invalid_fifo_files ((type ARG1))
+       (allow ARG1 invalid delete_fifo_file))
+
+(macro delete_invalid_files ((type ARG1))
+       (allow ARG1 invalid delete_file))
+
+(macro delete_invalid_lnk_files ((type ARG1))
+       (allow ARG1 invalid delete_lnk_file))
+
+(macro delete_invalid_sock_files ((type ARG1))
+       (allow ARG1 invalid delete_sock_file))
+
+(macro deletename_invalid_dirs ((type ARG1))
+       (allow ARG1 invalid deletename_dir))
+
+(macro execute_invalid_files ((type ARG1))
+       (allow ARG1 invalid execute_file))
+
+(macro getattr_invalid_processes ((type ARG1))
+       (allow ARG1 invalid (process (getattr))))
+
+(macro getrlimit_invalid_processes ((type ARG1))
+       (allow ARG1 invalid (process (getrlimit))))
+
+(macro getsched_invalid_processes ((type ARG1))
+       (allow ARG1 invalid (process (getsched))))
+
+(macro invalid_type_transition ((type ARG1)(type ARG2)(class ARG3)(name ARG4))
+       (typetransition ARG1 invalid ARG3 ARG4 ARG2)
+       (call addname_invalid_dirs (ARG1)))
+
+(macro list_invalid_dirs ((type ARG1))
+       (allow ARG1 invalid list_dir))
+
+(macro listinherited_invalid_dirs ((type ARG1))
+       (allow ARG1 invalid listinherited_dir))
+
+(macro manage_invalid ((type ARG1))
+       (allow ARG1 invalid (files (manage))))
+
+(macro manage_invalid_blk_files ((type ARG1))
+       (allow ARG1 invalid manage_blk_file))
+
+(macro manage_invalid_chr_files ((type ARG1))
+       (allow ARG1 invalid manage_chr_file))
+
+(macro manage_invalid_dirs ((type ARG1))
+       (allow ARG1 invalid manage_dir))
+
+(macro manage_invalid_fifo_files ((type ARG1))
+       (allow ARG1 invalid manage_fifo_file))
+
+(macro manage_invalid_files ((type ARG1))
+       (allow ARG1 invalid manage_file))
+
+(macro manage_invalid_lnk_files ((type ARG1))
+       (allow ARG1 invalid manage_lnk_file))
+
+(macro manage_invalid_sock_files ((type ARG1))
+       (allow ARG1 invalid manage_sock_file))
+
+(macro mapexecute_invalid_chr_files ((type ARG1))
+       (allow ARG1 invalid mapexecute_chr_file))
+
+(macro mapexecute_invalid_files ((type ARG1))
+       (allow ARG1 invalid mapexecute_file))
+
+(macro mounton_invalid_dirs ((type ARG1))
+       (allow ARG1 invalid mounton_dir))
+
+(macro mounton_invalid_files ((type ARG1))
+       (allow ARG1 invalid mounton_file))
+
+(macro nnptransition_invalid_processes ((type ARG1))
+       (allow ARG1 invalid (process2 (nnp_transition))))
+
+(macro noatsecure_invalid_processes ((type ARG1))
+       (allow ARG1 invalid (process (noatsecure))))
+
+(macro nosuidtransition_invalid_processes ((type ARG1))
+       (allow ARG1 invalid (process2 (nosuid_transition))))
+
+(macro ps_invalid_states ((type ARG1))
+       (allow ARG1 invalid (state (ps))))
+
+(macro ptrace_invalid_processes ((type ARG1))
+       (allow ARG1 invalid (process (ptrace))))
+
+(macro read_invalid ((type ARG1))
+       (allow ARG1 invalid (files (read))))
+
+(macro read_invalid_blk_files ((type ARG1))
+       (allow ARG1 invalid read_blk_file))
+
+(macro read_invalid_chr_files ((type ARG1))
+       (allow ARG1 invalid read_chr_file))
+
+(macro read_invalid_fifo_files ((type ARG1))
+       (allow ARG1 invalid read_fifo_file))
+
+(macro read_invalid_files ((type ARG1))
+       (allow ARG1 invalid read_file))
+
+(macro read_invalid_lnk_files ((type ARG1))
+       (allow ARG1 invalid read_lnk_file))
+
+(macro read_invalid_sock_files ((type ARG1))
+       (allow ARG1 invalid read_sock_file))
+
+(macro read_invalid_states ((type ARG1))
+       (allow ARG1 invalid (state (read))))
+
+(macro readinherited_invalid_blk_files ((type ARG1))
+       (allow ARG1 invalid readinherited_blk_file))
+
+(macro readinherited_invalid_chr_files ((type ARG1))
+       (allow ARG1 invalid readinherited_chr_file))
+
+(macro readinherited_invalid_fifo_files ((type ARG1))
+       (allow ARG1 invalid readinherited_fifo_file))
+
+(macro readinherited_invalid_files ((type ARG1))
+       (allow ARG1 invalid readinherited_file))
+
+(macro readinherited_invalid_sock_files ((type ARG1))
+       (allow ARG1 invalid readinherited_sock_file))
+
+(macro readwrite_invalid ((type ARG1))
+       (allow ARG1 invalid (files (readwrite))))
+
+(macro readwrite_invalid_blk_files ((type ARG1))
+       (allow ARG1 invalid readwrite_blk_file))
+
+(macro readwrite_invalid_chr_files ((type ARG1))
+       (allow ARG1 invalid readwrite_chr_file))
+
+(macro readwrite_invalid_dirs ((type ARG1))
+       (allow ARG1 invalid readwrite_dir))
+
+(macro readwrite_invalid_fifo_files ((type ARG1))
+       (allow ARG1 invalid readwrite_fifo_file))
+
+(macro readwrite_invalid_files ((type ARG1))
+       (allow ARG1 invalid readwrite_file))
+
+(macro readwrite_invalid_lnk_files ((type ARG1))
+       (allow ARG1 invalid readwrite_lnk_file))
+
+(macro readwrite_invalid_sock_files ((type ARG1))
+       (allow ARG1 invalid readwrite_sock_file))
+
+(macro readwriteinherited_invalid_blk_files ((type ARG1))
+       (allow ARG1 invalid readwriteinherited_blk_file))
+
+(macro readwriteinherited_invalid_chr_files ((type ARG1))
+       (allow ARG1 invalid readwriteinherited_chr_file))
+
+(macro readwriteinherited_invalid_dirs ((type ARG1))
+       (allow ARG1 invalid readwriteinherited_dir))
+
+(macro readwriteinherited_invalid_fifo_files ((type ARG1))
+       (allow ARG1 invalid readwriteinherited_fifo_file))
+
+(macro readwriteinherited_invalid_files ((type ARG1))
+       (allow ARG1 invalid readwriteinherited_file))
+
+(macro readwriteinherited_invalid_sock_files ((type ARG1))
+       (allow ARG1 invalid readwriteinherited_sock_file))
+
+(macro relabel_invalid ((type ARG1))
+       (allow ARG1 invalid (files (relabel))))
+
+(macro relabel_invalid_blk_files ((type ARG1))
+       (allow ARG1 invalid relabel_blk_file))
+
+(macro relabel_invalid_chr_files ((type ARG1))
+       (allow ARG1 invalid relabel_chr_file))
+
+(macro relabel_invalid_dirs ((type ARG1))
+       (allow ARG1 invalid relabel_dir))
+
+(macro relabel_invalid_fifo_files ((type ARG1))
+       (allow ARG1 invalid relabel_fifo_file))
+
+(macro relabel_invalid_files ((type ARG1))
+       (allow ARG1 invalid relabel_file))
+
+(macro relabel_invalid_lnk_files ((type ARG1))
+       (allow ARG1 invalid relabel_lnk_file))
+
+(macro relabel_invalid_sock_files ((type ARG1))
+       (allow ARG1 invalid relabel_sock_file))
+
+(macro relabelfrom_invalid ((type ARG1))
+       (allow ARG1 invalid (files (relabelfrom))))
+
+(macro relabelfrom_invalid_blk_files ((type ARG1))
+       (allow ARG1 invalid relabelfrom_blk_file))
+
+(macro relabelfrom_invalid_chr_files ((type ARG1))
+       (allow ARG1 invalid relabelfrom_chr_file))
+
+(macro relabelfrom_invalid_dirs ((type ARG1))
+       (allow ARG1 invalid relabelfrom_dir))
+
+(macro relabelfrom_invalid_fifo_files ((type ARG1))
+       (allow ARG1 invalid relabelfrom_fifo_file))
+
+(macro relabelfrom_invalid_files ((type ARG1))
+       (allow ARG1 invalid relabelfrom_file))
+
+(macro relabelfrom_invalid_lnk_files ((type ARG1))
+       (allow ARG1 invalid relabelfrom_lnk_file))
+
+(macro relabelfrom_invalid_sock_files ((type ARG1))
+       (allow ARG1 invalid relabelfrom_sock_file))
+
+(macro relabelto_invalid ((type ARG1))
+       (allow ARG1 invalid (files (relabelto))))
+
+(macro relabelto_invalid_blk_files ((type ARG1))
+       (allow ARG1 invalid relabelto_blk_file))
+
+(macro relabelto_invalid_chr_files ((type ARG1))
+       (allow ARG1 invalid relabelto_chr_file))
+
+(macro relabelto_invalid_dirs ((type ARG1))
+       (allow ARG1 invalid relabelto_dir))
+
+(macro relabelto_invalid_fifo_files ((type ARG1))
+       (allow ARG1 invalid relabelto_fifo_file))
+
+(macro relabelto_invalid_files ((type ARG1))
+       (allow ARG1 invalid relabelto_file))
+
+(macro relabelto_invalid_lnk_files ((type ARG1))
+       (allow ARG1 invalid relabelto_lnk_file))
+
+(macro relabelto_invalid_sock_files ((type ARG1))
+       (allow ARG1 invalid relabelto_sock_file))
+
+(macro rename_invalid ((type ARG1))
+       (allow ARG1 invalid (files (rename))))
+
+(macro rename_invalid_blk_files ((type ARG1))
+       (allow ARG1 invalid rename_blk_file))
+
+(macro rename_invalid_chr_files ((type ARG1))
+       (allow ARG1 invalid rename_chr_file))
+
+(macro rename_invalid_dirs ((type ARG1))
+       (allow ARG1 invalid rename_dir))
+
+(macro rename_invalid_fifo_files ((type ARG1))
+       (allow ARG1 invalid rename_fifo_file))
+
+(macro rename_invalid_files ((type ARG1))
+       (allow ARG1 invalid rename_file))
+
+(macro rename_invalid_lnk_files ((type ARG1))
+       (allow ARG1 invalid rename_lnk_file))
+
+(macro rename_invalid_sock_files ((type ARG1))
+       (allow ARG1 invalid rename_sock_file))
+
+(macro rlimitinh_invalid_processes ((type ARG1))
+       (allow ARG1 invalid (process (rlimitinh))))
+
+(macro search_invalid_dirs ((type ARG1))
+       (allow ARG1 invalid search_dir))
+
+(macro setrlimit_invalid_processes ((type ARG1))
+       (allow ARG1 invalid (process (setrlimit))))
+
+(macro setsched_invalid_processes ((type ARG1))
+       (allow ARG1 invalid (process (setsched))))
+
+(macro sigchld_invalid_processes ((type ARG1))
+       (allow ARG1 invalid (process (sigchld))))
+
+(macro sigkill_invalid_processes ((type ARG1))
+       (allow ARG1 invalid (process (sigkill))))
+
+(macro signal_invalid_processes ((type ARG1))
+       (allow ARG1 invalid (process (signal))))
+
+(macro signull_invalid_processes ((type ARG1))
+       (allow ARG1 invalid (process (signull))))
+
+(macro sigstop_invalid_processes ((type ARG1))
+       (allow ARG1 invalid (process (sigstop))))
+
+(macro transition_invalid_processes ((type ARG1))
+       (allow ARG1 invalid (process (transition))))
+
+(macro write_invalid ((type ARG1))
+       (allow ARG1 invalid (files (write))))
+
+(macro write_invalid_blk_files ((type ARG1))
+       (allow ARG1 invalid write_blk_file))
+
+(macro write_invalid_chr_files ((type ARG1))
+       (allow ARG1 invalid write_chr_file))
+
+(macro write_invalid_dirs ((type ARG1))
+       (allow ARG1 invalid write_dir))
+
+(macro write_invalid_fifo_files ((type ARG1))
+       (allow ARG1 invalid write_fifo_file))
+
+(macro write_invalid_files ((type ARG1))
+       (allow ARG1 invalid write_file))
+
+(macro write_invalid_lnk_files ((type ARG1))
+       (allow ARG1 invalid write_lnk_file))
+
+(macro write_invalid_sock_files ((type ARG1))
+       (allow ARG1 invalid write_sock_file))
+
+(macro writeinherited_invalid_blk_files ((type ARG1))
+       (allow ARG1 invalid writeinherited_blk_file))
+
+(macro writeinherited_invalid_chr_files ((type ARG1))
+       (allow ARG1 invalid writeinherited_chr_file))
+
+(macro writeinherited_invalid_dirs ((type ARG1))
+       (allow ARG1 invalid writeinherited_dir))
+
+(macro writeinherited_invalid_fifo_files ((type ARG1))
+       (allow ARG1 invalid writeinherited_fifo_file))
+
+(macro writeinherited_invalid_files ((type ARG1))
+       (allow ARG1 invalid writeinherited_file))
+
+(macro writeinherited_invalid_sock_files ((type ARG1))
+       (allow ARG1 invalid writeinherited_sock_file))
+
+(type invalid)
+(roletype sys.role invalid)
+
+(call .xattr.associate_fs (invalid))
+
+(block invalid
+
+  (block unconfined
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (allow typeattr .invalid
+	   (process (not (dyntransition execheap execstack transition))))
+    (allow typeattr .invalid
+	   (process2 (not (nnp_transition nosuid_transition))))
+
+    (allow typeattr .invalid
+	   (blk_file (not (audit_access execmod map mounton relabelto))))
+    (allow typeattr .invalid
+	   (chr_file (not (audit_access execmod mounton relabelto))))
+    (allow typeattr .invalid (dir (not (audit_access execmod relabelto))))
+    (allow typeattr .invalid
+	   (fifo_file (not (audit_access execmod map mounton relabelto))))
+    (allow typeattr .invalid
+	   (file (not (audit_access entrypoint execmod relabelto))))
+    (allow typeattr .invalid
+	   (lnk_file (not (audit_access execmod map mounton relabelto))))
+    (allow typeattr .invalid
+	   (sock_file (not (audit_access execmod map mounton relabelto))))))
+
+(in unconfined
+
+    (call .invalid.unconfined.type (typeattr)))

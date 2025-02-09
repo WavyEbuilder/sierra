@@ -1,0 +1,8 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block kfd
+
+  (filecon "/dev/kfd" char nodedev_context)
+
+  (blockinherit .nodedev.template))

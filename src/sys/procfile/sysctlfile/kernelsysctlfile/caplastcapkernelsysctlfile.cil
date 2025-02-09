@@ -1,0 +1,8 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block caplastcap
+
+  (genfscon "proc" "/sys/kernel/cap_last_cap" sysctlfile_context)
+
+  (blockinherit .sysctlfile.kernel.template))

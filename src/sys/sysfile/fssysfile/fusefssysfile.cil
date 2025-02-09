@@ -1,0 +1,9 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(in fuse
+
+    (genfscon "sysfs" "/fs/fuse" sysfile_context)
+
+    (blockinherit .sysfile.fs.template)
+    (blockinherit .sysfile.macro_template_dirs))

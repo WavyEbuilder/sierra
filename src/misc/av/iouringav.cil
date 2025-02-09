@@ -1,0 +1,98 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(class io_uring (cmd override_creds sqpoll))
+(classorder (unordered io_uring))
+
+(in booleanfile.unconfined
+
+    (allow typeattr booleanfile.typeattr (io_uring (cmd))))
+
+(in bpffile.unconfined
+
+    (allow typeattr bpffile.typeattr (io_uring (cmd))))
+
+(in cgroupfile.unconfined
+
+    (allow typeattr cgroupfile.typeattr (io_uring (cmd))))
+
+(in debugfile.unconfined
+
+    (allow typeattr debugfile.typeattr (io_uring (cmd))))
+
+(in file.unconfined
+
+    (allow typeattr file.typeattr (io_uring (cmd))))
+
+(in fs.unconfined
+
+    (allow typeattr fs.typeattr (io_uring (cmd))))
+
+(in invalid.unconfined
+
+    (allow typeattr .invalid (io_uring (cmd override_creds))))
+
+(in mcs
+
+    (mlsconstrain (io_uring (override_creds))
+		  (or (dom h1 h2)
+		      (neq t1 constrained.typeattr))))
+
+(in nodedev.unconfined
+
+    (allow typeattr nodedev.typeattr (io_uring (cmd))))
+
+(in procfile.unconfined
+
+    (allow typeattr procfile.typeattr (io_uring (cmd))))
+
+(in pstorefile.unconfined
+
+    (allow typeattr pstorefile.typeattr (io_uring (cmd))))
+
+(in ptytermdev.unconfined
+
+    (allow typeattr ptytermdev.typeattr (io_uring (cmd))))
+
+(in rbacsep
+
+    (constrain (io_uring (override_creds))
+	       (or (or (or (eq r1 r2)
+			   (and (eq r1 exempt.roleattr)
+				(neq t1 constrained.typeattr)))
+		       (eq t1 exempt.subj.typeattr))
+		   (and (eq t1 exemptsource.typeattr)
+			(eq t2 exempttarget.typeattr)))))
+
+(in securityfile.unconfined
+
+    (allow typeattr securityfile.typeattr (io_uring (cmd))))
+
+(in serialtermdev.unconfined
+
+    (allow typeattr serialtermdev.typeattr (io_uring (cmd))))
+
+(in stordev.unconfined
+
+    (allow typeattr stordev.typeattr (io_uring (cmd))))
+
+(in subj.unconfined
+
+    (allow typeattr self (io_uring (sqpoll)))
+    (allow typeattr subj.typeattr (io_uring (override_creds))))
+
+(in sysctlfile.unconfined
+
+    (allow typeattr sysctlfile.typeattr (io_uring (cmd))))
+
+(in sysfile.unconfined
+
+    (allow typeattr sysfile.typeattr (io_uring (cmd))))
+
+(in tracefile.unconfined
+
+    (allow typeattr tracefile.typeattr (io_uring (cmd))))
+
+(in unlabeled.unconfined
+
+    (allow typeattr .unlabeled (io_uring (cmd))))

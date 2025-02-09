@@ -1,0 +1,168 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(class packet (forward_in forward_out recv relabelto send))
+(classorder (unordered packet))
+
+(macro forward_invalid_packets ((type ARG1))
+       (allow ARG1 invalid (packet (forward_in forward_out))))
+
+(macro forwardin_invalid_packets ((type ARG1))
+       (allow ARG1 invalid (packet (forward_in))))
+
+(macro forwardout_invalid_packets ((type ARG1))
+       (allow ARG1 invalid (packet (forward_out))))
+
+(macro recv_invalid_packets ((type ARG1))
+       (allow ARG1 invalid (packet (recv))))
+
+(macro recvsend_invalid_packets ((type ARG1))
+       (allow ARG1 invalid (packet (recv send))))
+
+(macro relabelto_invalid_packets ((type ARG1))
+       (allow ARG1 invalid (packet (relabelto))))
+
+(macro send_invalid_packets ((type ARG1))
+       (allow ARG1 invalid (packet (send))))
+
+(tunableif invalid_packets
+	   (true
+
+	    (call forward_invalid_packets (invalidpackets.except.typeattr))
+	    (call recvsend_invalid_packets (invalidpackets.except.typeattr))))
+
+(tunableif (or invalid_associations invalid_peers)
+	   (true
+
+	    (call forward_invalid_packets (invalid))
+
+	    (call net.packet.forward_all_packets (invalid))))
+
+(in ibac
+
+    (constrain (packet (relabelto))
+	       (or (or (or (eq u1 u2)
+			   (and (eq t1 objchangesys.typeattr) (eq u2 .sys.id)))
+		       (eq t1 objchange.typeattr))
+		   (eq t1 exempt.typeattr))))
+
+(in invalid.unconfined
+
+    (allow typeattr .invalid (packet (not relabelto))))
+
+(in mcs
+
+    (mlsconstrain (packet (relabelto))
+		  (or (neq t1 constrained.typeattr)
+		      (and (dom h1 h2) (eq l2 h2))))
+
+    (mlsconstrain (packet (forward_in forward_out send recv))
+		  (or (dom h1 h2)
+		      (and
+		       (neq t1 constrained.typeattr)
+		       (neq t2 constrained.typeattr)))))
+
+(in rbac
+
+    (constrain (packet (relabelto))
+	       (or (or (or (eq r1 r2)
+			   (and (eq t1 objchangesys.typeattr)
+				(eq r2 .sys.role)))
+		       (eq t1 objchange.typeattr))
+		   (eq t1 exempt.typeattr))))
+
+(in net
+
+    (blockinherit packet.template)
+
+    (block packet
+
+      (macro type ((type ARG1))
+	     (typeattributeset typeattr ARG1))
+
+      (typeattribute typeattr)
+
+      (blockinherit all_macro_template)
+
+      (call .mcs.constrained.type (typeattr))
+
+      (call .obj.type (typeattr))
+
+      (block all_macro_template
+
+	(blockabstract all_macro_template)
+
+	(macro forward_all_packets ((type ARG1))
+	       (allow ARG1 typeattr (packet (forward_in forward_out))))
+
+	(macro forwardin_all_packets ((type ARG1))
+	       (allow ARG1 typeattr (packet (forward_in))))
+
+	(macro forwardout_all_packets ((type ARG1))
+	       (allow ARG1 typeattr (packet (forward_out))))
+
+	(macro recv_all_packets ((type ARG1))
+	       (allow ARG1 typeattr (packet (recv))))
+
+	(macro recvsend_all_packets ((type ARG1))
+	       (allow ARG1 typeattr (packet (recv send))))
+
+	(macro relabelto_all_packets ((type ARG1))
+	       (allow ARG1 typeattr (packet (relabelto))))
+
+	(macro send_all_packets ((type ARG1))
+	       (allow ARG1 typeattr (packet (send)))))
+
+      (block base_template
+
+	(blockabstract base_template)
+
+	(context packet_context (.sys.id .sys.role packet .sys.lowlow))
+
+	(type packet)
+	(call .net.packet.type (packet)))
+
+      (block macro_template
+
+	(blockabstract macro_template)
+
+	(macro forward_packets ((type ARG1))
+	       (allow ARG1 packet (packet (forward_in forward_out))))
+
+	(macro forwardin_packets ((type ARG1))
+	       (allow ARG1 packet (packet (forward_in))))
+
+	(macro forwardout_packets ((type ARG1))
+	       (allow ARG1 packet (packet (forward_out))))
+
+	(macro recv_packets ((type ARG1))
+	       (allow ARG1 packet (packet (recv))))
+
+	(macro recvsend_packets ((type ARG1))
+	       (allow ARG1 packet (packet (recv send))))
+
+	(macro relabelto_packets ((type ARG1))
+	       (allow ARG1 packet (packet (relabelto))))
+
+	(macro send_packets ((type ARG1))
+	       (allow ARG1 packet (packet (send)))))
+
+      (block template
+
+	(blockabstract template)
+
+	(blockinherit .net.packet.base_template)
+	(blockinherit .net.packet.macro_template))
+
+      (block unconfined
+
+	(macro type ((type ARG1))
+	       (typeattributeset typeattr ARG1))
+
+	(typeattribute typeattr)
+
+	(allow typeattr packet.typeattr (packet (all))))))
+
+(in net.unconfined
+
+    (call .net.packet.unconfined.type (typeattr)))

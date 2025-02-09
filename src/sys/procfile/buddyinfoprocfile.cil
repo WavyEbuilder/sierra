@@ -1,0 +1,8 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block buddyinfo
+
+  (genfscon "proc" "/buddyinfo" procfile_context)
+
+  (blockinherit .procfile.template))

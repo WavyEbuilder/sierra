@@ -1,0 +1,13 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block input
+
+  (filecon "/dev/input/js([0-9]+)?" char nodedev_context)
+  (filecon "/dev/input/mice" char nodedev_context)
+  (filecon "/dev/input/mouse([0-9]+)?" char nodedev_context)
+  (filecon "/dev/psaux" char nodedev_context)
+
+  (blockinherit .nodedev.template)
+
+  (call .rbacsep.exempt.obj.type (nodedev)))

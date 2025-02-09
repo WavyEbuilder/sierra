@@ -1,0 +1,11 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block resctrl
+
+  (filecon "/sys/fs/resctrl" dir ())
+  (filecon "/sys/fs/resctrl/.*" any ())
+
+  (genfscon "resctrl" "/" fs_context)
+
+  (blockinherit .noseclabelfs.template))

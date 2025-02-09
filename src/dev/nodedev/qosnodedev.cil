@@ -1,0 +1,11 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block qos
+
+  (filecon "/dev/cpu_dma_latency" char nodedev_context)
+  (filecon "/dev/memory_bandwidth" char nodedev_context)
+  (filecon "/dev/network_latency" char nodedev_context)
+  (filecon "/dev/network_throughput" char nodedev_context)
+
+  (blockinherit .nodedev.template))

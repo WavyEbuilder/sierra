@@ -1,0 +1,76 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(class infiniband_pkey (access))
+(classorder (unordered infiniband_pkey))
+
+(macro access_invalid_pkeys ((type ARG1))
+       (allow ARG1 invalid (infiniband_pkey (access))))
+
+(in invalid.unconfined
+
+    (allow typeattr .invalid (infiniband_pkey (all))))
+
+(in mcs
+
+    (mlsconstrain (infiniband_pkey (access))
+		  (or (dom h1 h2)
+		      (neq t1 constrained.typeattr))))
+
+(in net.ib
+
+    (blockinherit pkey.template)
+
+    (block pkey
+
+      (macro type ((type ARG1))
+	     (typeattributeset typeattr ARG1))
+
+      (typeattribute typeattr)
+
+      (blockinherit all_macro_template)
+
+      (call .obj.type (typeattr))
+
+      (block all_macro_template
+
+	(blockabstract all_macro_template)
+
+	(macro access_all_pkeys ((type ARG1))
+	       (allow ARG1 typeattr (infiniband_pkey (access)))))
+
+      (block base_template
+
+	(blockabstract base_template)
+
+	(context pkey_context (.sys.id .sys.role pkey .sys.lowlow))
+
+	(type pkey)
+	(call .net.ib.pkey.type (pkey)))
+
+      (block macro_template
+
+	(blockabstract macro_template)
+
+	(macro access_pkeys ((type ARG1))
+	       (allow ARG1 pkey (infiniband_pkey (access)))))
+
+      (block template
+
+	(blockabstract template)
+
+	(blockinherit .net.ib.pkey.base_template)
+	(blockinherit .net.ib.pkey.macro_template))
+
+      (block unconfined
+
+	(macro type ((type ARG1))
+	       (typeattributeset typeattr ARG1))
+
+	(typeattribute typeattr)
+
+	(allow typeattr pkey.typeattr (infiniband_pkey (all))))))
+
+(in net.ib.unconfined
+
+    (call .net.ib.pkey.unconfined.type (typeattr)))

@@ -1,0 +1,13 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(in kernel
+
+    (genfscon "proc" "/sys/kernel/randomize_va_space" sysctlfile_context))
+
+(in random
+
+    (genfscon "proc" "/sys/kernel/random" sysctlfile_context)
+
+    (blockinherit .sysctlfile.kernel.template)
+    (blockinherit .sysctlfile.macro_template_dirs))

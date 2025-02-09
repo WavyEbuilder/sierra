@@ -1,0 +1,40 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block mail
+
+  (block spool
+
+    (blockinherit .file.spool.mail.template)))
+
+(in file.spool
+
+    (block mail
+
+      (macro type ((type ARG1))
+	     (typeattributeset typeattr ARG1))
+
+      (blockinherit file.all_macro_template_dirs)
+      (blockinherit file.all_macro_template_files)
+      (blockinherit file.all_macro_template_lnk_files)
+
+      (typeattribute typeattr)
+
+      (call .file.spool.type (typeattr))
+
+      (block base_template
+
+	(blockabstract base_template)
+
+	(blockinherit .file.spool.base_template)
+
+	(call .file.spool.mail.type (file)))
+
+      (block template
+
+	(blockabstract template)
+
+	(blockinherit .file.macro_template_dirs)
+	(blockinherit .file.macro_template_files)
+	(blockinherit .file.macro_template_lnk_files)
+	(blockinherit .file.spool.mail.base_template))))

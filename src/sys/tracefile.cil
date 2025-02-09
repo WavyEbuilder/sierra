@@ -1,0 +1,142 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block tracefile
+
+  (macro type ((type ARG1))
+	 (typeattributeset typeattr ARG1))
+
+  (typeattribute typeattr)
+
+  (blockinherit .file.all_macro_template_dirs)
+  (blockinherit .file.all_macro_template_files)
+
+  (call .obj.type (typeattr))
+
+  (call .trace.associate_fs (typeattr))
+
+  (block base_template
+
+    (blockabstract base_template)
+
+    (context tracefile_context (.sys.id .sys.role tracefile .sys.lowlow))
+
+    (type tracefile)
+    (call .tracefile.type (tracefile)))
+
+  (block macro_template_dirs
+
+    (blockabstract macro_template_dirs)
+
+    (macro addname_tracefile_dirs ((type ARG1))
+	   (allow ARG1 tracefile addname_dir))
+
+    (macro create_tracefile_dirs ((type ARG1))
+	   (allow ARG1 tracefile create_dir))
+
+    (macro delete_tracefile_dirs ((type ARG1))
+	   (allow ARG1 tracefile delete_dir))
+
+    (macro deletename_tracefile_dirs ((type ARG1))
+	   (allow ARG1 tracefile deletename_dir))
+
+    (macro list_tracefile_dirs ((type ARG1))
+	   (allow ARG1 tracefile list_dir))
+
+    (macro listinherited_tracefile_dirs ((type ARG1))
+	   (allow ARG1 tracefile listinherited_dir))
+
+    (macro manage_tracefile_dirs ((type ARG1))
+	   (allow ARG1 tracefile manage_dir))
+
+    (macro mounton_tracefile_dirs ((type ARG1))
+	   (allow ARG1 tracefile mounton_dir))
+
+    (macro readwrite_tracefile_dirs ((type ARG1))
+	   (allow ARG1 tracefile readwrite_dir))
+
+    (macro readwriteinherited_tracefile_dirs ((type ARG1))
+	   (allow ARG1 tracefile readwriteinherited_dir))
+
+    (macro rename_tracefile_dirs ((type ARG1))
+	   (allow ARG1 tracefile rename_dir))
+
+    (macro search_tracefile_dirs ((type ARG1))
+	   (allow ARG1 tracefile search_dir))
+
+    (macro write_tracefile_dirs ((type ARG1))
+	   (allow ARG1 tracefile write_dir))
+
+    (macro writeinherited_tracefile_dirs ((type ARG1))
+	   (allow ARG1 tracefile writeinherited_dir)))
+
+  (block macro_template_files
+
+    (blockabstract macro_template_files)
+
+    (macro append_tracefile_files ((type ARG1))
+	   (allow ARG1 tracefile append_file))
+
+    (macro appendinherited_tracefile_files ((type ARG1))
+	   (allow ARG1 tracefile appendinherited_file))
+
+    (macro create_tracefile_files ((type ARG1))
+	   (allow ARG1 tracefile create_file))
+
+    (macro delete_tracefile_files ((type ARG1))
+	   (allow ARG1 tracefile delete_file))
+
+    (macro execute_tracefile_files ((type ARG1))
+	   (allow ARG1 tracefile execute_file))
+
+    (macro manage_tracefile_files ((type ARG1))
+	   (allow ARG1 tracefile manage_file))
+
+    (macro mapexecute_tracefile_files ((type ARG1))
+	   (allow ARG1 tracefile mapexecute_file))
+
+    (macro mounton_tracefile_files ((type ARG1))
+	   (allow ARG1 tracefile mounton_file))
+
+    (macro read_tracefile_files ((type ARG1))
+	   (allow ARG1 tracefile read_file))
+
+    (macro readinherited_tracefile_files ((type ARG1))
+	   (allow ARG1 tracefile readinherited_file))
+
+    (macro readwrite_tracefile_files ((type ARG1))
+	   (allow ARG1 tracefile readwrite_file))
+
+    (macro readwriteinherited_tracefile_files ((type ARG1))
+	   (allow ARG1 tracefile readwriteinherited_file))
+
+    (macro rename_tracefile_files ((type ARG1))
+	   (allow ARG1 tracefile rename_file))
+
+    (macro write_tracefile_files ((type ARG1))
+	   (allow ARG1 tracefile write_file))
+
+    (macro writeinherited_tracefile_files ((type ARG1))
+	   (allow ARG1 tracefile writeinherited_file)))
+
+  (block template
+
+    (blockabstract template)
+
+    (blockinherit .tracefile.base_template)
+    (blockinherit .tracefile.macro_template_files))
+
+  (block unconfined
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (allow typeattr tracefile.typeattr (dir (not (audit_access execmod))))
+    (allow typeattr tracefile.typeattr
+	   (file (not (audit_access entrypoint execmod))))))
+
+(in sys.unconfined
+
+    (call .tracefile.unconfined.type (typeattr)))

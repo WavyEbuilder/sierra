@@ -1,0 +1,52 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block tty
+
+  (filecon "/dev/tty" char nodedev_context)
+
+  (macro tioclinux_nodedev_chr_files ((type ARG1))
+	 (allowx ARG1 nodedev TIOCLINUX))
+
+  (macro tiocsti_nodedev_chr_files ((type ARG1))
+	 (allowx ARG1 nodedev TIOCSTI))
+
+  (blockinherit .nodedev.template)
+
+  (call .rbacsep.exempt.obj.type (nodedev)))
+
+;; TIOCLINUX, subcode=TIOCL_GETMOUSEREPORTING
+(in after tty.append_nodedev_chr_files
+    (allowx ARG1 nodedev IOCTLCONSOLE_NOT_TIOCLINUX)
+    (allowx ARG1 nodedev IOCTLTTY_NOT_TIOCSTI)
+    (allowx ARG1 nodedev IOCTLVT))
+
+(in after tty.appendinherited_nodedev_chr_files
+    (allowx ARG1 nodedev IOCTLCONSOLE_NOT_TIOCLINUX)
+    (allowx ARG1 nodedev IOCTLTTY_NOT_TIOCSTI)
+    (allowx ARG1 nodedev IOCTLVT))
+
+(in after tty.manage_nodedev_chr_files
+    (allowx ARG1 nodedev IOCTLCONSOLE_NOT_TIOCLINUX)
+    (allowx ARG1 nodedev IOCTLTTY_NOT_TIOCSTI)
+    (allowx ARG1 nodedev IOCTLVT))
+
+(in after tty.readwrite_nodedev_chr_files
+    (allowx ARG1 nodedev IOCTLCONSOLE_NOT_TIOCLINUX)
+    (allowx ARG1 nodedev IOCTLTTY_NOT_TIOCSTI)
+    (allowx ARG1 nodedev IOCTLVT))
+
+(in after tty.readwriteinherited_nodedev_chr_files
+    (allowx ARG1 nodedev IOCTLCONSOLE_NOT_TIOCLINUX)
+    (allowx ARG1 nodedev IOCTLTTY_NOT_TIOCSTI)
+    (allowx ARG1 nodedev IOCTLVT))
+
+(in after tty.write_nodedev_chr_files
+    (allowx ARG1 nodedev IOCTLCONSOLE_NOT_TIOCLINUX)
+    (allowx ARG1 nodedev IOCTLTTY_NOT_TIOCSTI)
+    (allowx ARG1 nodedev IOCTLVT))
+
+(in after tty.writeinherited_nodedev_chr_files
+    (allowx ARG1 nodedev IOCTLCONSOLE_NOT_TIOCLINUX)
+    (allowx ARG1 nodedev IOCTLTTY_NOT_TIOCSTI)
+    (allowx ARG1 nodedev IOCTLVT))

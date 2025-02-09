@@ -1,0 +1,112 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block rbacsep
+
+  (constrain (fifo_file (append getattr read setattr write))
+	     (or (or (or (or (eq r1 r2)
+			     (and (eq r1 exempt.roleattr)
+				  (neq t1 constrained.typeattr)))
+			 (eq t1 exempt.subj.typeattr))
+		     (eq t2 exempt.obj.typeattr))
+		 (and (eq t1 exemptsource.typeattr)
+		      (eq t2 exempttarget.typeattr))))
+
+  (constrain (constrainobject (append setattr write))
+	     (or (or (or (eq r1 r2)
+			 (and (eq r1 exempt.roleattr)
+			      (neq t1 constrained.typeattr)))
+		     (eq t1 exempt.subj.typeattr))
+		 (eq t2 exempt.obj.typeattr)))
+
+  (constrain (constrainobject (getattr read))
+	     (or (or (or (or (or (eq r1 r2)
+				 (and (eq r1 exempt.roleattr)
+				      (neq t1 constrained.typeattr)))
+			     (eq t1 exempt.subj.typeattr))
+			 (eq t2 exempt.obj.typeattr))
+		     (and (eq r2 exempt.roleattr) (eq t2 typeattr)))
+		 (and
+		  (eq t1 readstatesource.typeattr)
+		  (eq t2 readstatetarget.typeattr))))
+
+  (constrain
+   (process (getrlimit getsched ptrace setrlimit setsched sigchld sigkill
+		       signal signull sigstop))
+   (or (or (or (eq r1 r2)
+	       (and (eq r1 exempt.roleattr) (neq t1 constrained.typeattr)))
+	   (eq t1 exempt.subj.typeattr))
+       (and (eq t1 exemptsource.typeattr) (eq t2 exempttarget.typeattr))))
+
+  (macro type ((type ARG1))
+	 (typeattributeset typeattr ARG1))
+
+  (typeattribute typeattr)
+
+  (block constrained
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr))
+
+  (block exempt
+
+    (macro role ((role ARG1))
+	   (roleattributeset roleattr ARG1))
+
+    (roleattribute roleattr)
+
+    (block obj
+
+      (macro type ((type ARG1))
+	     (typeattributeset typeattr ARG1))
+
+      (typeattribute typeattr))
+
+    (block subj
+
+      (macro type ((type ARG1))
+	     (typeattributeset typeattr ARG1))
+
+      (typeattribute typeattr)))
+
+  (block exemptsource
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr))
+
+  (block exempttarget
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr))
+
+  (block readstatesource
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr))
+
+  (block readstatetarget
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)))
+
+(in obj
+
+    (call .rbacsep.type (typeattr)))
+
+(in subj.unconfined
+
+    (call .rbacsep.exempt.subj.type (typeattr)))
+
+(in sys
+
+    (call .rbacsep.exempt.role (role)))

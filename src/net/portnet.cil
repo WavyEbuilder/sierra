@@ -1,0 +1,115 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(sidcontext port (sys.id sys.role net.port sys.lowlow))
+
+(in net
+
+    (blockinherit port.template)
+
+    (block port
+
+      (macro type ((type ARG1))
+	     (typeattributeset typeattr ARG1))
+
+      (typeattribute typeattr)
+
+      (blockinherit all_macro_template)
+
+      (call .obj.type (typeattr))
+
+      (block all_macro_template
+
+	(blockabstract all_macro_template)
+
+	(macro namebind_all_dccp_sockets ((type ARG1))
+	       (allow ARG1 typeattr (dccp_socket (name_bind))))
+
+	(macro namebind_all_icmp_sockets ((type ARG1))
+	       (allow ARG1 typeattr (icmp_socket (name_bind))))
+
+	(macro namebind_all_rawip_sockets ((type ARG1))
+	       (allow ARG1 typeattr (rawip_socket (name_bind))))
+
+	(macro namebind_all_sctp_sockets ((type ARG1))
+	       (allow ARG1 typeattr (sctp_socket (name_bind))))
+
+	(macro namebind_all_tcp_sockets ((type ARG1))
+	       (allow ARG1 typeattr (tcp_socket (name_bind))))
+
+	(macro namebind_all_udp_sockets ((type ARG1))
+	       (allow ARG1 typeattr (udp_socket (name_bind))))
+
+	(macro nameconnect_all_dccp_sockets ((type ARG1))
+	       (allow ARG1 typeattr (dccp_socket (name_connect))))
+
+	(macro nameconnect_all_sctp_sockets ((type ARG1))
+	       (allow ARG1 typeattr (sctp_socket (name_connect))))
+
+	(macro nameconnect_all_tcp_sockets ((type ARG1))
+	       (allow ARG1 typeattr (tcp_socket (name_connect)))))
+
+      (block base_template
+
+	(blockabstract base_template)
+
+	(context port_context (.sys.id .sys.role port .sys.lowlow))
+
+	(type port)
+	(call .net.port.type (port)))
+
+      (block macro_template
+
+	(blockabstract macro_template)
+
+	(macro namebind_port_dccp_sockets ((type ARG1))
+	       (allow ARG1 port (dccp_socket (name_bind))))
+
+	(macro namebind_port_icmp_sockets ((type ARG1))
+	       (allow ARG1 port (icmp_socket (name_bind))))
+
+	(macro namebind_port_rawip_sockets ((type ARG1))
+	       (allow ARG1 port (rawip_socket (name_bind))))
+
+	(macro namebind_port_sctp_sockets ((type ARG1))
+	       (allow ARG1 port (sctp_socket (name_bind))))
+
+	(macro namebind_port_tcp_sockets ((type ARG1))
+	       (allow ARG1 port (tcp_socket (name_bind))))
+
+	(macro namebind_port_udp_sockets ((type ARG1))
+	       (allow ARG1 port (udp_socket (name_bind))))
+
+	(macro nameconnect_port_dccp_sockets ((type ARG1))
+	       (allow ARG1 port (dccp_socket (name_connect))))
+
+	(macro nameconnect_port_sctp_sockets ((type ARG1))
+	       (allow ARG1 port (sctp_socket (name_connect))))
+
+	(macro nameconnect_port_tcp_sockets ((type ARG1))
+	       (allow ARG1 port (tcp_socket (name_connect)))))
+
+      (block template
+
+	(blockabstract template)
+
+	(blockinherit .net.port.base_template)
+	(blockinherit .net.port.macro_template))
+
+      (block unconfined
+
+	(macro type ((type ARG1))
+	       (typeattributeset typeattr ARG1))
+
+	(typeattribute typeattr)
+
+	(allow typeattr port.typeattr (dccp_socket (name_bind name_connect)))
+	(allow typeattr port.typeattr (icmp_socket (name_bind)))
+	(allow typeattr port.typeattr (rawip_socket (name_bind)))
+	(allow typeattr port.typeattr (sctp_socket (name_bind name_connect)))
+	(allow typeattr port.typeattr (tcp_socket (name_bind name_connect)))
+	(allow typeattr port.typeattr (udp_socket (name_bind))))))
+
+(in net.unconfined
+
+    (call .net.port.unconfined.type (typeattr)))

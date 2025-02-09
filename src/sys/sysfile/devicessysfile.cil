@@ -1,0 +1,40 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block devices
+
+  (genfscon "sysfs" "/devices" sysfile_context)
+
+  (blockinherit .sysfile.devices.template)
+  (blockinherit .sysfile.macro_template_dirs)
+  (blockinherit .sysfile.macro_template_lnk_files))
+
+(in sysfile
+
+    (block devices
+
+      (macro type ((type ARG1))
+	     (typeattributeset typeattr ARG1))
+
+      (typeattribute typeattr)
+
+      (blockinherit .file.all_macro_template_dirs)
+      (blockinherit .file.all_macro_template_files)
+      (blockinherit .file.all_macro_template_lnk_files)
+
+      (call .sysfile.type (typeattr))
+
+      (block base_template
+
+	(blockabstract base_template)
+
+	(blockinherit .sysfile.base_template)
+
+	(call .sysfile.devices.type (sysfile)))
+
+      (block template
+
+	(blockabstract template)
+
+	(blockinherit .sysfile.devices.base_template)
+	(blockinherit .sysfile.macro_template_files))))

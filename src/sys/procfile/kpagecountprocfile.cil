@@ -1,0 +1,8 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block kpagecount
+
+  (genfscon "proc" "/kpagecount" procfile_context)
+
+  (blockinherit .procfile.template))

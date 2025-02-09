@@ -1,0 +1,76 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(class infiniband_endport (manage_subnet))
+(classorder (unordered infiniband_endport))
+
+(macro managesubnet_invalid_endports ((type ARG1))
+       (allow ARG1 invalid (infiniband_endport (manage_subnet))))
+
+(in invalid.unconfined
+
+    (allow typeattr .invalid (infiniband_endport (all))))
+
+(in mcs
+
+    (mlsconstrain (infiniband_endport (manage_subnet))
+		  (or (dom h1 h2)
+		      (neq t1 constrained.typeattr))))
+
+(in net.ib
+
+    (blockinherit endport.template)
+
+    (block endport
+
+      (macro type ((type ARG1))
+	     (typeattributeset typeattr ARG1))
+
+      (typeattribute typeattr)
+
+      (blockinherit all_macro_template)
+
+      (call .obj.type (typeattr))
+
+      (block all_macro_template
+
+	(blockabstract all_macro_template)
+
+	(macro managesubnet_all_endports ((type ARG1))
+	       (allow ARG1 typeattr (infiniband_endport (manage_subnet)))))
+
+      (block base_template
+
+	(blockabstract base_template)
+
+	(context endport_context (.sys.id .sys.role endport .sys.lowlow))
+
+	(type endport)
+	(call .net.ib.endport.type (endport)))
+
+      (block macro_template
+
+	(blockabstract macro_template)
+
+	(macro managesubnet_endports ((type ARG1))
+	       (allow ARG1 endport (infiniband_endport (manage_subnet)))))
+
+      (block template
+
+	(blockabstract template)
+
+	(blockinherit .net.ib.endport.base_template)
+	(blockinherit .net.ib.endport.macro_template))
+
+      (block unconfined
+
+	(macro type ((type ARG1))
+	       (typeattributeset typeattr ARG1))
+
+	(typeattribute typeattr)
+
+	(allow typeattr endport.typeattr (infiniband_endport (all))))))
+
+(in net.ib.unconfined
+
+    (call .net.ib.endport.unconfined.type (typeattr)))

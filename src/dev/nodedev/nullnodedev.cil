@@ -1,0 +1,13 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(sidcontext devnull (sys.id sys.role null.nodedev sys.lowlow))
+
+(block null
+
+  (filecon "/dev/full" char nodedev_context)
+  (filecon "/dev/null" char nodedev_context)
+
+  (blockinherit .nodedev.template)
+
+  (call .rbacsep.exempt.obj.type (nodedev)))

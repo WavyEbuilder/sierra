@@ -1,0 +1,14 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block auto
+
+  (genfscon "autofs" "/" fs_context)
+  (genfscon "automount" "/" fs_context)
+
+  (macro getattr_fs_dirs ((type ARG1))
+	 (allow ARG1 fs (dir (getattr))))
+
+  (blockinherit .fs.macro_template_dirs)
+  (blockinherit .fs.macro_template_fs)
+  (blockinherit .noseclabelfs.base_template))

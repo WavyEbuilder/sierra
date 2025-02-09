@@ -1,0 +1,67 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(in file
+
+    (call sec.relabelto.type (unconfined.typeattr))
+    (call sec.write.type (unconfined.typeattr))
+
+    (block sec
+
+      (macro type ((type ARG1))
+	     (typeattributeset typeattr ARG1))
+
+      (blockinherit file.all_macro_template_dirs)
+      (blockinherit file.all_macro_template_fifo_files)
+      (blockinherit file.all_macro_template_files)
+      (blockinherit file.all_macro_template_lnk_files)
+      (blockinherit file.all_macro_template_sock_files)
+
+      (typeattribute typeattr)
+
+      (call file.exception.type (typeattr))
+
+      (call .xattr.associate_fs (typeattr))
+
+      (block base_template
+
+	(blockabstract base_template)
+
+	(blockinherit .file.base_template)
+
+	(call .file.sec.type (file)))
+
+      (block template
+
+	(blockabstract template)
+
+	(blockinherit .file.macro_template_dirs)
+	(blockinherit .file.macro_template_fifo_files)
+	(blockinherit .file.macro_template_files)
+	(blockinherit .file.macro_template_lnk_files)
+	(blockinherit .file.macro_template_sock_files)
+	(blockinherit .file.sec.base_template))
+
+      (block relabelto
+
+	(macro type ((type ARG1))
+	       (typeattributeset typeattr ARG1))
+
+	(typeattribute not_typeattr)
+	(typeattribute typeattr)
+
+	(typeattributeset not_typeattr (not typeattr))
+
+	(neverallow not_typeattr sec.typeattr (file (relabelto))))
+
+      (block write
+
+	(macro type ((type ARG1))
+	       (typeattributeset typeattr ARG1))
+
+	(typeattribute not_typeattr)
+	(typeattribute typeattr)
+
+	(typeattributeset not_typeattr (not typeattr))
+
+	(neverallow not_typeattr sec.typeattr (file (append write))))))

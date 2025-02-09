@@ -1,0 +1,8 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block modem
+
+  (filecon "/dev/modem" char nodedev_context)
+
+  (blockinherit .nodedev.template))

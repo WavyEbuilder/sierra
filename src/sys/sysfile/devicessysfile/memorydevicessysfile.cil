@@ -1,0 +1,10 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block memory
+
+  (genfscon "sysfs" "/devices/system/memory" sysfile_context)
+
+  (blockinherit .sysfile.devices.template)
+  (blockinherit .sysfile.macro_template_dirs)
+  (blockinherit .sysfile.macro_template_lnk_files))

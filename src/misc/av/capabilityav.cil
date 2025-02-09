@@ -1,0 +1,38 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(class cap_userns ())
+(classorder (unordered cap_userns))
+
+(class cap2_userns ())
+(classorder (unordered cap2_userns))
+
+(class capability ())
+(classorder (unordered capability))
+
+(class capability2 ())
+(classorder (unordered capability2))
+
+(classcommon cap_userns common_capability)
+(classcommon cap2_userns common_capability2)
+(classcommon capability common_capability)
+(classcommon capability2 common_capability2)
+
+(common common_capability
+	(audit_control audit_write chown dac_read_search dac_override fowner
+		       fsetid ipc_lock ipc_owner kill linux_immutable lease
+		       mknod net_admin net_bind_service net_broadcast net_raw
+		       setfcap setgid setpcap setuid sys_admin sys_boot
+		       sys_chroot sys_module sys_nice sys_pacct sys_ptrace
+		       sys_rawio sys_resource sys_time sys_tty_config))
+
+(common common_capability2
+	(audit_read block_suspend bpf checkpoint_restore mac_admin mac_override
+		    perfmon syslog wake_alarm))
+
+(in subj.unconfined
+
+    (allow typeattr self (cap_userns (all)))
+    (allow typeattr self (cap2_userns (not (mac_admin mac_override))))
+    (allow typeattr self (capability (all)))
+    (allow typeattr self (capability2 (not (mac_admin mac_override)))))

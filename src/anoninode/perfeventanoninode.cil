@@ -1,0 +1,41 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block perfevent
+
+  (blockinherit anon_inode.template)
+
+  (block anon_inode
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (blockinherit .anon_inode.all_macro_template_anon_inodes)
+
+    (call .anon_inode.type (typeattr))
+
+    (block base_template
+
+      (blockabstract base_template)
+
+      (blockinherit .anon_inode.base_template)
+
+      (call .perfevent.anon_inode.type (anon_inode)))
+
+    (block template
+
+      (macro self_type_transition_anon_inode ((type ARG1))
+	     (call self_type_transition
+		   (ARG1 anon_inode "[perf_event]")))
+
+      (blockabstract template)
+
+      (blockinherit .anon_inode.macro_template_anon_inodes)
+
+      (blockinherit .perfevent.anon_inode.base_template))))
+
+(in anon_inode.unconfined
+
+    (call .perfevent.self_type_transition_anon_inode (typeattr)))

@@ -1,0 +1,40 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block data
+
+  (blockinherit .file.data.template))
+
+(in file
+
+    (block data
+
+      (macro type ((type ARG1))
+	     (typeattributeset typeattr ARG1))
+
+      (blockinherit file.all_macro_template_dirs)
+      (blockinherit file.all_macro_template_files)
+      (blockinherit file.all_macro_template_lnk_files)
+
+      (typeattribute typeattr)
+
+      (call file.type (typeattr))
+
+      (call .xattr.associate_fs (typeattr))
+
+      (block base_template
+
+	(blockabstract base_template)
+
+	(blockinherit .file.base_template)
+
+	(call .file.data.type (file)))
+
+      (block template
+
+	(blockabstract template)
+
+	(blockinherit .file.data.base_template)
+	(blockinherit .file.macro_template_dirs)
+	(blockinherit .file.macro_template_files)
+	(blockinherit .file.macro_template_lnk_files))))

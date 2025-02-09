@@ -1,0 +1,107 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(sidcontext security (sys.id sys.role selinux sys.lowlow))
+
+(class security
+       (check_context compute_av compute_create compute_member compute_relabel
+		      compute_user load_policy read_policy setbool
+		      setcheckreqprot setenforce setsecparam validate_trans))
+(classorder (unordered security))
+
+(macro checkcontext_selinux_security ((type ARG1))
+       (allow ARG1 selinux (security (check_context))))
+
+(macro computeav_selinux_security ((type ARG1))
+       (allow ARG1 selinux (security (compute_av))))
+
+(macro computecreate_selinux_security ((type ARG1))
+       (allow ARG1 selinux (security (compute_create))))
+
+(macro computemember_selinux_security ((type ARG1))
+       (allow ARG1 selinux (security (compute_member))))
+
+(macro computerelabel_selinux_security ((type ARG1))
+       (allow ARG1 selinux (security (compute_relabel))))
+
+(macro computeuser_selinux_security ((type ARG1))
+       (allow ARG1 selinux (security (compute_user))))
+
+(macro loadpolicy_selinux_security ((type ARG1))
+       (allow ARG1 selinux (security (load_policy))))
+
+(macro readpolicy_selinux_security ((type ARG1))
+       (allow ARG1 selinux (security (read_policy))))
+
+(macro setbool_selinux_security ((type ARG1))
+       (allow ARG1 selinux (security (setbool))))
+
+(macro setcheckreqprot_selinux_security ((type ARG1))
+       (allow ARG1 selinux (security (setcheckreqprot))))
+
+(macro setenforce_selinux_security ((type ARG1))
+       (allow ARG1 selinux (security (setenforce))))
+
+(macro setsecparam_selinux_security ((type ARG1))
+       (allow ARG1 selinux (security (setsecparam))))
+
+(macro validatetrans_selinux_security ((type ARG1))
+       (allow ARG1 selinux (security (validate_trans))))
+
+(type selinux)
+(roletype sys.role selinux)
+
+(block selinux
+
+  (block loadpolicy
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute not_typeattr)
+    (typeattribute typeattr)
+
+    (typeattributeset not_typeattr (not typeattr))
+
+    (neverallow not_typeattr .selinux (security (load_policy))))
+
+  (block setenforce
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute not_typeattr)
+    (typeattribute typeattr)
+
+    (typeattributeset not_typeattr (not typeattr))
+
+    (neverallow not_typeattr .selinux (security (setenforce))))
+
+  (block setsecparam
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute not_typeattr)
+    (typeattribute typeattr)
+
+    (typeattributeset not_typeattr (not typeattr))
+
+    (neverallow not_typeattr .selinux (security (setsecparam))))
+
+  (block unconfined
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (allow typeattr .selinux (security (all)))
+
+    (call loadpolicy.type (typeattr))
+    (call setenforce.type (typeattr))
+    (call setsecparam.type (typeattr))))
+
+(in unconfined
+
+    (call .selinux.unconfined.type (typeattr)))

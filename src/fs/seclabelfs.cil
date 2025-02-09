@@ -1,0 +1,37 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block seclabelfs
+
+  (macro type ((type ARG1))
+	 (typeattributeset typeattr ARG1))
+
+  (typeattribute typeattr)
+
+  (blockinherit .fs.all_macro_template_fs)
+
+  (blockinherit .file.all_macro_template_all_files)
+  (blockinherit .file.all_macro_template_blk_files)
+  (blockinherit .file.all_macro_template_chr_files)
+  (blockinherit .file.all_macro_template_dirs)
+  (blockinherit .file.all_macro_template_fifo_files)
+  (blockinherit .file.all_macro_template_files)
+  (blockinherit .file.all_macro_template_lnk_files)
+  (blockinherit .file.all_macro_template_sock_files)
+
+  (call .fs.type (typeattr))
+
+  (block base_template
+
+    (blockabstract base_template)
+
+    (blockinherit .fs.base_template)
+
+    (call .seclabelfs.type (fs)))
+
+  (block template
+
+    (blockabstract template)
+
+    (blockinherit .fs.macro_template_fs)
+    (blockinherit .seclabelfs.base_template)))

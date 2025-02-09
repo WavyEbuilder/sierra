@@ -1,0 +1,37 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(sid devnull)
+(sid file)
+(sid init)
+(sid kernel)
+(sid netif)
+(sid netmsg)
+(sid node)
+(sid port)
+(sid security)
+(sid unlabeled)
+
+(sid any_socket)
+(sid file_labels)
+(sid fs)
+(sid icmp_socket)
+(sid igmp_packet)
+(sid kmod)
+(sid policy)
+(sid scmp_packet)
+(sid sysctl)
+(sid sysctl_dev)
+(sid sysctl_fs)
+(sid sysctl_kernel)
+(sid sysctl_modprobe)
+(sid sysctl_net)
+(sid sysctl_net_unix)
+(sid sysctl_vm)
+(sid tcp_socket)
+
+(sidorder
+ (kernel security unlabeled fs file file_labels init any_socket port netif
+	 netmsg node igmp_packet icmp_socket tcp_socket sysctl_modprobe sysctl
+	 sysctl_fs sysctl_kernel sysctl_net sysctl_net_unix sysctl_vm sysctl_dev
+	 kmod policy scmp_packet devnull))

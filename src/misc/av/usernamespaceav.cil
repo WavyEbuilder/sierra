@@ -1,0 +1,9 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(class user_namespace (create))
+(classorder (unordered user_namespace))
+
+(in subj.unconfined
+
+    (allow typeattr self (user_namespace (create))))

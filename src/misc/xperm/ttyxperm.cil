@@ -1,0 +1,139 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(permissionx IOCTLTTY_NOT_TIOCSTI
+	     (ioctl chr_file (0x5405 0x542a 0x540d 0x5401 0x5406 0x542b 0x5402
+				     0x5403 0x542c 0x5407 0x5404 0x542d 0x5408
+				     0x5456 0x5457 0x7468 0x5413 0x7467 0x5414
+				     0x5409 0x5425 0x5427 0x5428 0x540a 0x467f
+				     0x541b 0x7472 0x5411 0x540b 0x541d 0x5480
+				     0x540e 0x5422 0x540f 0x5410 0x5429 0x540c
+				     0x5440 0x540c 0x5424 0x5423 0x5420 0x5438
+				     0x5431 0x5439 0x5415 0x5418 0x5417 0x5416
+				     0x545c 0x545d 0x5419 0x541a 0x541e)))
+
+;; Get the current serial port settings
+(permissionx TCGETS (ioctl chr_file (0x5405 0x542a 0x540d 0x5401)))
+
+;; Set the current serial port settings
+(permissionx TCSETS (ioctl chr_file (0x5406 0x542b 0x5402)))
+
+;; Allow the output buffer to drain, and set the current serial port settings
+(permissionx TCSETSW (ioctl chr_file (0x5403 0x542c 0x5407)))
+
+;; Allow the output buffer to drain, discard pending input, and set the current
+;; serial port settings
+(permissionx TCSETSF (ioctl chr_file (0x5404 0x542d 0x5408)))
+
+;; Gets the locking status of the termios structure of the terminal
+(permissionx TIOCGLCKTRMIOS (ioctl chr_file (0x5456)))
+
+;; Sets the locking status of the termios structure of the terminal. Only a
+;; process with the CAP_SYS_ADMIN capability can do this
+(permissionx TIOCSLCKTRMIOS (ioctl chr_file (0x5457)))
+
+;; Get window size
+(permissionx TIOCGWINSZ (ioctl chr_file (0x7468 0x5413)))
+
+;; Set window size
+(permissionx TIOCSWINSZ (ioctl chr_file (0x7467 0x5414)))
+
+;; Send break
+(permissionx TCSBRK (ioctl chr_file (0x5409 0x5425)))
+
+;; Turn break on
+(permissionx TIOCSBRK (ioctl chr_file (0x5427)))
+
+;; Turn break off
+(permissionx TIOCCBRK (ioctl chr_file (0x5428)))
+
+;; Software flow control
+(permissionx TCXONC (ioctl chr_file (0x540a)))
+
+;; Get the number of bytes in the input buffer
+(permissionx FIONREAD (ioctl chr_file (0x467f 0x541b)))
+
+;; Get the number of bytes in the output buffer
+(permissionx TIOCOUTQ (ioctl chr_file (0x7472 0x5411)))
+
+;; Discard data written
+(permissionx TCFLSH (ioctl chr_file (0x540b)))
+
+;; Fake input
+(permissionx TIOCSTI (ioctl chr_file (0x5412)))
+
+;; Redirect console output
+(permissionx TIOCCONS (ioctl chr_file (0x541d)))
+
+;; Make controlling terminal
+(permissionx TIOCSCTTY (ioctl chr_file (0x5480 0x540e)))
+
+;; Give up controlling terminal
+(permissionx TIOCNOTTY (ioctl chr_file (0x5422)))
+
+;; Get the process group ID of the foreground process group on this terminal
+(permissionx TIOCGPGRP (ioctl chr_file (0x540f)))
+
+;; Set the foreground process group ID of this terminal
+(permissionx TIOCSPGRP (ioctl chr_file (0x5410)))
+
+;; Get the session ID of the given terminal
+(permissionx TIOCGSID (ioctl chr_file (0x5429)))
+
+;; Enable exclusive mode
+(permissionx TIOCEXCL (ioctl chr_file (0x540c)))
+
+;; If the terminal is currently in exclusive mode, place a nonzero value
+(permissionx TIOCGEXCL (ioctl chr_file (0x5440)))
+
+;; Disable exclusive mode
+(permissionx TIOCNXCL (ioctl chr_file (0x540d)))
+
+;; Get the line discipline of the terminal
+(permissionx TIOCGETD (ioctl chr_file (0x5424)))
+
+;; Set the line discipline of the terminal
+(permissionx TIOCSETD (ioctl chr_file (0x5423)))
+
+;; Enable or disable packet mode. Can be applied to the master side of a
+;; pseudoterminal only
+(permissionx TIOCPKT (ioctl chr_file (0x5420)))
+
+;; Return the current packet mode setting
+(permissionx TIOCGPKT (ioctl chr_file (0x5438)))
+
+;; Set or remove the lock on the pseudoterminal slave device
+(permissionx TIOCSPTLCK (ioctl chr_file (0x5431)))
+
+;; Place the current lock state of the pseudoterminal slave device
+(permissionx TIOCGPTLCK (ioctl chr_file (0x5439)))
+
+;; Safely open the slave
+;; (permissionx TIOCGPTPEER (ioctl chr_file ()))
+
+;; Get the status of modem bits
+(permissionx TIOCMGET (ioctl chr_file (0x5415)))
+
+;; Set the status of modem bits
+(permissionx TIOCMSET (ioctl chr_file (0x5418)))
+
+;; Clear the indicated modem bits
+(permissionx TIOCMBIC (ioctl chr_file (0x5417)))
+
+;; Set the indicated modem bits
+(permissionx TIOCMBIS (ioctl chr_file (0x5416)))
+
+;; Wait for any of the modem bits to change
+(permissionx TIOCMIWAIT (ioctl chr_file (0x545c)))
+
+;; Get counts of input serial line interrupts
+(permissionx TIOCGICOUNT (ioctl chr_file (0x545d)))
+
+;; Get the serial line information
+(permissionx TIOCGSERIAL (ioctl chr_file (0x541e)))
+
+;; Get software carrier flag
+(permissionx TIOCGSOFTCAR (ioctl chr_file (0x5419)))
+
+;; Set software carrier flag
+(permissionx TIOCSSOFTCAR (ioctl chr_file (0x541a)))

@@ -1,0 +1,30 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block unknown
+
+  (filecon "/.*" any file_context)
+
+  (macro root_file_type_transition_file ((type ARG1)(class ARG2)(name ARG3))
+	 (call .root.file_type_transition
+	       (ARG1 file ARG2 ARG3)))
+
+  (blockinherit .file.base_template)
+  (blockinherit .file.macro_template_blk_files)
+  (blockinherit .file.macro_template_chr_files)
+  (blockinherit .file.macro_template_dirs)
+  (blockinherit .file.macro_template_fifo_files)
+  (blockinherit .file.macro_template_files)
+  (blockinherit .file.macro_template_lnk_files)
+  (blockinherit .file.macro_template_sock_files)
+
+  (call .xattr.associate_fs (file)))
+
+(in file.unconfined
+
+    (call .unknown.root_file_type_transition_file (typeattr blk_file "*"))
+    (call .unknown.root_file_type_transition_file (typeattr chr_file "*"))
+    (call .unknown.root_file_type_transition_file (typeattr dir "*"))
+    (call .unknown.root_file_type_transition_file (typeattr fifo_file "*"))
+    (call .unknown.root_file_type_transition_file (typeattr file "*"))
+    (call .unknown.root_file_type_transition_file (typeattr sock_file "*")))

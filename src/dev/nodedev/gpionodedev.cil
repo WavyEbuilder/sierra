@@ -1,0 +1,8 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block gpio
+
+  (filecon "/dev/gpiochip([0-9]+)?" char nodedev_context)
+
+  (blockinherit .nodedev.template))

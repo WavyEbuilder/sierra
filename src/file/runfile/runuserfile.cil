@@ -1,0 +1,47 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block runuser
+
+  (blockinherit .file.macro_template_dirs)
+  (blockinherit .file.macro_template_lnk_files)
+  (blockinherit .file.runuser.base_template))
+
+(in file
+
+    (block runuser
+
+      (macro type ((type ARG1))
+	     (typeattributeset typeattr ARG1))
+
+      (blockinherit file.all_macro_template_all_files)
+      (blockinherit file.all_macro_template_blk_files)
+      (blockinherit file.all_macro_template_chr_files)
+      (blockinherit file.all_macro_template_dirs)
+      (blockinherit file.all_macro_template_fifo_files)
+      (blockinherit file.all_macro_template_files)
+      (blockinherit file.all_macro_template_lnk_files)
+      (blockinherit file.all_macro_template_sock_files)
+
+      (typeattribute typeattr)
+
+      (call run.type (typeattr))
+
+      (block base_template
+
+	(blockabstract base_template)
+
+	(blockinherit .file.run.base_template)
+
+	(call .file.runuser.type (file)))
+
+      (block template
+
+	(blockabstract template)
+
+	(blockinherit .file.macro_template_dirs)
+	(blockinherit .file.macro_template_fifo_files)
+	(blockinherit .file.macro_template_files)
+	(blockinherit .file.macro_template_lnk_files)
+	(blockinherit .file.macro_template_sock_files)
+	(blockinherit .file.runuser.base_template))))

@@ -1,0 +1,142 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block debugfile
+
+  (macro type ((type ARG1))
+	 (typeattributeset typeattr ARG1))
+
+  (typeattribute typeattr)
+
+  (blockinherit .file.all_macro_template_dirs)
+  (blockinherit .file.all_macro_template_files)
+
+  (call .obj.type (typeattr))
+
+  (call .debug.associate_fs (typeattr))
+
+  (block base_template
+
+    (blockabstract base_template)
+
+    (context debugfile_context (.sys.id .sys.role debugfile .sys.lowlow))
+
+    (type debugfile)
+    (call .debugfile.type (debugfile)))
+
+  (block macro_template_dirs
+
+    (blockabstract macro_template_dirs)
+
+    (macro addname_debugfile_dirs ((type ARG1))
+	   (allow ARG1 debugfile addname_dir))
+
+    (macro create_debugfile_dirs ((type ARG1))
+	   (allow ARG1 debugfile create_dir))
+
+    (macro delete_debugfile_dirs ((type ARG1))
+	   (allow ARG1 debugfile delete_dir))
+
+    (macro deletename_debugfile_dirs ((type ARG1))
+	   (allow ARG1 debugfile deletename_dir))
+
+    (macro list_debugfile_dirs ((type ARG1))
+	   (allow ARG1 debugfile list_dir))
+
+    (macro listinherited_debugfile_dirs ((type ARG1))
+	   (allow ARG1 debugfile listinherited_dir))
+
+    (macro manage_debugfile_dirs ((type ARG1))
+	   (allow ARG1 debugfile manage_dir))
+
+    (macro mounton_debugfile_dirs ((type ARG1))
+	   (allow ARG1 debugfile mounton_dir))
+
+    (macro readwrite_debugfile_dirs ((type ARG1))
+	   (allow ARG1 debugfile readwrite_dir))
+
+    (macro readwriteinherited_debugfile_dirs ((type ARG1))
+	   (allow ARG1 debugfile readwriteinherited_dir))
+
+    (macro rename_debugfile_dirs ((type ARG1))
+	   (allow ARG1 debugfile rename_dir))
+
+    (macro search_debugfile_dirs ((type ARG1))
+	   (allow ARG1 debugfile search_dir))
+
+    (macro write_debugfile_dirs ((type ARG1))
+	   (allow ARG1 debugfile write_dir))
+
+    (macro writeinherited_debugfile_dirs ((type ARG1))
+	   (allow ARG1 debugfile writeinherited_dir)))
+
+  (block macro_template_files
+
+    (blockabstract macro_template_files)
+
+    (macro append_debugfile_files ((type ARG1))
+	   (allow ARG1 debugfile append_file))
+
+    (macro appendinherited_debugfile_files ((type ARG1))
+	   (allow ARG1 debugfile appendinherited_file))
+
+    (macro create_debugfile_files ((type ARG1))
+	   (allow ARG1 debugfile create_file))
+
+    (macro delete_debugfile_files ((type ARG1))
+	   (allow ARG1 debugfile delete_file))
+
+    (macro execute_debugfile_files ((type ARG1))
+	   (allow ARG1 debugfile execute_file))
+
+    (macro manage_debugfile_files ((type ARG1))
+	   (allow ARG1 debugfile manage_file))
+
+    (macro mapexecute_debugfile_files ((type ARG1))
+	   (allow ARG1 debugfile mapexecute_file))
+
+    (macro mounton_debugfile_files ((type ARG1))
+	   (allow ARG1 debugfile mounton_file))
+
+    (macro read_debugfile_files ((type ARG1))
+	   (allow ARG1 debugfile read_file))
+
+    (macro readinherited_debugfile_files ((type ARG1))
+	   (allow ARG1 debugfile readinherited_file))
+
+    (macro readwrite_debugfile_files ((type ARG1))
+	   (allow ARG1 debugfile readwrite_file))
+
+    (macro readwriteinherited_debugfile_files ((type ARG1))
+	   (allow ARG1 debugfile readwriteinherited_file))
+
+    (macro rename_debugfile_files ((type ARG1))
+	   (allow ARG1 debugfile rename_file))
+
+    (macro write_debugfile_files ((type ARG1))
+	   (allow ARG1 debugfile write_file))
+
+    (macro writeinherited_debugfile_files ((type ARG1))
+	   (allow ARG1 debugfile writeinherited_file)))
+
+  (block template
+
+    (blockabstract template)
+
+    (blockinherit .debugfile.base_template)
+    (blockinherit .debugfile.macro_template_files))
+
+  (block unconfined
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (allow typeattr debugfile.typeattr (dir (not (audit_access execmod))))
+    (allow typeattr debugfile.typeattr
+	   (file (not (audit_access entrypoint execmod))))))
+
+(in sys.unconfined
+
+    (call .debugfile.unconfined.type (typeattr)))

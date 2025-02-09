@@ -1,0 +1,9 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block f2fs
+
+  (genfscon "sysfs" "/fs/f2fs" sysfile_context)
+
+  (blockinherit .sysfile.fs.template)
+  (blockinherit .sysfile.macro_template_dirs))

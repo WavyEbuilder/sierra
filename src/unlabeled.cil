@@ -1,0 +1,382 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(sidcontext file (sys.id sys.role unlabeled sys.lowlow))
+
+(macro addname_unlabeled_dirs ((type ARG1))
+       (allow ARG1 unlabeled addname_dir))
+
+(macro append_unlabeled_blk_files ((type ARG1))
+       (allow ARG1 unlabeled append_blk_file))
+
+(macro append_unlabeled_chr_files ((type ARG1))
+       (allow ARG1 unlabeled append_chr_file))
+
+(macro append_unlabeled_fifo_files ((type ARG1))
+       (allow ARG1 unlabeled append_fifo_file))
+
+(macro append_unlabeled_files ((type ARG1))
+       (allow ARG1 unlabeled append_file))
+
+(macro appendinherited_unlabeled_blk_files ((type ARG1))
+       (allow ARG1 unlabeled appendinherited_blk_file))
+
+(macro appendinherited_unlabeled_chr_files ((type ARG1))
+       (allow ARG1 unlabeled appendinherited_chr_file))
+
+(macro appendinherited_unlabeled_fifo_files ((type ARG1))
+       (allow ARG1 unlabeled appendinherited_fifo_file))
+
+(macro appendinherited_unlabeled_files ((type ARG1))
+       (allow ARG1 unlabeled appendinherited_file))
+
+(macro create_unlabeled ((type ARG1))
+       (allow ARG1 unlabeled (files (create))))
+
+(macro create_unlabeled_blk_files ((type ARG1))
+       (allow ARG1 unlabeled create_blk_file))
+
+(macro create_unlabeled_chr_files ((type ARG1))
+       (allow ARG1 unlabeled create_chr_file))
+
+(macro create_unlabeled_dirs ((type ARG1))
+       (allow ARG1 unlabeled create_dir))
+
+(macro create_unlabeled_fifo_files ((type ARG1))
+       (allow ARG1 unlabeled create_fifo_file))
+
+(macro create_unlabeled_files ((type ARG1))
+       (allow ARG1 unlabeled create_file))
+
+(macro create_unlabeled_lnk_files ((type ARG1))
+       (allow ARG1 unlabeled create_lnk_file))
+
+(macro create_unlabeled_sock_files ((type ARG1))
+       (allow ARG1 unlabeled create_sock_file))
+
+(macro delete_unlabeled ((type ARG1))
+       (allow ARG1 unlabeled (files (delete))))
+
+(macro delete_unlabeled_blk_files ((type ARG1))
+       (allow ARG1 unlabeled delete_blk_file))
+
+(macro delete_unlabeled_chr_files ((type ARG1))
+       (allow ARG1 unlabeled delete_chr_file))
+
+(macro delete_unlabeled_dirs ((type ARG1))
+       (allow ARG1 unlabeled delete_dir))
+
+(macro delete_unlabeled_fifo_files ((type ARG1))
+       (allow ARG1 unlabeled delete_fifo_file))
+
+(macro delete_unlabeled_files ((type ARG1))
+       (allow ARG1 unlabeled delete_file))
+
+(macro delete_unlabeled_lnk_files ((type ARG1))
+       (allow ARG1 unlabeled delete_lnk_file))
+
+(macro delete_unlabeled_sock_files ((type ARG1))
+       (allow ARG1 unlabeled delete_sock_file))
+
+(macro deletename_unlabeled_dirs ((type ARG1))
+       (allow ARG1 unlabeled deletename_dir))
+
+(macro execute_unlabeled_files ((type ARG1))
+       (allow ARG1 unlabeled execute_file))
+
+(macro list_unlabeled_dirs ((type ARG1))
+       (allow ARG1 unlabeled list_dir))
+
+(macro listinherited_unlabeled_dirs ((type ARG1))
+       (allow ARG1 unlabeled listinherited_dir))
+
+(macro manage_unlabeled ((type ARG1))
+       (allow ARG1 unlabeled (files (manage))))
+
+(macro manage_unlabeled_blk_files ((type ARG1))
+       (allow ARG1 unlabeled manage_blk_file))
+
+(macro manage_unlabeled_chr_files ((type ARG1))
+       (allow ARG1 unlabeled manage_chr_file))
+
+(macro manage_unlabeled_dirs ((type ARG1))
+       (allow ARG1 unlabeled manage_dir))
+
+(macro manage_unlabeled_fifo_files ((type ARG1))
+       (allow ARG1 unlabeled manage_fifo_file))
+
+(macro manage_unlabeled_files ((type ARG1))
+       (allow ARG1 unlabeled manage_file))
+
+(macro manage_unlabeled_lnk_files ((type ARG1))
+       (allow ARG1 unlabeled manage_lnk_file))
+
+(macro manage_unlabeled_sock_files ((type ARG1))
+       (allow ARG1 unlabeled manage_sock_file))
+
+(macro mapexecute_unlabeled_chr_files ((type ARG1))
+       (allow ARG1 unlabeled mapexecute_chr_file))
+
+(macro mapexecute_unlabeled_files ((type ARG1))
+       (allow ARG1 unlabeled mapexecute_file))
+
+(macro mounton_unlabeled_dirs ((type ARG1))
+       (allow ARG1 unlabeled mounton_dir))
+
+(macro mounton_unlabeled_files ((type ARG1))
+       (allow ARG1 unlabeled mounton_file))
+
+(macro read_unlabeled ((type ARG1))
+       (allow ARG1 unlabeled (files (read))))
+
+(macro read_unlabeled_blk_files ((type ARG1))
+       (allow ARG1 unlabeled read_blk_file))
+
+(macro read_unlabeled_chr_files ((type ARG1))
+       (allow ARG1 unlabeled read_chr_file))
+
+(macro read_unlabeled_fifo_files ((type ARG1))
+       (allow ARG1 unlabeled read_fifo_file))
+
+(macro read_unlabeled_files ((type ARG1))
+       (allow ARG1 unlabeled read_file))
+
+(macro read_unlabeled_lnk_files ((type ARG1))
+       (allow ARG1 unlabeled read_lnk_file))
+
+(macro read_unlabeled_sock_files ((type ARG1))
+       (allow ARG1 unlabeled read_sock_file))
+
+(macro readinherited_unlabeled_blk_files ((type ARG1))
+       (allow ARG1 unlabeled readinherited_blk_file))
+
+(macro readinherited_unlabeled_chr_files ((type ARG1))
+       (allow ARG1 unlabeled readinherited_chr_file))
+
+(macro readinherited_unlabeled_fifo_files ((type ARG1))
+       (allow ARG1 unlabeled readinherited_fifo_file))
+
+(macro readinherited_unlabeled_files ((type ARG1))
+       (allow ARG1 unlabeled readinherited_file))
+
+(macro readinherited_unlabeled_sock_files ((type ARG1))
+       (allow ARG1 unlabeled readinherited_sock_file))
+
+(macro readwrite_unlabeled ((type ARG1))
+       (allow ARG1 unlabeled (files (readwrite))))
+
+(macro readwrite_unlabeled_blk_files ((type ARG1))
+       (allow ARG1 unlabeled readwrite_blk_file))
+
+(macro readwrite_unlabeled_chr_files ((type ARG1))
+       (allow ARG1 unlabeled readwrite_chr_file))
+
+(macro readwrite_unlabeled_dirs ((type ARG1))
+       (allow ARG1 unlabeled readwrite_dir))
+
+(macro readwrite_unlabeled_fifo_files ((type ARG1))
+       (allow ARG1 unlabeled readwrite_fifo_file))
+
+(macro readwrite_unlabeled_files ((type ARG1))
+       (allow ARG1 unlabeled readwrite_file))
+
+(macro readwrite_unlabeled_lnk_files ((type ARG1))
+       (allow ARG1 unlabeled readwrite_lnk_file))
+
+(macro readwrite_unlabeled_sock_files ((type ARG1))
+       (allow ARG1 unlabeled readwrite_sock_file))
+
+(macro readwriteinherited_unlabeled_blk_files ((type ARG1))
+       (allow ARG1 unlabeled readwriteinherited_blk_file))
+
+(macro readwriteinherited_unlabeled_chr_files ((type ARG1))
+       (allow ARG1 unlabeled readwriteinherited_chr_file))
+
+(macro readwriteinherited_unlabeled_dirs ((type ARG1))
+       (allow ARG1 unlabeled readwriteinherited_dir))
+
+(macro readwriteinherited_unlabeled_fifo_files ((type ARG1))
+       (allow ARG1 unlabeled readwriteinherited_fifo_file))
+
+(macro readwriteinherited_unlabeled_files ((type ARG1))
+       (allow ARG1 unlabeled readwriteinherited_file))
+
+(macro readwriteinherited_unlabeled_sock_files ((type ARG1))
+       (allow ARG1 unlabeled readwriteinherited_sock_file))
+
+(macro relabel_unlabeled ((type ARG1))
+       (allow ARG1 unlabeled (files (relabel))))
+
+(macro relabel_unlabeled_blk_files ((type ARG1))
+       (allow ARG1 unlabeled relabel_blk_file))
+
+(macro relabel_unlabeled_chr_files ((type ARG1))
+       (allow ARG1 unlabeled relabel_chr_file))
+
+(macro relabel_unlabeled_dirs ((type ARG1))
+       (allow ARG1 unlabeled relabel_dir))
+
+(macro relabel_unlabeled_fifo_files ((type ARG1))
+       (allow ARG1 unlabeled relabel_fifo_file))
+
+(macro relabel_unlabeled_files ((type ARG1))
+       (allow ARG1 unlabeled relabel_file))
+
+(macro relabel_unlabeled_lnk_files ((type ARG1))
+       (allow ARG1 unlabeled relabel_lnk_file))
+
+(macro relabel_unlabeled_sock_files ((type ARG1))
+       (allow ARG1 unlabeled relabel_sock_file))
+
+(macro relabelfrom_unlabeled ((type ARG1))
+       (allow ARG1 unlabeled (files (relabelfrom))))
+
+(macro relabelfrom_unlabeled_blk_files ((type ARG1))
+       (allow ARG1 unlabeled relabelfrom_blk_file))
+
+(macro relabelfrom_unlabeled_chr_files ((type ARG1))
+       (allow ARG1 unlabeled relabelfrom_chr_file))
+
+(macro relabelfrom_unlabeled_dirs ((type ARG1))
+       (allow ARG1 unlabeled relabelfrom_dir))
+
+(macro relabelfrom_unlabeled_fifo_files ((type ARG1))
+       (allow ARG1 unlabeled relabelfrom_fifo_file))
+
+(macro relabelfrom_unlabeled_files ((type ARG1))
+       (allow ARG1 unlabeled relabelfrom_file))
+
+(macro relabelfrom_unlabeled_lnk_files ((type ARG1))
+       (allow ARG1 unlabeled relabelfrom_lnk_file))
+
+(macro relabelfrom_unlabeled_sock_files ((type ARG1))
+       (allow ARG1 unlabeled relabelfrom_sock_file))
+
+(macro relabelto_unlabeled ((type ARG1))
+       (allow ARG1 unlabeled (files (relabelto))))
+
+(macro relabelto_unlabeled_blk_files ((type ARG1))
+       (allow ARG1 unlabeled relabelto_blk_file))
+
+(macro relabelto_unlabeled_chr_files ((type ARG1))
+       (allow ARG1 unlabeled relabelto_chr_file))
+
+(macro relabelto_unlabeled_dirs ((type ARG1))
+       (allow ARG1 unlabeled relabelto_dir))
+
+(macro relabelto_unlabeled_fifo_files ((type ARG1))
+       (allow ARG1 unlabeled relabelto_fifo_file))
+
+(macro relabelto_unlabeled_files ((type ARG1))
+       (allow ARG1 unlabeled relabelto_file))
+
+(macro relabelto_unlabeled_lnk_files ((type ARG1))
+       (allow ARG1 unlabeled relabelto_lnk_file))
+
+(macro relabelto_unlabeled_sock_files ((type ARG1))
+       (allow ARG1 unlabeled relabelto_sock_file))
+
+(macro rename_unlabeled ((type ARG1))
+       (allow ARG1 unlabeled (files (rename))))
+
+(macro rename_unlabeled_blk_files ((type ARG1))
+       (allow ARG1 unlabeled rename_blk_file))
+
+(macro rename_unlabeled_chr_files ((type ARG1))
+       (allow ARG1 unlabeled rename_chr_file))
+
+(macro rename_unlabeled_dirs ((type ARG1))
+       (allow ARG1 unlabeled rename_dir))
+
+(macro rename_unlabeled_fifo_files ((type ARG1))
+       (allow ARG1 unlabeled rename_fifo_file))
+
+(macro rename_unlabeled_files ((type ARG1))
+       (allow ARG1 unlabeled rename_file))
+
+(macro rename_unlabeled_lnk_files ((type ARG1))
+       (allow ARG1 unlabeled rename_lnk_file))
+
+(macro rename_unlabeled_sock_files ((type ARG1))
+       (allow ARG1 unlabeled rename_sock_file))
+
+(macro search_unlabeled_dirs ((type ARG1))
+       (allow ARG1 unlabeled search_dir))
+
+(macro unlabeled_type_transition ((type ARG1)(type ARG2)(class ARG3)(name ARG4))
+       (typetransition ARG1 unlabeled ARG3 ARG4 ARG2)
+       (call addname_unlabeled_dirs (ARG1)))
+
+(macro write_unlabeled ((type ARG1))
+       (allow ARG1 unlabeled (files (write))))
+
+(macro write_unlabeled_blk_files ((type ARG1))
+       (allow ARG1 unlabeled write_blk_file))
+
+(macro write_unlabeled_chr_files ((type ARG1))
+       (allow ARG1 unlabeled write_chr_file))
+
+(macro write_unlabeled_dirs ((type ARG1))
+       (allow ARG1 unlabeled write_dir))
+
+(macro write_unlabeled_fifo_files ((type ARG1))
+       (allow ARG1 unlabeled write_fifo_file))
+
+(macro write_unlabeled_files ((type ARG1))
+       (allow ARG1 unlabeled write_file))
+
+(macro write_unlabeled_lnk_files ((type ARG1))
+       (allow ARG1 unlabeled write_lnk_file))
+
+(macro write_unlabeled_sock_files ((type ARG1))
+       (allow ARG1 unlabeled write_sock_file))
+
+(macro writeinherited_unlabeled_blk_files ((type ARG1))
+       (allow ARG1 unlabeled writeinherited_blk_file))
+
+(macro writeinherited_unlabeled_chr_files ((type ARG1))
+       (allow ARG1 unlabeled writeinherited_chr_file))
+
+(macro writeinherited_unlabeled_dirs ((type ARG1))
+       (allow ARG1 unlabeled writeinherited_dir))
+
+(macro writeinherited_unlabeled_fifo_files ((type ARG1))
+       (allow ARG1 unlabeled writeinherited_fifo_file))
+
+(macro writeinherited_unlabeled_files ((type ARG1))
+       (allow ARG1 unlabeled writeinherited_file))
+
+(macro writeinherited_unlabeled_sock_files ((type ARG1))
+       (allow ARG1 unlabeled writeinherited_sock_file))
+
+(type unlabeled)
+(roletype sys.role unlabeled)
+
+(call .xattr.associate_fs (unlabeled))
+
+(block unlabeled
+
+  (block unconfined
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (allow typeattr .unlabeled
+	   (blk_file (not (audit_access execmod map mounton relabelto))))
+    (allow typeattr .unlabeled
+	   (chr_file (not (audit_access execmod mounton relabelto))))
+    (allow typeattr .unlabeled (dir (not (audit_access execmod relabelto))))
+    (allow typeattr .unlabeled
+	   (fifo_file (not (audit_access execmod map mounton relabelto))))
+    (allow typeattr .unlabeled
+	   (file (not (audit_access entrypoint execmod relabelto))))
+    (allow typeattr .unlabeled
+	   (lnk_file (not (audit_access execmod map mounton relabelto))))
+    (allow typeattr .unlabeled
+	   (sock_file (not (audit_access execmod map mounton relabelto))))))
+
+(in unconfined
+
+    (call .unlabeled.unconfined.type (typeattr)))

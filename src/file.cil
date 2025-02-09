@@ -1,0 +1,851 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block file
+
+  (macro anon_file_type_transition
+	 ((type ARG1)(type ARG2)(class ARG3)(name ARG4)(type ARG5))
+	 (typetransition ARG1 ARG2 ARG3 ARG4 ARG5)
+	 (allow ARG1 ARG2 addname_dir))
+
+  (macro type ((type ARG1))
+	 (typeattributeset typeattr ARG1))
+
+  (typeattribute typeattr)
+
+  (blockinherit all_macro_template_all_files)
+  (blockinherit all_macro_template_blk_files)
+  (blockinherit all_macro_template_chr_files)
+  (blockinherit all_macro_template_dirs)
+  (blockinherit all_macro_template_fifo_files)
+  (blockinherit all_macro_template_files)
+  (blockinherit all_macro_template_lnk_files)
+  (blockinherit all_macro_template_sock_files)
+
+  (call .obj.type (typeattr))
+
+  (block all_macro_template_all_files
+
+    (blockabstract all_macro_template_all_files)
+
+    (macro create_all_file ((type ARG1))
+	   (allow ARG1 typeattr (files (create))))
+
+    (macro delete_all_file ((type ARG1))
+	   (allow ARG1 typeattr (files (delete))))
+
+    (macro manage_all_file ((type ARG1))
+	   (allow ARG1 typeattr (files (manage))))
+
+    (macro read_all_file ((type ARG1))
+	   (allow ARG1 typeattr (files (read))))
+
+    (macro readwrite_all_file ((type ARG1))
+	   (allow ARG1 typeattr (files (readwrite))))
+
+    (macro relabel_all_file ((type ARG1))
+	   (allow ARG1 typeattr (files (relabel))))
+
+    (macro relabelfrom_all_file ((type ARG1))
+	   (allow ARG1 typeattr (files (relabelfrom))))
+
+    (macro relabelto_all_file ((type ARG1))
+	   (allow ARG1 typeattr (files (relabelto))))
+
+    (macro rename_all_file ((type ARG1))
+	   (allow ARG1 typeattr (files (rename))))
+
+    (macro write_all_file ((type ARG1))
+	   (allow ARG1 typeattr (files (write)))))
+
+  (block all_macro_template_blk_files
+
+    (blockabstract all_macro_template_blk_files)
+
+    (macro append_all_blk_files ((type ARG1))
+	   (allow ARG1 typeattr append_blk_file))
+
+    (macro appendinherited_all_blk_files ((type ARG1))
+	   (allow ARG1 typeattr appendinherited_blk_file))
+
+    (macro create_all_blk_files ((type ARG1))
+	   (allow ARG1 typeattr create_blk_file))
+
+    (macro delete_all_blk_files ((type ARG1))
+	   (allow ARG1 typeattr delete_blk_file))
+
+    (macro manage_all_blk_files ((type ARG1))
+	   (allow ARG1 typeattr manage_blk_file))
+
+    (macro read_all_blk_files ((type ARG1))
+	   (allow ARG1 typeattr read_blk_file))
+
+    (macro readinherited_all_blk_files ((type ARG1))
+	   (allow ARG1 typeattr readinherited_blk_file))
+
+    (macro readwrite_all_blk_files ((type ARG1))
+	   (allow ARG1 typeattr readwrite_blk_file))
+
+    (macro readwriteinherited_all_blk_files ((type ARG1))
+	   (allow ARG1 typeattr readwriteinherited_blk_file))
+
+    (macro relabel_all_blk_files ((type ARG1))
+	   (allow ARG1 typeattr relabel_blk_file))
+
+    (macro relabelfrom_all_blk_files ((type ARG1))
+	   (allow ARG1 typeattr relabelfrom_blk_file))
+
+    (macro relabelto_all_blk_files ((type ARG1))
+	   (allow ARG1 typeattr relabelto_blk_file))
+
+    (macro rename_all_blk_files ((type ARG1))
+	   (allow ARG1 typeattr rename_blk_file))
+
+    (macro write_all_blk_files ((type ARG1))
+	   (allow ARG1 typeattr write_blk_file))
+
+    (macro writeinherited_all_blk_files ((type ARG1))
+	   (allow ARG1 typeattr writeinherited_blk_file)))
+
+  (block all_macro_template_chr_files
+
+    (blockabstract all_macro_template_chr_files)
+
+    (macro append_all_chr_files ((type ARG1))
+	   (allow ARG1 typeattr append_chr_file))
+
+    (macro appendinherited_all_chr_files ((type ARG1))
+	   (allow ARG1 typeattr appendinherited_chr_file))
+
+    (macro create_all_chr_files ((type ARG1))
+	   (allow ARG1 typeattr create_chr_file))
+
+    (macro delete_all_chr_files ((type ARG1))
+	   (allow ARG1 typeattr delete_chr_file))
+
+    (macro manage_all_chr_files ((type ARG1))
+	   (allow ARG1 typeattr manage_chr_file))
+
+    (macro mapexecute_all_chr_files ((type ARG1))
+	   (allow ARG1 typeattr mapexecute_chr_file))
+
+    (macro read_all_chr_files ((type ARG1))
+	   (allow ARG1 typeattr read_chr_file))
+
+    (macro readinherited_all_chr_files ((type ARG1))
+	   (allow ARG1 typeattr readinherited_chr_file))
+
+    (macro readwrite_all_chr_files ((type ARG1))
+	   (allow ARG1 typeattr readwrite_chr_file))
+
+    (macro readwriteinherited_all_chr_files ((type ARG1))
+	   (allow ARG1 typeattr readwriteinherited_chr_file))
+
+    (macro relabel_all_chr_files ((type ARG1))
+	   (allow ARG1 typeattr relabel_chr_file))
+
+    (macro relabelfrom_all_chr_files ((type ARG1))
+	   (allow ARG1 typeattr relabelfrom_chr_file))
+
+    (macro relabelto_all_chr_files ((type ARG1))
+	   (allow ARG1 typeattr relabelto_chr_file))
+
+    (macro rename_all_chr_files ((type ARG1))
+	   (allow ARG1 typeattr rename_chr_file))
+
+    (macro write_all_chr_files ((type ARG1))
+	   (allow ARG1 typeattr write_chr_file))
+
+    (macro writeinherited_all_chr_files ((type ARG1))
+	   (allow ARG1 typeattr writeinherited_chr_file)))
+
+  (block all_macro_template_dirs
+
+    (blockabstract all_macro_template_dirs)
+
+    (macro addname_all_dirs ((type ARG1))
+	   (allow ARG1 typeattr addname_dir))
+
+    (macro create_all_dirs ((type ARG1))
+	   (allow ARG1 typeattr create_dir))
+
+    (macro delete_all_dirs ((type ARG1))
+	   (allow ARG1 typeattr delete_dir))
+
+    (macro deletename_all_dirs ((type ARG1))
+	   (allow ARG1 typeattr deletename_dir))
+
+    (macro list_all_dirs ((type ARG1))
+	   (allow ARG1 typeattr list_dir))
+
+    (macro listinherited_all_dirs ((type ARG1))
+	   (allow ARG1 typeattr listinherited_dir))
+
+    (macro manage_all_dirs ((type ARG1))
+	   (allow ARG1 typeattr manage_dir))
+
+    (macro mounton_all_dirs ((type ARG1))
+	   (allow ARG1 typeattr mounton_dir))
+
+    (macro all_type_transition ((type ARG1)(type ARG2)(class ARG3)(name ARG4))
+	   (typetransition ARG1 typeattr ARG3 ARG4 ARG2)
+	   (call addname_all_dirs (ARG1)))
+
+    (macro readwrite_all_dirs ((type ARG1))
+	   (allow ARG1 typeattr readwrite_dir))
+
+    (macro readwriteinherited_all_dirs ((type ARG1))
+	   (allow ARG1 typeattr readwriteinherited_dir))
+
+    (macro relabel_all_dirs ((type ARG1))
+	   (allow ARG1 typeattr relabel_dir))
+
+    (macro relabelfrom_all_dirs ((type ARG1))
+	   (allow ARG1 typeattr relabelfrom_dir))
+
+    (macro relabelto_all_dirs ((type ARG1))
+	   (allow ARG1 typeattr relabelto_dir))
+
+    (macro rename_all_dirs ((type ARG1))
+	   (allow ARG1 typeattr rename_dir))
+
+    (macro search_all_dirs ((type ARG1))
+	   (allow ARG1 typeattr search_dir))
+
+    (macro write_all_dirs ((type ARG1))
+	   (allow ARG1 typeattr write_dir))
+
+    (macro writeinherited_all_dirs ((type ARG1))
+	   (allow ARG1 typeattr writeinherited_dir)))
+
+  (block all_macro_template_fifo_files
+
+    (blockabstract all_macro_template_fifo_files)
+
+    (macro append_all_fifo_files ((type ARG1))
+	   (allow ARG1 typeattr append_fifo_file))
+
+    (macro appendinherited_all_fifo_files ((type ARG1))
+	   (allow ARG1 typeattr appendinherited_fifo_file))
+
+    (macro create_all_fifo_files ((type ARG1))
+	   (allow ARG1 typeattr create_fifo_file))
+
+    (macro delete_all_fifo_files ((type ARG1))
+	   (allow ARG1 typeattr delete_fifo_file))
+
+    (macro manage_all_fifo_files ((type ARG1))
+	   (allow ARG1 typeattr manage_fifo_file))
+
+    (macro read_all_fifo_files ((type ARG1))
+	   (allow ARG1 typeattr read_fifo_file))
+
+    (macro readinherited_all_fifo_files ((type ARG1))
+	   (allow ARG1 typeattr readinherited_fifo_file))
+
+    (macro readwrite_all_fifo_files ((type ARG1))
+	   (allow ARG1 typeattr readwrite_fifo_file))
+
+    (macro readwriteinherited_all_fifo_files ((type ARG1))
+	   (allow ARG1 typeattr readwriteinherited_fifo_file))
+
+    (macro relabel_all_fifo_files ((type ARG1))
+	   (allow ARG1 typeattr relabel_fifo_file))
+
+    (macro relabelfrom_all_fifo_files ((type ARG1))
+	   (allow ARG1 typeattr relabelfrom_fifo_file))
+
+    (macro relabelto_all_fifo_files ((type ARG1))
+	   (allow ARG1 typeattr relabelto_fifo_file))
+
+    (macro rename_all_fifo_files ((type ARG1))
+	   (allow ARG1 typeattr rename_fifo_file))
+
+    (macro write_all_fifo_files ((type ARG1))
+	   (allow ARG1 typeattr write_fifo_file))
+
+    (macro writeinherited_all_fifo_files ((type ARG1))
+	   (allow ARG1 typeattr writeinherited_fifo_file)))
+
+  (block all_macro_template_files
+
+    (blockabstract all_macro_template_files)
+
+    (macro append_all_files ((type ARG1))
+	   (allow ARG1 typeattr append_file))
+
+    (macro appendinherited_all_files ((type ARG1))
+	   (allow ARG1 typeattr appendinherited_file))
+
+    (macro create_all_files ((type ARG1))
+	   (allow ARG1 typeattr create_file))
+
+    (macro delete_all_files ((type ARG1))
+	   (allow ARG1 typeattr delete_file))
+
+    (macro execute_all_files ((type ARG1))
+	   (allow ARG1 typeattr execute_file))
+
+    (macro manage_all_files ((type ARG1))
+	   (allow ARG1 typeattr manage_file))
+
+    (macro mapexecute_all_files ((type ARG1))
+	   (allow ARG1 typeattr mapexecute_file))
+
+    (macro mounton_all_files ((type ARG1))
+	   (allow ARG1 typeattr mounton_file))
+
+    (macro read_all_files ((type ARG1))
+	   (allow ARG1 typeattr read_file))
+
+    (macro readinherited_all_files ((type ARG1))
+	   (allow ARG1 typeattr readinherited_file))
+
+    (macro readwrite_all_files ((type ARG1))
+	   (allow ARG1 typeattr readwrite_file))
+
+    (macro readwriteinherited_all_files ((type ARG1))
+	   (allow ARG1 typeattr readwriteinherited_file))
+
+    (macro relabel_all_files ((type ARG1))
+	   (allow ARG1 typeattr relabel_file))
+
+    (macro relabelfrom_all_files ((type ARG1))
+	   (allow ARG1 typeattr relabelfrom_file))
+
+    (macro relabelto_all_files ((type ARG1))
+	   (allow ARG1 typeattr relabelto_file))
+
+    (macro rename_all_files ((type ARG1))
+	   (allow ARG1 typeattr rename_file))
+
+    (macro write_all_files ((type ARG1))
+	   (allow ARG1 typeattr write_file))
+
+    (macro writeinherited_all_files ((type ARG1))
+	   (allow ARG1 typeattr writeinherited_file)))
+
+  (block all_macro_template_lnk_files
+
+    (blockabstract all_macro_template_lnk_files)
+
+    (macro create_all_lnk_files ((type ARG1))
+	   (allow ARG1 typeattr create_lnk_file))
+
+    (macro delete_all_lnk_files ((type ARG1))
+	   (allow ARG1 typeattr delete_lnk_file))
+
+    (macro manage_all_lnk_files ((type ARG1))
+	   (allow ARG1 typeattr manage_lnk_file))
+
+    (macro read_all_lnk_files ((type ARG1))
+	   (allow ARG1 typeattr read_lnk_file))
+
+    (macro readwrite_all_lnk_files ((type ARG1))
+	   (allow ARG1 typeattr readwrite_lnk_file))
+
+    (macro relabel_all_lnk_files ((type ARG1))
+	   (allow ARG1 typeattr relabel_lnk_file))
+
+    (macro relabelfrom_all_lnk_files ((type ARG1))
+	   (allow ARG1 typeattr relabelfrom_lnk_file))
+
+    (macro relabelto_all_lnk_files ((type ARG1))
+	   (allow ARG1 typeattr relabelto_lnk_file))
+
+    (macro rename_all_lnk_files ((type ARG1))
+	   (allow ARG1 typeattr rename_lnk_file))
+
+    (macro write_all_lnk_files ((type ARG1))
+	   (allow ARG1 typeattr write_lnk_file)))
+
+  (block all_macro_template_sock_files
+
+    (blockabstract all_macro_template_sock_files)
+
+    (macro create_all_sock_files ((type ARG1))
+	   (allow ARG1 typeattr create_sock_file))
+
+    (macro delete_all_sock_files ((type ARG1))
+	   (allow ARG1 typeattr delete_sock_file))
+
+    (macro manage_all_sock_files ((type ARG1))
+	   (allow ARG1 typeattr manage_sock_file))
+
+    (macro read_all_sock_files ((type ARG1))
+	   (allow ARG1 typeattr read_sock_file))
+
+    (macro readinherited_all_sock_files ((type ARG1))
+	   (allow ARG1 typeattr readinherited_sock_file))
+
+    (macro readwrite_all_sock_files ((type ARG1))
+	   (allow ARG1 typeattr readwrite_sock_file))
+
+    (macro readwriteinherited_all_sock_files ((type ARG1))
+	   (allow ARG1 typeattr readwriteinherited_sock_file))
+
+    (macro relabel_all_sock_files ((type ARG1))
+	   (allow ARG1 typeattr relabel_sock_file))
+
+    (macro relabelfrom_all_sock_files ((type ARG1))
+	   (allow ARG1 typeattr relabelfrom_sock_file))
+
+    (macro relabelto_all_sock_files ((type ARG1))
+	   (allow ARG1 typeattr relabelto_sock_file))
+
+    (macro rename_all_sock_files ((type ARG1))
+	   (allow ARG1 typeattr rename_sock_file))
+
+    (macro write_all_sock_files ((type ARG1))
+	   (allow ARG1 typeattr write_sock_file))
+
+    (macro writeinherited_all_sock_files ((type ARG1))
+	   (allow ARG1 typeattr writeinherited_sock_file)))
+
+  (block base_template
+
+    (blockabstract base_template)
+
+    (context file_context (.sys.id .sys.role file .sys.lowlow))
+
+    (type file)
+    (call .file.type (file)))
+
+  (block except
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (blockinherit file.all_macro_template_all_files)
+    (blockinherit file.all_macro_template_blk_files)
+    (blockinherit file.all_macro_template_chr_files)
+    (blockinherit file.all_macro_template_dirs)
+    (blockinherit file.all_macro_template_fifo_files)
+    (blockinherit file.all_macro_template_files)
+    (blockinherit file.all_macro_template_lnk_files)
+    (blockinherit file.all_macro_template_sock_files)
+
+    (typeattribute typeattr)
+
+    (typeattributeset typeattr (and file.typeattr (not (exception.typeattr)))))
+
+  (block exception
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (call file.type (typeattr)))
+
+  (block macro_template_all_files
+
+    (blockabstract macro_template_all_files)
+
+    (macro create_file ((type ARG1))
+	   (allow ARG1 file (files (create))))
+
+    (macro delete_file ((type ARG1))
+	   (allow ARG1 file (files (delete))))
+
+    (macro manage_file ((type ARG1))
+	   (allow ARG1 file (files (manage))))
+
+    (macro read_file ((type ARG1))
+	   (allow ARG1 file (files (read))))
+
+    (macro readwrite_file ((type ARG1))
+	   (allow ARG1 file (files (readwrite))))
+
+    (macro relabel_file ((type ARG1))
+	   (allow ARG1 file (files (relabel))))
+
+    (macro relabelfrom_file ((type ARG1))
+	   (allow ARG1 file (files (relabelfrom))))
+
+    (macro relabelto_file ((type ARG1))
+	   (allow ARG1 file (files (relabelto))))
+
+    (macro rename_file ((type ARG1))
+	   (allow ARG1 file (files (rename))))
+
+    (macro write_file ((type ARG1))
+	   (allow ARG1 file (files (write)))))
+
+  (block macro_template_blk_files
+
+    (blockabstract macro_template_blk_files)
+
+    (macro append_file_blk_files ((type ARG1))
+	   (allow ARG1 file append_blk_file))
+
+    (macro appendinherited_file_blk_files ((type ARG1))
+	   (allow ARG1 file appendinherited_blk_file))
+
+    (macro create_file_blk_files ((type ARG1))
+	   (allow ARG1 file create_blk_file))
+
+    (macro delete_file_blk_files ((type ARG1))
+	   (allow ARG1 file delete_blk_file))
+
+    (macro manage_file_blk_files ((type ARG1))
+	   (allow ARG1 file manage_blk_file))
+
+    (macro read_file_blk_files ((type ARG1))
+	   (allow ARG1 file read_blk_file))
+
+    (macro readinherited_file_blk_files ((type ARG1))
+	   (allow ARG1 file readinherited_blk_file))
+
+    (macro readwrite_file_blk_files ((type ARG1))
+	   (allow ARG1 file readwrite_blk_file))
+
+    (macro readwriteinherited_file_blk_files ((type ARG1))
+	   (allow ARG1 file readwriteinherited_blk_file))
+
+    (macro relabel_file_blk_files ((type ARG1))
+	   (allow ARG1 file relabel_blk_file))
+
+    (macro relabelfrom_file_blk_files ((type ARG1))
+	   (allow ARG1 file relabelfrom_blk_file))
+
+    (macro relabelto_file_blk_files ((type ARG1))
+	   (allow ARG1 file relabelto_blk_file))
+
+    (macro rename_file_blk_files ((type ARG1))
+	   (allow ARG1 file rename_blk_file))
+
+    (macro write_file_blk_files ((type ARG1))
+	   (allow ARG1 file write_blk_file))
+
+    (macro writeinherited_file_blk_files ((type ARG1))
+	   (allow ARG1 file writeinherited_blk_file)))
+
+  (block macro_template_chr_files
+
+    (blockabstract macro_template_chr_files)
+
+    (macro append_file_chr_files ((type ARG1))
+	   (allow ARG1 file append_chr_file))
+
+    (macro appendinherited_file_chr_files ((type ARG1))
+	   (allow ARG1 file appendinherited_chr_file))
+
+    (macro create_file_chr_files ((type ARG1))
+	   (allow ARG1 file create_chr_file))
+
+    (macro delete_file_chr_files ((type ARG1))
+	   (allow ARG1 file delete_chr_file))
+
+    (macro manage_file_chr_files ((type ARG1))
+	   (allow ARG1 file manage_chr_file))
+
+    (macro mapexecute_file_chr_files ((type ARG1))
+	   (allow ARG1 file mapexecute_chr_file))
+
+    (macro read_file_chr_files ((type ARG1))
+	   (allow ARG1 file read_chr_file))
+
+    (macro readinherited_file_chr_files ((type ARG1))
+	   (allow ARG1 file readinherited_chr_file))
+
+    (macro readwrite_file_chr_files ((type ARG1))
+	   (allow ARG1 file readwrite_chr_file))
+
+    (macro readwriteinherited_file_chr_files ((type ARG1))
+	   (allow ARG1 file readwriteinherited_chr_file))
+
+    (macro relabel_file_chr_files ((type ARG1))
+	   (allow ARG1 file relabel_chr_file))
+
+    (macro relabelfrom_file_chr_files ((type ARG1))
+	   (allow ARG1 file relabelfrom_chr_file))
+
+    (macro relabelto_file_chr_files ((type ARG1))
+	   (allow ARG1 file relabelto_chr_file))
+
+    (macro rename_file_chr_files ((type ARG1))
+	   (allow ARG1 file rename_chr_file))
+
+    (macro write_file_chr_files ((type ARG1))
+	   (allow ARG1 file write_chr_file))
+
+    (macro writeinherited_file_chr_files ((type ARG1))
+	   (allow ARG1 file writeinherited_chr_file)))
+
+  (block macro_template_dirs
+
+    (blockabstract macro_template_dirs)
+
+    (macro addname_file_dirs ((type ARG1))
+	   (allow ARG1 file addname_dir))
+
+    (macro create_file_dirs ((type ARG1))
+	   (allow ARG1 file create_dir))
+
+    (macro delete_file_dirs ((type ARG1))
+	   (allow ARG1 file delete_dir))
+
+    (macro deletename_file_dirs ((type ARG1))
+	   (allow ARG1 file deletename_dir))
+
+    (macro list_file_dirs ((type ARG1))
+	   (allow ARG1 file list_dir))
+
+    (macro listinherited_file_dirs ((type ARG1))
+	   (allow ARG1 file listinherited_dir))
+
+    (macro manage_file_dirs ((type ARG1))
+	   (allow ARG1 file manage_dir))
+
+    (macro mounton_file_dirs ((type ARG1))
+	   (allow ARG1 file mounton_dir))
+
+    (macro file_type_transition ((type ARG1)(type ARG2)(class ARG3)(name ARG4))
+	   (typetransition ARG1 file ARG3 ARG4 ARG2)
+	   (call addname_file_dirs (ARG1)))
+
+    (macro readwrite_file_dirs ((type ARG1))
+	   (allow ARG1 file readwrite_dir))
+
+    (macro readwriteinherited_file_dirs ((type ARG1))
+	   (allow ARG1 file readwriteinherited_dir))
+
+    (macro relabel_file_dirs ((type ARG1))
+	   (allow ARG1 file relabel_dir))
+
+    (macro relabelfrom_file_dirs ((type ARG1))
+	   (allow ARG1 file relabelfrom_dir))
+
+    (macro relabelto_file_dirs ((type ARG1))
+	   (allow ARG1 file relabelto_dir))
+
+    (macro rename_file_dirs ((type ARG1))
+	   (allow ARG1 file rename_dir))
+
+    (macro search_file_dirs ((type ARG1))
+	   (allow ARG1 file search_dir))
+
+    (macro write_file_dirs ((type ARG1))
+	   (allow ARG1 file write_dir))
+
+    (macro writeinherited_file_dirs ((type ARG1))
+	   (allow ARG1 file writeinherited_dir)))
+
+  (block macro_template_fifo_files
+
+    (blockabstract macro_template_fifo_files)
+
+    (macro append_file_fifo_files ((type ARG1))
+	   (allow ARG1 file append_fifo_file))
+
+    (macro appendinherited_file_fifo_files ((type ARG1))
+	   (allow ARG1 file appendinherited_fifo_file))
+
+    (macro create_file_fifo_files ((type ARG1))
+	   (allow ARG1 file create_fifo_file))
+
+    (macro delete_file_fifo_files ((type ARG1))
+	   (allow ARG1 file delete_fifo_file))
+
+    (macro manage_file_fifo_files ((type ARG1))
+	   (allow ARG1 file manage_fifo_file))
+
+    (macro read_file_fifo_files ((type ARG1))
+	   (allow ARG1 file read_fifo_file))
+
+    (macro readinherited_file_fifo_files ((type ARG1))
+	   (allow ARG1 file readinherited_fifo_file))
+
+    (macro readwrite_file_fifo_files ((type ARG1))
+	   (allow ARG1 file readwrite_fifo_file))
+
+    (macro readwriteinherited_file_fifo_files ((type ARG1))
+	   (allow ARG1 file readwriteinherited_fifo_file))
+
+    (macro relabel_file_fifo_files ((type ARG1))
+	   (allow ARG1 file relabel_fifo_file))
+
+    (macro relabelfrom_file_fifo_files ((type ARG1))
+	   (allow ARG1 file relabelfrom_fifo_file))
+
+    (macro relabelto_file_fifo_files ((type ARG1))
+	   (allow ARG1 file relabelto_fifo_file))
+
+    (macro rename_file_fifo_files ((type ARG1))
+	   (allow ARG1 file rename_fifo_file))
+
+    (macro write_file_fifo_files ((type ARG1))
+	   (allow ARG1 file write_fifo_file))
+
+    (macro writeinherited_file_fifo_files ((type ARG1))
+	   (allow ARG1 file writeinherited_fifo_file)))
+
+  (block macro_template_files
+
+    (blockabstract macro_template_files)
+
+    (macro append_file_files ((type ARG1))
+	   (allow ARG1 file append_file))
+
+    (macro appendinherited_file_files ((type ARG1))
+	   (allow ARG1 file appendinherited_file))
+
+    (macro create_file_files ((type ARG1))
+	   (allow ARG1 file create_file))
+
+    (macro delete_file_files ((type ARG1))
+	   (allow ARG1 file delete_file))
+
+    (macro execute_file_files ((type ARG1))
+	   (allow ARG1 file execute_file))
+
+    (macro manage_file_files ((type ARG1))
+	   (allow ARG1 file manage_file))
+
+    (macro mapexecute_file_files ((type ARG1))
+	   (allow ARG1 file mapexecute_file))
+
+    (macro mounton_file_files ((type ARG1))
+	   (allow ARG1 file mounton_file))
+
+    (macro read_file_files ((type ARG1))
+	   (allow ARG1 file read_file))
+
+    (macro readinherited_file_files ((type ARG1))
+	   (allow ARG1 file readinherited_file))
+
+    (macro readwrite_file_files ((type ARG1))
+	   (allow ARG1 file readwrite_file))
+
+    (macro readwriteinherited_file_files ((type ARG1))
+	   (allow ARG1 file readwriteinherited_file))
+
+    (macro relabel_file_files ((type ARG1))
+	   (allow ARG1 file relabel_file))
+
+    (macro relabelfrom_file_files ((type ARG1))
+	   (allow ARG1 file relabelfrom_file))
+
+    (macro relabelto_file_files ((type ARG1))
+	   (allow ARG1 file relabelto_file))
+
+    (macro rename_file_files ((type ARG1))
+	   (allow ARG1 file rename_file))
+
+    (macro write_file_files ((type ARG1))
+	   (allow ARG1 file write_file))
+
+    (macro writeinherited_file_files ((type ARG1))
+	   (allow ARG1 file writeinherited_file)))
+
+  (block macro_template_lnk_files
+
+    (blockabstract macro_template_lnk_files)
+
+    (macro create_file_lnk_files ((type ARG1))
+	   (allow ARG1 file create_lnk_file))
+
+    (macro delete_file_lnk_files ((type ARG1))
+	   (allow ARG1 file delete_lnk_file))
+
+    (macro manage_file_lnk_files ((type ARG1))
+	   (allow ARG1 file manage_lnk_file))
+
+    (macro read_file_lnk_files ((type ARG1))
+	   (allow ARG1 file read_lnk_file))
+
+    (macro readwrite_file_lnk_files ((type ARG1))
+	   (allow ARG1 file readwrite_lnk_file))
+
+    (macro relabel_file_lnk_files ((type ARG1))
+	   (allow ARG1 file relabel_lnk_file))
+
+    (macro relabelfrom_file_lnk_files ((type ARG1))
+	   (allow ARG1 file relabelfrom_lnk_file))
+
+    (macro relabelto_file_lnk_files ((type ARG1))
+	   (allow ARG1 file relabelto_lnk_file))
+
+    (macro rename_file_lnk_files ((type ARG1))
+	   (allow ARG1 file rename_lnk_file))
+
+    (macro write_file_lnk_files ((type ARG1))
+	   (allow ARG1 file write_lnk_file)))
+
+  (block macro_template_sock_files
+
+    (blockabstract macro_template_sock_files)
+
+    (macro create_file_sock_files ((type ARG1))
+	   (allow ARG1 file create_sock_file))
+
+    (macro delete_file_sock_files ((type ARG1))
+	   (allow ARG1 file delete_sock_file))
+
+    (macro manage_file_sock_files ((type ARG1))
+	   (allow ARG1 file manage_sock_file))
+
+    (macro read_file_sock_files ((type ARG1))
+	   (allow ARG1 file read_sock_file))
+
+    (macro readinherited_file_sock_files ((type ARG1))
+	   (allow ARG1 file readinherited_sock_file))
+
+    (macro readwrite_file_sock_files ((type ARG1))
+	   (allow ARG1 file readwrite_sock_file))
+
+    (macro readwriteinherited_file_sock_files ((type ARG1))
+	   (allow ARG1 file readwriteinherited_sock_file))
+
+    (macro relabel_file_sock_files ((type ARG1))
+	   (allow ARG1 file relabel_sock_file))
+
+    (macro relabelfrom_file_sock_files ((type ARG1))
+	   (allow ARG1 file relabelfrom_sock_file))
+
+    (macro relabelto_file_sock_files ((type ARG1))
+	   (allow ARG1 file relabelto_sock_file))
+
+    (macro rename_file_sock_files ((type ARG1))
+	   (allow ARG1 file rename_sock_file))
+
+    (macro write_file_sock_files ((type ARG1))
+	   (allow ARG1 file write_sock_file))
+
+    (macro writeinherited_file_sock_files ((type ARG1))
+	   (allow ARG1 file writeinherited_sock_file)))
+
+  (block template
+
+    (blockabstract template)
+
+    (blockinherit .file.base_template)
+    (blockinherit .file.macro_template_dirs)
+    (blockinherit .file.macro_template_files)
+    (blockinherit .file.macro_template_lnk_files))
+
+  (block unconfined
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (allow typeattr file.typeattr
+	   (blk_file (not (audit_access execmod map mounton))))
+    (allow typeattr file.typeattr
+	   (chr_file (not (audit_access execmod mounton))))
+    (allow typeattr file.typeattr (dir (not (audit_access execmod))))
+    (allow typeattr file.typeattr
+	   (fifo_file (not (audit_access execmod map mounton))))
+    (allow typeattr file.typeattr
+	   (file (not (audit_access entrypoint execmod))))
+    (allow typeattr file.typeattr
+	   (lnk_file (not (audit_access execmod map mounton))))
+    (allow typeattr file.typeattr
+	   (sock_file (not (audit_access execmod map mounton))))))
+
+(in unconfined
+
+    (call .file.unconfined.type (typeattr)))

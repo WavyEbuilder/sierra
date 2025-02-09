@@ -1,0 +1,9 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block zramcontrol
+
+  (genfscon "sysfs" "/class/zram-control" sysfile_context)
+
+  (blockinherit .sysfile.class.template)
+  (blockinherit .sysfile.macro_template_dirs))

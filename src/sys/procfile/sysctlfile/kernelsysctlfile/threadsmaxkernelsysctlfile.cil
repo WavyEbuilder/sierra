@@ -1,0 +1,8 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block threadsmax
+
+  (genfscon "proc" "/sys/kernel/threads-max" sysctlfile_context)
+
+  (blockinherit .sysctlfile.kernel.template))

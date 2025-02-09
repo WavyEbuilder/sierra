@@ -1,0 +1,39 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block reserved
+
+  (portcon "dccp" (1 1023) port_context)
+  (portcon "sctp" (1 1023) port_context)
+  (portcon "tcp" (1 1023) port_context)
+  (portcon "udp" (1 1023) port_context)
+
+  (blockinherit .net.port.reserved.template))
+
+(in net.port
+
+    (block reserved
+
+      (macro type ((type ARG1))
+	     (typeattributeset typeattr ARG1))
+
+      (blockinherit .net.port.all_macro_template)
+
+      (typeattribute typeattr)
+
+      (call .net.port.type (typeattr))
+
+      (block base_template
+
+	(blockabstract base_template)
+
+	(blockinherit .net.port.base_template)
+
+	(call .net.port.reserved.type (port)))
+
+      (block template
+
+	(blockabstract template)
+
+	(blockinherit .net.port.macro_template)
+	(blockinherit .net.port.reserved.base_template))))

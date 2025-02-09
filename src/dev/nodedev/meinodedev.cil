@@ -1,0 +1,8 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block mei
+
+  (filecon "/dev/mei([0-9]+)?" char nodedev_context)
+
+  (blockinherit .nodedev.template))

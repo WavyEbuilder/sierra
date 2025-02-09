@@ -1,0 +1,48 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(class blk_file ())
+(classorder (unordered blk_file))
+
+(class chr_file ())
+(classorder (unordered chr_file))
+
+(class dir (add_name remove_name reparent rmdir search))
+(classorder (unordered dir))
+
+(class fifo_file ())
+(classorder (unordered fifo_file))
+
+(class file (entrypoint execute_no_trans))
+(classorder (unordered file))
+
+(class lnk_file ())
+(classorder (unordered lnk_file))
+
+(class process
+       (dyntransition execheap execmem execstack fork getattr getcap getpgid
+		      getrlimit getsched getsession noatsecure ptrace rlimitinh
+		      setexec setcap setcurrent setfscreate setkeycreate setpgid
+		      setrlimit setsched setsockcreate share sigchld siginh
+		      sigkill signal signull sigstop transition))
+(classorder (unordered process))
+
+(class process2 (nnp_transition nosuid_transition))
+(classorder (unordered process2))
+
+(class sock_file ())
+(classorder (unordered sock_file))
+
+(classcommon blk_file common_file)
+(classcommon chr_file common_file)
+(classcommon dir common_file)
+(classcommon fifo_file common_file)
+(classcommon file common_file)
+(classcommon lnk_file common_file)
+(classcommon sock_file common_file)
+
+(common common_file
+	(append audit_access create execmod execute getattr ioctl lock link map
+		mounton open quotaon read relabelfrom relabelto rename setattr
+		unlink watch watch_mount watch_reads watch_sb watch_with_perm
+		write))

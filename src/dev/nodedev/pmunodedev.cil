@@ -1,0 +1,9 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block pmu
+
+  (filecon "/dev/pmu" char nodedev_context)
+  (filecon "/dev/smu" char nodedev_context)
+
+  (blockinherit .nodedev.template))

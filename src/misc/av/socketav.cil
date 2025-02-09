@@ -1,0 +1,1601 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(class alg_socket ())
+(classorder (unordered alg_socket))
+
+(class appletalk_socket ())
+(classorder (unordered appletalk_socket))
+
+(class atmpvc_socket ())
+(classorder (unordered atmpvc_socket))
+
+(class atmsvc_socket ())
+(classorder (unordered atmsvc_socket))
+
+(class ax25_socket ())
+(classorder (unordered ax25_socket))
+
+(class bluetooth_socket ())
+(classorder (unordered bluetooth_socket))
+
+(class caif_socket ())
+(classorder (unordered caif_socket))
+
+(class can_socket ())
+(classorder (unordered can_socket))
+
+(class dccp_socket (name_connect node_bind))
+(classorder (unordered dccp_socket))
+
+(class decnet_socket ())
+(classorder (unordered decnet_socket))
+
+(class icmp_socket (node_bind))
+(classorder (unordered icmp_socket))
+
+(class ieee802154_socket ())
+(classorder (unordered ieee802154_socket))
+
+(class ipx_socket ())
+(classorder (unordered ipx_socket))
+
+(class irda_socket ())
+(classorder (unordered irda_socket))
+
+(class isdn_socket ())
+(classorder (unordered isdn_socket))
+
+(class iucv_socket ())
+(classorder (unordered iucv_socket))
+
+(class kcm_socket ())
+(classorder (unordered kcm_socket))
+
+(class key_socket ())
+(classorder (unordered key_socket))
+
+(class llc_socket ())
+(classorder (unordered llc_socket))
+
+(class mctp_socket ())
+(classorder (unordered mctp_socket))
+
+(class netlink_audit_socket
+       (nlmsg_read nlmsg_readpriv nlmsg_relay nlmsg_tty_audit nlmsg_write))
+(classorder (unordered netlink_audit_socket))
+
+(class netlink_connector_socket ())
+(classorder (unordered netlink_connector_socket))
+
+(class netlink_crypto_socket ())
+(classorder (unordered netlink_crypto_socket))
+
+(class netlink_dnrt_socket ())
+(classorder (unordered netlink_dnrt_socket))
+
+(class netlink_fib_lookup_socket ())
+(classorder (unordered netlink_fib_lookup_socket))
+
+(class netlink_generic_socket ())
+(classorder (unordered netlink_generic_socket))
+
+(class netlink_iscsi_socket ())
+(classorder (unordered netlink_iscsi_socket))
+
+(class netlink_kobject_uevent_socket ())
+(classorder (unordered netlink_kobject_uevent_socket))
+
+(class netlink_netfilter_socket ())
+(classorder (unordered netlink_netfilter_socket))
+
+(class netlink_nflog_socket ())
+(classorder (unordered netlink_nflog_socket))
+
+(class netlink_rdma_socket ())
+(classorder (unordered netlink_rdma_socket))
+
+(class netlink_route_socket (nlmsg_read nlmsg_write))
+(classorder (unordered netlink_route_socket))
+
+(class netlink_scsitransport_socket ())
+(classorder (unordered netlink_scsitransport_socket))
+
+(class netlink_selinux_socket ())
+(classorder (unordered netlink_selinux_socket))
+
+(class netlink_socket ())
+(classorder (unordered netlink_socket))
+
+(class netlink_tcpdiag_socket (nlmsg_read nlmsg_write))
+(classorder (unordered netlink_tcpdiag_socket))
+
+(class netlink_xfrm_socket (nlmsg_read nlmsg_write))
+(classorder (unordered netlink_xfrm_socket))
+
+(class netrom_socket ())
+(classorder (unordered netrom_socket))
+
+(class nfc_socket ())
+(classorder (unordered nfc_socket))
+
+(class packet_socket ())
+(classorder (unordered packet_socket))
+
+(class phonet_socket ())
+(classorder (unordered phonet_socket))
+
+(class pppox_socket ())
+(classorder (unordered pppox_socket))
+
+(class qipcrtr_socket ())
+(classorder (unordered qipcrtr_socket))
+
+(class rawip_socket (node_bind))
+(classorder (unordered rawip_socket))
+
+(class rds_socket ())
+(classorder (unordered rds_socket))
+
+(class rose_socket ())
+(classorder (unordered rose_socket))
+
+(class rxrpc_socket ())
+(classorder (unordered rxrpc_socket))
+
+(class sctp_socket (association name_connect node_bind))
+(classorder (unordered sctp_socket))
+
+(class smc_socket ())
+(classorder (unordered smc_socket))
+
+(class socket ())
+(classorder (unordered socket))
+
+(class tcp_socket (name_connect node_bind))
+(classorder (unordered tcp_socket))
+
+(class tipc_socket ())
+(classorder (unordered tipc_socket))
+
+(class tun_socket (attach_queue))
+(classorder (unordered tun_socket))
+
+(class udp_socket (node_bind))
+(classorder (unordered udp_socket))
+
+(class unix_dgram_socket ())
+(classorder (unordered unix_dgram_socket))
+
+(class unix_stream_socket (connectto))
+(classorder (unordered unix_stream_socket))
+
+(class vsock_socket ())
+(classorder (unordered vsock_socket))
+
+(class x25_socket ())
+(classorder (unordered x25_socket))
+
+(class xdp_socket ())
+(classorder (unordered xdp_socket))
+
+(classcommon alg_socket common_socket)
+(classcommon appletalk_socket common_socket)
+(classcommon atmpvc_socket common_socket)
+(classcommon atmsvc_socket common_socket)
+(classcommon ax25_socket common_socket)
+(classcommon bluetooth_socket common_socket)
+(classcommon caif_socket common_socket)
+(classcommon can_socket common_socket)
+(classcommon dccp_socket common_socket)
+(classcommon decnet_socket common_socket)
+(classcommon icmp_socket common_socket)
+(classcommon ieee802154_socket common_socket)
+(classcommon ipx_socket common_socket)
+(classcommon irda_socket common_socket)
+(classcommon isdn_socket common_socket)
+(classcommon iucv_socket common_socket)
+(classcommon kcm_socket common_socket)
+(classcommon key_socket common_socket)
+(classcommon llc_socket common_socket)
+(classcommon mctp_socket common_socket)
+(classcommon netlink_audit_socket common_socket)
+(classcommon netlink_connector_socket common_socket)
+(classcommon netlink_crypto_socket common_socket)
+(classcommon netlink_dnrt_socket common_socket)
+(classcommon netlink_fib_lookup_socket common_socket)
+(classcommon netlink_generic_socket common_socket)
+(classcommon netlink_iscsi_socket common_socket)
+(classcommon netlink_kobject_uevent_socket common_socket)
+(classcommon netlink_netfilter_socket common_socket)
+(classcommon netlink_nflog_socket common_socket)
+(classcommon netlink_rdma_socket common_socket)
+(classcommon netlink_route_socket common_socket)
+(classcommon netlink_scsitransport_socket common_socket)
+(classcommon netlink_selinux_socket common_socket)
+(classcommon netlink_socket common_socket)
+(classcommon netlink_tcpdiag_socket common_socket)
+(classcommon netlink_xfrm_socket common_socket)
+(classcommon netrom_socket common_socket)
+(classcommon nfc_socket common_socket)
+(classcommon packet_socket common_socket)
+(classcommon phonet_socket common_socket)
+(classcommon pppox_socket common_socket)
+(classcommon qipcrtr_socket common_socket)
+(classcommon rawip_socket common_socket)
+(classcommon rds_socket common_socket)
+(classcommon rose_socket common_socket)
+(classcommon rxrpc_socket common_socket)
+(classcommon sctp_socket common_socket)
+(classcommon smc_socket common_socket)
+(classcommon socket common_socket)
+(classcommon tcp_socket common_socket)
+(classcommon tipc_socket common_socket)
+(classcommon tun_socket common_socket)
+(classcommon udp_socket common_socket)
+(classcommon unix_dgram_socket common_socket)
+(classcommon unix_stream_socket common_socket)
+(classcommon vsock_socket common_socket)
+(classcommon x25_socket common_socket)
+(classcommon xdp_socket common_socket)
+
+(common common_socket
+	(accept append bind connect create getattr getopt ioctl listen lock map
+		name_bind read recvfrom relabelfrom relabelto sendto setattr
+		setopt shutdown write))
+
+(classpermission create_alg_socket)
+(classpermission create_alg_stream_socket)
+(classpermission create_appletalk_socket)
+(classpermission create_atmpvc_socket)
+(classpermission create_atmsvc_socket)
+(classpermission create_ax25_socket)
+(classpermission create_bluetooth_socket)
+(classpermission create_bluetooth_stream_socket)
+(classpermission create_caif_socket)
+(classpermission create_can_socket)
+(classpermission create_dccp_socket)
+(classpermission create_dccp_stream_socket)
+(classpermission create_decnet_socket)
+(classpermission create_icmp_socket)
+(classpermission create_ieee802154_socket)
+(classpermission create_ipx_socket)
+(classpermission create_irda_socket)
+(classpermission create_isdn_socket)
+(classpermission create_iucv_socket)
+(classpermission create_kcm_socket)
+(classpermission create_key_socket)
+(classpermission create_llc_socket)
+(classpermission create_mctp_socket)
+(classpermission create_netrom_socket)
+(classpermission create_nfc_socket)
+(classpermission create_netlink_audit_socket)
+(classpermission create_netlink_connector_socket)
+(classpermission create_netlink_crypto_socket)
+(classpermission create_netlink_dnrt_socket)
+(classpermission create_netlink_fib_lookup_socket)
+(classpermission create_netlink_generic_socket)
+(classpermission create_netlink_iscsi_socket)
+(classpermission create_netlink_kobject_uevent_socket)
+(classpermission create_netlink_netfilter_socket)
+(classpermission create_netlink_nflog_socket)
+(classpermission create_netlink_rdma_socket)
+(classpermission create_netlink_route_socket)
+(classpermission create_netlink_scsitransport_socket)
+(classpermission create_netlink_selinux_socket)
+(classpermission create_netlink_socket)
+(classpermission create_netlink_tcpdiag_socket)
+(classpermission create_netlink_xfrm_socket)
+(classpermission create_packet_socket)
+(classpermission create_phonet_socket)
+(classpermission create_pppox_socket)
+(classpermission create_qipcrtr_socket)
+(classpermission create_rawip_socket)
+(classpermission create_rds_socket)
+(classpermission create_rose_socket)
+(classpermission create_rxrpc_socket)
+(classpermission create_sctp_socket)
+(classpermission create_sctp_stream_socket)
+(classpermission create_smc_socket)
+(classpermission create_socket)
+(classpermission create_tcp_socket)
+(classpermission create_tcp_stream_socket)
+(classpermission create_tipc_socket)
+(classpermission create_tun_socket)
+(classpermission create_udp_socket)
+(classpermission create_unix_dgram_socket)
+(classpermission create_unix_stream_socket)
+(classpermission create_unix_stream_stream_socket)
+(classpermission create_vsock_socket)
+(classpermission create_vsock_stream_socket)
+(classpermission create_x25_socket)
+(classpermission create_xdp_socket)
+
+(classpermission readwrite_alg_socket)
+(classpermission readwrite_bluetooth_socket)
+(classpermission readwrite_dccp_socket)
+(classpermission readwrite_netlink_audit_socket)
+(classpermission readwrite_sctp_socket)
+(classpermission readwrite_tcp_socket)
+(classpermission readwrite_tun_socket)
+(classpermission readwrite_unix_dgram_socket)
+(classpermission readwrite_unix_stream_socket)
+(classpermission readwrite_vsock_socket)
+
+(classpermission write_alg_socket)
+(classpermission write_bluetooth_socket)
+(classpermission write_dccp_socket)
+(classpermission write_sctp_socket)
+(classpermission write_tcp_socket)
+(classpermission write_tun_socket)
+(classpermission write_unix_dgram_socket)
+(classpermission write_unix_stream_socket)
+(classpermission write_vsock_socket)
+
+(classpermissionset create_alg_socket
+		    (alg_socket (append bind connect create getattr getopt ioctl
+					read setattr setopt shutdown write)))
+(classpermissionset create_alg_stream_socket
+		    (alg_socket (accept append bind connect create getattr
+					getopt ioctl listen read setattr setopt
+					shutdown write)))
+(classpermissionset create_appletalk_socket
+		    (appletalk_socket (append bind connect create getattr getopt
+					      ioctl read setattr setopt shutdown
+					      write)))
+(classpermissionset create_atmpvc_socket
+		    (atmpvc_socket (append bind connect create getattr getopt
+					   ioctl read setattr setopt shutdown
+					   write)))
+(classpermissionset create_atmsvc_socket
+		    (atmsvc_socket (append bind connect create getattr getopt
+					   ioctl read setattr setopt shutdown
+					   write)))
+(classpermissionset create_ax25_socket
+		    (ax25_socket (append bind connect create getattr getopt
+					 ioctl read setattr setopt shutdown
+					 write)))
+(classpermissionset create_bluetooth_socket
+		    (bluetooth_socket (append bind connect create getattr getopt
+					      ioctl read setattr setopt shutdown
+					      write)))
+(classpermissionset create_bluetooth_stream_socket
+		    (bluetooth_socket (accept append bind connect create getattr
+					      getopt ioctl listen read setattr
+					      setopt shutdown write)))
+(classpermissionset create_caif_socket
+		    (caif_socket (append bind connect create getattr getopt
+					 ioctl read setattr setopt shutdown
+					 write)))
+(classpermissionset create_can_socket
+		    (can_socket (append bind connect create getattr getopt ioctl
+					read setattr setopt shutdown write)))
+(classpermissionset create_dccp_socket
+		    (dccp_socket (append bind connect create getattr getopt
+					 ioctl read setattr setopt shutdown
+					 write)))
+(classpermissionset create_dccp_stream_socket
+		    (dccp_socket (accept append bind connect create getattr
+					 getopt ioctl listen read setattr setopt
+					 shutdown write)))
+(classpermissionset create_decnet_socket
+		    (decnet_socket (append bind connect create getattr getopt
+					   ioctl read setattr setopt shutdown
+					   write)))
+(classpermissionset create_icmp_socket
+		    (icmp_socket (append bind connect create getattr getopt
+					 ioctl read setattr setopt shutdown
+					 write)))
+(classpermissionset create_ieee802154_socket
+		    (ieee802154_socket (append bind connect create getattr
+					       getopt ioctl read setattr setopt
+					       shutdown write)))
+(classpermissionset create_ipx_socket
+		    (ipx_socket (append bind connect create getattr getopt ioctl
+					read setattr setopt shutdown write)))
+(classpermissionset create_irda_socket
+		    (irda_socket (append bind connect create getattr getopt
+					 ioctl read setattr setopt shutdown
+					 write)))
+(classpermissionset create_isdn_socket
+		    (isdn_socket (append bind connect create getattr getopt
+					 ioctl read setattr setopt shutdown
+					 write)))
+(classpermissionset create_iucv_socket
+		    (iucv_socket (append bind connect create getattr getopt
+					 ioctl read setattr setopt shutdown
+					 write)))
+(classpermissionset create_kcm_socket
+		    (kcm_socket (append bind connect create getattr getopt ioctl
+					read setattr setopt shutdown write)))
+(classpermissionset create_key_socket
+		    (key_socket (append bind connect create getattr getopt ioctl
+					read setattr setopt shutdown write)))
+(classpermissionset create_llc_socket
+		    (llc_socket (append bind connect create getattr getopt ioctl
+					read setattr setopt shutdown write)))
+(classpermissionset create_mctp_socket
+		    (mctp_socket (append bind connect create getattr getopt
+					 ioctl read setattr setopt shutdown
+					 write)))
+(classpermissionset create_netlink_audit_socket
+		    (netlink_audit_socket (append bind connect create getattr
+						  getopt ioctl read setattr
+						  setopt shutdown write)))
+(classpermissionset create_netlink_connector_socket
+		    (netlink_connector_socket (append bind connect create
+						      getattr getopt ioctl read
+						      setattr setopt shutdown
+						      write)))
+(classpermissionset create_netlink_crypto_socket
+		    (netlink_crypto_socket (append bind connect create getattr
+						   getopt ioctl read setattr
+						   setopt shutdown write)))
+(classpermissionset create_netlink_dnrt_socket
+		    (netlink_dnrt_socket (append bind connect create getattr
+						 getopt ioctl read setattr
+						 setopt shutdown write)))
+(classpermissionset create_netlink_fib_lookup_socket
+		    (netlink_fib_lookup_socket (append bind connect create
+						       getattr getopt ioctl
+						       read setattr setopt
+						       shutdown write)))
+(classpermissionset create_netlink_generic_socket
+		    (netlink_generic_socket (append bind connect create getattr
+						    getopt ioctl read setattr
+						    setopt shutdown write)))
+(classpermissionset create_netlink_iscsi_socket
+		    (netlink_iscsi_socket (append bind connect create getattr
+						  getopt ioctl read setattr
+						  setopt shutdown write)))
+(classpermissionset create_netlink_kobject_uevent_socket
+		    (netlink_kobject_uevent_socket (append bind connect create
+							   getattr getopt ioctl
+							   read setattr setopt
+							   shutdown write)))
+(classpermissionset create_netlink_netfilter_socket
+		    (netlink_netfilter_socket (append bind connect create
+						      getattr getopt ioctl read
+						      setattr setopt shutdown
+						      write)))
+(classpermissionset create_netlink_nflog_socket
+		    (netlink_nflog_socket (append bind connect create getattr
+						  getopt ioctl read setattr
+						  setopt shutdown write)))
+(classpermissionset create_netlink_rdma_socket
+		    (netlink_rdma_socket (append bind connect create getattr
+						 getopt ioctl read setattr
+						 setopt shutdown write)))
+(classpermissionset create_netlink_route_socket
+		    (netlink_route_socket (append bind connect create getattr
+						  getopt ioctl read setattr
+						  setopt shutdown write)))
+(classpermissionset create_netlink_scsitransport_socket
+		    (netlink_scsitransport_socket (append bind connect create
+							  getattr getopt ioctl
+							  read setattr setopt
+							  shutdown write)))
+(classpermissionset create_netlink_selinux_socket
+		    (netlink_selinux_socket (append bind connect create getattr
+						    getopt ioctl read setattr
+						    setopt shutdown write)))
+(classpermissionset create_netlink_socket
+		    (netlink_socket (append bind connect create getattr getopt
+					    ioctl read setattr setopt shutdown
+					    write)))
+(classpermissionset create_netlink_tcpdiag_socket
+		    (netlink_tcpdiag_socket (append bind connect create getattr
+						    getopt ioctl read setattr
+						    setopt shutdown write)))
+(classpermissionset create_netlink_xfrm_socket
+		    (netlink_xfrm_socket (append bind connect create getattr
+						 getopt ioctl read setattr
+						 setopt shutdown write)))
+(classpermissionset create_netrom_socket
+		    (netrom_socket (append bind connect create getattr getopt
+					   ioctl read setattr setopt shutdown
+					   write)))
+(classpermissionset create_nfc_socket
+		    (nfc_socket (append bind connect create getattr getopt ioctl
+					read setattr setopt shutdown write)))
+(classpermissionset create_packet_socket
+		    (packet_socket (append bind connect create getattr getopt
+					   ioctl read setattr setopt shutdown
+					   write)))
+(classpermissionset create_phonet_socket
+		    (phonet_socket (append bind connect create getattr getopt
+					   ioctl read setattr setopt shutdown
+					   write)))
+(classpermissionset create_pppox_socket
+		    (pppox_socket (append bind connect create getattr getopt
+					  ioctl read setattr setopt shutdown
+					  write)))
+(classpermissionset create_qipcrtr_socket
+		    (qipcrtr_socket (append bind connect create getattr getopt
+					    ioctl read setattr setopt shutdown
+					    write)))
+(classpermissionset create_rawip_socket
+		    (rawip_socket (append bind connect create getattr getopt
+					  ioctl read setattr setopt shutdown
+					  write)))
+(classpermissionset create_rds_socket
+		    (rds_socket (append bind connect create getattr getopt ioctl
+					read setattr setopt shutdown write)))
+(classpermissionset create_rose_socket
+		    (rose_socket (append bind connect create getattr getopt
+					 ioctl read setattr setopt shutdown
+					 write)))
+(classpermissionset create_rxrpc_socket
+		    (rxrpc_socket (append bind connect create getattr getopt
+					  ioctl read setattr setopt shutdown
+					  write)))
+(classpermissionset create_sctp_socket
+		    (sctp_socket (append bind connect create getattr getopt
+					 ioctl read setattr setopt shutdown
+					 write)))
+(classpermissionset create_sctp_stream_socket
+		    (sctp_socket (accept append bind connect create getattr
+					 getopt ioctl listen read setattr setopt
+					 shutdown write)))
+(classpermissionset create_smc_socket
+		    (smc_socket (append bind connect create getattr getopt ioctl
+					read setattr setopt shutdown write)))
+(classpermissionset create_socket
+		    (socket (append bind connect create getattr getopt ioctl
+				    read setattr setopt shutdown write)))
+(classpermissionset create_tcp_socket
+		    (tcp_socket (append bind connect create getattr getopt ioctl
+					read setattr setopt shutdown write)))
+(classpermissionset create_tcp_stream_socket
+		    (tcp_socket (accept append bind connect create getattr
+					getopt ioctl listen read setattr setopt
+					shutdown write)))
+(classpermissionset create_tipc_socket
+		    (tipc_socket (append bind connect create getattr getopt
+					 ioctl read setattr setopt shutdown
+					 write)))
+(classpermissionset create_tun_socket
+		    (tun_socket (append bind connect create getattr getopt ioctl
+					read setattr setopt shutdown write)))
+(classpermissionset create_udp_socket
+		    (udp_socket (append bind connect create getattr getopt ioctl
+					read setattr setopt shutdown write)))
+(classpermissionset create_unix_dgram_socket
+		    (unix_dgram_socket (append bind connect create getattr
+					       getopt ioctl read setattr setopt
+					       shutdown write)))
+(classpermissionset create_unix_stream_socket
+		    (unix_stream_socket (append bind connect create getattr
+						getopt ioctl read setattr setopt
+						shutdown write)))
+(classpermissionset create_unix_stream_stream_socket
+		    (unix_stream_socket (accept append bind connect create
+						getattr getopt ioctl listen read
+						setattr setopt shutdown write)))
+(classpermissionset create_vsock_socket
+		    (vsock_socket (append bind connect create getattr getopt
+					  ioctl read setattr setopt shutdown
+					  write)))
+(classpermissionset create_vsock_stream_socket
+		    (vsock_socket (accept append bind connect create getattr
+					  getopt ioctl listen read setattr
+					  setopt shutdown write)))
+(classpermissionset create_x25_socket
+		    (x25_socket (append bind connect create getattr getopt ioctl
+					read setattr setopt shutdown write)))
+(classpermissionset create_xdp_socket
+		    (xdp_socket (append bind connect create getattr getopt ioctl
+					read setattr setopt shutdown write)))
+
+(classpermissionset readwrite_alg_socket
+		    (alg_socket (append bind connect getattr getopt ioctl read
+					setopt shutdown write)))
+(classpermissionset readwrite_bluetooth_socket
+		    (bluetooth_socket (append bind connect getattr getopt ioctl
+					      read setopt shutdown write)))
+(classpermissionset readwrite_dccp_socket
+		    (dccp_socket (append bind connect getattr getopt ioctl read
+					 setopt shutdown write)))
+(classpermissionset readwrite_netlink_audit_socket
+		    (netlink_audit_socket (append bind connect getattr getopt
+						  ioctl read setopt shutdown
+						  write)))
+(classpermissionset readwrite_sctp_socket
+		    (sctp_socket (append bind connect getattr getopt ioctl read
+					 setopt shutdown write)))
+(classpermissionset readwrite_tcp_socket
+		    (tcp_socket (append bind connect getattr getopt ioctl read
+					setopt shutdown write)))
+(classpermissionset readwrite_tun_socket
+		    (tun_socket (append bind connect getattr getopt ioctl read
+					setopt shutdown write)))
+(classpermissionset readwrite_unix_dgram_socket
+		    (unix_dgram_socket (append bind connect getattr getopt ioctl
+					       read setopt shutdown write)))
+(classpermissionset readwrite_unix_stream_socket
+		    (unix_stream_socket (append bind connect getattr getopt
+						ioctl read setopt shutdown
+						write)))
+(classpermissionset readwrite_vsock_socket
+		    (vsock_socket (append bind connect getattr getopt ioctl
+					  read setopt shutdown write)))
+
+(classpermissionset write_alg_socket
+		    (alg_socket (append bind connect getattr getopt ioctl setopt
+					shutdown write)))
+(classpermissionset write_bluetooth_socket
+		    (bluetooth_socket (append bind connect getattr getopt ioctl
+					      setopt shutdown write)))
+(classpermissionset write_dccp_socket
+		    (dccp_socket (append bind connect getattr getopt ioctl
+					 setopt shutdown write)))
+(classpermissionset write_sctp_socket
+		    (sctp_socket (append bind connect getattr getopt ioctl
+					 setopt shutdown write)))
+(classpermissionset write_tcp_socket
+		    (tcp_socket (append bind connect getattr getopt ioctl setopt
+					shutdown write)))
+(classpermissionset write_tun_socket
+		    (tun_socket (append bind connect getattr getopt ioctl setopt
+					shutdown write)))
+(classpermissionset write_unix_dgram_socket
+		    (unix_dgram_socket (append bind connect getattr getopt ioctl
+					       setopt shutdown write)))
+(classpermissionset write_unix_stream_socket
+		    (unix_stream_socket (append bind connect getattr getopt
+						ioctl setopt shutdown write)))
+(classpermissionset write_vsock_socket
+		    (vsock_socket (append bind connect getattr getopt ioctl
+					  setopt shutdown write)))
+
+(classmap constrainsocketobject (nameconnect nodebind))
+(classmap constrainsocketsubject
+	  (append association attachqueue connectto create getattr read
+		  relabelto sendto setattr write))
+
+(classmap sockets (common getattr))
+
+(classmapping constrainsocketobject nameconnect (dccp_socket (name_connect)))
+(classmapping constrainsocketobject nameconnect (sctp_socket (name_connect)))
+(classmapping constrainsocketobject nameconnect (tcp_socket (name_connect)))
+
+(classmapping constrainsocketobject nodebind (dccp_socket (node_bind)))
+(classmapping constrainsocketobject nodebind (icmp_socket (node_bind)))
+(classmapping constrainsocketobject nodebind (rawip_socket (node_bind)))
+(classmapping constrainsocketobject nodebind (sctp_socket (node_bind)))
+(classmapping constrainsocketobject nodebind (tcp_socket (node_bind)))
+(classmapping constrainsocketobject nodebind (udp_socket (node_bind)))
+
+(classmapping constrainsocketsubject append (alg_socket (append)))
+(classmapping constrainsocketsubject append (appletalk_socket (append)))
+(classmapping constrainsocketsubject append (atmpvc_socket (append)))
+(classmapping constrainsocketsubject append (atmsvc_socket (append)))
+(classmapping constrainsocketsubject append (ax25_socket (append)))
+(classmapping constrainsocketsubject append (bluetooth_socket (append)))
+(classmapping constrainsocketsubject append (caif_socket (append)))
+(classmapping constrainsocketsubject append (can_socket (append)))
+(classmapping constrainsocketsubject append (dccp_socket (append)))
+(classmapping constrainsocketsubject append (decnet_socket (append)))
+(classmapping constrainsocketsubject append (icmp_socket (append)))
+(classmapping constrainsocketsubject append (ieee802154_socket (append)))
+(classmapping constrainsocketsubject append (ipx_socket (append)))
+(classmapping constrainsocketsubject append (irda_socket (append)))
+(classmapping constrainsocketsubject append (isdn_socket (append)))
+(classmapping constrainsocketsubject append (iucv_socket (append)))
+(classmapping constrainsocketsubject append (kcm_socket (append)))
+(classmapping constrainsocketsubject append (key_socket (append)))
+(classmapping constrainsocketsubject append (llc_socket (append)))
+(classmapping constrainsocketsubject append (mctp_socket (append)))
+(classmapping constrainsocketsubject append (netlink_audit_socket (append)))
+(classmapping constrainsocketsubject append (netlink_connector_socket (append)))
+(classmapping constrainsocketsubject append (netlink_crypto_socket (append)))
+(classmapping constrainsocketsubject append (netlink_dnrt_socket (append)))
+(classmapping constrainsocketsubject append
+	      (netlink_fib_lookup_socket (append)))
+(classmapping constrainsocketsubject append (netlink_generic_socket (append)))
+(classmapping constrainsocketsubject append (netlink_iscsi_socket (append)))
+(classmapping constrainsocketsubject append
+	      (netlink_kobject_uevent_socket (append)))
+(classmapping constrainsocketsubject append (netlink_netfilter_socket (append)))
+(classmapping constrainsocketsubject append (netlink_nflog_socket (append)))
+(classmapping constrainsocketsubject append (netlink_rdma_socket (append)))
+(classmapping constrainsocketsubject append (netlink_route_socket (append)))
+(classmapping constrainsocketsubject append
+	      (netlink_scsitransport_socket (append)))
+(classmapping constrainsocketsubject append (netlink_selinux_socket (append)))
+(classmapping constrainsocketsubject append (netlink_socket (append)))
+(classmapping constrainsocketsubject append (netlink_tcpdiag_socket (append)))
+(classmapping constrainsocketsubject append (netlink_xfrm_socket (append)))
+(classmapping constrainsocketsubject append (netrom_socket (append)))
+(classmapping constrainsocketsubject append (nfc_socket (append)))
+(classmapping constrainsocketsubject append (packet_socket (append)))
+(classmapping constrainsocketsubject append (phonet_socket (append)))
+(classmapping constrainsocketsubject append (pppox_socket (append)))
+(classmapping constrainsocketsubject append (qipcrtr_socket (append)))
+(classmapping constrainsocketsubject append (rawip_socket (append)))
+(classmapping constrainsocketsubject append (rds_socket (append)))
+(classmapping constrainsocketsubject append (rose_socket (append)))
+(classmapping constrainsocketsubject append (rxrpc_socket (append)))
+(classmapping constrainsocketsubject append (sctp_socket (append)))
+(classmapping constrainsocketsubject append (smc_socket (append)))
+(classmapping constrainsocketsubject append (socket (append)))
+(classmapping constrainsocketsubject append (tcp_socket (append)))
+(classmapping constrainsocketsubject append (tipc_socket (append)))
+(classmapping constrainsocketsubject append (tun_socket (append)))
+(classmapping constrainsocketsubject append (udp_socket (append)))
+(classmapping constrainsocketsubject append (unix_dgram_socket (append)))
+(classmapping constrainsocketsubject append (unix_stream_socket (append)))
+(classmapping constrainsocketsubject append (vsock_socket (append)))
+(classmapping constrainsocketsubject append (x25_socket (append)))
+(classmapping constrainsocketsubject append (xdp_socket (append)))
+
+(classmapping constrainsocketsubject
+	      association (sctp_socket (association)))
+
+(classmapping constrainsocketsubject
+	      attachqueue (tun_socket (attach_queue)))
+
+(classmapping constrainsocketsubject
+	      connectto (unix_stream_socket (connectto)))
+
+(classmapping constrainsocketsubject create (alg_socket (create)))
+(classmapping constrainsocketsubject create (appletalk_socket (create)))
+(classmapping constrainsocketsubject create (atmpvc_socket (create)))
+(classmapping constrainsocketsubject create (atmsvc_socket (create)))
+(classmapping constrainsocketsubject create (ax25_socket (create)))
+(classmapping constrainsocketsubject create (bluetooth_socket (create)))
+(classmapping constrainsocketsubject create (caif_socket (create)))
+(classmapping constrainsocketsubject create (can_socket (create)))
+(classmapping constrainsocketsubject create (dccp_socket (create)))
+(classmapping constrainsocketsubject create (decnet_socket (create)))
+(classmapping constrainsocketsubject create (icmp_socket (create)))
+(classmapping constrainsocketsubject create (ieee802154_socket (create)))
+(classmapping constrainsocketsubject create (ipx_socket (create)))
+(classmapping constrainsocketsubject create (irda_socket (create)))
+(classmapping constrainsocketsubject create (isdn_socket (create)))
+(classmapping constrainsocketsubject create (iucv_socket (create)))
+(classmapping constrainsocketsubject create (kcm_socket (create)))
+(classmapping constrainsocketsubject create (key_socket (create)))
+(classmapping constrainsocketsubject create (llc_socket (create)))
+(classmapping constrainsocketsubject create (mctp_socket (create)))
+(classmapping constrainsocketsubject create (netlink_audit_socket (create)))
+(classmapping constrainsocketsubject create (netlink_connector_socket (create)))
+(classmapping constrainsocketsubject create (netlink_crypto_socket (create)))
+(classmapping constrainsocketsubject create (netlink_dnrt_socket (create)))
+(classmapping constrainsocketsubject create
+	      (netlink_fib_lookup_socket (create)))
+(classmapping constrainsocketsubject create (netlink_generic_socket (create)))
+(classmapping constrainsocketsubject create (netlink_iscsi_socket (create)))
+(classmapping constrainsocketsubject create
+	      (netlink_kobject_uevent_socket (create)))
+(classmapping constrainsocketsubject create (netlink_netfilter_socket (create)))
+(classmapping constrainsocketsubject create (netlink_nflog_socket (create)))
+(classmapping constrainsocketsubject create (netlink_rdma_socket (create)))
+(classmapping constrainsocketsubject create (netlink_route_socket (create)))
+(classmapping constrainsocketsubject create
+	      (netlink_scsitransport_socket (create)))
+(classmapping constrainsocketsubject create (netlink_selinux_socket (create)))
+(classmapping constrainsocketsubject create (netlink_socket (create)))
+(classmapping constrainsocketsubject create (netlink_tcpdiag_socket (create)))
+(classmapping constrainsocketsubject create (netlink_xfrm_socket (create)))
+(classmapping constrainsocketsubject create (netrom_socket (create)))
+(classmapping constrainsocketsubject create (nfc_socket (create)))
+(classmapping constrainsocketsubject create (packet_socket (create)))
+(classmapping constrainsocketsubject create (phonet_socket (create)))
+(classmapping constrainsocketsubject create (pppox_socket (create)))
+(classmapping constrainsocketsubject create (qipcrtr_socket (create)))
+(classmapping constrainsocketsubject create (rawip_socket (create)))
+(classmapping constrainsocketsubject create (rds_socket (create)))
+(classmapping constrainsocketsubject create (rose_socket (create)))
+(classmapping constrainsocketsubject create (rxrpc_socket (create)))
+(classmapping constrainsocketsubject create (sctp_socket (create)))
+(classmapping constrainsocketsubject create (smc_socket (create)))
+(classmapping constrainsocketsubject create (socket (create)))
+(classmapping constrainsocketsubject create (tcp_socket (create)))
+(classmapping constrainsocketsubject create (tipc_socket (create)))
+(classmapping constrainsocketsubject create (tun_socket (create)))
+(classmapping constrainsocketsubject create (udp_socket (create)))
+(classmapping constrainsocketsubject create (unix_dgram_socket (create)))
+(classmapping constrainsocketsubject create (unix_stream_socket (create)))
+(classmapping constrainsocketsubject create (vsock_socket (create)))
+(classmapping constrainsocketsubject create (x25_socket (create)))
+(classmapping constrainsocketsubject create (xdp_socket (create)))
+
+(classmapping constrainsocketsubject getattr (alg_socket (getattr)))
+(classmapping constrainsocketsubject getattr (appletalk_socket (getattr)))
+(classmapping constrainsocketsubject getattr (atmpvc_socket (getattr)))
+(classmapping constrainsocketsubject getattr (atmsvc_socket (getattr)))
+(classmapping constrainsocketsubject getattr (ax25_socket (getattr)))
+(classmapping constrainsocketsubject getattr (bluetooth_socket (getattr)))
+(classmapping constrainsocketsubject getattr (caif_socket (getattr)))
+(classmapping constrainsocketsubject getattr (can_socket (getattr)))
+(classmapping constrainsocketsubject getattr (dccp_socket (getattr)))
+(classmapping constrainsocketsubject getattr (decnet_socket (getattr)))
+(classmapping constrainsocketsubject getattr (icmp_socket (getattr)))
+(classmapping constrainsocketsubject getattr (ieee802154_socket (getattr)))
+(classmapping constrainsocketsubject getattr (ipx_socket (getattr)))
+(classmapping constrainsocketsubject getattr (irda_socket (getattr)))
+(classmapping constrainsocketsubject getattr (isdn_socket (getattr)))
+(classmapping constrainsocketsubject getattr (iucv_socket (getattr)))
+(classmapping constrainsocketsubject getattr (kcm_socket (getattr)))
+(classmapping constrainsocketsubject getattr (key_socket (getattr)))
+(classmapping constrainsocketsubject getattr (llc_socket (getattr)))
+(classmapping constrainsocketsubject getattr (mctp_socket (getattr)))
+(classmapping constrainsocketsubject getattr (netlink_audit_socket (getattr)))
+(classmapping constrainsocketsubject getattr
+	      (netlink_connector_socket (getattr)))
+(classmapping constrainsocketsubject getattr (netlink_crypto_socket (getattr)))
+(classmapping constrainsocketsubject getattr (netlink_dnrt_socket (getattr)))
+(classmapping constrainsocketsubject getattr
+	      (netlink_fib_lookup_socket (getattr)))
+(classmapping constrainsocketsubject getattr (netlink_generic_socket (getattr)))
+(classmapping constrainsocketsubject getattr (netlink_iscsi_socket (getattr)))
+(classmapping constrainsocketsubject getattr
+	      (netlink_kobject_uevent_socket (getattr)))
+(classmapping constrainsocketsubject getattr
+	      (netlink_netfilter_socket (getattr)))
+(classmapping constrainsocketsubject getattr (netlink_nflog_socket (getattr)))
+(classmapping constrainsocketsubject getattr (netlink_rdma_socket (getattr)))
+(classmapping constrainsocketsubject getattr (netlink_route_socket (getattr)))
+(classmapping constrainsocketsubject getattr
+	      (netlink_scsitransport_socket (getattr)))
+(classmapping constrainsocketsubject getattr (netlink_selinux_socket (getattr)))
+(classmapping constrainsocketsubject getattr (netlink_socket (getattr)))
+(classmapping constrainsocketsubject getattr (netlink_tcpdiag_socket (getattr)))
+(classmapping constrainsocketsubject getattr (netlink_xfrm_socket (getattr)))
+(classmapping constrainsocketsubject getattr (netrom_socket (getattr)))
+(classmapping constrainsocketsubject getattr (nfc_socket (getattr)))
+(classmapping constrainsocketsubject getattr (packet_socket (getattr)))
+(classmapping constrainsocketsubject getattr (phonet_socket (getattr)))
+(classmapping constrainsocketsubject getattr (pppox_socket (getattr)))
+(classmapping constrainsocketsubject getattr (process (getattr)))
+(classmapping constrainsocketsubject getattr (qipcrtr_socket (getattr)))
+(classmapping constrainsocketsubject getattr (rawip_socket (getattr)))
+(classmapping constrainsocketsubject getattr (rds_socket (getattr)))
+(classmapping constrainsocketsubject getattr (rose_socket (getattr)))
+(classmapping constrainsocketsubject getattr (rxrpc_socket (getattr)))
+(classmapping constrainsocketsubject getattr (sctp_socket (getattr)))
+(classmapping constrainsocketsubject getattr (smc_socket (getattr)))
+(classmapping constrainsocketsubject getattr (socket (getattr)))
+(classmapping constrainsocketsubject getattr (tcp_socket (getattr)))
+(classmapping constrainsocketsubject getattr (tipc_socket (getattr)))
+(classmapping constrainsocketsubject getattr (tun_socket (getattr)))
+(classmapping constrainsocketsubject getattr (udp_socket (getattr)))
+(classmapping constrainsocketsubject getattr (unix_dgram_socket (getattr)))
+(classmapping constrainsocketsubject getattr (unix_stream_socket (getattr)))
+(classmapping constrainsocketsubject getattr (vsock_socket (getattr)))
+(classmapping constrainsocketsubject getattr (x25_socket (getattr)))
+(classmapping constrainsocketsubject getattr (xdp_socket (getattr)))
+
+(classmapping constrainsocketsubject read (alg_socket (read)))
+(classmapping constrainsocketsubject read (appletalk_socket (read)))
+(classmapping constrainsocketsubject read (atmpvc_socket (read)))
+(classmapping constrainsocketsubject read (atmsvc_socket (read)))
+(classmapping constrainsocketsubject read (ax25_socket (read)))
+(classmapping constrainsocketsubject read (bluetooth_socket (read)))
+(classmapping constrainsocketsubject read (caif_socket (read)))
+(classmapping constrainsocketsubject read (can_socket (read)))
+(classmapping constrainsocketsubject read (dccp_socket (read)))
+(classmapping constrainsocketsubject read (decnet_socket (read)))
+(classmapping constrainsocketsubject read (icmp_socket (read)))
+(classmapping constrainsocketsubject read (ieee802154_socket (read)))
+(classmapping constrainsocketsubject read (ipx_socket (read)))
+(classmapping constrainsocketsubject read (irda_socket (read)))
+(classmapping constrainsocketsubject read (isdn_socket (read)))
+(classmapping constrainsocketsubject read (iucv_socket (read)))
+(classmapping constrainsocketsubject read (kcm_socket (read)))
+(classmapping constrainsocketsubject read (key_socket (read)))
+(classmapping constrainsocketsubject read (llc_socket (read)))
+(classmapping constrainsocketsubject read (mctp_socket (read)))
+(classmapping constrainsocketsubject read (netlink_audit_socket (read)))
+(classmapping constrainsocketsubject read (netlink_connector_socket (read)))
+(classmapping constrainsocketsubject read (netlink_crypto_socket (read)))
+(classmapping constrainsocketsubject read (netlink_dnrt_socket (read)))
+(classmapping constrainsocketsubject read (netlink_fib_lookup_socket (read)))
+(classmapping constrainsocketsubject read (netlink_generic_socket (read)))
+(classmapping constrainsocketsubject read (netlink_iscsi_socket (read)))
+(classmapping constrainsocketsubject read
+	      (netlink_kobject_uevent_socket (read)))
+(classmapping constrainsocketsubject read (netlink_netfilter_socket (read)))
+(classmapping constrainsocketsubject read (netlink_nflog_socket (read)))
+(classmapping constrainsocketsubject read (netlink_rdma_socket (read)))
+(classmapping constrainsocketsubject read (netlink_route_socket (read)))
+(classmapping constrainsocketsubject read (netlink_scsitransport_socket (read)))
+(classmapping constrainsocketsubject read (netlink_selinux_socket (read)))
+(classmapping constrainsocketsubject read (netlink_socket (read)))
+(classmapping constrainsocketsubject read (netlink_tcpdiag_socket (read)))
+(classmapping constrainsocketsubject read (netlink_xfrm_socket (read)))
+(classmapping constrainsocketsubject read (netrom_socket (read)))
+(classmapping constrainsocketsubject read (nfc_socket (read)))
+(classmapping constrainsocketsubject read (packet_socket (read)))
+(classmapping constrainsocketsubject read (phonet_socket (read)))
+(classmapping constrainsocketsubject read (pppox_socket (read)))
+(classmapping constrainsocketsubject read (qipcrtr_socket (read)))
+(classmapping constrainsocketsubject read (rawip_socket (read)))
+(classmapping constrainsocketsubject read (rds_socket (read)))
+(classmapping constrainsocketsubject read (rose_socket (read)))
+(classmapping constrainsocketsubject read (rxrpc_socket (read)))
+(classmapping constrainsocketsubject read (sctp_socket (read)))
+(classmapping constrainsocketsubject read (smc_socket (read)))
+(classmapping constrainsocketsubject read (socket (read)))
+(classmapping constrainsocketsubject read (tcp_socket (read)))
+(classmapping constrainsocketsubject read (tipc_socket (read)))
+(classmapping constrainsocketsubject read (tun_socket (read)))
+(classmapping constrainsocketsubject read (udp_socket (read)))
+(classmapping constrainsocketsubject read (unix_dgram_socket (read)))
+(classmapping constrainsocketsubject read (unix_stream_socket (read)))
+(classmapping constrainsocketsubject read (vsock_socket (read)))
+(classmapping constrainsocketsubject read (x25_socket (read)))
+(classmapping constrainsocketsubject read (xdp_socket (read)))
+
+(classmapping constrainsocketsubject relabelto (alg_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto (appletalk_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto (atmpvc_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto (atmsvc_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto (ax25_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto (bluetooth_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto (caif_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto (can_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto (dccp_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto (decnet_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto (icmp_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto (ieee802154_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto (ipx_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto (irda_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto (isdn_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto (iucv_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto (kcm_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto (key_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto (llc_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto (mctp_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto
+	      (netlink_audit_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto
+	      (netlink_connector_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto
+	      (netlink_crypto_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto
+	      (netlink_dnrt_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto
+	      (netlink_fib_lookup_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto
+	      (netlink_generic_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto
+	      (netlink_iscsi_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto
+	      (netlink_kobject_uevent_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto
+	      (netlink_netfilter_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto
+	      (netlink_nflog_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto
+	      (netlink_rdma_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto
+	      (netlink_route_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto
+	      (netlink_scsitransport_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto
+	      (netlink_selinux_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto (netlink_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto
+	      (netlink_tcpdiag_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto
+	      (netlink_xfrm_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto (netrom_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto (nfc_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto (packet_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto (phonet_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto (pppox_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto (qipcrtr_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto (rawip_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto (rds_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto (rose_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto (rxrpc_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto (sctp_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto (smc_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto (socket (relabelto)))
+(classmapping constrainsocketsubject relabelto (tcp_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto (tipc_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto (tun_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto (udp_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto (unix_dgram_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto (unix_stream_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto (vsock_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto (x25_socket (relabelto)))
+(classmapping constrainsocketsubject relabelto (xdp_socket (relabelto)))
+
+(classmapping constrainsocketsubject sendto (unix_dgram_socket (sendto)))
+
+(classmapping constrainsocketsubject setattr (alg_socket (setattr)))
+(classmapping constrainsocketsubject setattr (appletalk_socket (setattr)))
+(classmapping constrainsocketsubject setattr (atmpvc_socket (setattr)))
+(classmapping constrainsocketsubject setattr (atmsvc_socket (setattr)))
+(classmapping constrainsocketsubject setattr (ax25_socket (setattr)))
+(classmapping constrainsocketsubject setattr (bluetooth_socket (setattr)))
+(classmapping constrainsocketsubject setattr (caif_socket (setattr)))
+(classmapping constrainsocketsubject setattr (can_socket (setattr)))
+(classmapping constrainsocketsubject setattr (dccp_socket (setattr)))
+(classmapping constrainsocketsubject setattr (decnet_socket (setattr)))
+(classmapping constrainsocketsubject setattr (icmp_socket (setattr)))
+(classmapping constrainsocketsubject setattr (ieee802154_socket (setattr)))
+(classmapping constrainsocketsubject setattr (ipx_socket (setattr)))
+(classmapping constrainsocketsubject setattr (irda_socket (setattr)))
+(classmapping constrainsocketsubject setattr (isdn_socket (setattr)))
+(classmapping constrainsocketsubject setattr (iucv_socket (setattr)))
+(classmapping constrainsocketsubject setattr (kcm_socket (setattr)))
+(classmapping constrainsocketsubject setattr (key_socket (setattr)))
+(classmapping constrainsocketsubject setattr (llc_socket (setattr)))
+(classmapping constrainsocketsubject setattr (mctp_socket (setattr)))
+(classmapping constrainsocketsubject setattr (netlink_audit_socket (setattr)))
+(classmapping constrainsocketsubject setattr
+	      (netlink_connector_socket (setattr)))
+(classmapping constrainsocketsubject setattr (netlink_crypto_socket (setattr)))
+(classmapping constrainsocketsubject setattr (netlink_dnrt_socket (setattr)))
+(classmapping constrainsocketsubject setattr
+	      (netlink_fib_lookup_socket (setattr)))
+(classmapping constrainsocketsubject setattr (netlink_generic_socket (setattr)))
+(classmapping constrainsocketsubject setattr (netlink_iscsi_socket (setattr)))
+(classmapping constrainsocketsubject setattr
+	      (netlink_kobject_uevent_socket (setattr)))
+(classmapping constrainsocketsubject setattr
+	      (netlink_netfilter_socket (setattr)))
+(classmapping constrainsocketsubject setattr (netlink_nflog_socket (setattr)))
+(classmapping constrainsocketsubject setattr (netlink_rdma_socket (setattr)))
+(classmapping constrainsocketsubject setattr (netlink_route_socket (setattr)))
+(classmapping constrainsocketsubject setattr
+	      (netlink_scsitransport_socket (setattr)))
+(classmapping constrainsocketsubject setattr (netlink_selinux_socket (setattr)))
+(classmapping constrainsocketsubject setattr (netlink_socket (setattr)))
+(classmapping constrainsocketsubject setattr (netlink_tcpdiag_socket (setattr)))
+(classmapping constrainsocketsubject setattr (netlink_xfrm_socket (setattr)))
+(classmapping constrainsocketsubject setattr (netrom_socket (setattr)))
+(classmapping constrainsocketsubject setattr (nfc_socket (setattr)))
+(classmapping constrainsocketsubject setattr (packet_socket (setattr)))
+(classmapping constrainsocketsubject setattr (phonet_socket (setattr)))
+(classmapping constrainsocketsubject setattr (pppox_socket (setattr)))
+(classmapping constrainsocketsubject setattr (qipcrtr_socket (setattr)))
+(classmapping constrainsocketsubject setattr (rawip_socket (setattr)))
+(classmapping constrainsocketsubject setattr (rds_socket (setattr)))
+(classmapping constrainsocketsubject setattr (rose_socket (setattr)))
+(classmapping constrainsocketsubject setattr (rxrpc_socket (setattr)))
+(classmapping constrainsocketsubject setattr (sctp_socket (setattr)))
+(classmapping constrainsocketsubject setattr (smc_socket (setattr)))
+(classmapping constrainsocketsubject setattr (socket (setattr)))
+(classmapping constrainsocketsubject setattr (tcp_socket (setattr)))
+(classmapping constrainsocketsubject setattr (tipc_socket (setattr)))
+(classmapping constrainsocketsubject setattr (tun_socket (setattr)))
+(classmapping constrainsocketsubject setattr (udp_socket (setattr)))
+(classmapping constrainsocketsubject setattr (unix_dgram_socket (setattr)))
+(classmapping constrainsocketsubject setattr (unix_stream_socket (setattr)))
+(classmapping constrainsocketsubject setattr (vsock_socket (setattr)))
+(classmapping constrainsocketsubject setattr (x25_socket (setattr)))
+(classmapping constrainsocketsubject setattr (xdp_socket (setattr)))
+
+(classmapping constrainsocketsubject write (alg_socket (write)))
+(classmapping constrainsocketsubject write (appletalk_socket (write)))
+(classmapping constrainsocketsubject write (atmpvc_socket (write)))
+(classmapping constrainsocketsubject write (atmsvc_socket (write)))
+(classmapping constrainsocketsubject write (ax25_socket (write)))
+(classmapping constrainsocketsubject write (bluetooth_socket (write)))
+(classmapping constrainsocketsubject write (caif_socket (write)))
+(classmapping constrainsocketsubject write (can_socket (write)))
+(classmapping constrainsocketsubject write (dccp_socket (write)))
+(classmapping constrainsocketsubject write (decnet_socket (write)))
+(classmapping constrainsocketsubject write (icmp_socket (write)))
+(classmapping constrainsocketsubject write (ieee802154_socket (write)))
+(classmapping constrainsocketsubject write (ipx_socket (write)))
+(classmapping constrainsocketsubject write (irda_socket (write)))
+(classmapping constrainsocketsubject write (isdn_socket (write)))
+(classmapping constrainsocketsubject write (iucv_socket (write)))
+(classmapping constrainsocketsubject write (kcm_socket (write)))
+(classmapping constrainsocketsubject write (key_socket (write)))
+(classmapping constrainsocketsubject write (llc_socket (write)))
+(classmapping constrainsocketsubject write (mctp_socket (write)))
+(classmapping constrainsocketsubject write (netlink_audit_socket (write)))
+(classmapping constrainsocketsubject write (netlink_connector_socket (write)))
+(classmapping constrainsocketsubject write (netlink_crypto_socket (write)))
+(classmapping constrainsocketsubject write (netlink_dnrt_socket (write)))
+(classmapping constrainsocketsubject write (netlink_fib_lookup_socket (write)))
+(classmapping constrainsocketsubject write (netlink_generic_socket (write)))
+(classmapping constrainsocketsubject write (netlink_iscsi_socket (write)))
+(classmapping constrainsocketsubject write
+	      (netlink_kobject_uevent_socket (write)))
+(classmapping constrainsocketsubject write (netlink_netfilter_socket (write)))
+(classmapping constrainsocketsubject write (netlink_nflog_socket (write)))
+(classmapping constrainsocketsubject write (netlink_rdma_socket (write)))
+(classmapping constrainsocketsubject write (netlink_route_socket (write)))
+(classmapping constrainsocketsubject write
+	      (netlink_scsitransport_socket (write)))
+(classmapping constrainsocketsubject write (netlink_selinux_socket (write)))
+(classmapping constrainsocketsubject write (netlink_socket (write)))
+(classmapping constrainsocketsubject write (netlink_tcpdiag_socket (write)))
+(classmapping constrainsocketsubject write (netlink_xfrm_socket (write)))
+(classmapping constrainsocketsubject write (netrom_socket (write)))
+(classmapping constrainsocketsubject write (nfc_socket (write)))
+(classmapping constrainsocketsubject write (packet_socket (write)))
+(classmapping constrainsocketsubject write (phonet_socket (write)))
+(classmapping constrainsocketsubject write (pppox_socket (write)))
+(classmapping constrainsocketsubject write (qipcrtr_socket (write)))
+(classmapping constrainsocketsubject write (rawip_socket (write)))
+(classmapping constrainsocketsubject write (rds_socket (write)))
+(classmapping constrainsocketsubject write (rose_socket (write)))
+(classmapping constrainsocketsubject write (rxrpc_socket (write)))
+(classmapping constrainsocketsubject write (sctp_socket (write)))
+(classmapping constrainsocketsubject write (smc_socket (write)))
+(classmapping constrainsocketsubject write (socket (write)))
+(classmapping constrainsocketsubject write (tcp_socket (write)))
+(classmapping constrainsocketsubject write (tipc_socket (write)))
+(classmapping constrainsocketsubject write (tun_socket (write)))
+(classmapping constrainsocketsubject write (udp_socket (write)))
+(classmapping constrainsocketsubject write (unix_dgram_socket (write)))
+(classmapping constrainsocketsubject write (unix_stream_socket (write)))
+(classmapping constrainsocketsubject write (vsock_socket (write)))
+(classmapping constrainsocketsubject write (x25_socket (write)))
+(classmapping constrainsocketsubject write (xdp_socket (write)))
+
+(classmapping sockets common
+	      (alg_socket (not (accept listen map name_bind relabelfrom
+				       relabelto recvfrom sendto))))
+(classmapping sockets common
+	      (appletalk_socket (not (accept listen map name_bind relabelfrom
+					     relabelto recvfrom sendto))))
+(classmapping sockets common
+	      (atmpvc_socket (not (accept listen map name_bind relabelfrom
+					  relabelto recvfrom sendto))))
+(classmapping sockets common
+	      (atmsvc_socket (not (accept listen map name_bind relabelfrom
+					  relabelto recvfrom sendto))))
+(classmapping sockets common
+	      (ax25_socket (not (accept listen map name_bind relabelfrom
+					relabelto recvfrom sendto))))
+(classmapping sockets common
+	      (bluetooth_socket (not (accept listen map name_bind relabelfrom
+					     relabelto recvfrom sendto))))
+(classmapping sockets common
+	      (caif_socket (not (accept listen map name_bind relabelfrom
+					relabelto recvfrom sendto))))
+(classmapping sockets common
+	      (can_socket (not (accept listen map name_bind relabelfrom
+				       relabelto recvfrom sendto))))
+(classmapping sockets common
+	      (dccp_socket (not (accept listen map name_connect name_bind
+					node_bind relabelfrom relabelto recvfrom
+					sendto))))
+(classmapping sockets common
+	      (decnet_socket (not (accept listen map name_bind relabelfrom
+					  relabelto recvfrom sendto))))
+(classmapping sockets common
+	      (icmp_socket (not (accept listen map name_bind node_bind
+					relabelfrom relabelto recvfrom
+					sendto))))
+(classmapping sockets common
+	      (ieee802154_socket (not (accept listen map name_bind relabelfrom
+					      relabelto recvfrom sendto))))
+(classmapping sockets common
+	      (ipx_socket (not (accept listen map name_bind relabelfrom
+				       relabelto recvfrom sendto))))
+(classmapping sockets common
+	      (irda_socket (not (accept listen map name_bind relabelfrom
+					relabelto recvfrom sendto))))
+(classmapping sockets common
+	      (isdn_socket (not (accept listen map name_bind relabelfrom
+					relabelto recvfrom sendto))))
+(classmapping sockets common
+	      (iucv_socket (not (accept listen map name_bind relabelfrom
+					relabelto recvfrom sendto))))
+(classmapping sockets common
+	      (kcm_socket (not (accept listen map name_bind relabelfrom
+				       relabelto recvfrom sendto))))
+(classmapping sockets common
+	      (key_socket (not (accept listen map name_bind relabelfrom
+				       relabelto recvfrom sendto))))
+(classmapping sockets common
+	      (llc_socket (not (accept listen map name_bind relabelfrom
+				       relabelto recvfrom sendto))))
+(classmapping sockets common
+	      (mctp_socket (not (accept listen map name_bind relabelfrom
+					relabelto recvfrom sendto))))
+(classmapping sockets common
+	      (netlink_audit_socket (not (accept listen map name_bind nlmsg_read
+						 nlmsg_readpriv nlmsg_relay
+						 nlmsg_tty_audit nlmsg_write
+						 relabelfrom relabelto recvfrom
+						 sendto))))
+(classmapping sockets common
+	      (netlink_connector_socket (not (accept listen map name_bind
+						     relabelfrom relabelto
+						     recvfrom sendto))))
+(classmapping sockets common
+	      (netlink_crypto_socket (not (accept listen map name_bind
+						  relabelfrom relabelto
+						  recvfrom sendto))))
+(classmapping sockets common
+	      (netlink_dnrt_socket (not (accept listen map name_bind
+						relabelfrom relabelto
+						recvfrom sendto))))
+(classmapping sockets common
+	      (netlink_fib_lookup_socket (not (accept listen map name_bind
+						      relabelfrom relabelto
+						      recvfrom sendto))))
+(classmapping sockets common
+	      (netlink_generic_socket (not (accept listen map name_bind
+						   relabelfrom relabelto
+						   recvfrom sendto))))
+(classmapping sockets common
+	      (netlink_iscsi_socket (not (accept listen map name_bind
+						 relabelfrom relabelto
+						 recvfrom sendto))))
+(classmapping sockets common
+	      (netlink_kobject_uevent_socket (not (accept listen map name_bind
+							  relabelfrom relabelto
+							  recvfrom sendto))))
+(classmapping sockets common
+	      (netlink_netfilter_socket (not (accept listen map name_bind
+						     relabelfrom relabelto
+						     recvfrom sendto))))
+(classmapping sockets common
+	      (netlink_nflog_socket (not (accept listen map name_bind
+						 relabelfrom relabelto
+						 recvfrom sendto))))
+(classmapping sockets common
+	      (netlink_rdma_socket (not (accept listen map name_bind
+						relabelfrom relabelto
+						recvfrom sendto))))
+(classmapping sockets common
+	      (netlink_route_socket (not (accept listen map name_bind nlmsg_read
+						 nlmsg_write relabelfrom
+						 relabelto recvfrom sendto))))
+(classmapping sockets common
+	      (netlink_scsitransport_socket (not (accept listen map name_bind
+							 relabelfrom relabelto
+							 recvfrom sendto))))
+(classmapping sockets common
+	      (netlink_selinux_socket (not (accept listen map name_bind
+						   relabelfrom relabelto
+						   recvfrom sendto))))
+(classmapping sockets common
+	      (netlink_socket (not (accept listen map name_bind relabelfrom
+					   relabelto recvfrom sendto))))
+(classmapping sockets common
+	      (netlink_tcpdiag_socket (not (accept listen map name_bind
+						   nlmsg_read nlmsg_write
+						   relabelfrom relabelto
+						   recvfrom sendto))))
+(classmapping sockets common
+	      (netlink_xfrm_socket (not (accept listen map name_bind nlmsg_read
+						nlmsg_write relabelfrom
+						relabelto recvfrom sendto))))
+(classmapping sockets common
+	      (netrom_socket (not (accept listen map name_bind relabelfrom
+					  relabelto recvfrom sendto))))
+(classmapping sockets common
+	      (nfc_socket (not (accept listen map name_bind relabelfrom
+				       relabelto recvfrom sendto))))
+(classmapping sockets common
+	      (packet_socket (not (accept listen map name_bind relabelfrom
+					  relabelto recvfrom sendto))))
+(classmapping sockets common
+	      (phonet_socket (not (accept listen map name_bind relabelfrom
+					  relabelto recvfrom sendto))))
+(classmapping sockets common
+	      (pppox_socket (not (accept listen map name_bind relabelfrom
+					 relabelto recvfrom sendto))))
+(classmapping sockets common
+	      (qipcrtr_socket (not (accept listen map name_bind relabelfrom
+					   relabelto recvfrom sendto))))
+(classmapping sockets common
+	      (rawip_socket (not (accept listen map name_bind node_bind
+					 relabelfrom relabelto recvfrom
+					 sendto))))
+(classmapping sockets common
+	      (rds_socket (not (accept listen map name_bind relabelfrom
+				       relabelto recvfrom sendto))))
+(classmapping sockets common
+	      (rose_socket (not (accept listen map name_bind relabelfrom
+					relabelto recvfrom sendto))))
+(classmapping sockets common
+	      (rxrpc_socket (not (accept listen map name_bind relabelfrom
+					 relabelto recvfrom sendto))))
+(classmapping sockets common
+	      (sctp_socket (not (accept association listen map name_connect
+					name_bind node_bind relabelfrom
+					relabelto recvfrom sendto))))
+(classmapping sockets common
+	      (smc_socket (not (accept listen map name_bind relabelfrom
+				       relabelto recvfrom sendto))))
+(classmapping sockets common
+	      (socket (not (accept listen map name_bind relabelfrom
+				   relabelto recvfrom sendto))))
+(classmapping sockets common
+	      (tcp_socket (not (accept listen map name_connect name_bind
+				       node_bind relabelfrom relabelto recvfrom
+				       sendto))))
+(classmapping sockets common
+	      (tipc_socket (not (accept listen map name_bind relabelfrom
+					relabelto recvfrom sendto))))
+(classmapping sockets common
+	      (tun_socket (not (accept attach_queue listen map name_bind
+				       relabelfrom relabelto recvfrom sendto))))
+(classmapping sockets common
+	      (udp_socket (not (accept listen map name_bind node_bind
+				       relabelfrom relabelto recvfrom sendto))))
+(classmapping sockets common
+	      (unix_dgram_socket (not (accept listen map name_bind relabelfrom
+					      relabelto recvfrom sendto))))
+(classmapping sockets common
+	      (unix_stream_socket (not (accept connectto listen map name_bind
+					       relabelfrom relabelto recvfrom
+					       sendto))))
+(classmapping sockets common
+	      (vsock_socket (not (accept listen map name_bind relabelfrom
+					 relabelto recvfrom sendto))))
+(classmapping sockets common
+	      (x25_socket (not (accept listen map name_bind relabelfrom
+				       relabelto recvfrom sendto))))
+(classmapping sockets common
+	      (xdp_socket (not (accept listen map name_bind relabelfrom
+				       relabelto recvfrom sendto))))
+
+(classmapping sockets getattr (ax25_socket (getattr)))
+(classmapping sockets getattr (alg_socket (getattr)))
+(classmapping sockets getattr (appletalk_socket (getattr)))
+(classmapping sockets getattr (atmpvc_socket (getattr)))
+(classmapping sockets getattr (atmsvc_socket (getattr)))
+(classmapping sockets getattr (bluetooth_socket (getattr)))
+(classmapping sockets getattr (caif_socket (getattr)))
+(classmapping sockets getattr (can_socket (getattr)))
+(classmapping sockets getattr (dccp_socket (getattr)))
+(classmapping sockets getattr (decnet_socket (getattr)))
+(classmapping sockets getattr (icmp_socket (getattr)))
+(classmapping sockets getattr (ieee802154_socket (getattr)))
+(classmapping sockets getattr (ipx_socket (getattr)))
+(classmapping sockets getattr (irda_socket (getattr)))
+(classmapping sockets getattr (isdn_socket (getattr)))
+(classmapping sockets getattr (iucv_socket (getattr)))
+(classmapping sockets getattr (kcm_socket (getattr)))
+(classmapping sockets getattr (key_socket (getattr)))
+(classmapping sockets getattr (llc_socket (getattr)))
+(classmapping sockets getattr (mctp_socket (getattr)))
+(classmapping sockets getattr (netlink_audit_socket (getattr)))
+(classmapping sockets getattr (netlink_connector_socket (getattr)))
+(classmapping sockets getattr (netlink_crypto_socket (getattr)))
+(classmapping sockets getattr (netlink_dnrt_socket (getattr)))
+(classmapping sockets getattr (netlink_fib_lookup_socket (getattr)))
+(classmapping sockets getattr (netlink_generic_socket (getattr)))
+(classmapping sockets getattr (netlink_iscsi_socket (getattr)))
+(classmapping sockets getattr (netlink_kobject_uevent_socket (getattr)))
+(classmapping sockets getattr (netlink_netfilter_socket (getattr)))
+(classmapping sockets getattr (netlink_nflog_socket (getattr)))
+(classmapping sockets getattr (netlink_rdma_socket (getattr)))
+(classmapping sockets getattr (netlink_route_socket (getattr)))
+(classmapping sockets getattr (netlink_scsitransport_socket (getattr)))
+(classmapping sockets getattr (netlink_selinux_socket (getattr)))
+(classmapping sockets getattr (netlink_socket (getattr)))
+(classmapping sockets getattr (netlink_tcpdiag_socket (getattr)))
+(classmapping sockets getattr (netlink_xfrm_socket (getattr)))
+(classmapping sockets getattr (netrom_socket (getattr)))
+(classmapping sockets getattr (nfc_socket (getattr)))
+(classmapping sockets getattr (packet_socket (getattr)))
+(classmapping sockets getattr (phonet_socket (getattr)))
+(classmapping sockets getattr (pppox_socket (getattr)))
+(classmapping sockets getattr (qipcrtr_socket (getattr)))
+(classmapping sockets getattr (rawip_socket (getattr)))
+(classmapping sockets getattr (rds_socket (getattr)))
+(classmapping sockets getattr (rose_socket (getattr)))
+(classmapping sockets getattr (rxrpc_socket (getattr)))
+(classmapping sockets getattr (sctp_socket (getattr)))
+(classmapping sockets getattr (smc_socket (getattr)))
+(classmapping sockets getattr (socket (getattr)))
+(classmapping sockets getattr (tcp_socket (getattr)))
+(classmapping sockets getattr (tipc_socket (getattr)))
+(classmapping sockets getattr (tun_socket (getattr)))
+(classmapping sockets getattr (udp_socket (getattr)))
+(classmapping sockets getattr (unix_dgram_socket (getattr)))
+(classmapping sockets getattr (unix_stream_socket (getattr)))
+(classmapping sockets getattr (vsock_socket (getattr)))
+(classmapping sockets getattr (x25_socket (getattr)))
+(classmapping sockets getattr (xdp_socket (getattr)))
+
+(macro association_invalid_sctp_sockets ((type ARG1))
+       (allow ARG1 invalid (sctp_socket (association))))
+
+(macro connectto_invalid_unix_stream_sockets ((type ARG1))
+       (allow ARG1 invalid (unix_stream_socket (connectto))))
+
+(macro getattr_invalid_sockets ((type ARG1))
+       (allow ARG1 invalid (sockets (getattr))))
+
+(macro namebind_invalid_dccp_sockets ((type ARG1))
+       (allow ARG1 invalid (dccp_socket (name_bind))))
+
+(macro namebind_invalid_icmp_sockets ((type ARG1))
+       (allow ARG1 invalid (icmp_socket (name_bind))))
+
+(macro namebind_invalid_rawip_sockets ((type ARG1))
+       (allow ARG1 invalid (rawip_socket (name_bind))))
+
+(macro namebind_invalid_sctp_sockets ((type ARG1))
+       (allow ARG1 invalid (sctp_socket (name_bind))))
+
+(macro namebind_invalid_tcp_sockets ((type ARG1))
+       (allow ARG1 invalid (tcp_socket (name_bind))))
+
+(macro namebind_invalid_udp_sockets ((type ARG1))
+       (allow ARG1 invalid (udp_socket (name_bind))))
+
+(macro nameconnect_invalid_dccp_sockets ((type ARG1))
+       (allow ARG1 invalid (dccp_socket (name_connect))))
+
+(macro nameconnect_invalid_sctp_sockets ((type ARG1))
+       (allow ARG1 invalid (sctp_socket (name_connect))))
+
+(macro nameconnect_invalid_tcp_sockets ((type ARG1))
+       (allow ARG1 invalid (tcp_socket (name_connect))))
+
+(macro nodebind_invalid_dccp_sockets ((type ARG1))
+       (allow ARG1 invalid (dccp_socket (node_bind))))
+
+(macro nodebind_invalid_icmp_sockets ((type ARG1))
+       (allow ARG1 invalid (icmp_socket (node_bind))))
+
+(macro nodebind_invalid_rawip_sockets ((type ARG1))
+       (allow ARG1 invalid (rawip_socket (node_bind))))
+
+(macro nodebind_invalid_sctp_sockets ((type ARG1))
+       (allow ARG1 invalid (sctp_socket (node_bind))))
+
+(macro nodebind_invalid_tcp_sockets ((type ARG1))
+       (allow ARG1 invalid (tcp_socket (node_bind))))
+
+(macro nodebind_invalid_udp_sockets ((type ARG1))
+       (allow ARG1 invalid (udp_socket (node_bind))))
+
+(macro readwrite_invalid_unix_dgram_sockets ((type ARG1))
+       (allow ARG1 invalid readwrite_unix_dgram_socket))
+
+(macro readwrite_invalid_unix_stream_sockets ((type ARG1))
+       (allow ARG1 invalid readwrite_unix_stream_socket))
+
+(macro sendto_invalid_unix_dgram_sockets ((type ARG1))
+       (allow ARG1 invalid (unix_dgram_socket (sendto))))
+
+(macro write_invalid_unix_dgram_sockets ((type ARG1))
+       (allow ARG1 invalid write_unix_dgram_socket))
+
+(macro write_invalid_unix_stream_sockets ((type ARG1))
+       (allow ARG1 invalid write_unix_stream_socket))
+
+(in ibac
+
+    (constrain (constrainsocketsubject (create relabelto))
+	       (or (or (or (eq u1 u2)
+			   (and (eq t1 subjchangesys.typeattr) (eq u2 .sys.id)))
+		       (eq t1 subjchange.typeattr))
+		   (eq t1 exempt.typeattr))))
+
+(in invalid.unconfined
+
+    (allow typeattr .invalid (sockets (common)))
+    (allow typeattr .invalid (alg_socket (accept listen)))
+    (allow typeattr .invalid (bluetooth_socket (accept listen)))
+    (allow typeattr .invalid
+	   (dccp_socket (accept listen name_bind name_connect node_bind)))
+    (allow typeattr .invalid (icmp_socket (name_bind node_bind)))
+    (allow typeattr .invalid (rawip_socket (name_bind node_bind)))
+    (allow typeattr .invalid
+	   (sctp_socket (association accept listen name_bind name_connect
+				     node_bind)))
+    (allow typeattr .invalid (udp_socket (name_bind node_bind)))
+    (allow typeattr .invalid
+	   (tcp_socket (accept listen name_bind name_connect node_bind)))
+    (allow typeattr .invalid (tun_socket (attach_queue)))
+    (allow typeattr .invalid (unix_dgram_socket (sendto)))
+    (allow typeattr .invalid (unix_stream_socket (accept connectto listen)))
+    (allow typeattr .invalid (vsock_socket (accept listen))))
+
+(in mcs
+
+    (mlsconstrain (constrainsocketobject (nameconnect nodebind))
+		  (or (dom h1 h2)
+		      (neq t1 constrained.typeattr)))
+
+    (mlsconstrain
+     (constrainsocketsubject (append association attachqueue connectto create
+				     getattr read relabelto sendto setattr
+				     write))
+     (or (dom h1 h2)
+	 (neq t1 constrained.typeattr))))
+
+(in rbac
+
+    (constrain (constrainsocketsubject (create relabelto))
+	       (or (or (or (eq r1 r2)
+			   (and (eq t1 subjchangesys.typeattr)
+				(eq r2 .sys.role)))
+		       (eq t1 subjchange.typeattr))
+		   (eq t1 exempt.typeattr))))
+
+(in rbacsep
+
+    (constrain (constrainsocketsubject (append getattr read setattr write))
+	       (or (or (or (eq r1 r2)
+			   (and (eq r1 exempt.roleattr)
+				(neq t1 constrained.typeattr)))
+		       (eq t1 exempt.subj.typeattr))
+		   (and (eq t1 exemptsource.typeattr)
+			(eq t2 exempttarget.typeattr)))))
+
+(in subj.all_macro_template
+
+    (macro association_all_sctp_sockets ((type ARG1))
+	   (allow ARG1 typeattr (sctp_socket (association))))
+
+    (macro connectto_all_unix_stream_sockets ((type ARG1))
+	   (allow ARG1 typeattr (unix_stream_socket (connectto))))
+
+    (macro getattr_all_sockets ((type ARG1))
+	   (allow ARG1 typeattr (sockets (getattr))))
+
+    (macro readwrite_all_unix_dgram_sockets ((type ARG1))
+	   (allow ARG1 typeattr readwrite_unix_dgram_socket))
+
+    (macro readwrite_all_unix_stream_sockets ((type ARG1))
+	   (allow ARG1 typeattr readwrite_unix_stream_socket))
+
+    (macro sendto_all_unix_dgram_sockets ((type ARG1))
+	   (allow ARG1 typeattr (unix_dgram_socket (sendto))))
+
+    (macro write_all_unix_dgram_sockets ((type ARG1))
+	   (allow ARG1 typeattr write_unix_dgram_socket))
+
+    (macro write_all_unix_stream_sockets ((type ARG1))
+	   (allow ARG1 typeattr write_unix_stream_socket)))
+
+(in subj.macro_template
+
+    (macro association_subj_sctp_sockets ((type ARG1))
+	   (allow ARG1 subj (sctp_socket (association))))
+
+    (macro connectto_subj_unix_stream_sockets ((type ARG1))
+	   (allow ARG1 subj (unix_stream_socket (connectto))))
+
+    (macro getattr_subj_sockets ((type ARG1))
+	   (allow ARG1 subj (sockets (getattr))))
+
+    (macro readwrite_subj_unix_dgram_sockets ((type ARG1))
+	   (allow ARG1 subj readwrite_unix_dgram_socket))
+
+    (macro readwrite_subj_unix_stream_sockets ((type ARG1))
+	   (allow ARG1 subj readwrite_unix_stream_socket))
+
+    (macro sendto_subj_unix_dgram_sockets ((type ARG1))
+	   (allow ARG1 subj (unix_dgram_socket (sendto))))
+
+    (macro write_subj_unix_dgram_sockets ((type ARG1))
+	   (allow ARG1 subj write_unix_dgram_socket))
+
+    (macro write_subj_unix_stream_sockets ((type ARG1))
+	   (allow ARG1 subj write_unix_stream_socket)))
+
+(in subj.unconfined
+
+    (allow typeattr self
+	   (netlink_audit_socket (nlmsg_read nlmsg_readpriv nlmsg_relay
+					     nlmsg_tty_audit nlmsg_write)))
+    (allow typeattr self (netlink_route_socket (nlmsg_read nlmsg_write)))
+    (allow typeattr self (netlink_tcpdiag_socket (nlmsg_read nlmsg_write)))
+    (allow typeattr self (netlink_xfrm_socket (nlmsg_read nlmsg_write)))
+    (allow typeattr self (packet_socket (map)))
+    (allow typeattr self (tun_socket (relabelto)))
+
+    (allow typeattr subj.typeattr (alg_socket (accept listen)))
+    (allow typeattr subj.typeattr (bluetooth_socket (accept listen)))
+    (allow typeattr subj.typeattr (dccp_socket (accept listen)))
+    (allow typeattr subj.typeattr (sctp_socket (association accept listen)))
+    (allow typeattr subj.typeattr (sockets (common)))
+    (allow typeattr subj.typeattr (tcp_socket (accept listen)))
+    (allow typeattr subj.typeattr (tun_socket (attach_queue relabelfrom)))
+    (allow typeattr subj.typeattr (unix_dgram_socket (sendto)))
+    (allow typeattr subj.typeattr
+	   (unix_stream_socket (accept connectto listen)))
+    (allow typeattr subj.typeattr (vsock_socket (accept listen))))

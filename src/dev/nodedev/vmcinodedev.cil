@@ -1,0 +1,9 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block vmci
+
+  (filecon "/dev/vmci" char nodedev_context)
+  (filecon "/dev/vsock" char nodedev_context)
+
+  (blockinherit .nodedev.template))

@@ -1,0 +1,597 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(class filesystem
+       (associate getattr mount quotaget quotamod relabelfrom relabelto remount
+		  unmount watch))
+(classorder (unordered filesystem))
+
+(in ibac
+
+    (constrain (filesystem (relabelto))
+	       (or (or (or (eq u1 u2)
+			   (and (eq t1 objchangesys.typeattr) (eq u2 .sys.id)))
+		       (eq t1 objchange.typeattr))
+		   (eq t1 exempt.typeattr))))
+
+(in mcs
+
+    (mlsconstrain (filesystem (relabelto))
+		  (or (neq t1 constrained.typeattr)
+		      (and (dom h1 h2) (eq l2 h2))))
+
+    (mlsconstrain (filesystem (associate getattr mount remount))
+		  (or (dom h1 h2)
+		      (neq t1 constrained.typeattr))))
+
+(in rbac
+
+    (constrain (filesystem (relabelto))
+	       (or (or (or (eq r1 r2)
+			   (and (eq t1 objchangesys.typeattr)
+				(eq r2 .sys.role)))
+		       (eq t1 objchange.typeattr))
+		   (eq t1 exempt.typeattr))))
+
+(in rbacsep
+
+    (constrain (filesystem (getattr))
+	       (or (or (or (or (or (eq r1 r2)
+				   (and (eq r1 exempt.roleattr)
+					(neq t1 constrained.typeattr)))
+			       (eq t1 exempt.subj.typeattr))
+			   (eq t2 exempt.obj.typeattr))
+		       (and (eq r2 exempt.roleattr) (eq t2 typeattr)))
+		   (and (eq t1 readstatesource.typeattr)
+			(eq t2 readstatetarget.typeattr)))))
+
+(macro associate_invalid_fs ((type ARG1))
+       (allow ARG1 invalid (filesystem (associate))))
+
+(macro getattr_invalid_fs ((type ARG1))
+       (allow ARG1 invalid (filesystem (getattr))))
+
+(macro mount_invalid_fs ((type ARG1))
+       (allow ARG1 invalid (filesystem (mount))))
+
+(macro quotaget_invalid_fs ((type ARG1))
+       (allow ARG1 invalid (filesystem (quotaget))))
+
+(macro quotamod_invalid_fs ((type ARG1))
+       (allow ARG1 invalid (filesystem (quotamod))))
+
+(macro relabel_invalid_fs ((type ARG1))
+       (allow ARG1 invalid (filesystem (relabelfrom relabelto))))
+
+(macro relabelfrom_invalid_fs ((type ARG1))
+       (allow ARG1 invalid (filesystem (relabelfrom))))
+
+(macro relabelto_invalid_fs ((type ARG1))
+       (allow ARG1 invalid (filesystem (relabelto))))
+
+(macro remount_invalid_fs ((type ARG1))
+       (allow ARG1 invalid (filesystem (remount))))
+
+(macro unmount_invalid_fs ((type ARG1))
+       (allow ARG1 invalid (filesystem (unmount))))
+
+(macro watch_invalid_fs ((type ARG1))
+       (allow ARG1 invalid (filesystem (watch))))
+
+(allow invalid self (filesystem (associate)))
+
+(block fs
+
+  (macro type ((type ARG1))
+	 (typeattributeset typeattr ARG1))
+
+  (typeattribute typeattr)
+
+  (blockinherit all_macro_template_fs)
+
+  (blockinherit .file.all_macro_template_all_files)
+  (blockinherit .file.all_macro_template_blk_files)
+  (blockinherit .file.all_macro_template_chr_files)
+  (blockinherit .file.all_macro_template_dirs)
+  (blockinherit .file.all_macro_template_fifo_files)
+  (blockinherit .file.all_macro_template_files)
+  (blockinherit .file.all_macro_template_lnk_files)
+  (blockinherit .file.all_macro_template_sock_files)
+
+  (call .obj.type (typeattr))
+
+  (block all_macro_template_fs
+
+    (blockabstract all_macro_template_fs)
+
+    (macro associate_all_fs ((type ARG1))
+	   (allow ARG1 typeattr (filesystem (associate))))
+
+    (macro getattr_all_fs ((type ARG1))
+	   (allow ARG1 typeattr (filesystem (getattr))))
+
+    (macro mount_all_fs ((type ARG1))
+	   (allow ARG1 typeattr (filesystem (mount))))
+
+    (macro quotaget_all_fs ((type ARG1))
+	   (allow ARG1 typeattr (filesystem (quotaget))))
+
+    (macro quotamod_all_fs ((type ARG1))
+	   (allow ARG1 typeattr (filesystem (quotamod))))
+
+    (macro relabel_all_fs ((type ARG1))
+	   (allow ARG1 typeattr (filesystem (relabelfrom relabelto))))
+
+    (macro relabelfrom_all_fs ((type ARG1))
+	   (allow ARG1 typeattr (filesystem (relabelfrom))))
+
+    (macro relabelto_all_fs ((type ARG1))
+	   (allow ARG1 typeattr (filesystem (relabelto))))
+
+    (macro remount_all_fs ((type ARG1))
+	   (allow ARG1 typeattr (filesystem (remount))))
+
+    (macro unmount_all_fs ((type ARG1))
+	   (allow ARG1 typeattr (filesystem (unmount))))
+
+    (macro watch_all_fs ((type ARG1))
+	   (allow ARG1 typeattr (filesystem (watch)))))
+
+  (block base_template
+
+    (blockabstract base_template)
+
+    (context fs_context (.sys.id .sys.role fs .sys.lowlow))
+
+    (type fs)
+    (call .fs.type (fs)))
+
+  (block macro_template_all_files
+
+    (blockabstract macro_template_all_files)
+
+    (macro create_fs_file ((type ARG1))
+	   (allow ARG1 fs (files (create))))
+
+    (macro delete_fs_file ((type ARG1))
+	   (allow ARG1 fs (files (delete))))
+
+    (macro manage_fs_file ((type ARG1))
+	   (allow ARG1 fs (files (manage))))
+
+    (macro read_fs_file ((type ARG1))
+	   (allow ARG1 fs (files (read))))
+
+    (macro readwrite_fs_file ((type ARG1))
+	   (allow ARG1 fs (files (readwrite))))
+
+    (macro relabel_fs_file ((type ARG1))
+	   (allow ARG1 fs (files (relabel))))
+
+    (macro relabelfrom_fs_file ((type ARG1))
+	   (allow ARG1 fs (files (relabelfrom))))
+
+    (macro relabelto_fs_file ((type ARG1))
+	   (allow ARG1 fs (files (relabelto))))
+
+    (macro rename_fs_file ((type ARG1))
+	   (allow ARG1 fs (files (rename))))
+
+    (macro write_fs_file ((type ARG1))
+	   (allow ARG1 fs (files (write)))))
+
+  (block macro_template_blk_files
+
+    (blockabstract macro_template_blk_files)
+
+    (macro append_blk_fs_files ((type ARG1))
+	   (allow ARG1 fs append_blk_file))
+
+    (macro appendinherited_fs_blk_files ((type ARG1))
+	   (allow ARG1 fs appendinherited_blk_file))
+
+    (macro create_fs_blk_files ((type ARG1))
+	   (allow ARG1 fs create_blk_file))
+
+    (macro delete_fs_blk_files ((type ARG1))
+	   (allow ARG1 fs delete_blk_file))
+
+    (macro manage_fs_blk_files ((type ARG1))
+	   (allow ARG1 fs manage_blk_file))
+
+    (macro read_fs_blk_files ((type ARG1))
+	   (allow ARG1 fs read_blk_file))
+
+    (macro readinherited_fs_blk_files ((type ARG1))
+	   (allow ARG1 fs readinherited_blk_file))
+
+    (macro readwrite_fs_blk_files ((type ARG1))
+	   (allow ARG1 fs readwrite_blk_file))
+
+    (macro readwriteinherited_fs_blk_files ((type ARG1))
+	   (allow ARG1 fs readwriteinherited_blk_file))
+
+    (macro relabel_fs_blk_files ((type ARG1))
+	   (allow ARG1 fs relabel_blk_file))
+
+    (macro relabelfrom_fs_blk_files ((type ARG1))
+	   (allow ARG1 fs relabelfrom_blk_file))
+
+    (macro relabelto_fs_blk_files ((type ARG1))
+	   (allow ARG1 fs relabelto_blk_file))
+
+    (macro rename_fs_blk_files ((type ARG1))
+	   (allow ARG1 fs rename_blk_file))
+
+    (macro write_fs_blk_files ((type ARG1))
+	   (allow ARG1 fs write_blk_file))
+
+    (macro writeinherited_fs-blk_files ((type ARG1))
+	   (allow ARG1 fs writeinherited_blk_file)))
+
+  (block macro_template_chr_files
+
+    (blockabstract macro_template_chr_files)
+
+    (macro append_fs_chr_files ((type ARG1))
+	   (allow ARG1 fs append_chr_file))
+
+    (macro appendinherited_fs_chr_files ((type ARG1))
+	   (allow ARG1 fs appendinherited_chr_file))
+
+    (macro create_fs_chr_files ((type ARG1))
+	   (allow ARG1 fs create_chr_file))
+
+    (macro delete_fs_chr_files ((type ARG1))
+	   (allow ARG1 fs delete_chr_file))
+
+    (macro manage_fs_chr_files ((type ARG1))
+	   (allow ARG1 fs manage_chr_file))
+
+    (macro mapexecute_fs_chr_files ((type ARG1))
+	   (allow ARG1 fs mapexecute_chr_file))
+
+    (macro read_fs_chr_files ((type ARG1))
+	   (allow ARG1 fs read_chr_file))
+
+    (macro readinherited_fs_chr_files ((type ARG1))
+	   (allow ARG1 fs readinherited_chr_file))
+
+    (macro readwrite_fs_chr_files ((type ARG1))
+	   (allow ARG1 fs readwrite_chr_file))
+
+    (macro readwriteinherited_fs_chr_files ((type ARG1))
+	   (allow ARG1 fs readwriteinherited_chr_file))
+
+    (macro relabel_fs_chr_files ((type ARG1))
+	   (allow ARG1 fs relabel_chr_file))
+
+    (macro relabelfrom_fs_chr_files ((type ARG1))
+	   (allow ARG1 fs relabelfrom_chr_file))
+
+    (macro relabelto_fs_chr_files ((type ARG1))
+	   (allow ARG1 fs relabelto_chr_file))
+
+    (macro rename_fs_chr_files ((type ARG1))
+	   (allow ARG1 fs rename_chr_file))
+
+    (macro write_fs_chr_files ((type ARG1))
+	   (allow ARG1 fs write_chr_file))
+
+    (macro writeinherited_fs_chr_files ((type ARG1))
+	   (allow ARG1 fs writeinherited_chr_file)))
+
+  (block macro_template_dirs
+
+    (blockabstract macro_template_dirs)
+
+    (macro addname_fs_dirs ((type ARG1))
+	   (allow ARG1 fs addname_dir))
+
+    (macro create_fs_dirs ((type ARG1))
+	   (allow ARG1 fs create_dir))
+
+    (macro delete_fs_dirs ((type ARG1))
+	   (allow ARG1 fs delete_dir))
+
+    (macro deletename_fs_dirs ((type ARG1))
+	   (allow ARG1 fs deletename_dir))
+
+    (macro fs_type_transition ((type ARG1)(type ARG2)(class ARG3)(name ARG4))
+	   (typetransition ARG1 fs ARG3 ARG4 ARG2)
+	   (call addname_fs_dirs (ARG1)))
+
+    (macro list_fs_dirs ((type ARG1))
+	   (allow ARG1 fs list_dir))
+
+    (macro listinherited_fs_dirs ((type ARG1))
+	   (allow ARG1 fs listinherited_dir))
+
+    (macro manage_fs_dirs ((type ARG1))
+	   (allow ARG1 fs manage_dir))
+
+    (macro mounton_fs_dirs ((type ARG1))
+	   (allow ARG1 fs mounton_dir))
+
+    (macro readwrite_fs_dirs ((type ARG1))
+	   (allow ARG1 fs readwrite_dir))
+
+    (macro readwriteinherited_fs_dirs ((type ARG1))
+	   (allow ARG1 fs readwriteinherited_dir))
+
+    (macro relabel_fs_dirs ((type ARG1))
+	   (allow ARG1 fs relabel_dir))
+
+    (macro relabelfrom_fs_dirs ((type ARG1))
+	   (allow ARG1 fs relabelfrom_dir))
+
+    (macro relabelto_fs_dirs ((type ARG1))
+	   (allow ARG1 fs relabelto_dir))
+
+    (macro rename_fs_dirs ((type ARG1))
+	   (allow ARG1 fs rename_dir))
+
+    (macro search_fs_dirs ((type ARG1))
+	   (allow ARG1 fs search_dir))
+
+    (macro write_fs_dirs ((type ARG1))
+	   (allow ARG1 fs write_dir))
+
+    (macro writeinherited_fs_dirs ((type ARG1))
+	   (allow ARG1 fs writeinherited_dir)))
+
+  (block macro_template_fifo_files
+
+    (blockabstract macro_template_fifo_files)
+
+    (macro append_fs_fifo_files ((type ARG1))
+	   (allow ARG1 fs append_fifo_file))
+
+    (macro appendinherited_fs_fifo_files ((type ARG1))
+	   (allow ARG1 fs appendinherited_fifo_file))
+
+    (macro create_fs_fifo_files ((type ARG1))
+	   (allow ARG1 fs create_fifo_file))
+
+    (macro delete_fs_fifo_files ((type ARG1))
+	   (allow ARG1 fs delete_fifo_file))
+
+    (macro manage_fs_fifo_files ((type ARG1))
+	   (allow ARG1 fs manage_fifo_file))
+
+    (macro read_fs_fifo_files ((type ARG1))
+	   (allow ARG1 fs read_fifo_file))
+
+    (macro readinherited_fs_fifo_files ((type ARG1))
+	   (allow ARG1 fs readinherited_fifo_file))
+
+    (macro readwrite_fs_fifo_files ((type ARG1))
+	   (allow ARG1 fs readwrite_fifo_file))
+
+    (macro readwriteinherited_fs_fifo_files ((type ARG1))
+	   (allow ARG1 fs readwriteinherited_fifo_file))
+
+    (macro relabel_fs_fifo_files ((type ARG1))
+	   (allow ARG1 fs relabel_fifo_file))
+
+    (macro relabelfrom_fs_fifo_files ((type ARG1))
+	   (allow ARG1 fs relabelfrom_fifo_file))
+
+    (macro relabelto_fs_fifo_files ((type ARG1))
+	   (allow ARG1 fs relabelto_fifo_file))
+
+    (macro rename_fs_fifo_files ((type ARG1))
+	   (allow ARG1 fs rename_fifo_file))
+
+    (macro write_fs_fifo_files ((type ARG1))
+	   (allow ARG1 fs write_fifo_file))
+
+    (macro writeinherited_fs_fifo_files ((type ARG1))
+	   (allow ARG1 fs writeinherited_fifo_file)))
+
+  (block macro_template_files
+
+    (blockabstract macro_template_files)
+
+    (macro append_fs_files ((type ARG1))
+	   (allow ARG1 fs append_file))
+
+    (macro appendinherited_fs_files ((type ARG1))
+	   (allow ARG1 fs appendinherited_file))
+
+    (macro create_fs_files ((type ARG1))
+	   (allow ARG1 fs create_file))
+
+    (macro delete_fs_files ((type ARG1))
+	   (allow ARG1 fs delete_file))
+
+    (macro execute_fs_files ((type ARG1))
+	   (allow ARG1 fs execute_file))
+
+    (macro manage_fs_files ((type ARG1))
+	   (allow ARG1 fs manage_file))
+
+    (macro mapexecute_fs_files ((type ARG1))
+	   (allow ARG1 fs mapexecute_file))
+
+    (macro mounton_fs_files ((type ARG1))
+	   (allow ARG1 fs mounton_file))
+
+    (macro read_fs_files ((type ARG1))
+	   (allow ARG1 fs read_file))
+
+    (macro readinherited_fs_files ((type ARG1))
+	   (allow ARG1 fs readinherited_file))
+
+    (macro readwrite_fs_files ((type ARG1))
+	   (allow ARG1 fs readwrite_file))
+
+    (macro readwriteinherited_fs_files ((type ARG1))
+	   (allow ARG1 fs readwriteinherited_file))
+
+    (macro relabel_fs_files ((type ARG1))
+	   (allow ARG1 fs relabel_file))
+
+    (macro relabelfrom_fs_files ((type ARG1))
+	   (allow ARG1 fs relabelfrom_file))
+
+    (macro relabelto_fs_files ((type ARG1))
+	   (allow ARG1 fs relabelto_file))
+
+    (macro rename_fs_files ((type ARG1))
+	   (allow ARG1 fs rename_file))
+
+    (macro write_fs_files ((type ARG1))
+	   (allow ARG1 fs write_file))
+
+    (macro writeinherited_fs_files ((type ARG1))
+	   (allow ARG1 fs writeinherited_file)))
+
+  (block macro_template_lnk_files
+
+    (blockabstract macro_template_lnk_files)
+
+    (macro create_fs_lnk_files ((type ARG1))
+	   (allow ARG1 fs create_lnk_file))
+
+    (macro delete_fs_lnk_files ((type ARG1))
+	   (allow ARG1 fs delete_lnk_file))
+
+    (macro manage_fs_lnk_files ((type ARG1))
+	   (allow ARG1 fs manage_lnk_file))
+
+    (macro read_fs_lnk_files ((type ARG1))
+	   (allow ARG1 fs read_lnk_file))
+
+    (macro readwrite_fs_lnk_files ((type ARG1))
+	   (allow ARG1 fs readwrite_lnk_file))
+
+    (macro relabel_fs_lnk_files ((type ARG1))
+	   (allow ARG1 fs relabel_lnk_file))
+
+    (macro relabelfrom_fs_lnk_files ((type ARG1))
+	   (allow ARG1 fs relabelfrom_lnk_file))
+
+    (macro relabelto_fs_lnk_files ((type ARG1))
+	   (allow ARG1 fs relabelto_lnk_file))
+
+    (macro rename_fs_lnk_files ((type ARG1))
+	   (allow ARG1 fs rename_lnk_file))
+
+    (macro write_fs_lnk_files ((type ARG1))
+	   (allow ARG1 fs write_lnk_file)))
+
+  (block macro_template_sock_files
+
+    (blockabstract macro_template_sock_files)
+
+    (macro create_fs_sock_files ((type ARG1))
+	   (allow ARG1 fs create_sock_file))
+
+    (macro delete_fs_sock_files ((type ARG1))
+	   (allow ARG1 fs delete_sock_file))
+
+    (macro manage_fs_sock_files ((type ARG1))
+	   (allow ARG1 fs manage_sock_file))
+
+    (macro read_fs_sock_files ((type ARG1))
+	   (allow ARG1 fs read_sock_file))
+
+    (macro readinherited_fs_sock_files ((type ARG1))
+	   (allow ARG1 fs readinherited_sock_file))
+
+    (macro readwrite_fs_sock_files ((type ARG1))
+	   (allow ARG1 fs readwrite_sock_file))
+
+    (macro readwriteinherited_fs_sock_files ((type ARG1))
+	   (allow ARG1 fs readwriteinherited_sock_file))
+
+    (macro relabel_fs_sock_files ((type ARG1))
+	   (allow ARG1 fs relabel_sock_file))
+
+    (macro relabelfrom_fs_sock_files ((type ARG1))
+	   (allow ARG1 fs relabelfrom_sock_file))
+
+    (macro relabelto_fs_sock_files ((type ARG1))
+	   (allow ARG1 fs relabelto_sock_file))
+
+    (macro rename_fs_sock_files ((type ARG1))
+	   (allow ARG1 fs rename_sock_file))
+
+    (macro write_fs_sock_files ((type ARG1))
+	   (allow ARG1 fs write_sock_file))
+
+    (macro writeinherited_fs_sock_files ((type ARG1))
+	   (allow ARG1 fs writeinherited_sock_file)))
+
+  (block macro_template_fs
+
+    (blockabstract macro_template_fs)
+
+    (macro associate_fs ((type ARG1))
+	   (allow ARG1 fs (filesystem (associate))))
+
+    (macro getattr_fs ((type ARG1))
+	   (allow ARG1 fs (filesystem (getattr))))
+
+    (macro mount_fs ((type ARG1))
+	   (allow ARG1 fs (filesystem (mount))))
+
+    (macro quotaget_fs ((type ARG1))
+	   (allow ARG1 fs (filesystem (quotaget))))
+
+    (macro quotamod_fs ((type ARG1))
+	   (allow ARG1 fs (filesystem (quotamod))))
+
+    (macro relabel_fs ((type ARG1))
+	   (allow ARG1 fs (filesystem (relabelfrom relabelto))))
+
+    (macro relabelfrom_fs ((type ARG1))
+	   (allow ARG1 fs (filesystem (relabelfrom))))
+
+    (macro relabelto_fs ((type ARG1))
+	   (allow ARG1 fs (filesystem (relabelto))))
+
+    (macro remount_fs ((type ARG1))
+	   (allow ARG1 fs (filesystem (remount))))
+
+    (macro unmount_fs ((type ARG1))
+	   (allow ARG1 fs (filesystem (unmount))))
+
+    (macro watch_fs ((type ARG1))
+	   (allow ARG1 fs (filesystem (watch)))))
+
+  (block template
+
+    (blockabstract template)
+
+    (blockinherit .fs.base_template)
+    (blockinherit .fs.macro_template_fs))
+
+  (block unconfined
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (allow typeattr fs.typeattr
+	   (blk_file (not (audit_access execmod map mounton))))
+    (allow typeattr fs.typeattr (chr_file (not (audit_access execmod mounton))))
+    (allow typeattr fs.typeattr (dir (not (audit_access execmod))))
+    (allow typeattr fs.typeattr
+	   (fifo_file (not (audit_access execmod map mounton))))
+    (allow typeattr fs.typeattr (file (not (audit_access entrypoint execmod))))
+    (allow typeattr fs.typeattr (filesystem (not associate)))
+    (allow typeattr fs.typeattr
+	   (lnk_file (not (audit_access execmod map mounton))))
+    (allow typeattr fs.typeattr
+	   (sock_file (not (audit_access execmod map mounton))))))
+
+(in invalid.unconfined
+
+    (allow typeattr .invalid (filesystem (not (associate relabelto)))))
+
+(in unconfined
+
+    (call .fs.unconfined.type (typeattr)))

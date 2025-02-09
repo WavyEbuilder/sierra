@@ -1,0 +1,34 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(tunable invalid_packets true)
+
+(block invalid_packets
+
+  (genfscon "selinuxfs" "/booleans/invalid_packets" booleanfile_context)
+
+  (blockinherit .booleanfile.template))
+
+(block invalidpackets
+
+  (macro type ((type ARG1))
+	 (typeattributeset typeattr ARG1))
+
+  (typeattribute typeattr)
+
+  (block except
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (typeattributeset typeattr
+		      (and invalidpackets.typeattr (not (exception.typeattr)))))
+
+  (block exception
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)))

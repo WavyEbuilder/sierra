@@ -1,0 +1,142 @@
+;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
+;; SPDX-License-Identifier: Unlicense
+
+(block sysctlfile
+
+  (macro type ((type ARG1))
+	 (typeattributeset typeattr ARG1))
+
+  (typeattribute typeattr)
+
+  (blockinherit .file.all_macro_template_dirs)
+  (blockinherit .file.all_macro_template_files)
+
+  (call .procfile.type (typeattr))
+
+  (block base_template
+
+    (blockabstract base_template)
+
+    (context sysctlfile_context (.sys.id .sys.role sysctlfile .sys.lowlow))
+
+    (type sysctlfile)
+    (call .sysctlfile.type (sysctlfile)))
+
+  (block macro_template_dirs
+
+    (blockabstract macro_template_dirs)
+
+    (macro addname_sysctlfile_dirs ((type ARG1))
+	   (allow ARG1 sysctlfile addname_dir))
+
+    (macro create_sysctlfile_dirs ((type ARG1))
+	   (allow ARG1 sysctlfile create_dir))
+
+    (macro delete_sysctlfile_dirs ((type ARG1))
+	   (allow ARG1 sysctlfile delete_dir))
+
+    (macro deletename_sysctlfile_dirs ((type ARG1))
+	   (allow ARG1 sysctlfile deletename_dir))
+
+    (macro list_sysctlfile_dirs ((type ARG1))
+	   (allow ARG1 sysctlfile list_dir))
+
+    (macro listinherited_sysctlfile_dirs ((type ARG1))
+	   (allow ARG1 sysctlfile listinherited_dir))
+
+    (macro manage_sysctlfile_dirs ((type ARG1))
+	   (allow ARG1 sysctlfile manage_dir))
+
+    (macro mounton_sysctlfile_dirs ((type ARG1))
+	   (allow ARG1 sysctlfile mounton_dir))
+
+    (macro readwrite_sysctlfile_dirs ((type ARG1))
+	   (allow ARG1 sysctlfile readwrite_dir))
+
+    (macro readwriteinherited_sysctlfile_dirs ((type ARG1))
+	   (allow ARG1 sysctlfile readwriteinherited_dir))
+
+    (macro rename_sysctlfile_dirs ((type ARG1))
+	   (allow ARG1 sysctlfile rename_dir))
+
+    (macro search_sysctlfile_dirs ((type ARG1))
+	   (allow ARG1 sysctlfile search_dir))
+
+    (macro write_sysctlfile_dirs ((type ARG1))
+	   (allow ARG1 sysctlfile write_dir))
+
+    (macro writeinherited_sysctlfile_dirs ((type ARG1))
+	   (allow ARG1 sysctlfile writeinherited_dir)))
+
+  (block macro_template_files
+
+    (blockabstract macro_template_files)
+
+    (macro append_sysctlfile_files ((type ARG1))
+	   (allow ARG1 sysctlfile append_file))
+
+    (macro appendinherited_sysctlfile_files ((type ARG1))
+	   (allow ARG1 sysctlfile appendinherited_file))
+
+    (macro create_sysctlfile_files ((type ARG1))
+	   (allow ARG1 sysctlfile create_file))
+
+    (macro delete_sysctlfile_files ((type ARG1))
+	   (allow ARG1 sysctlfile delete_file))
+
+    (macro execute_sysctlfile_files ((type ARG1))
+	   (allow ARG1 sysctlfile execute_file))
+
+    (macro manage_sysctlfile_files ((type ARG1))
+	   (allow ARG1 sysctlfile manage_file))
+
+    (macro mapexecute_sysctlfile_files ((type ARG1))
+	   (allow ARG1 sysctlfile mapexecute_file))
+
+    (macro mounton_sysctlfile_files ((type ARG1))
+	   (allow ARG1 sysctlfile mounton_file))
+
+    (macro read_sysctlfile_files ((type ARG1))
+	   (allow ARG1 sysctlfile read_file))
+
+    (macro readinherited_sysctlfile_files ((type ARG1))
+	   (allow ARG1 sysctlfile readinherited_file))
+
+    (macro readwrite_sysctlfile_files ((type ARG1))
+	   (allow ARG1 sysctlfile readwrite_file))
+
+    (macro readwriteinherited_sysctlfile_files ((type ARG1))
+	   (allow ARG1 sysctlfile readwriteinherited_file))
+
+    (macro rename_sysctlfile_files ((type ARG1))
+	   (allow ARG1 sysctlfile rename_file))
+
+    (macro write_sysctlfile_files ((type ARG1))
+	   (allow ARG1 sysctlfile write_file))
+
+    (macro writeinherited_sysctlfile_files ((type ARG1))
+	   (allow ARG1 sysctlfile writeinherited_file)))
+
+  (block template
+
+    (blockabstract template)
+
+    (blockinherit .sysctlfile.base_template)
+    (blockinherit .sysctlfile.macro_template_files))
+
+  (block unconfined
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (allow typeattr sysctlfile.typeattr
+	   (dir (not (audit_access execmod relabelfrom relabelto))))
+    (allow typeattr sysctlfile.typeattr
+	   (file (not (audit_access entrypoint execmod relabelfrom
+				    relabelto))))))
+
+(in procfile.unconfined
+
+    (call .sysctlfile.unconfined.type (typeattr)))
