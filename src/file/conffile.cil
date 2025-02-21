@@ -3,7 +3,20 @@
 
 (block conf
 
-  (blockinherit .file.conf.template))
+  (filecon "/etc" dir file_context)
+  (filecon "/etc/.*" any file_context)
+
+  (macro data_file_type_transition_file ((type ARG1))
+         (call .data.file_type_transition
+               (ARG1 file dir "etc")))
+
+  (macro root_file_type_transition_file ((type ARG1))
+         (call .root.file_type_transition
+               (ARG1 file dir "etc")))
+
+  (blockinherit .file.conf.template)
+
+) ;; namespace conf
 
 (in file
 
@@ -38,3 +51,8 @@
 	(blockinherit .file.macro_template_dirs)
 	(blockinherit .file.macro_template_files)
 	(blockinherit .file.macro_template_lnk_files))))
+
+(in file.unconfined
+    (call .conf.data_file_type_transition_file (typeattr))
+    (call .conf.root_file_type_transition_file (typeattr))
+) ;; namespace file.unconfined

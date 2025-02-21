@@ -3,19 +3,6 @@
 
 (sidcontext init (sys.id sys.role sys.subj sys.lowlow)) ;; userspace_initial_context
 
-(in conf
-
-    (filecon "/etc" dir file_context)
-    (filecon "/etc/.*" any file_context)
-
-    (macro data_file_type_transition_file ((type ARG1))
-	   (call .data.file_type_transition
-		 (ARG1 file dir "etc")))
-
-    (macro root_file_type_transition_file ((type ARG1))
-	   (call .root.file_type_transition
-		 (ARG1 file dir "etc"))))
-
 (in config
 
     (filecon "/sys/kernel/config" dir ())
