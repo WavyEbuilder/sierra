@@ -1,0 +1,30 @@
+;; SPDX-FileCopyrightText: © 2024 Rahul Sandhu <nvraxn@gmail.com>
+;; SPDX-License-Identifier: GPL-3.0-or-later
+
+(block passwd
+  (filecon "/etc/group[-\+]?" file file_context)
+  (filecon "/etc/passwd[-\+]?" file file_context)
+  (filecon "/etc/subgid[-\+]?" file file_context)
+  (filecon "/etc/subuid[-\+]?" file file_context)
+
+  (macro conf_file_type_transition_file ((type ARG1)(name ARG2))
+    (call .conf.file_type_transition
+      (ARG1 file file ARG2)))
+
+  (macro map_file_files ((type ARG1))
+    (allow ARG1 file (file (map))))
+
+  (blockinherit .file.base_template)
+  (blockinherit .file.macro_template_files)
+) ;; namespace passwd
+
+(in file.unconfined
+    (call .passwd.conf_file_type_transition_file (typeattr "group"))
+    (call .passwd.conf_file_type_transition_file (typeattr "group-"))
+    (call .passwd.conf_file_type_transition_file (typeattr "passwd"))
+    (call .passwd.conf_file_type_transition_file (typeattr "passwd-"))
+    (call .passwd.conf_file_type_transition_file (typeattr "subgid"))
+    (call .passwd.conf_file_type_transition_file (typeattr "subgid-"))
+    (call .passwd.conf_file_type_transition_file (typeattr "subuid"))
+    (call .passwd.conf_file_type_transition_file (typeattr "subuid-"))
+) ;; namespace file.unconfined
