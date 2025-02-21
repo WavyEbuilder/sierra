@@ -43,24 +43,6 @@
 
     (allow fs self (filesystem (associate))))
 
-(in dos
-
-    (filecon "/boot/efi" dir fs_context)
-    (filecon "/boot/efi/.*" any ())
-
-    (filecon "/efi" dir fs_context)
-    (filecon "/efi/.*" any ())
-
-    (macro boot_file_type_transition_fs ((type ARG1))
-	   (call .boot.file_type_transition
-		 (ARG1 fs dir "efi")))
-
-    (macro root_file_type_transition_fs ((type ARG1))
-	   (call .boot.file_type_transition
-		 (ARG1 fs dir "efi")))
-
-    (call .xattr.associate_fs (fs)))
-
 (in efivar
 
     (filecon "/sys/firmware/efi/efivars" dir ())

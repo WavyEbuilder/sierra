@@ -3,6 +3,12 @@
 
 (block dos
 
+  (filecon "/boot/efi" dir fs_context)
+  (filecon "/boot/efi/.*" any ())
+
+  (filecon "/efi" dir fs_context)
+  (filecon "/efi/.*" any ())
+
   (genfscon "fat" "/" fs_context)
   (genfscon "hfs" "/" fs_context)
   (genfscon "hfsplus" "/" fs_context)
@@ -13,9 +19,26 @@
   (genfscon "vfat" "/" fs_context)
   (genfscon "exfat" "/" fs_context)
 
+  (macro boot_file_type_transition_fs ((type ARG1))
+         (call .boot.file_type_transition
+               (ARG1 fs dir "efi")))
+
   (macro map_fs_files ((type ARG1))
 	 (allow ARG1 fs (file (map))))
 
+  (macro root_file_type_transition_fs ((type ARG1))
+         (call .boot.file_type_transition
+               (ARG1 fs dir "efi")))
+
+  (call .rbacsep.exempt.obj.type (fs))
+
+  (call .xattr.associate_fs (fs))
+
   (blockinherit .noseclabelfs.template)
 
-  (call .rbacsep.exempt.obj.type (fs)))
+) ;; namespace dos
+
+(in fs.unconfined
+    (call .dos.boot_file_type_transition_fs (typeattr))
+    (call .dos.root_file_type_transition_fs (typeattr))
+) ;; namepsace fs.unconfined
