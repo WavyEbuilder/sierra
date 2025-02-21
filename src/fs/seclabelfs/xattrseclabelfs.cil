@@ -33,4 +33,22 @@
   (fsuse xattr "yaffs2" fs_context)
   (fsuse xattr "zfs" fs_context)
 
-  (blockinherit .seclabelfs.template))
+  (blockinherit .seclabelfs.template)
+
+  (block associate_fs_pattern
+    (macro type ((type ARG1))
+           (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+    (allow typeattr fs (filesystem (associate)))
+  ) ;; namespace associate_fs_pattern
+
+  (block getattr_fs_pattern
+    (macro type ((type ARG1))
+           (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+    (allow typeattr fs (filesystem (getattr)))
+  ) ;; namespace getattr_fs_pattern
+
+) ;; namespace xattr
