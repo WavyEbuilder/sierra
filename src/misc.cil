@@ -3,11 +3,6 @@
 
 (sidcontext init (sys.id sys.role sys.subj sys.lowlow)) ;; userspace_initial_context
 
-(in bpf
-
-    (filecon "/sys/fs/bpf" dir ())
-    (filecon "/sys/fs/bpf/.*" any ()))
-
 (in cache
 
     (filecon "/var/cache" dir file_context)

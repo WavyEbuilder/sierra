@@ -3,6 +3,9 @@
 
 (block bpf
 
+  (filecon "/sys/fs/bpf" dir ())
+  (filecon "/sys/fs/bpf/.*" any ())
+
   (genfscon "bpf" "/" fs_context)
 
   (blockinherit .noseclabelfs.template))
