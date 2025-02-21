@@ -3,7 +3,23 @@
 
 (block data
 
-  (blockinherit .file.data.template))
+  (filecon "/opt" dir file_context)
+  (filecon "/opt/.*" any file_context)
+
+  (filecon "/usr" dir file_context)
+  (filecon "/usr/.*" any file_context)
+
+  (filecon "/tmp" symlink file_context)
+
+  (macro root_file_type_transition_file ((type ARG1))
+         (call .root.file_type_transition
+               (ARG1 file dir "opt"))
+         (call .root.file_type_transition
+               (ARG1 file dir "usr")))
+
+  (blockinherit .file.data.template)
+
+) ;; namespace data
 
 (in file
 
@@ -38,3 +54,7 @@
 	(blockinherit .file.macro_template_dirs)
 	(blockinherit .file.macro_template_files)
 	(blockinherit .file.macro_template_lnk_files))))
+
+(in file.unconfined
+    (call .data.root_file_type_transition_file (typeattr))
+) ;; namespace file.unconfined
