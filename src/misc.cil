@@ -3,17 +3,6 @@
 
 (sidcontext init (sys.id sys.role sys.subj sys.lowlow)) ;; userspace_initial_context
 
-(in cache
-
-    (filecon "/var/cache" dir file_context)
-    (filecon "/var/cache/.*" any file_context)
-
-    (macro var_file_type_transition_file ((type ARG1))
-	   (call .var.file_type_transition
-		 (ARG1 file dir "cache")))
-
-    (call .root.associate_fs (file)))
-
 (in cert
 
     (filecon "/etc/ca-certificates" dir file_context)
