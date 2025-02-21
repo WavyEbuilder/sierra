@@ -272,23 +272,6 @@
 
     (allow fs self (filesystem (associate))))
 
-(in lib
-
-    (filecon "/usr/lib" dir file_context)
-    (filecon "/usr/lib/.*" any file_context)
-
-    (macro data_file_type_transition_file ((type ARG1))
-	   (call .data.file_type_transition
-		 (ARG1 file dir "lib"))
-	   (call .data.file_type_transition
-		 (ARG1 file dir "lib64")))
-
-    (macro root_file_type_transition_file ((type ARG1))
-	   (call .root.file_type_transition
-		 (ARG1 file dir "lib"))
-	   (call .root.file_type_transition
-		 (ARG1 file dir "lib64"))))
-
 (in log
 
     (filecon "/var/log" dir file_context)
