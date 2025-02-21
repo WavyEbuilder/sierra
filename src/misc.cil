@@ -3,15 +3,6 @@
 
 (sidcontext init (sys.id sys.role sys.subj sys.lowlow)) ;; userspace_initial_context
 
-(in boot
-
-    (filecon "/boot" dir file_context)
-    (filecon "/boot/.*" any file_context)
-
-    (macro root_file_type_transition_file ((type ARG1))
-	   (call .root.file_type_transition
-		 (ARG1 file dir "boot"))))
-
 (in bpf
 
     (filecon "/sys/fs/bpf" dir ())
