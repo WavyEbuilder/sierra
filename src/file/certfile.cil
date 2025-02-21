@@ -3,7 +3,35 @@
 
 (block cert
 
-  (blockinherit .file.cert.template))
+  (filecon "/etc/ca-certificates" dir file_context)
+  (filecon "/etc/ca-certificates/.*" any file_context)
+
+  (filecon "/etc/ca-certificates\.conf" file file_context)
+  (filecon "/etc/ca-certificates\.conf\..*" file file_context)
+
+  (filecon "/etc/ssl" dir file_context)
+  (filecon "/etc/ssl/.*" any file_context)
+
+  (filecon "/usr/share/ca-certificates" dir file_context)
+  (filecon "/usr/share/ca-certificates/.*" any file_context)
+
+  (macro conf_file_type_transition_file ((type ARG1))
+         (call .conf.file_type_transition
+               (ARG1 file dir "ca-certificates"))
+         (call .conf.file_type_transition
+               (ARG1 file dir "ssl"))
+         (call .conf.file_type_transition
+               (ARG1 file file "ca-certificates.conf"))
+         (call .conf.file_type_transition
+               (ARG1 file file "ca-certificates.conf.dpkg-new")))
+
+  (macro data_file_type_transition_file ((type ARG1))
+         (call .data.file_type_transition
+               (ARG1 file dir "ca-certificates")))
+
+  (blockinherit .file.cert.template)
+
+) ;; namespace cert
 
 (in file
 
@@ -38,3 +66,8 @@
 	(blockinherit .file.macro_template_dirs)
 	(blockinherit .file.macro_template_files)
 	(blockinherit .file.macro_template_lnk_files))))
+
+(in file.unconfined
+    (call .cert.conf_file_type_transition_file (typeattr))
+    (call .cert.data_file_type_transition_file (typeattr))
+) ;; namespace file.unconfined
