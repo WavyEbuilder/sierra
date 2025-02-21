@@ -3,17 +3,6 @@
 
 (sidcontext init (sys.id sys.role sys.subj sys.lowlow)) ;; userspace_initial_context
 
-(in cgroup
-
-    (filecon "/sys/fs/cgroup" dir fs_context)
-    (filecon "/sys/fs/cgroup/.*" any ())
-
-    (allow fs self (filesystem (associate)))
-
-    (call .rbacsep.exempt.obj.type (fs))
-
-    (call .sys.associate_fs (fs)))
-
 (in conf
 
     (filecon "/etc" dir file_context)

@@ -3,9 +3,22 @@
 
 (block cgroup
 
+  (filecon "/sys/fs/cgroup" dir fs_context)
+  (filecon "/sys/fs/cgroup/.*" any ())
+
   (genfscon "cgroup" "/" fs_context)
   (genfscon "cgroup2" "/" fs_context)
 
   (blockinherit .fs.macro_template_dirs)
   (blockinherit .fs.macro_template_files)
-  (blockinherit .seclabelfs.template))
+  (blockinherit .seclabelfs.template)
+
+  (allow fs self (filesystem (associate)))
+
+  (call .sys.associate_fs (fs))
+
+  ;; TODO: does cgroupfs need to be RBAC
+  ;; exempt?
+  (call .rbacsep.exempt.obj.type (fs))
+
+) ;; namespace cgroup
