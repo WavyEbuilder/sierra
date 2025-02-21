@@ -3,7 +3,16 @@
 
 (block db
 
-  (blockinherit .file.db.template))
+  (filecon "/var/db" dir file_context)
+  (filecon "/var/db/.*" any file_context)
+
+  (macro var_file_type_transition_file ((type ARG1))
+         (call .var.file_type_transition
+               (ARG1 file dir "db")))
+
+  (blockinherit .file.db.template)
+
+) ;; namespace db
 
 (in file
 
@@ -36,3 +45,7 @@
 	(blockinherit .file.macro_template_dirs)
 	(blockinherit .file.macro_template_files)
 	(blockinherit .file.macro_template_lnk_files))))
+
+(in file.unconfined
+    (call .db.var_file_type_transition_file (typeattr))
+) ;; namespace file.unconfined

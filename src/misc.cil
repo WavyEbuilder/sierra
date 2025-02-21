@@ -8,15 +8,6 @@
     (filecon "/sys/kernel/config" dir ())
     (filecon "/sys/kernel/config/.*" any ()))
 
-(in db
-
-    (filecon "/var/db" dir file_context)
-    (filecon "/var/db/.*" any file_context)
-
-    (macro var_file_type_transition_file ((type ARG1))
-	   (call .var.file_type_transition
-		 (ARG1 file dir "db"))))
-
 (in debug
 
     (filecon "/sys/kernel/debug" dir ())
