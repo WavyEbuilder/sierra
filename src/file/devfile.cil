@@ -3,6 +3,25 @@
 
 (in dev
 
+    (filecon "/dev" dir file_context)
+    (filecon "/dev/.*" block file_context)
+    (filecon "/dev/.*" char file_context)
+    (filecon "/dev/.*" dir file_context)
+    (filecon "/dev/.*" file file_context)
+    (filecon "/dev/.*" pipe file_context)
+    (filecon "/dev/.*" socket file_context)
+    (filecon "/dev/.*" symlink file_context)
+
+    (macro root_file_type_transition_file ((type ARG1))
+	   (call .root.file_type_transition
+		 (ARG1 file dir "dev")))
+
+    (call .tmp.associate_fs (typeattr))
+
+    (call .tmp.associate_fs (file))
+
+    (call .xattr.associate_fs (file))
+
     (blockinherit .file.dev.template)
     (blockinherit .file.macro_template_all_files)
     (blockinherit .file.macro_template_blk_files)
@@ -48,3 +67,7 @@
 	(blockinherit .file.macro_template_files)
 	(blockinherit .file.macro_template_lnk_files)
 	(blockinherit .file.macro_template_sock_files))))
+
+(in file.unconfined
+    (call .dev.root_file_type_transition_file (typeattr))
+) ;; namespace file.unconfined

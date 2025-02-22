@@ -13,27 +13,6 @@
     (filecon "/sys/kernel/debug" dir ())
     (filecon "/sys/kernel/debug/.*" any ()))
 
-(in dev
-
-    (filecon "/dev" dir file_context)
-    (filecon "/dev/.*" block file_context)
-    (filecon "/dev/.*" char file_context)
-    (filecon "/dev/.*" dir file_context)
-    (filecon "/dev/.*" file file_context)
-    (filecon "/dev/.*" pipe file_context)
-    (filecon "/dev/.*" socket file_context)
-    (filecon "/dev/.*" symlink file_context)
-
-    (macro root_file_type_transition_file ((type ARG1))
-	   (call .root.file_type_transition
-		 (ARG1 file dir "dev")))
-
-    (call .tmp.associate_fs (typeattr))
-
-    (call .tmp.associate_fs (file))
-
-    (call .xattr.associate_fs (file)))
-
 (in devpts
 
     (filecon "/dev/pts" dir ())
