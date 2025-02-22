@@ -37,7 +37,6 @@
 
 (in file.unconfined
 
-    (call .boot.root_file_type_transition_file (typeattr))
     (call .cache.var_file_type_transition_file (typeattr))
     (call .cert.conf_file_type_transition_file (typeattr))
     (call .cert.data_file_type_transition_file (typeattr))
