@@ -37,14 +37,6 @@
 
 (in file.unconfined
 
-    (call .cache.var_file_type_transition_file (typeattr))
-    (call .cert.conf_file_type_transition_file (typeattr))
-    (call .cert.data_file_type_transition_file (typeattr))
-    (call .conf.data_file_type_transition_file (typeattr))
-    (call .conf.root_file_type_transition_file (typeattr))
-    (call .data.root_file_type_transition_file (typeattr))
-    (call .exec.data_file_type_transition_file (typeattr))
-    (call .exec.root_file_type_transition_file (typeattr))
     (call .home.root_file_type_transition_file (typeattr))
     (call .log.var_file_type_transition_file (typeattr))
     (call .lostfound.boot_file_type_transition_file (typeattr))
@@ -81,8 +73,6 @@
 
 (in fs.unconfined
 
-    (call .dos.boot_file_type_transition_fs (typeattr))
-    (call .dos.root_file_type_transition_fs (typeattr))
     (call .proc.root_file_type_transition_fs (typeattr))
     (call .sys.root_file_type_transition_fs (typeattr)))
 
