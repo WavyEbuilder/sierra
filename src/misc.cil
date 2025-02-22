@@ -38,19 +38,6 @@
 (in file.unconfined
 
     (call .log.var_file_type_transition_file (typeattr))
-    (call .lostfound.boot_file_type_transition_file (typeattr))
-    (call .lostfound.cache_file_type_transition_file (typeattr))
-    (call .lostfound.conf_file_type_transition_file (typeattr))
-    (call .lostfound.data_file_type_transition_file (typeattr))
-    (call .lostfound.db_file_type_transition_file (typeattr))
-    (call .lostfound.home_file_type_transition_file (typeattr))
-    (call .lostfound.log_file_type_transition_file (typeattr))
-    (call .lostfound.root_file_type_transition_file (typeattr))
-    (call .lostfound.run_file_type_transition_file (typeattr))
-    (call .lostfound.spool_file_type_transition_file (typeattr))
-    (call .lostfound.state_file_type_transition_file (typeattr))
-    (call .lostfound.tmp_file_type_transition_file (typeattr))
-    (call .lostfound.var_file_type_transition_file (typeattr))
     (call .mail.spool.spool_file_type_transition_file (typeattr))
     (call .mail.spool.var_file_type_transition_file (typeattr))
     (call .mod.lib_file_type_transition_file (typeattr))
@@ -95,114 +82,6 @@
 		 (ARG1 file dir "log")))
 
     (call .tmp.associate_fs (file)))
-
-(in lostfound
-
-    (filecon "/\.journal" file ())
-    (filecon "/lost\+found" dir file_context)
-
-    (filecon "/boot/\.journal" file ())
-    (filecon "/boot/lost\+found" dir file_context)
-
-    (filecon "/etc/\.journal" file ())
-    (filecon "/etc/lost\+found" dir file_context)
-
-    (filecon "/home/\.journal" file ())
-    (filecon "/home/lost\+found" dir file_context)
-
-    (filecon "/opt/\.journal" file ())
-    (filecon "/opt/lost\+found" dir file_context)
-
-    (filecon "/run/\.journal" file ())
-    (filecon "/run/lost\+found" dir file_context)
-
-    (filecon "/srv/\.journal" file ())
-    (filecon "/srv/lost\+found" dir file_context)
-
-    (filecon "/tmp/\.journal" file ())
-    (filecon "/tmp/lost\+found" dir file_context)
-
-    (filecon "/usr/\.journal" file ())
-    (filecon "/usr/lost\+found" dir file_context)
-
-    (filecon "/usr/tmp/\.journal" file ())
-    (filecon "/usr/tmp/lost\+found" dir file_context)
-
-    (filecon "/var/\.journal" file ())
-    (filecon "/var/lost\+found" dir file_context)
-
-    (filecon "/var/cache/\.journal" file ())
-    (filecon "/var/cache/lost\+found" dir file_context)
-
-    (filecon "/var/db/\.journal" file ())
-    (filecon "/var/db/lost\+found" dir file_context)
-
-    (filecon "/var/lib/\.journal" file ())
-    (filecon "/var/lib/lost\+found" dir file_context)
-
-    (filecon "/var/log/\.journal" file ())
-    (filecon "/var/log/lost\+found" dir file_context)
-
-    (filecon "/var/run/\.journal" file ())
-    (filecon "/var/run/lost\+found" dir file_context)
-
-    (filecon "/var/spool/\.journal" file ())
-    (filecon "/var/spool/lost\+found" dir file_context)
-
-    (filecon "/var/tmp/\.journal" file ())
-    (filecon "/var/tmp/lost\+found" dir file_context)
-
-    (macro boot_file_type_transition_file ((type ARG1))
-	   (call .boot.file_type_transition
-		 (ARG1 file dir "lost+found")))
-
-    (macro cache_file_type_transition_file ((type ARG1))
-	   (call .cache.file_type_transition
-		 (ARG1 file dir "lost+found")))
-
-    (macro conf_file_type_transition_file ((type ARG1))
-	   (call .conf.file_type_transition
-		 (ARG1 file dir "lost+found")))
-
-    (macro data_file_type_transition_file ((type ARG1))
-	   (call .data.file_type_transition
-		 (ARG1 file dir "lost+found")))
-
-    (macro db_file_type_transition_file ((type ARG1))
-	   (call .db.file_type_transition
-		 (ARG1 file dir "lost+found")))
-
-    (macro home_file_type_transition_file ((type ARG1))
-	   (call .home.file_type_transition
-		 (ARG1 file dir "lost+found")))
-
-    (macro log_file_type_transition_file ((type ARG1))
-	   (call .log.file_type_transition
-		 (ARG1 file dir "lost+found")))
-
-    (macro root_file_type_transition_file ((type ARG1))
-	   (call .root.file_type_transition
-		 (ARG1 file dir "lost+found")))
-
-    (macro run_file_type_transition_file ((type ARG1))
-	   (call .run.file_type_transition
-		 (ARG1 file dir "lost+found")))
-
-    (macro spool_file_type_transition_file ((type ARG1))
-	   (call .spool.file_type_transition
-		 (ARG1 file dir "lost+found")))
-
-    (macro state_file_type_transition_file ((type ARG1))
-	   (call .state.file_type_transition
-		 (ARG1 file dir "lost+found")))
-
-    (macro tmp_file_type_transition_file ((type ARG1))
-	   (call .tmp.file_type_transition
-		 (ARG1 file dir "lost+found")))
-
-    (macro var_file_type_transition_file ((type ARG1))
-	   (call .var.file_type_transition
-		 (ARG1 file dir "lost+found"))))
 
 (in mail.spool
 
