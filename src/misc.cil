@@ -53,8 +53,6 @@
     (call .lostfound.var_file_type_transition_file (typeattr))
     (call .mail.spool.spool_file_type_transition_file (typeattr))
     (call .mail.spool.var_file_type_transition_file (typeattr))
-    (call .media.root_file_type_transition_file (typeattr))
-    (call .media.run_file_type_transition_file (typeattr))
     (call .mod.lib_file_type_transition_file (typeattr))
     (call .run.root_file_type_transition_file (typeattr))
     (call .run.var_file_type_transition_file (typeattr))
@@ -218,30 +216,6 @@
     (macro var_file_type_transition_file ((type ARG1))
 	   (call .var.file_type_transition
 		 (ARG1 file dir "mail"))))
-
-(in media
-
-    (filecon "/media" dir file_context)
-    (filecon "/media/cdrom" symlink file_context)
-    (filecon "/media/.*" any ())
-
-    (filecon "/mnt" dir file_context)
-    (filecon "/mnt/.*" any ())
-
-    (filecon "/run/media" dir file_context)
-    (filecon "/run/media/.*" any ())
-
-    (macro root_file_type_transition_file ((type ARG1))
-	   (call .root.file_type_transition
-		 (ARG1 file dir "media"))
-	   (call .root.file_type_transition
-		 (ARG1 file dir "mnt")))
-
-    (macro run_file_type_transition_file ((type ARG1))
-	   (call .run.file_type_transition
-		 (ARG1 file dir "media")))
-
-    (call .tmp.associate_fs (file)))
 
 (in mod
 
