@@ -3,9 +3,28 @@
 
 (block exec
 
+  (filecon "/usr/bin" dir file_context)
+  (filecon "/usr/bin/.*" any file_context)
+
+  (macro data_file_type_transition_file ((type ARG1))
+         (call .data.file_type_transition
+               (ARG1 file dir "bin"))
+         (call .data.file_type_transition
+               (ARG1 file dir "libexec"))
+         (call .data.file_type_transition
+               (ARG1 file dir "sbin")))
+
+  (macro root_file_type_transition_file ((type ARG1))
+         (call .root.file_type_transition
+               (ARG1 file dir "bin"))
+         (call .root.file_type_transition
+               (ARG1 file dir "sbin")))
+
   (blockinherit .file.exec.template)
   (blockinherit .file.macro_template_dirs)
-  (blockinherit .file.macro_template_lnk_files))
+  (blockinherit .file.macro_template_lnk_files)
+
+) ;; namespace exec
 
 (in file
 
@@ -72,3 +91,8 @@
 
 	(blockinherit .file.exec.base_template)
 	(blockinherit .file.macro_template_files))))
+
+(in file.unconfined
+    (call .exec.data_file_type_transition_file (typeattr))
+    (call .exec.root_file_type_transition_file (typeattr))
+) ;; namespace file.unconfined

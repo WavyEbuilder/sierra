@@ -48,25 +48,6 @@
     (filecon "/sys/firmware/efi/efivars" dir ())
     (filecon "/sys/firmware/efi/efivars/.*" any ()))
 
-(in exec
-
-    (filecon "/usr/bin" dir file_context)
-    (filecon "/usr/bin/.*" any file_context)
-
-    (macro data_file_type_transition_file ((type ARG1))
-	   (call .data.file_type_transition
-		 (ARG1 file dir "bin"))
-	   (call .data.file_type_transition
-		 (ARG1 file dir "libexec"))
-	   (call .data.file_type_transition
-		 (ARG1 file dir "sbin")))
-
-    (macro root_file_type_transition_file ((type ARG1))
-	   (call .root.file_type_transition
-		 (ARG1 file dir "bin"))
-	   (call .root.file_type_transition
-		 (ARG1 file dir "sbin"))))
-
 (in file.run
 
     (call .xattr.associate_fs (typeattr)))
