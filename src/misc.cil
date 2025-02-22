@@ -43,7 +43,6 @@
     (call .conf.data_file_type_transition_file (typeattr))
     (call .conf.root_file_type_transition_file (typeattr))
     (call .data.root_file_type_transition_file (typeattr))
-    (call .db.var_file_type_transition_file (typeattr))
     (call .dev.root_file_type_transition_file (typeattr))
     (call .exec.data_file_type_transition_file (typeattr))
     (call .exec.root_file_type_transition_file (typeattr))
