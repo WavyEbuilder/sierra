@@ -49,8 +49,6 @@
     (call .exec.data_file_type_transition_file (typeattr))
     (call .exec.root_file_type_transition_file (typeattr))
     (call .home.root_file_type_transition_file (typeattr))
-    (call .lib.data_file_type_transition_file (typeattr))
-    (call .lib.root_file_type_transition_file (typeattr))
     (call .log.var_file_type_transition_file (typeattr))
     (call .lostfound.boot_file_type_transition_file (typeattr))
     (call .lostfound.cache_file_type_transition_file (typeattr))
