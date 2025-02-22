@@ -470,7 +470,4 @@
 	   (call .root.file_type_transition
 		 (ARG1 file dir "var"))))
 
-(typealias dpkg_script_t)
-(in sys (typealiasactual dpkg_script_t subj))
-
 (boolean xserver_object_manager false)
