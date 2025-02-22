@@ -3,10 +3,19 @@
 
 (block home
 
+  (filecon "/home" dir file_context)
+  (filecon "/home/.*" any file_context)
+
+  (macro root_file_type_transition_file ((type ARG1))
+         (call .root.file_type_transition
+               (ARG1 file dir "home")))
+
   (blockinherit .file.home.template)
   (blockinherit .file.macro_template_all_files)
   (blockinherit .file.macro_template_blk_files)
-  (blockinherit .file.macro_template_chr_files))
+  (blockinherit .file.macro_template_chr_files)
+
+) ;; namespace home
 
 (in file
 
@@ -45,3 +54,7 @@
 	(blockinherit .file.macro_template_files)
 	(blockinherit .file.macro_template_lnk_files)
 	(blockinherit .file.macro_template_sock_files))))
+
+(in file.unconfined
+    (call .home.root_file_type_transition_file (typeattr))
+) ;; namespace file.unconfined
