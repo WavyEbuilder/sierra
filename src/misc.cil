@@ -50,9 +50,6 @@
     (call .src.data_file_type_transition_file (typeattr))
     (call .state.var_file_type_transition_file (typeattr))
     (call .sys.home.root_file_type_transition_file (typeattr))
-    (call .tmp.data_file_type_transition_file (typeattr))
-    (call .tmp.root_file_type_transition_file (typeattr))
-    (call .tmp.var_file_type_transition_file (typeattr))
     (call .var.root_file_type_transition_file (typeattr)))
 
 (in fs.unconfined
@@ -243,8 +240,6 @@
     (call tmpfs.tmp_fs_type_transition_file (subj lnk_file "*"))
     (call tmpfs.tmp_fs_type_transition_file (subj sock_file "*"))
 
-    (call .tmp.sys_tmp_file_type_transition_file (subj))
-
     (call .xattr.associate_fs (fs)))
 
 (in sys.home
@@ -283,47 +278,6 @@
 (in sys.unconfined
 
     (allow typeattr subj (system (reboot reload start status stop))))
-
-(in tmp
-
-    (filecon "/dev/shm" dir fs_context)
-    (filecon "/dev/shm/.*" any ())
-
-    (filecon "/run/initramfs/.*" any ())
-
-    (filecon "/tmp" dir file_context)
-    (filecon "/tmp/.*" any ())
-
-    (filecon "/tmp/\.font-unix" dir file_context)
-    (filecon "/tmp/\.font-unix/.*" any ())
-    (filecon "/tmp/\.ICE-unix" dir file_context)
-    (filecon "/tmp/\.ICE-unix/.*" any ())
-    (filecon "/tmp/\.Test-unix" dir file_context)
-    (filecon "/tmp/\.Test-unix/.*" any ())
-    (filecon "/tmp/\.X11-unix" dir file_context)
-    (filecon "/tmp/\.X11-unix/.*" any ())
-    (filecon "/tmp/\.XIM-unix" dir file_context)
-    (filecon "/tmp/\.XIM-unix/.*" any ())
-
-    (macro data_file_type_transition_file ((type ARG1))
-	   (call .data.file_type_transition
-		 (ARG1 file dir "tmp")))
-
-    (macro root_file_type_transition_file ((type ARG1))
-	   (call .root.file_type_transition
-		 (ARG1 file dir "tmp")))
-
-    (macro sys_tmp_file_type_transition_file ((type ARG1))
-	   (call .sys.tmp.file_type_transition
-		 (ARG1 file dir "tmp")))
-
-    (macro var_file_type_transition_file ((type ARG1))
-	   (call .var.file_type_transition
-		 (ARG1 file dir "tmp")))
-
-    (allow fs self (filesystem (associate)))
-
-    (call .devtmp.associate_fs (fs)))
 
 (in trace
 
