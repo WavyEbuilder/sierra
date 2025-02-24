@@ -42,6 +42,8 @@ config_install:
 	echo "sys.serialtermdev" > $(DESTDIR)/etc/selinux/$(SELINUXTYPE)/contexts/customizable_types
 	echo "sys.role:sys.subj" > $(DESTDIR)/etc/selinux/$(SELINUXTYPE)/contexts/default_type
 	/bin/echo -e """/bin /usr/bin\
+\n/etc/dinit.d /usr/lib/dinit.d\
+\n/etc/dinit.d/user /usr/lib/dinit.d/user\
 \n/lib /usr/lib\
 \n/lib64 /usr/lib\
 \n/sbin /usr/bin\
