@@ -1,0 +1,48 @@
+(block agent
+
+  (typeattribute typeattr)
+
+  (call .subj.type (typeattr))
+
+  (macro type ((type ARG1))
+         (typeattributeset typeattr ARG1))
+
+  (block exec
+
+    (macro entrypoint_all_files ((type ARG1))
+           (allow ARG1 typeattr (file (entrypoint))))
+
+    (macro type ((type ARG1))
+           (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (call .file.exec.type (typeattr)))
+
+  (block template
+
+    (blockabstract template)
+
+    (macro role ((role ARG1))
+           (roleattributeset roleattr ARG1))
+
+    (macro subj_type_transition ((type ARG1))
+           (allow ARG1 subj (process (transition)))
+           (call exec.subj_type_transition (ARG1 subj)))
+
+    (blockinherit .subj.template)
+
+    (roleattribute roleattr)
+    (roletype roleattr subj)
+
+    (call .agent.type (subj))
+
+    (block exec
+
+      (blockinherit .file.exec.template)
+
+      (call entrypoint_file_files (subj))
+
+      (call read_file_files (subj))
+
+      (call .agent.exec.type (file)))))

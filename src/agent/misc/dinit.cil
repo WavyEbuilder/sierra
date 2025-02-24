@@ -1,10 +1,6 @@
 (block dinit
 
-  (block exec
-
-    (filecon "/usr/bin/dinit" file file_context)
-
-    (blockinherit .file.exec.template))
+  (blockinherit .agent.template)
 
   (block run
 
@@ -65,3 +61,7 @@
     (call .dinit.service.conf_file_type_transition_file (typeattr))
     (call .dinit.service.lib_file_type_transition_file (typeattr))
 ) ;; namespace file.unconfined
+
+(in after dinit.exec
+    
+    (filecon "/usr/bin/dinit" file file_context))
