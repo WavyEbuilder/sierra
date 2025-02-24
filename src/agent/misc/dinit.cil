@@ -19,6 +19,7 @@
            (call .lib.file_type_transition
                  (ARG1 file dir "dinit\.d")))
 
+    (blockinherit .file.macro_template_dirs)
     (blockinherit .file.service.template)))
 
 (in file
