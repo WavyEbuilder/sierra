@@ -23,6 +23,8 @@
     (macro type ((type ARG1))
            (typeattributeset typeattr ARG1))
 
+    (blockinherit file.all_macro_template_files)
+
     (typeattribute typeattr)
 
     (call data.type (typeattr))
