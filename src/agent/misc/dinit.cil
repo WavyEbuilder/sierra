@@ -5,9 +5,6 @@
     (filecon "/usr/lib/dinit\.d" dir file_context)
     (filecon "/usr/lib/dinit\.d/.*" any file_context)
     
-    (filecon "/usr/local/lib/dinit\.d" dir file_context)
-    (filecon "/usr/local/lib/dinit\.d/.*" any file_context)
-
     (macro conf_file_type_transition_file ((type ARG1))
            (call .conf.file_type_transition
                  (ARG1 file dir "dinit\.d")))
