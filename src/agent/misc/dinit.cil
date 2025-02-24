@@ -11,6 +11,10 @@
     (filecon "/usr/local/lib/dinit\.d" dir file_context)
     (filecon "/usr/local/lib/dinit\.d/.*" any file_context)
 
+    (macro conf_file_type_transition_file ((type ARG1))
+           (call .conf.file_type_transition
+                 (ARG1 file dir "dinit\.d")))
+
     (macro lib_file_type_transition_file ((type ARG1))
            (call .lib.file_type_transition
                  (ARG1 file dir "dinit\.d")))
@@ -40,5 +44,6 @@
       (blockinherit .file.service.base_template))))
 
 (in file.unconfined
+    (call .dinit.service.conf_file_type_transition_file (typeattr))
     (call .dinit.service.lib_file_type_transition_file (typeattr))
 ) ;; namespace file.unconfined
