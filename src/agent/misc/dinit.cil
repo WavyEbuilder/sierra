@@ -1,5 +1,15 @@
 (block dinit
 
+  (block run
+
+    (filecon "/run/dinitctl" socket file_context)
+
+    (macro run_file_type_transition_file ((type ARG1))
+           (call .conf.file_type_transition
+                 (ARG1 file socket "dinitctl")))
+
+    (blockinherit .file.run.template))
+
   (block service
 
     (filecon "/usr/lib/dinit\.d" dir file_context)
@@ -45,6 +55,7 @@
       (blockinherit .file.service.base_template))))
 
 (in file.unconfined
+    (call .dinit.run.run_file_type_transition_file (typeattr))
     (call .dinit.service.conf_file_type_transition_file (typeattr))
     (call .dinit.service.lib_file_type_transition_file (typeattr))
 ) ;; namespace file.unconfined
