@@ -1,0 +1,44 @@
+(block dinit
+
+  (block service
+
+    (filecon "/etc/dinit\.d" dir file_context)
+    (filecon "/etc/dinit\.d/.*" any file_context)
+    
+    (filecon "/usr/lib/dinit\.d" dir file_context)
+    (filecon "/usr/lib/dinit\.d/.*" any file_context)
+    
+    (filecon "/usr/local/lib/dinit\.d" dir file_context)
+    (filecon "/usr/local/lib/dinit\.d/.*" any file_context)
+
+    (macro lib_file_type_transition_file ((type ARG1))
+           (call .lib.file_type_transition
+                 (ARG1 file dir "dinit\.d")))
+
+    (blockinherit .file.service.template)))
+
+(in file
+
+  (block service
+
+    (macro type ((type ARG1))
+           (typeattributeset typeattr ARG1))
+
+    (block base_template
+
+      (blockabstract base_template)
+
+      (blockinherit .file.base_template)
+
+      (call .file.service.type (file)))
+
+    (block template
+
+      (blockabstract template)
+
+      (blockinherit .file.macro_template_files)
+      (blockinherit .file.service.base_template))))
+
+(in file.unconfined
+    (call .dinit.service.lib_file_type_transition_file (typeattr))
+) ;; namespace file.unconfined
