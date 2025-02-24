@@ -7,7 +7,7 @@ all: clean policy check
 
 MCS = true
 MODULES = $(shell find src -type f -name '*.cil' -print0 | sort -z | xargs -r0)
-POLVERS = 33
+POLVERS = 34
 SELINUXTYPE = sierra
 VERBOSE = false
 
