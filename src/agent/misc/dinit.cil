@@ -1,5 +1,11 @@
 (block dinit
 
+  (block exec
+
+    (filecon "/usr/bin/dinit" file file_context)
+
+    (blockinherit .file.exec.template))
+
   (block run
 
     (filecon "/run/dinitctl" socket file_context)
