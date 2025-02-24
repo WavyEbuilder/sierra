@@ -23,6 +23,10 @@
     (macro type ((type ARG1))
            (typeattributeset typeattr ARG1))
 
+    (typeattribute typeattr)
+
+    (call data.type (typeattr))
+
     (block base_template
 
       (blockabstract base_template)
