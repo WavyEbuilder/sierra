@@ -5,7 +5,7 @@
     (filecon "/run/dinitctl" socket file_context)
 
     (macro run_file_type_transition_file ((type ARG1))
-           (call .conf.file_type_transition
+           (call .run.file_type_transition
                  (ARG1 file socket "dinitctl")))
 
     (blockinherit .file.run.template))
