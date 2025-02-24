@@ -2,9 +2,6 @@
 
   (block service
 
-    (filecon "/etc/dinit\.d" dir file_context)
-    (filecon "/etc/dinit\.d/.*" any file_context)
-    
     (filecon "/usr/lib/dinit\.d" dir file_context)
     (filecon "/usr/lib/dinit\.d/.*" any file_context)
     
