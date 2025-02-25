@@ -1,0 +1,26 @@
+;; For agents that operate in both a system and user context
+
+(block hybrid
+
+  (block agent
+
+    (typeattribute typeattr)
+
+    (macro type ((type ARG1))
+           (typeattributeset typeattr ARG1))
+
+    (block exec
+
+      (typeattribute typeattr)
+
+      (macro type ((type ARG1))
+             (typeattributeset typeattr ARG1))))
+
+  (block template
+
+    (blockabstract template)
+
+    (call subj_type_transition (.sys.subj))
+
+    (call .hybrid.agent.exec.type (exec.file))
+    (call .hybrid.agent.type (subj))))
