@@ -13,6 +13,8 @@
 
       (typeattribute typeattr)
 
+      (blockinherit .file.all_macro_template_files)
+
       (macro type ((type ARG1))
              (typeattributeset typeattr ARG1))))
 
