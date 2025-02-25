@@ -1,0 +1,35 @@
+(in sys
+
+    (block agent
+
+      (macro type ((type ARG1))
+             (typeattributeset typeattr ARG1))
+
+      (blockinherit .subj.all_macro_template)
+
+      (typeattribute typeattr)
+      (roletype role typeattr)
+
+      (call .agent.type (typeattr))
+
+      (block exec
+
+        (macro type ((type ARG1))
+               (typeattributeset typeattr ARG1))
+
+        (blockinherit .file.all_macro_template_files)
+
+        (typeattribute typeattr)
+
+        (call .agent.exec.type (typeattr)))
+
+      (block template
+
+        (blockabstract template)
+
+        (blockinherit .agent.template)
+
+        (call exec.subj_type_transition (.sys.subj subj))
+
+        (call .sys.agent.exec.type (exec.file))
+        (call .sys.agent.type (subj)))))
