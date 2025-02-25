@@ -1,0 +1,3 @@
+;; For my SELinux aware fork of sway https://github.com/WavyEbuilder/sway
+(class wayland_protocol (output_manager output_power_manager input_method foreign_toplevel_list foreign_toplevel_manager data_control_manager screencopy_manager ext_image_copy_capture_manager export_dmabuf_manager security_context_manager gamma_control_manager layer_shell session_lock_manager keyboard_shortcuts_inhibit virtual_keyboard virtual_pointer transient_seat_manager xdg_output_manager))
+(classorder (unordered wayland_protocol))
