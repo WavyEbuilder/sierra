@@ -5,4 +5,12 @@
 
   (filecon "/dev/console" char serialtermdev_context)
 
+  (macro devtmp_fs_type_transition_serialtermdev ((type ARG1)(name ARG2))
+         (call .dev.file_type_transition
+               (ARG1 serialtermdev chr_file ARG2)))
+
   (blockinherit .serialtermdev.template))
+
+(in termdev.unconfined
+
+    (call .console.devtmp_fs_type_transition_serialtermdev (typeattr "console")))
