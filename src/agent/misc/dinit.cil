@@ -2,6 +2,13 @@
 
   (blockinherit .hybrid.agent.template)
 
+  (boolean allow_unknown_agents true)
+
+  (booleanif allow_unknown_agents
+             (true
+
+               (call .exec.subj_type_transition (.dinit.subj .sys.subj))))
+
   (block run
 
     (filecon "/run/dinitctl" socket file_context)
