@@ -9,6 +9,8 @@
 
                (call .exec.subj_type_transition (.dinit.subj .sys.subj))))
 
+  (call .console.readwrite_serialtermdev_chr_files (subj))
+
   (block run
 
     (filecon "/run/dinitctl" socket file_context)
