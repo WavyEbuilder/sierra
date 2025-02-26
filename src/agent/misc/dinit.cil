@@ -13,6 +13,9 @@
   ;; TODO: implement relabeling of /dev in dinit
   (call .devtmp.readwrite_fs_chr_files (subj))
 
+  (allow dinit.subj self (capability (sys_admin)))
+  (allow dinit.subj self (capability2 (syslog)))
+
   (block run
 
     (filecon "/run/dinitctl" socket file_context)
