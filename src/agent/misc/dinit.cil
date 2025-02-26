@@ -9,7 +9,9 @@
 
                (call .exec.subj_type_transition (subj .sys.subj))))
 
-  (call .console.readwrite_serialtermdev_chr_files (subj))
+  ;; Comprimise for /dev/console in race with udev to create it
+  ;; TODO: implement relabeling of /dev in dinit
+  (call .devtmp.readwrite_fs_chr_files (subj))
 
   (block run
 
