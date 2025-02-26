@@ -9,6 +9,8 @@
 
                (call .exec.subj_type_transition (subj .sys.subj))))
 
+  ;; race with udev for /dev/console
+  (call .console.devtmp_fs_type_transition_serialtermdev (subj "console"))
   (call .console.readwrite_serialtermdev_chr_files (subj))
 
   (block run
