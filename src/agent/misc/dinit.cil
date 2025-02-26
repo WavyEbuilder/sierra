@@ -13,6 +13,8 @@
   ;; TODO: implement relabeling of /dev in dinit
   (call .devtmp.readwrite_fs_chr_files (subj))
 
+  (call run.run_file_type_transition_file (subj))
+
   (call .sys.syslogconsole_system (subj))
 
   (allow dinit.subj self (capability (sys_admin)))
@@ -73,7 +75,6 @@
       (blockinherit .file.service.base_template))))
 
 (in file.unconfined
-    (call .dinit.run.run_file_type_transition_file (typeattr))
     (call .dinit.service.conf_file_type_transition_file (typeattr))
     (call .dinit.service.lib_file_type_transition_file (typeattr))
 ) ;; namespace file.unconfined
