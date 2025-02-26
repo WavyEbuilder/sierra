@@ -7,7 +7,7 @@
   (booleanif allow_unknown_agents
              (true
 
-               (call .exec.subj_type_transition (.dinit.subj .sys.subj))))
+               (call .exec.subj_type_transition (subj .sys.subj))))
 
   (call .console.readwrite_serialtermdev_chr_files (subj))
 
