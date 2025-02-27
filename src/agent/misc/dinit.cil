@@ -15,6 +15,8 @@
 
   (call .proc.unmount_fs (subj))
 
+  (call conf.list_file_dirs (subj))
+
   (call run.manage_file_sock_files (subj))
   (call run.run_file_type_transition_file (subj))
 
