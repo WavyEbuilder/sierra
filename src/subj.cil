@@ -109,6 +109,11 @@
     (allow typeattr self
            (process (fork sigchld sigkill signal signull sigstop)))
 
+    (allow typeattr self list_dir)
+    (allow typeattr self read_lnk_file)
+    (allow typeattr self readwrite_fifo_file)
+    (allow typeattr self readwrite_file)
+
     (call subj.type (typeattr))
 
     (block base_template
