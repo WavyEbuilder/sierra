@@ -3,11 +3,6 @@
 
 (sidcontext init (sys.id sys.role sys.subj sys.lowlow)) ;; userspace_initial_context
 
-(in debug
-
-    (filecon "/sys/kernel/debug" dir ())
-    (filecon "/sys/kernel/debug/.*" any ()))
-
 (in devpts
 
     (filecon "/dev/pts" dir ())

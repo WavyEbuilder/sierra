@@ -3,6 +3,9 @@
 
 (block debug
 
+  (filecon "/sys/kernel/debug" dir ())
+  (filecon "/sys/kernel/debug/.*" any ())
+
   (genfscon "proc" "/sys/debug" sysctlfile_context)
 
   (blockinherit .sysctlfile.debug.template)
