@@ -27,7 +27,7 @@
 
     (macro run_file_type_transition_file ((type ARG1))
            (call .run.file_type_transition
-                 (ARG1 file socket "dinitctl")))
+                 (ARG1 file sock_file "dinitctl")))
 
     (blockinherit .file.run.template))
 
