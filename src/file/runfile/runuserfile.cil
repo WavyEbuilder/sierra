@@ -12,7 +12,28 @@
 
   (blockinherit .file.macro_template_dirs)
   (blockinherit .file.macro_template_lnk_files)
-  (blockinherit .file.runuser.base_template))
+  (blockinherit .file.runuser.base_template)
+
+  (block search_file_pattern
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (call search_file_dirs (typeattr))
+
+    (call .run.search_file_pattern.type (typeattr)))
+
+  (block traverse_file_pattern
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (call read_file_lnk_files (typeattr))
+    (call search_file_pattern.type (typeattr))))
 
 (in file
 

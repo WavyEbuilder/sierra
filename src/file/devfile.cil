@@ -25,7 +25,39 @@
     (blockinherit .file.dev.template)
     (blockinherit .file.macro_template_all_files)
     (blockinherit .file.macro_template_blk_files)
-    (blockinherit .file.macro_template_chr_files))
+    (blockinherit .file.macro_template_chr_files)
+
+    (block list_file_pattern
+
+      (macro type ((type ARG1))
+	     (typeattributeset typeattr ARG1))
+
+      (typeattribute typeattr)
+
+      (call list_file_dirs (typeattr))
+
+      (call .root.search_file_pattern.type (typeattr)))
+
+    (block search_file_pattern
+
+      (macro type ((type ARG1))
+	     (typeattributeset typeattr ARG1))
+
+      (typeattribute typeattr)
+
+      (call search_file_dirs (typeattr))
+
+      (call .root.search_file_pattern.type (typeattr)))
+
+    (block traverse_file_pattern
+
+      (macro type ((type ARG1))
+	     (typeattributeset typeattr ARG1))
+
+      (typeattribute typeattr)
+
+      (call read_file_lnk_files (typeattr))
+      (call search_file_pattern.type (typeattr))))
 
 (in file
 

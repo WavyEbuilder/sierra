@@ -5,4 +5,23 @@
 
     (block tmpfs
 
-      (blockinherit .file.tmpfs.template)))
+      (blockinherit .file.tmpfs.template)
+
+      (block search_file_pattern
+
+	(macro type ((type ARG1))
+	       (typeattributeset typeattr ARG1))
+
+	(typeattribute typeattr)
+
+	(call search_file_dirs (typeattr)))
+
+      (block traverse_file_pattern
+
+	(macro type ((type ARG1))
+	       (typeattributeset typeattr ARG1))
+
+	(typeattribute typeattr)
+
+	(call read_file_lnk_files (typeattr))
+	(call search_file_pattern.type (typeattr)))))
