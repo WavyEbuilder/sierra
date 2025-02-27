@@ -125,13 +125,6 @@
     (filecon "/sys/fs/pstore" dir ())
     (filecon "/sys/fs/pstore/.*" any ()))
 
-(in root
-
-    (filecon "/usr/bin" symlink file_context)
-    (filecon "/usr/lib" symlink file_context)
-
-    (allow fs self (filesystem (associate))))
-
 (in rpcpipe
 
     (filecon "/run/rpc_pipefs" dir ())
