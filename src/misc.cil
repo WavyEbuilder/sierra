@@ -37,7 +37,6 @@
 
 (in file.unconfined
 
-    (call .log.var_file_type_transition_file (typeattr))
     (call .mail.spool.spool_file_type_transition_file (typeattr))
     (call .mail.spool.var_file_type_transition_file (typeattr))
     (call .mod.lib_file_type_transition_file (typeattr))
@@ -68,17 +67,6 @@
     (filecon "/dev/hugepages/.*" any ())
 
     (allow fs self (filesystem (associate))))
-
-(in log
-
-    (filecon "/var/log" dir file_context)
-    (filecon "/var/log/.*" any file_context)
-
-    (macro var_file_type_transition_file ((type ARG1))
-	   (call .var.file_type_transition
-		 (ARG1 file dir "log")))
-
-    (call .tmp.associate_fs (file)))
 
 (in mail.spool
 

@@ -3,6 +3,15 @@
 
 (block log
 
+  (filecon "/var/log" dir file_context)
+  (filecon "/var/log/.*" any file_context)
+
+  (macro var_file_type_transition_file ((type ARG1))
+         (call .var.file_type_transition
+               (ARG1 file dir "log")))
+
+  (call .tmp.associate_fs (file))
+
   (blockinherit .file.log.template))
 
 (in file
@@ -36,3 +45,7 @@
 	(blockinherit .file.macro_template_dirs)
 	(blockinherit .file.macro_template_files)
 	(blockinherit .file.macro_template_lnk_files))))
+
+(in file.unconfined
+
+    (call .log.var_file_type_transition_file (typeattr)))
