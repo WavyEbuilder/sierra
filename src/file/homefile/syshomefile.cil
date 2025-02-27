@@ -5,7 +5,18 @@
 
     (block home
 
+        (filecon "/root" dir file_context)
+        (filecon "/root/.*" any file_context)
+
+        (macro root_file_type_transition_file ((type ARG1))
+               (call .root.fs_type_transition
+                     (ARG1 file dir "root")))
+
       (blockinherit .file.home.template)
       (blockinherit .file.macro_template_all_files)
       (blockinherit .file.macro_template_blk_files)
       (blockinherit .file.macro_template_chr_files)))
+
+(in file.unconfined
+
+    (call .sys.home.root_file_type_transition_file (typeattr)))

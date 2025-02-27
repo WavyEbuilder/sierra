@@ -32,8 +32,7 @@
     (call .mod.lib_file_type_transition_file (typeattr))
     (call .spool.var_file_type_transition_file (typeattr))
     (call .src.data_file_type_transition_file (typeattr))
-    (call .state.var_file_type_transition_file (typeattr))
-    (call .sys.home.root_file_type_transition_file (typeattr)))
+    (call .state.var_file_type_transition_file (typeattr)))
 
 (in fs.unconfined
 
@@ -156,15 +155,6 @@
     (call tmpfs.tmp_fs_type_transition_file (subj sock_file "*"))
 
     (call .xattr.associate_fs (fs)))
-
-(in sys.home
-
-    (filecon "/root" dir file_context)
-    (filecon "/root/.*" any file_context)
-
-    (macro root_file_type_transition_file ((type ARG1))
-	   (call .root.fs_type_transition
-		 (ARG1 file dir "root"))))
 
 (in sys.hugetlbfs
 
