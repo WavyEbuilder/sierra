@@ -3,6 +3,13 @@
 
 (block mod
 
+  (filecon "/usr/lib/modules" dir file_context)
+  (filecon "/usr/lib/modules/.*" any file_context)
+
+  (macro lib_file_type_transition_file ((type ARG1))
+         (call .lib.file_type_transition
+               (ARG1 file dir "modules")))
+
   (blockinherit .file.macro_template_dirs)
   (blockinherit .file.macro_template_lnk_files)
   (blockinherit .file.mod.template))
@@ -46,6 +53,10 @@
 
 	(blockinherit .file.macro_template_files)
 	(blockinherit .file.mod.base_template))))
+
+(in file.unconfined
+
+    (call .mod.lib_file_type_transition_file (typeattr)))
 
 (in sys
 

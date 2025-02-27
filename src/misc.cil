@@ -29,7 +29,6 @@
 
 (in file.unconfined
 
-    (call .mod.lib_file_type_transition_file (typeattr))
     (call .spool.var_file_type_transition_file (typeattr))
     (call .state.var_file_type_transition_file (typeattr)))
 
@@ -49,15 +48,6 @@
     (filecon "/dev/hugepages/.*" any ())
 
     (allow fs self (filesystem (associate))))
-
-(in mod
-
-    (filecon "/usr/lib/modules" dir file_context)
-    (filecon "/usr/lib/modules/.*" any file_context)
-
-    (macro lib_file_type_transition_file ((type ARG1))
-	   (call .lib.file_type_transition
-		 (ARG1 file dir "modules"))))
 
 (in mqueue
 
