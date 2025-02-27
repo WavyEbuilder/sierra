@@ -38,8 +38,6 @@
 (in file.unconfined
 
     (call .mod.lib_file_type_transition_file (typeattr))
-    (call .run.root_file_type_transition_file (typeattr))
-    (call .run.var_file_type_transition_file (typeattr))
     (call .runlock.run_file_type_transition_file (typeattr))
     (call .runlock.var_file_type_transition_file (typeattr))
     (call .runuser.run_file_type_transition_file (typeattr))
@@ -102,21 +100,6 @@
 
     (filecon "/run/rpc_pipefs" dir ())
     (filecon "/run/rpc_pipefs/.*" any ()))
-
-(in run
-
-    (filecon "/run" dir file_context)
-    (filecon "/run/.*" any file_context)
-
-    (macro root_file_type_transition_file ((type ARG1))
-	   (call .root.file_type_transition
-		 (ARG1 file dir "run")))
-
-    (macro var_file_type_transition_file ((type ARG1))
-	   (call .var.file_type_transition
-		 (ARG1 file dir "run")))
-
-    (call .root.associate_fs (file)))
 
 (in runlock
 

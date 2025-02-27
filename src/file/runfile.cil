@@ -3,6 +3,19 @@
 
 (block run
 
+  (filecon "/run" dir file_context)
+  (filecon "/run/.*" any file_context)
+
+  (macro root_file_type_transition_file ((type ARG1))
+         (call .root.file_type_transition
+               (ARG1 file dir "run")))
+
+  (macro var_file_type_transition_file ((type ARG1))
+         (call .var.file_type_transition
+               (ARG1 file dir "run")))
+
+  (call .root.associate_fs (file))
+
   (blockinherit .file.run.template))
 
 (in file
@@ -45,3 +58,8 @@
 	(blockinherit .file.macro_template_lnk_files)
 	(blockinherit .file.macro_template_sock_files)
 	(blockinherit .file.run.base_template))))
+
+(in file.unconfined
+
+    (call .run.root_file_type_transition_file (typeattr))
+    (call .run.var_file_type_transition_file (typeattr)))
