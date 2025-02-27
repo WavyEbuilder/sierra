@@ -29,7 +29,6 @@
 
 (in file.unconfined
 
-    (call .spool.var_file_type_transition_file (typeattr))
     (call .state.var_file_type_transition_file (typeattr)))
 
 (in fs.unconfined
@@ -86,15 +85,6 @@
 
     (filecon "/sys/fs/selinux" dir ())
     (filecon "/sys/fs/selinux/.*" any ()))
-
-(in spool
-
-    (filecon "/var/spool" dir file_context)
-    (filecon "/var/spool/.*" any file_context)
-
-    (macro var_file_type_transition_file ((type ARG1))
-	   (call .var.file_type_transition
-		 (ARG1 file dir "spool"))))
 
 (in state
 
