@@ -5,6 +5,17 @@
 
   (block spool
 
+    (filecon "/var/spool/mail" dir file_context)
+    (filecon "/var/spool/mail/.*" any file_context)
+
+    (macro spool_file_type_transition_file ((type ARG1))
+           (call .spool.file_type_transition
+                 (ARG1 file dir "mail")))
+
+    (macro var_file_type_transition_file ((type ARG1))
+           (call .var.file_type_transition
+                 (ARG1 file dir "mail")))
+
     (blockinherit .file.spool.mail.template)))
 
 (in file.spool
@@ -38,3 +49,8 @@
 	(blockinherit .file.macro_template_files)
 	(blockinherit .file.macro_template_lnk_files)
 	(blockinherit .file.spool.mail.base_template))))
+
+(in file.unconfined
+
+    (call .mail.spool.spool_file_type_transition_file (typeattr))
+    (call .mail.spool.var_file_type_transition_file (typeattr)))
