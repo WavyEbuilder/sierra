@@ -97,6 +97,31 @@
     (type subj)
     (call .subj.type (subj)))
 
+  (block common
+
+    (macro type ((type ARG1))
+           (typeattributeset typeattr ARG1))
+
+    (blockinherit all_macro_template)
+
+    (typeattribute typeattr)
+
+    (call subj.type (typeattr))
+
+    (block base_template
+
+      (blockabstract base_template)
+
+      (type subj)
+      (call .subj.common.type (subj)))
+
+    (block template
+
+      (blockabstract template)
+
+      (blockinherit .subj.common.base_template)
+      (blockinherit .subj.macro_template)))
+
   (block entry
 
     (macro entrypoint_all_files ((type ARG1))
