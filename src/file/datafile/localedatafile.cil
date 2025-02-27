@@ -1,0 +1,34 @@
+(block locale
+
+  (block data
+
+    (filecon "/usr/share/i18n" dir file_context)
+    (filecon "/usr/share/i18n/.*" any file_context)
+
+    (filecon "/usr/lib/locale" dir file_context)
+    (filecon "/usr/lib/locale/.*" any file_context)
+
+    (filecon "/usr/share/locale" dir file_context)
+    (filecon "/usr/share/locale/.*" any file_context)
+
+    (filecon "/usr/share/zoneinfo" dir file_context)
+    (filecon "/usr/share/zoneinfo/.*" any file_context)
+
+    (macro data_file_type_transition_file ((type ARG1))
+	   (call .data.file_type_transition
+		 (ARG1 file dir "i18n"))
+	   (call .data.file_type_transition
+		 (ARG1 file dir "locale"))
+	   (call .data.file_type_transition
+		 (ARG1 file dir "zoneinfo")))
+
+    (macro lib_file_type_transition_file ((type ARG1))
+	   (call .lib.file_type_transition
+		 (ARG1 file dir "locale")))
+
+    (blockinherit .file.data.template)))
+
+(in file.unconfined
+
+    (call .locale.data.data_file_type_transition_file (typeattr))
+    (call .locale.data.lib_file_type_transition_file (typeattr)))
