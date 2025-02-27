@@ -3,6 +3,13 @@
 
 (block runuser
 
+  (filecon "/run/user" dir file_context)
+  (filecon "/run/user/.*" any file_context)
+
+  (macro run_file_type_transition_file ((type ARG1))
+         (call .run.file_type_transition
+               (ARG1 file dir "user")))
+
   (blockinherit .file.macro_template_dirs)
   (blockinherit .file.macro_template_lnk_files)
   (blockinherit .file.runuser.base_template))
@@ -45,3 +52,7 @@
 	(blockinherit .file.macro_template_lnk_files)
 	(blockinherit .file.macro_template_sock_files)
 	(blockinherit .file.runuser.base_template))))
+
+(in file.unconfined
+
+    (call .runuser.run_file_type_transition_file (typeattr)))
