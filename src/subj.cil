@@ -106,6 +106,9 @@
 
     (typeattribute typeattr)
 
+    (allow typeattr self
+           (process (fork sigchld sigkill signal signull sigstop)))
+
     (call subj.type (typeattr))
 
     (block base_template
