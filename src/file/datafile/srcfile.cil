@@ -3,6 +3,17 @@
 
 (block src
 
+  (filecon "/usr/src" dir file_context)
+  (filecon "/usr/src/.*" any file_context)
+
+  (macro data_file_type_transition_file ((type ARG1))
+         (call .data.file_type_transition
+               (ARG1 file dir "src")))
+
   (blockinherit .file.data.template)
 
   (call .xattr.associate_fs (file)))
+
+(in file.unconfined
+
+    (call .src.data_file_type_transition_file (typeattr)))

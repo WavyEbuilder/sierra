@@ -31,7 +31,6 @@
 
     (call .mod.lib_file_type_transition_file (typeattr))
     (call .spool.var_file_type_transition_file (typeattr))
-    (call .src.data_file_type_transition_file (typeattr))
     (call .state.var_file_type_transition_file (typeattr)))
 
 (in fs.unconfined
@@ -106,15 +105,6 @@
     (macro var_file_type_transition_file ((type ARG1))
 	   (call .var.file_type_transition
 		 (ARG1 file dir "spool"))))
-
-(in src
-
-    (filecon "/usr/src" dir file_context)
-    (filecon "/usr/src/.*" any file_context)
-
-    (macro data_file_type_transition_file ((type ARG1))
-	   (call .data.file_type_transition
-		 (ARG1 file dir "src"))))
 
 (in state
 
