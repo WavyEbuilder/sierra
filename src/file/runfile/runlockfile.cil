@@ -3,6 +3,17 @@
 
 (block runlock
 
+  (filecon "/run/lock" dir file_context)
+  (filecon "/run/lock/.*" any file_context)
+
+  (macro run_file_type_transition_file ((type ARG1))
+         (call .run.file_type_transition
+               (ARG1 file dir "lock")))
+
+  (macro var_file_type_transition_file ((type ARG1))
+	 (call .var.file_type_transition
+               (ARG1 file dir "lock")))
+
   (blockinherit .file.runlock.template))
 
 (in file
@@ -36,3 +47,8 @@
 	(blockinherit .file.macro_template_files)
 	(blockinherit .file.macro_template_lnk_files)
 	(blockinherit .file.runlock.base_template))))
+
+(in file.unconfined
+
+    (call .runlock.run_file_type_transition_file (typeattr))
+    (call .runlock.var_file_type_transition_file (typeattr)))
