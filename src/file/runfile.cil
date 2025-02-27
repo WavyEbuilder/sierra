@@ -40,6 +40,8 @@
 
       (call .tmp.associate_fs (typeattr))
 
+      (call .xattr.associate_fs (typeattr))
+
       (block base_template
 
 	(blockabstract base_template)

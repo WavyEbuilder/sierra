@@ -27,10 +27,6 @@
     (filecon "/sys/firmware/efi/efivars" dir ())
     (filecon "/sys/firmware/efi/efivars/.*" any ()))
 
-(in file.run
-
-    (call .xattr.associate_fs (typeattr)))
-
 (in file.tmp
 
     (call .xattr.associate_fs (typeattr)))
