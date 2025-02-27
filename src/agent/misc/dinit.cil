@@ -27,6 +27,8 @@
   (allow subj self (capability (sys_admin sys_boot)))
   (allow subj self (capability2 (syslog)))
 
+  (allow subj self (process (fork)))
+
   (block run
 
     (filecon "/run/dinitctl" socket file_context)
