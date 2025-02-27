@@ -20,6 +20,7 @@
 
   (call .sys.syslogconsole_system (subj))
 
+  (allow subj self create_unix_stream_socket)
   (allow dinit.subj self (capability (sys_admin)))
   (allow dinit.subj self (capability2 (syslog)))
 
