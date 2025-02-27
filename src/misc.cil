@@ -3,11 +3,6 @@
 
 (sidcontext init (sys.id sys.role sys.subj sys.lowlow)) ;; userspace_initial_context
 
-(in devpts
-
-    (filecon "/dev/pts" dir ())
-    (filecon "/dev/pts/.*" any ()))
-
 (in devtmp
 
     (allow fs self (filesystem (associate))))

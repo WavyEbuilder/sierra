@@ -3,6 +3,9 @@
 
 (block devpts
 
+  (filecon "/dev/pts" dir ())
+  (filecon "/dev/pts/.*" any ())
+
   (fsuse trans "devpts" fs_context)
 
   (blockinherit .fs.macro_template_dirs)
