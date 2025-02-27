@@ -41,8 +41,7 @@
     (call .spool.var_file_type_transition_file (typeattr))
     (call .src.data_file_type_transition_file (typeattr))
     (call .state.var_file_type_transition_file (typeattr))
-    (call .sys.home.root_file_type_transition_file (typeattr))
-    (call .var.root_file_type_transition_file (typeattr)))
+    (call .sys.home.root_file_type_transition_file (typeattr)))
 
 (in fs.unconfined
 
@@ -207,24 +206,5 @@
 
     (filecon "/sys/kernel/tracing" dir ())
     (filecon "/sys/kernel/tracing/.*" any ()))
-
-(in var
-
-    (filecon "/run" symlink file_context)
-    (filecon "/run/lock" symlink file_context)
-
-    (filecon "/srv" dir file_context)
-    (filecon "/srv/.*" any file_context)
-
-    (filecon "/var" dir file_context)
-    (filecon "/var/.*" any file_context)
-
-    (filecon "/var/spool/mail" symlink file_context)
-
-    (macro root_file_type_transition_file ((type ARG1))
-	   (call .root.file_type_transition
-		 (ARG1 file dir "srv"))
-	   (call .root.file_type_transition
-		 (ARG1 file dir "var"))))
 
 (boolean xserver_object_manager false)

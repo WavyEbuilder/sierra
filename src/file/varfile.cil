@@ -3,6 +3,23 @@
 
 (block var
 
+  (filecon "/run" symlink file_context)
+  (filecon "/run/lock" symlink file_context)
+
+  (filecon "/srv" dir file_context)
+  (filecon "/srv/.*" any file_context)
+
+  (filecon "/var" dir file_context)
+  (filecon "/var/.*" any file_context)
+
+  (filecon "/var/spool/mail" symlink file_context)
+
+  (macro root_file_type_transition_file ((type ARG1))
+         (call .root.file_type_transition
+               (ARG1 file dir "srv"))
+         (call .root.file_type_transition
+               (ARG1 file dir "var")))
+
   (blockinherit .file.var.template))
 
 (in file
@@ -42,3 +59,7 @@
 	(blockinherit .file.macro_template_lnk_files)
 	(blockinherit .file.macro_template_sock_files)
 	(blockinherit .file.var.base_template))))
+
+(in file.unconfined
+
+    (call .var.root_file_type_transition_file (typeattr)))
