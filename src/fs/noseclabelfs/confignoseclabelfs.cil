@@ -3,6 +3,9 @@
 
 (block config
 
+  (filecon "/sys/kernel/config" dir ())
+  (filecon "/sys/kernel/config/.*" any ())
+
   (genfscon "configfs" "/" fs_context)
 
   (blockinherit .fs.macro_template_dirs)
