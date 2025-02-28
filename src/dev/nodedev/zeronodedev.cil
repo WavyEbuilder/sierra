@@ -5,6 +5,9 @@
 
   (filecon "/dev/zero" char nodedev_context)
 
+  (macro map_nodedev_chr_files ((type ARG1))
+	 (allow ARG1 nodedev (chr_file (map))))
+
   (blockinherit .nodedev.template)
 
   (call .rbacsep.exempt.obj.type (nodedev)))
