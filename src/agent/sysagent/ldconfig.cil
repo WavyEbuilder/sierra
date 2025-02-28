@@ -57,6 +57,8 @@
     (filecon "/etc/ld\.so\.conf\.d" dir file_context)
     (filecon "/etc/ld\.so\.conf\.d/.*" any file_context)
 
+    (filecon "/etc/ld-musl-[^/]*\.path" file file_context)
+
     (macro conf_file_type_transition_file ((type ARG1))
 	   (call .conf.file_type_transition
 		 (ARG1 file dir "ld.so.conf.d"))
