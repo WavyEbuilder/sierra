@@ -2,7 +2,7 @@
 
   (typeattribute typeattr)
 
-  (call .subj.type (typeattr))
+  (call .subj.common.type (typeattr))
 
   (macro type ((type ARG1))
          (typeattributeset typeattr ARG1))
@@ -30,7 +30,7 @@
            (allow ARG1 subj (process (transition)))
            (call exec.subj_type_transition (ARG1 subj)))
 
-    (blockinherit .subj.template)
+    (blockinherit .subj.common.template)
 
     (roleattribute roleattr)
     (roletype roleattr subj)
