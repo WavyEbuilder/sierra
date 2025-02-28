@@ -2,18 +2,17 @@
 
     (block helper
 
-      (block exec
-
-        (filecon "/usr/lib/dinit\.d/early" dir file_context)
-        (filecon "/usr/lib/dinit\.d/early/.*" any file_context)
-    
-        (macro dinit_lib_file_type_transition_file ((type ARG1))
-               (call .dinit.service.file_type_transition
-                     (ARG1 file dir "early")))
-
-        (blockinherit .file.macro_template_dirs)
-        (blockinherit .file.exec.template))))
+      (blockinherit .sys.agent.template)))
 
 (in file.unconfined
 
     (call .dinit.helper.exec.dinit_lib_file_type_transition_file (typeattr)))
+
+(in after dinit.helper.exec
+
+    (macro dinit_lib_file_type_transition_file ((type ARG1))
+           (call .dinit.service.file_type_transition
+                 (ARG1 file dir "early")))
+
+    (filecon "/usr/lib/dinit\.d/early" dir file_context)
+    (filecon "/usr/lib/dinit\.d/early/.*" any file_context))
