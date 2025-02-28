@@ -1,5 +1,8 @@
 (in dinit
 
+    (call .dinit.helper.exec.subj_type_transition
+          (subj .dinit.helper.subj))
+
     (block helper
 
       (blockinherit .sys.agent.template)))
