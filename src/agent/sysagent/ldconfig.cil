@@ -1,0 +1,108 @@
+(block ldconfig
+
+  (blockinherit .sys.agent.template)
+
+  (allow subj self (capability (dac_override dac_read_search sys_chroot)))
+
+  (call cache.cache_file_type_transition_file (subj))
+  (call cache.manage_file_dirs (subj))
+  (call cache.manage_file_files (subj))
+  (call cache.map_file_files (subj))
+
+  (call .conf.deletename_file_dirs (subj))
+
+  (call .file.lib.manage_all_files (subj))
+
+  (call .ldso.cache.conf_file_type_transition_file (subj))
+  (call .ldso.cache.manage_file_files (subj))
+
+  (call .ldso.conf.list_file_dirs (subj))
+  (call .ldso.conf.read_file_files (subj))
+
+  (call .lib.manage_file_dirs (subj))
+  (call .lib.manage_file_lnk_files (subj))
+
+  (call .locale.data.map_file_pattern.type (subj))
+  (call .locale.read_file_pattern.type (subj))
+
+  (call .var.search_file_pattern.type (subj))
+
+  (block cache
+
+    (filecon "/var/cache/ldconfig" dir file_context)
+    (filecon "/var/cache/ldconfig/.*" any file_context)
+
+    (macro cache_file_type_transition_file ((type ARG1))
+	   (call .cache.file_type_transition
+		 (ARG1 file dir "ldconfig")))
+
+    (macro map_file_files ((type ARG1))
+	   (allow ARG1 file (file (map))))
+
+    (blockinherit .file.cache.base_template)
+    (blockinherit .file.macro_template_dirs)
+    (blockinherit .file.macro_template_files)))
+
+(block ldso
+
+  (filecon "/usr/lib/([^/]+/)?ld-[^/]*\.so(\.[^/]*)*" file file_context)
+
+  (blockinherit .file.lib.template)
+
+  (block conf
+
+    (filecon "/etc/ld\.so\.conf" file file_context)
+    (filecon "/etc/ld\.so\.conf\..*" file file_context)
+
+    (filecon "/etc/ld\.so\.conf\.d" dir file_context)
+    (filecon "/etc/ld\.so\.conf\.d/.*" any file_context)
+
+    (macro conf_file_type_transition_file ((type ARG1))
+	   (call .conf.file_type_transition
+		 (ARG1 file dir "ld.so.conf.d"))
+	   (call .conf.file_type_transition
+		 (ARG1 file file "ld.so.conf")))
+
+    (blockinherit .file.conf.template))
+
+  (block cache
+
+    (filecon "/etc/ld\.so\.cache.*" file file_context)
+    (filecon "/etc/ld\.so\.preload.*" file file_context)
+
+    (macro conf_file_type_transition_file ((type ARG1))
+	   (call .conf.file_type_transition
+		 (ARG1 file file "ld.so.cache"))
+	   (call .conf.file_type_transition
+		 (ARG1 file file "ld.so.cache~"))
+	   (call .conf.file_type_transition
+		 (ARG1 file file "ld.so.preload"))
+	   (call .conf.file_type_transition
+		 (ARG1 file file "ld.so.preload~")))
+
+    (macro map_file_files ((type ARG1))
+	   (allow ARG1 file (file (map))))
+
+    (blockinherit .file.macro_template_files)
+    (blockinherit .file.base_template)
+
+    (call .xattr.associate_fs_pattern.type (file))))
+
+(in file.unconfined
+
+    (call .ldconfig.cache.cache_file_type_transition_file (typeattr))
+
+    (call .ldso.cache.conf_file_type_transition_file (typeattr))
+    (call .ldso.conf.conf_file_type_transition_file (typeattr)))
+
+(in subj.common
+
+    (call .ldso.mapexecute_file_files (typeattr))
+    (call .ldso.read_file_files (typeattr))
+
+    (call .ldso.cache.map_file_files (typeattr))
+    (call .ldso.cache.read_file_files (typeattr)))
+
+(in after ldconfig.exec
+
+    (filecon "/usr/bin/ldconfig" file file_context))
