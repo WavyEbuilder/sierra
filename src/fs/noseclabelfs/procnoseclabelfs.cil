@@ -6,4 +6,36 @@
   (genfscon "proc" "/" fs_context)
 
   (blockinherit .fs.macro_template_lnk_files)
-  (blockinherit .noseclabelfs.template))
+  (blockinherit .noseclabelfs.template)
+
+  (block getattr_fs_pattern
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (allow typeattr fs (filesystem (getattr)))
+
+    (call .proc.search_fs_pattern.type (typeattr)))
+
+  (block search_fs_pattern
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (call search_fs_dirs (typeattr))
+
+    (call .root.search_file_pattern.type (typeattr)))
+
+  (block traverse_fs_pattern
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (call read_fs_lnk_files (typeattr))
+    (call search_fs_pattern.type (typeattr))))
