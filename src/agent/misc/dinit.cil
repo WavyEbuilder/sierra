@@ -9,6 +9,13 @@
 
                (call .sys.exec_subj_type_transition (subj))))
 
+  (macro connectto_all_unix_stream_sockets ((type ARG1))
+         (allow ARG1 subj (unix_stream_socket (connectto))))
+
+  (macro unix_stream_connect ((type ARG1))
+         (call connectto_all_unix_stream_sockets (ARG1))
+         (call .dinit.run.write_file_sock_files (ARG1)))
+
   ;; Comprimise for /dev/console in race with udev to create it
   ;; TODO: implement relabeling of /dev in dinit
   (call .devtmp.readwrite_fs_chr_files (subj))
