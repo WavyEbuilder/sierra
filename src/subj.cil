@@ -125,6 +125,8 @@
     (call .lib.mapexecute_file_files (typeattr))
     (call .lib.read_file_pattern.type (typeattr))
 
+    (call .null.readwrite_nodedev_chr_files (typeattr))
+
     (block base_template
 
       (blockabstract base_template)
