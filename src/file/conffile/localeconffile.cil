@@ -1,0 +1,48 @@
+(in file.unconfined
+
+    (call .locale.conf.conf_file_type_transition_file (typeattr "locale"))
+    (call .locale.conf.conf_file_type_transition_file (typeattr "locale.alias"))
+    (call .locale.conf.conf_file_type_transition_file (typeattr "locale.conf"))
+    (call .locale.conf.conf_file_type_transition_file (typeattr "locale.gen"))
+    (call .locale.conf.conf_file_type_transition_file (typeattr "localtime"))
+    (call .locale.conf.conf_file_type_transition_file (typeattr "timezone")))
+
+(in locale
+
+    (block conf
+
+      (filecon "/etc/default/locale" file file_context)
+      (filecon "/etc/default/locale\..*" file file_context)
+      (filecon "/etc/locale\.alias" file file_context)
+      (filecon "/etc/locale\.alias\..*" file file_context)
+      (filecon "/etc/locale\.conf" file file_context)
+      (filecon "/etc/locale\.conf\..*" file file_context)
+      (filecon "/etc/locale\.gen" file file_context)
+      (filecon "/etc/locale\.gen\..*" file file_context)
+      (filecon "/etc/localtime" file file_context)
+      (filecon "/etc/localtime\..*" file file_context)
+      (filecon "/etc/timezone" file file_context)
+      (filecon "/etc/timezone\..*" file file_context)
+
+      (macro conf_file_type_transition_file ((type ARG1)(name ARG2))
+	     (call .conf.file_type_transition
+		   (ARG1 file file ARG2)))
+
+      (macro map_file_files ((type ARG1))
+	     (allow ARG1 file (file (map))))
+
+      (blockinherit .file.conf.base_template)
+      (blockinherit .file.macro_template_files))
+
+    (block read_file_pattern
+
+      (macro type ((type ARG1))
+	     (typeattributeset typeattr ARG1))
+
+      (typeattribute typeattr)
+
+      (call conf.read_file_files (typeattr))
+
+      (call data.read_file_pattern.type (typeattr))
+
+      (call .conf.traverse_file_pattern.type (typeattr))))
