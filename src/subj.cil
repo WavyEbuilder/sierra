@@ -122,6 +122,9 @@
 
     (call .exec.traverse_file_pattern.type (typeattr))
 
+    (call .lib.mapexecute_file_files (typeattr))
+    (call .lib.read_file_pattern.type (typeattr))
+
     (block base_template
 
       (blockabstract base_template)
