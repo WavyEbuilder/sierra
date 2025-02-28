@@ -116,6 +116,12 @@
 
     (call subj.type (typeattr))
 
+    (call .conf.traverse_file_pattern.type (typeattr))
+
+    (call .dev.traverse_file_pattern.type (typeattr))
+
+    (call .exec.traverse_file_pattern.type (typeattr))
+
     (block base_template
 
       (blockabstract base_template)
