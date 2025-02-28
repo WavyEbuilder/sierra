@@ -5,6 +5,17 @@
 
 (block sys
 
+  (macro exec_subj_type_transition ((type ARG1))
+         (allow ARG1 subj (process (transition)))
+
+         (allow subj ARG1 (process (sigchld)))
+         (allow subj ARG1 (fd (use)))
+         (allow subj ARG1 readwriteinherited_fifo_file)
+
+         (call .exec.mapexecute_file_files (ARG1))
+         (call .exec.read_file_files (ARG1))
+         (call .exec.subj_type_transition (ARG1 subj)))
+
   (level low (s0))
   (level high (s0 .catset))
 

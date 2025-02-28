@@ -7,7 +7,7 @@
   (booleanif allow_unknown_agents
              (true
 
-               (call .exec.subj_type_transition (subj .sys.subj))))
+               (call .sys.exec_subj_type_transition (subj))))
 
   ;; Comprimise for /dev/console in race with udev to create it
   ;; TODO: implement relabeling of /dev in dinit
