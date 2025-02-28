@@ -131,6 +131,10 @@
 
     (call .sys.sigchld_subj_processes (typeattr))
 
+    (call .textrel.lib.execmod_file_files (typeattr))
+    (call .textrel.lib.mapexecute_file_files (typeattr))
+    (call .textrel.lib.read_file_files (typeattr))
+
     (block base_template
 
       (blockabstract base_template)
