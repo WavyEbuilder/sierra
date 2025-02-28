@@ -13,6 +13,7 @@
   ;; TODO: implement relabeling of /dev in dinit
   (call .devtmp.readwrite_fs_chr_files (subj))
 
+  (call .proc.mount_fs (subj))
   (call .proc.unmount_fs (subj))
 
   (call conf.list_file_dirs (subj))
