@@ -5,6 +5,9 @@
 
     (block helper
 
+      (call .ldso.conf.list_file_dirs (subj))
+      (call .ldso.conf.read_file_files (subj))
+
       (blockinherit .sys.agent.template)))
 
 (in file.unconfined
