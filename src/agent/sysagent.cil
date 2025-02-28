@@ -29,7 +29,7 @@
 
         (blockinherit .agent.template)
 
-        (call exec.subj_type_transition (.dinit.subj subj))
+        (call subj_type_transition (.dinit.subj))
 
         (call .sys.agent.exec.type (exec.file))
         (call .sys.agent.type (subj)))))
