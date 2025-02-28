@@ -127,6 +127,8 @@
 
     (call .null.readwrite_nodedev_chr_files (typeattr))
 
+    (call .proc.traverse_fs_pattern.type (typeattr))
+
     (block base_template
 
       (blockabstract base_template)
