@@ -135,6 +135,8 @@
     (call .textrel.lib.mapexecute_file_files (typeattr))
     (call .textrel.lib.read_file_files (typeattr))
 
+    (call .tty.readwrite_nodedev_chr_files (typeattr))
+
     (block base_template
 
       (blockabstract base_template)
