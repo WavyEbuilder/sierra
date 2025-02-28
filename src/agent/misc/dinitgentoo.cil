@@ -1,8 +1,5 @@
 (in dinit
 
-    (call .dinit.helper.exec.subj_type_transition
-          (subj .dinit.helper.subj))
-
     (block helper
 
       (call .ldso.conf.list_file_dirs (subj))
