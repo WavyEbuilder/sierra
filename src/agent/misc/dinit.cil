@@ -89,9 +89,9 @@
       (blockinherit .file.lib.service.base_template))))
 
 (in file.unconfined
+
     (call .dinit.service.conf_file_type_transition_file (typeattr))
-    (call .dinit.service.lib_file_type_transition_file (typeattr))
-) ;; namespace file.unconfined
+    (call .dinit.service.lib_file_type_transition_file (typeattr)))
 
 (in after dinit.exec
 
