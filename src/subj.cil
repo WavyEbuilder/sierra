@@ -137,6 +137,9 @@
 
     (call .tty.readwrite_nodedev_chr_files (typeattr))
 
+    (call .zero.map_nodedev_chr_files (typeattr))
+    (call .zero.readwrite_nodedev_chr_files (typeattr))
+
     (block base_template
 
       (blockabstract base_template)
