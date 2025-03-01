@@ -22,6 +22,7 @@
   ;; Comprimise for /dev/console in race with udev to create it
   ;; TODO: implement relabeling of /dev in dinit
   (call .devtmp.readwrite_fs_chr_files (subj))
+  (call .devtmp.search_fs_dirs (subj))
 
   (call .proc.mount_fs (subj))
   (call .proc.mounton_fs_dirs (subj))
