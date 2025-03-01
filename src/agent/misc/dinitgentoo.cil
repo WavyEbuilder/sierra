@@ -18,7 +18,10 @@
 
     (macro dinit_lib_file_type_transition_file ((type ARG1))
            (call .dinit.service.file_type_transition
-                 (ARG1 file dir "early")))
+                 (ARG1 file dir "helpers"))
+           (call .dinit.service.file_type_transition
+                 (ARG1 file dir "scripts")))
 
-    (filecon "/usr/lib/dinit\.d/early" dir file_context)
-    (filecon "/usr/lib/dinit\.d/early/.*" any file_context))
+    (filecon "/usr/lib/dinit\.d/early/helpers/.*" file file_context)
+    (filecon "/usr/lib/dinit\.d/early/scripts/.*" file file_context))
+
