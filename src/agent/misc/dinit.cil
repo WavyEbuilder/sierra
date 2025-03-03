@@ -33,7 +33,7 @@
   (call data.list_file_dirs (subj))
 
   (call .log.create_file_files (subj))
-  (call .log.list_file_dirs (subj))
+  (call .log.traverse_file_pattern.type (subj))
 
   (call .run.deletename_file_dirs (subj))
 
