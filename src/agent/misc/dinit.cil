@@ -32,6 +32,9 @@
 
   (call data.list_file_dirs (subj))
 
+  (call .log.create_file_files (subj))
+  (call .log.list_file_dirs (subj))
+
   (call .run.deletename_file_dirs (subj))
 
   (call run.manage_file_sock_files (subj))
