@@ -19,6 +19,10 @@
   (macro readwrite_subj_unix_stream_sockets ((type ARG1))
          (allow ARG1 subj readwrite_unix_stream_socket))
 
+  ;; After udev is loaded and has relabeled /dev, dinit might
+  ;; loose access to /dev/console as it is no longer devtmp.fs
+  (call .console.readwrite_serialtermdev_chr_files (subj))
+
   ;; Comprimise for /dev/console in race with udev to create it
   ;; TODO: implement relabeling of /dev in dinit
   (call .devtmp.readwrite_fs_chr_files (subj))
