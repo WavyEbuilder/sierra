@@ -1,0 +1,7 @@
+(block shutdown
+
+  (blockinherit .hybrid.agent.template))
+
+(in after shutdown.exec
+
+    (filecon "/usr/bin/shutdown" file file_context))
