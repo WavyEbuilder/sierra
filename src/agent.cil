@@ -50,6 +50,8 @@
 
       (call entrypoint_file_files (subj))
 
+      (call entrypoint_file_files (subj))
+      (call mapexecute_file_files (subj))
       (call read_file_files (subj))
 
       (call .agent.exec.type (file)))))
