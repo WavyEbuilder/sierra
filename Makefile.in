@@ -75,12 +75,12 @@ modular_install: config_install
 			*) semodule --priority=100 -NP -vvv -s $(SELINUXTYPE) -i $(MODULES) -p $(DESTDIR) ;; \
 		esac; \
 	fi
-	if [ "$(MCS)" = "false" ]; then \
-		sed -i 's/(mls false)/(mls true)/' src/misc/conf.cil; \
-	fi
 
 monolithic_install: config_install monolithic_install.$(POLVERS)
 monolithic_install.%:
+	if [ "$(MCS)" = "false" ]; then \
+		sed -i 's/(mls false)/(mls true)/' src/misc/conf.cil; \
+	fi
 	if [ "$(MCS)" = "false" ]; then \
 		replace=''; \
 	else \
