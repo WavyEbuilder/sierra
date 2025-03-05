@@ -103,7 +103,10 @@
     (call .ldso.read_file_files (typeattr))
 
     (call .ldso.cache.map_file_files (typeattr))
-    (call .ldso.cache.read_file_files (typeattr)))
+    (call .ldso.cache.read_file_files (typeattr))
+
+    (call .ldso.conf.list_file_dirs (typeattr))
+    (call .ldso.conf.read_file_files (typeattr)))
 
 (in after ldconfig.exec
 
