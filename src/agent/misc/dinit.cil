@@ -54,6 +54,8 @@
   (allow subj self (capability2 (syslog)))
   (allow subj self (unix_stream_socket (accept connectto listen)))
 
+  (allow subj subj.typeattr (process (getpgid sigchld sigkill sigstop signal)))
+
   (block run
 
     (filecon "/run/dinitctl" socket file_context)
