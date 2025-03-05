@@ -1,0 +1,15 @@
+;; SPDX-FileCopyrightText: © 2025 Rahul Sandhu <nvraxn@gmail.com>
+;; SPDX-License-Identifier: GPL-3.0-or-later
+
+(block dhcp
+
+  (portcon "dccp" (67 68) port_context)
+  (portcon "dccp" (546 547) port_context)
+  (portcon "sctp" (67 68) port_context)
+  (portcon "sctp" (546 547) port_context)
+  (portcon "tcp" (67 68) port_context)
+  (portcon "tcp"(546 547) port_context)
+  (portcon "udp" (67 68) port_context)
+  (portcon "udp" (546 547) port_context)
+
+  (blockinherit .net.port.reserved.template))
