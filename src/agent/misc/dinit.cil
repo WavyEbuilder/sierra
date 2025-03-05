@@ -54,7 +54,7 @@
   (allow subj self (capability2 (syslog)))
   (allow subj self (unix_stream_socket (accept connectto listen)))
 
-  (allow subj subj.typeattr (process (getpgid sigchld sigkill sigstop signal)))
+  (allow subj subj.typeattr (process (getpgid sigkill sigstop signal)))
 
   (block run
 
