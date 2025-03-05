@@ -76,6 +76,8 @@ modular_install: config_install
 		esac; \
 	fi
 
+	$(MAKE) -C doc install
+
 monolithic_install: config_install monolithic_install.$(POLVERS)
 monolithic_install.%:
 	if [ "$(MCS)" = "false" ]; then \
@@ -92,3 +94,5 @@ monolithic_install.%:
 
 	install -m 644 file_contexts $(DESTDIR)/etc/selinux/$(SELINUXTYPE)/contexts/files/
 	install -m 600 policy.$* $(DESTDIR)/etc/selinux/$(SELINUXTYPE)/policy/
+
+	$(MAKE) -C doc install
