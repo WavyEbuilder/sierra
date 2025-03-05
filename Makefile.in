@@ -6,12 +6,12 @@
 
 all: clean policy check doc
 
-DESTDIR ?=
-PREFIX ?= /usr/local
-SHAREDIR ?= $(PREFIX)/share
-MANDIR ?= $(SHAREDIR)/man
+prefix = @prefix@
+datarootdir = @datarootdir@
+mandir = @mandir@
+
 MCS ?= true
-MODULES := $(shell find src -type f -name '*.cil' | sort)
+MODULES = @MODULES@
 POLVERS ?= 34
 SELINUXTYPE ?= sierra
 VERBOSE ?= false
@@ -33,7 +33,7 @@ check.%:
 	setfiles -c policy.$* file_contexts
 
 doc:
-	$(MAKE) -C doc DESTDIR=$(DESTDIR) PREFIX=$(PREFIX) SHAREDIR=$(SHAREDIR) MANDIR=$(MANDIR)
+	$(MAKE) -C doc
 
 config_install:
 	install -d $(DESTDIR)/etc/selinux/$(SELINUXTYPE)/contexts/files
