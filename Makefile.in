@@ -12,7 +12,7 @@ mandir = @mandir@
 
 MCS ?= true
 MODULES = @MODULES@
-POLVERS ?= 34
+POLVERS = @POLVERS@
 SELINUXTYPE ?= sierra
 VERBOSE ?= false
 
