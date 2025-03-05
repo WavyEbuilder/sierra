@@ -2,10 +2,14 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 .POSIX:
-.PHONY: all clean policy check config_install modular_install monolithic_install
+.PHONY: all clean policy check doc config_install modular_install monolithic_install
 
-all: clean policy check
+all: clean policy check doc
 
+DESTDIR ?=
+PREFIX ?= /usr/local
+SHAREDIR ?= $(PREFIX)/share
+MANDIR ?= $(SHAREDIR)/man
 MCS ?= true
 MODULES := $(shell find src -type f -name '*.cil' | sort)
 POLVERS ?= 34
@@ -15,6 +19,7 @@ VERBOSE ?= false
 clean: clean.$(POLVERS)
 clean.%:
 	rm -f policy.$* file_contexts
+	$(MAKE) -C doc clean
 
 policy: policy.$(POLVERS)
 policy.%: $(MODULES)
@@ -26,6 +31,9 @@ policy.%: $(MODULES)
 check: check.$(POLVERS)
 check.%:
 	setfiles -c policy.$* file_contexts
+
+doc:
+	$(MAKE) -C doc DESTDIR=$(DESTDIR) PREFIX=$(PREFIX) SHAREDIR=$(SHAREDIR) MANDIR=$(MANDIR)
 
 config_install:
 	install -d $(DESTDIR)/etc/selinux/$(SELINUXTYPE)/contexts/files
