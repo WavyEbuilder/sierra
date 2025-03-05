@@ -3,3 +3,16 @@
 
 /policy.*
 /file_contexts
+
+Makefile
+aclocal.m4
+build-aux
+autom4te.cache
+chcon
+chcon.o
+configure
+config.log
+config.status
+*~
+.cache/
+.deps/
