@@ -7,7 +7,9 @@
   (booleanif allow_unknown_agents
              (true
 
-               (call .sys.exec_subj_type_transition (subj))))
+               (call .sys.exec_subj_type_transition (subj))
+
+               (allow subj .sys.subj (process (getpgid sigkill sigstop signal)))))
 
   (macro connectto_all_unix_stream_sockets ((type ARG1))
          (allow ARG1 subj (unix_stream_socket (connectto))))
@@ -53,8 +55,6 @@
   (allow subj self (capability (kill sys_admin sys_boot)))
   (allow subj self (capability2 (syslog)))
   (allow subj self (unix_stream_socket (accept connectto listen)))
-
-  (allow subj subj.typeattr (process (getpgid sigkill sigstop signal)))
 
   (block run
 
