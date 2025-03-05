@@ -1,0 +1,23 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+
+my $modules = qx(find src/ -name '*.cil' | sort);
+
+$modules =~ s/\n/ /g;
+
+print "Creating Makefile...\n";
+
+open my $in, '<', 'Makefile.in' or die "Cannot open Makefile.in: $!";
+open my $out, '>', 'Makefile' or die "Cannot create Makefile: $!";
+
+while (my $line = <$in>) {
+    $line =~ s/\@MODULES\@/$modules/g;
+    print $out $line;
+}
+
+close $in;
+close $out;
+
+print "Done!\n";
