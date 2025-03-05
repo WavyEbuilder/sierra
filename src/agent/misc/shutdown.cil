@@ -1,6 +1,8 @@
 (block shutdown
 
-  (blockinherit .hybrid.agent.template))
+  (blockinherit .hybrid.agent.template)
+
+  (call .console.write_serialtermdev_chr_files (subj)))
 
 (in after shutdown.exec
 
