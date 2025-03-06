@@ -10,6 +10,8 @@
       (typeattribute typeattr)
       (roletype role typeattr)
 
+      (call termdev.readwriteinherited_all_chr_files (typeattr))
+
       (call .agent.type (typeattr))
 
       (block exec

@@ -1,0 +1,36 @@
+(in sys
+
+    (block termdev
+
+      (macro getattr_all_chr_files ((type ARG1))
+	     (allow ARG1 typeattr (chr_file (getattr))))
+
+      (macro open_all_chr_files ((type ARG1))
+	     (allow ARG1 typeattr (chr_file (open))))
+
+      (macro setattr_all_chr_files ((type ARG1))
+	     (allow ARG1 typeattr (chr_file (setattr))))
+
+      (macro type ((type ARG1))
+	     (typeattributeset typeattr ARG1))
+
+      (typeattribute typeattr)
+
+      (blockinherit .file.all_macro_template_chr_files)
+
+      (call .rbacsep.exempt.obj.type (typeattr))))
+
+(in after sys.termdev.appendinherited_all_chr_files
+    (allowx ARG1 typeattr IOCTLCONSOLE_NOT_TIOCLINUX)
+    (allowx ARG1 typeattr IOCTLTTY_NOT_TIOCSTI)
+    (allowx ARG1 typeattr IOCTLVT))
+
+(in after sys.termdev.readwriteinherited_all_chr_files
+    (allowx ARG1 typeattr IOCTLCONSOLE_NOT_TIOCLINUX)
+    (allowx ARG1 typeattr IOCTLTTY_NOT_TIOCSTI)
+    (allowx ARG1 typeattr IOCTLVT))
+
+(in after sys.termdev.writeinherited_all_chr_files
+    (allowx ARG1 typeattr IOCTLCONSOLE_NOT_TIOCLINUX)
+    (allowx ARG1 typeattr IOCTLTTY_NOT_TIOCSTI)
+    (allowx ARG1 typeattr IOCTLVT))
