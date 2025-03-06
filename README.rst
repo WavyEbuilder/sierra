@@ -33,7 +33,7 @@ After installation, a variety of post installation steps are recommended. See th
 Documentation
 -------------
 
-Documentation for Sierra is provided in the form of man pages, and has a build time dependency on `scdoc ://git.sr.ht/~sircmpwn/scdoc>`_. To build Sierra's man pages:
+Documentation for Sierra is provided in the form of man pages, and has a build time dependency on `scdoc <https://git.sr.ht/~sircmpwn/scdoc>`_. To build Sierra's man pages:
 
 .. code-block:: sh
 
