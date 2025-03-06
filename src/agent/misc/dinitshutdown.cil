@@ -1,20 +1,29 @@
-(block shutdown
+(in dinit
 
-  (blockinherit .hybrid.agent.template)
+    (allow subj shutdown.exec.file execute_file)
 
-  (call .console.write_serialtermdev_chr_files (subj))
+    (block shutdown
 
-  (call .dinit.unix_stream_connect (subj))
+      (blockinherit .hybrid.agent.template)
 
-  ;; search for /run/dinitctl
-  (call .run.search_file_pattern.type (subj))
+      (call .console.write_serialtermdev_chr_files (subj))
 
-  (allow subj self create_unix_stream_socket))
+      (call .dinit.unix_stream_connect (subj))
 
-(in after shutdown.exec
+      ;; search for /run/dinitctl
+      (call .run.search_file_pattern.type (subj))
+
+      (allow subj self create_unix_stream_socket)
+
+      (block hook
+
+        (blockinherit .sys.agent.template))))
+
+(in after .dinit.shutdown.exec
 
     (filecon "/usr/bin/shutdown" file file_context))
 
-(in dinit
+(in after .dinit.shutdown.hook.exec
 
-    (allow subj .shutdown.exec.file execute_file))
+    (filecon "/etc/dinit/shutdown-hook" file file_context)
+    (filecon "/usr/lib/dinit/shutdown-hook" file file_context))
