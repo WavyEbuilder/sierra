@@ -4,6 +4,43 @@ Sierra
 
 Local system SELinux policy.
 
+Building
+--------
+
+Sierra is built using the autotools build system. To build Sierra:
+
+.. code-block:: sh
+
+   ./autogen.sh
+   ./configure
+   make
+
+Sierra has a variety of options available in the configure script to tweak the build. For more information, run `./configure --help`.
+
+Installation
+------------
+
+Sierra has two main installation paths, modular installation and monolithic installation. The modular installation is recommended. To perform a modular installation:
+
+.. code-block:: sh
+
+   make modular_install
+
+Note that the modular installation requires root privileges.
+
+After installation, a variety of post installation steps are recommended. See the Getting Started guide for more information.
+
+Documentation
+-------------
+
+Documentation for Sierra is provided in the form of man pages, and has a build time dependency on `scdoc ://git.sr.ht/~sircmpwn/scdoc>`_. To build Sierra's man pages:
+
+.. code-block:: sh
+
+   make doc
+
+The manual pages will then be available under `doc/`.
+
 Licence
 -------
 
