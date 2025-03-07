@@ -1,0 +1,11 @@
+;; SPDX-FileCopyrightText: © 2025 Rahul Sandhu <nvraxn@gmail.com>
+;; SPDX-License-Identifier: GPL-3.0-or-later
+
+(in staff
+
+    (call .admin.roleallow.role (role))
+    (call .admin.userrole.user (id)))
+
+(block admin
+
+  (blockinherit .user.role_template))
