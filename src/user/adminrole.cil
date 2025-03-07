@@ -6,6 +6,10 @@
     (call .admin.roleallow.role (role))
     (call .admin.userrole.user (id)))
 
+(in sys
+
+    (call .staff.roleallow.role (role)))
+
 (block admin
 
   (blockinherit .user.role_template))
