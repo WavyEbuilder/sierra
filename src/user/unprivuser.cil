@@ -1,0 +1,103 @@
+;; SPDX-FileCopyrightText: © 2025 Rahul Sandhu <nvraxn@gmail.com>
+;; SPDX-License-Identifier: GPL-3.0-or-later
+
+(userprefix user.id user.role)
+
+(in sys
+
+    (call .user.unpriv.roleallow.role (role)))
+
+(in user
+
+    (macro dontaudit_open_subj_fifo_files ((type ARG1))
+	   (dontaudit ARG1 subj (fifo_file (open))))
+
+    (macro open_subj_fifo_files ((type ARG1))
+	   (allow ARG1 subj (fifo_file (open))))
+
+    (blockinherit unpriv.template)
+    (blockinherit unpriv.subj_template)
+
+    (block unpriv
+
+      (macro dontaudit_create_all_keyrings ((type ARG1))
+	     (dontaudit ARG1 typeattr (key (create))))
+
+      (macro role ((role ARG1))
+	     (roleattributeset roleattr ARG1))
+
+      (macro type ((type ARG1))
+	     (typeattributeset typeattr ARG1))
+
+      (roleattribute roleattr)
+      (typeattribute typeattr)
+
+      (blockinherit all_macro_template)
+
+      (neverallow typeattr self (capability (all)))
+      (neverallow typeattr self (capability2 (all)))
+
+      (call common.type (typeattr))
+
+      (call .ibac.subjchangetarget.type (typeattr))
+
+      (call .obj.role (roleattr))
+
+      (call .rbac.subjchangetarget.type (typeattr))
+
+      (call .rbacsep.usefdsource.type (typeattr))
+
+      (call .subj.useinteractivefd.type (typeattr))
+
+      (block role_template
+
+	(blockabstract role_template)
+
+	(blockinherit .user.role_template)
+
+	(call .user.unpriv.role (role)))
+
+      (block roleallow
+
+	(macro role ((role ARG1))
+	       (roleattributeset roleattr ARG1))
+
+	(roleattribute roleattr)
+
+	(roleallow roleattr unpriv.roleattr))
+
+      (block subj_template
+
+	(blockabstract subj_template)
+
+	(blockinherit .user.subj_template)
+
+	(call .user.unpriv.type (subj)))
+
+      (block template
+
+	(blockabstract template)
+
+	(blockinherit .user.id_template)
+	(blockinherit .user.unpriv.role_template)
+
+	(call userrole.user (id))
+
+	(call .user.role (role)))
+
+      (block userrole
+
+	(macro user ((user ARG1))
+	       (userattributeset userattr ARG1))
+
+	(userattribute userattr)
+
+	(userrole userattr unpriv.roleattr))))
+
+(in user.agent
+
+    (call termdev.readwriteinherited_all_chr_files (typeattr)))
+
+(in user.common
+
+    (call home.search_file_pattern.type (typeattr)))

@@ -1,12 +1,12 @@
 ;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
 ;; SPDX-License-Identifier: Unlicense
 
-(block user
+(in user
 
-  (genfscon "proc" "/sys/user" sysctlfile_context)
+    (genfscon "proc" "/sys/user" sysctlfile_context)
 
-  (blockinherit .sysctlfile.macro_template_dirs)
-  (blockinherit .sysctlfile.user.template))
+    (blockinherit .sysctlfile.macro_template_dirs)
+    (blockinherit .sysctlfile.user.template))
 
 (in sysctlfile
 

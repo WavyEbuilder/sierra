@@ -1,0 +1,13 @@
+;; SPDX-FileCopyrightText: © 2025 Rahul Sandhu <nvraxn@gmail.com>
+;; SPDX-License-Identifier: GPL-3.0-or-later
+
+(userprefix staff.id staff.role)
+
+(block staff
+
+  (blockinherit .user.unpriv.template)
+
+  ;; staff.id has access to c512-c1023
+  (userrange id .user.securitylevel)
+
+  (call .sys.role_access (role id)))

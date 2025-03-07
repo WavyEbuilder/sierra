@@ -16,6 +16,10 @@
          (call .exec.read_file_files (ARG1))
          (call .exec.subj_type_transition (ARG1 subj)))
 
+  (macro role_access ((role ARG1)(user ARG2))
+         (call roleallow.role (ARG1))
+         (call userrole.user (ARG2)))
+
   (level low (s0))
   (level high (s0 .catset))
 

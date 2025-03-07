@@ -1,0 +1,156 @@
+;; SPDX-FileCopyrightText: © 2025 Rahul Sandhu <nvraxn@gmail.com>
+;; SPDX-License-Identifier: GPL-3.0-or-later
+
+(block user
+
+  (macro type ((type ARG1))
+         (typeattributeset typeattr ARG1))
+
+  (typeattribute typeattr)
+
+  (blockinherit all_macro_template)
+
+  (categoryset catset (range c512 c1023))
+
+  (level clearance (s0 catset))
+
+  (levelrange securitylevel (.sys.low clearance))
+
+  (block all_macro_template
+
+    (blockabstract all_macro_template)
+
+    (macro create_all_keyrings ((type ARG1))
+      (allow ARG1 typeattr (key (create))))
+
+    (macro link_all_keyrings ((type ARG1))
+      (allow ARG1 typeattr (key (link))))
+
+    (macro search_all_keyrings ((type ARG1))
+      (allow ARG1 typeattr (key (search))))
+
+    (macro write_all_keyrings ((type ARG1))
+      (allow ARG1 typeattr (key (write))))
+
+    (blockinherit .subj.all_macro_template))
+
+  (block common
+
+    (macro type ((type ARG1))
+           (typeattributeset typeattr ARG1))
+
+    (blockinherit all_macro_template)
+
+    (typeattribute typeattr)
+
+    (allow typeattr self (cap_userns (kill sys_ptrace)))
+
+    ;; only ever allow these to unprivileged login shells
+    (neverallow typeattr self (cap_userns (not (kill sys_ptrace))))
+
+    (allow typeattr self (fd (use)))
+    (allow typeattr self
+           (process (getattr getrlimit getsched ptrace setfscreate setpgid
+                     setrlimit setsched)))
+    (dontaudit typeattr self (constrainsocketsubject (create)))
+
+    (call user.type (typeattr))
+
+    (block base_template
+
+      (blockabstract base_template)
+
+      (blockinherit .subj.common.base_template)
+
+      (call .user.common.type (subj)))
+
+    (block template
+
+      (blockabstract template)
+
+      (blockinherit .user.common.base_template)
+      (blockinherit .user.macro_template)))
+
+  (block id_template
+
+    (blockabstract id_template)
+
+    (user id)
+    (userlevel id .sys.low)
+    (userrange id .sys.lowlow))
+
+  (block macro_template
+
+    (blockabstract macro_template)
+
+    (macro create_subj_keyrings ((type ARG1))
+          (allow ARG1 subj (key (create))))
+
+    (macro link_subj_keyrings ((type ARG1))
+           (allow ARG1 subj (key (link))))
+
+    (macro search_subj_keyrings ((type ARG1))
+           (allow ARG1 subj (key (search))))
+
+    (macro write_subj_keyrings ((type ARG1))
+           (allow ARG1 subj (key (write))))
+
+    (blockinherit .subj.macro_template))
+
+  (block role_template
+
+    (blockabstract role_template)
+
+    (role role)
+    (roleallow roleallow.roleattr role)
+
+    (userrole userrole.userattr role)
+
+    (block roleallow
+
+      (macro role ((role ARG1))
+             (roleattributeset roleattr ARG1))
+
+      (roleattribute roleattr))
+
+    (block userrole
+
+      (macro user ((user ARG1))
+      (userattributeset userattr ARG1))
+
+      (userattribute userattr)))
+
+  (block subj_template
+
+    (blockabstract subj_template)
+
+    (macro exec_subj_type_transition ((type ARG1))
+           (allow ARG1 subj (process (transition)))
+
+    (allow subj ARG1 (process (sigchld)))
+    (allow subj ARG1 (fd (use)))
+    (allow subj ARG1 readwriteinherited_fifo_file)
+
+    (call .exec.mapexecute_file_files (ARG1))
+    (call .exec.read_file_files (ARG1))
+    (call .exec.subj_type_transition (ARG1 subj)))
+
+    (macro shell_exec_subj_type_transition ((type ARG1))
+           (allow ARG1 subj (process (transition)))
+
+           (allow subj ARG1 (process (sigchld)))
+           (allow subj ARG1 (fd (use)))
+           (allow subj ARG1 readwriteinherited_fifo_file)
+
+           (call .shell.exec.mapexecute_file_files (ARG1))
+           (call .shell.exec.read_file_files (ARG1))
+           (call .shell.exec.subj_type_transition (ARG1 subj)))
+
+    (macro role ((role ARG1))
+           (roleattributeset roleattr ARG1))
+
+    (blockinherit .user.common.template)
+
+    (roleattribute roleattr)
+
+    (roletype roleattr subj)))
