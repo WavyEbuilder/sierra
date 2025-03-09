@@ -7,7 +7,11 @@
 
       (call .machineid.read_file_files (subj))
 
-      (blockinherit .sys.agent.template)))
+      (blockinherit .sys.agent.template)
+
+      (block mnt
+
+        (blockinherit .sys.agent.template))))
 
 (in file.unconfined
 
