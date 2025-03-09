@@ -15,11 +15,13 @@
 
       (call .machineid.read_file_files (subj))
 
+      (call mnt.subj_type_transition (subj))
+
       (blockinherit .sys.agent.template)
 
       (block mnt
 
-        (blockinherit .sys.agent.template))))
+        (blockinherit .agent.template))))
 
 (in file.unconfined
 
