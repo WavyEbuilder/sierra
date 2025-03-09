@@ -28,3 +28,6 @@
     (filecon "/usr/lib/dinit\.d/early/helpers/.*" file file_context)
     (filecon "/usr/lib/dinit\.d/early/scripts/.*" file file_context))
 
+(in after dinit.helper.mnt.exec
+
+    (filecon "/usr/lib/dinit\.d/early/helpers/mnt" file file_context))
