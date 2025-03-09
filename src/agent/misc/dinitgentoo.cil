@@ -5,6 +5,8 @@
       (call .dinit.unix_stream_connect (subj))
       (call .dinit.readwrite_subj_unix_stream_sockets (subj))
 
+      (call .machineid.read_file_files (subj))
+
       (blockinherit .sys.agent.template)))
 
 (in file.unconfined
