@@ -34,6 +34,8 @@
 
         (call .root.mounton_file_dirs (subj))
 
+        (call .tmp.mount_fs (subj))
+
         (call .xattr.remount_fs (subj))
 
         ;; After udev is loaded and has relabeled /dev, dinit might
