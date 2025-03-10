@@ -31,6 +31,9 @@
 
         (call .devpts.mount_fs (subj))
 
+        (call .devtmp.addname_fs_dirs (subj))
+        (call .devtmp.mounton_fs_dirs (subj))
+
         (call .proc.mount_fs (subj))
         (call .proc.mounton_fs_dirs (subj))
 
