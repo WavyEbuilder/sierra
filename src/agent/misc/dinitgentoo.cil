@@ -29,6 +29,8 @@
         (call .cgroup.mount_fs (subj))
         (call .cgroup.mounton_fs_dirs (subj))
 
+        (call .devpts.mount_fs (subj))
+
         (call .proc.mount_fs (subj))
         (call .proc.mounton_fs_dirs (subj))
 
