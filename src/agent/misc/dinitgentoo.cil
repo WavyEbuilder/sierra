@@ -21,6 +21,9 @@
 
       (block mnt
 
+        (call .proc.mount_fs (subj))
+        (call .proc.mounton_fs_dirs (subj))
+
         (blockinherit .sys.agent.template))))
 
 (in file.unconfined
