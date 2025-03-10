@@ -11,4 +11,7 @@
 
   (blockinherit .fs.macro_template_dirs)
   (blockinherit .fs.macro_template_fs)
-  (blockinherit .noseclabelfs.base_template))
+  (blockinherit .noseclabelfs.base_template)
+
+  (optional autonoseclabelfs_mount
+            (call .mount.mountpoint.type (fs))))

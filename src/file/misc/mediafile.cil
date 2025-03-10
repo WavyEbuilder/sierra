@@ -31,9 +31,10 @@
 
   (call .xattr.associate_fs_pattern.type (file))
 
-) ;; namespace media
+  (optional mediafile_mount
+            (call .mount.mountpoint.type (file))))
+
 
 (in file.unconfined
     (call .media.root_file_type_transition_file (typeattr))
-    (call .media.run_file_type_transition_file (typeattr))
-) ;; namespace file.unconfined
+    (call .media.run_file_type_transition_file (typeattr)))

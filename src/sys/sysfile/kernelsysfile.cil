@@ -7,7 +7,10 @@
 
     (blockinherit .sysfile.kernel.template)
     (blockinherit .sysfile.macro_template_dirs)
-    (blockinherit .sysfile.macro_template_lnk_files))
+    (blockinherit .sysfile.macro_template_lnk_files)
+
+    (optional kernelsysfile_mount
+              (call .mount.mountpoint.type (sysfile))))
 
 (in sysfile
 

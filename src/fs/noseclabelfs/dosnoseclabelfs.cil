@@ -34,11 +34,11 @@
 
   (call .xattr.associate_fs (fs))
 
-  (blockinherit .noseclabelfs.template)
+  (optional dosnoseclabelfs_mount
+            (call .mount.mountpoint.type (fs)))
 
-) ;; namespace dos
+  (blockinherit .noseclabelfs.template))
 
 (in fs.unconfined
     (call .dos.boot_file_type_transition_fs (typeattr))
-    (call .dos.root_file_type_transition_fs (typeattr))
-) ;; namepsace fs.unconfined
+    (call .dos.root_file_type_transition_fs (typeattr)))

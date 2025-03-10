@@ -16,6 +16,9 @@
 
   (blockinherit .file.conf.template)
 
+  (optional conffile_mount
+            (call .mount.mountpoint.type (file)))
+
   (block search_file_pattern
 
     (macro type ((type ARG1))

@@ -12,6 +12,9 @@
 
   (blockinherit .file.spool.template)
 
+  (optional spoolfile_mount
+            (call .mount.mountpoint.type (file)))
+
   (block search_file_pattern
 
     (macro type ((type ARG1))

@@ -42,6 +42,9 @@
 
     (call .rbacsep.exempt.obj.type (file))
 
+    (optional tmpfile_mount
+              (call .mount.mountpoint.type (file)))
+
     (allow fs self (filesystem (associate)))
 
     (call .devtmp.associate_fs (fs))

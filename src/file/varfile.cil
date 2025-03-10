@@ -22,6 +22,9 @@
 
   (blockinherit .file.var.template)
 
+  (optional varfile_mount
+            (call .mount.mountpoint.type (file)))
+
   (block search_file_pattern
 
     (macro type ((type ARG1))

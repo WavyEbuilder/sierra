@@ -5,5 +5,8 @@
 
     (genfscon "sysfs" "/fs/fuse" sysfile_context)
 
+    (optional fusefssysfile_mount
+              (call .mount.mountpoint.type (sysfile)))
+
     (blockinherit .sysfile.fs.template)
     (blockinherit .sysfile.macro_template_dirs))
