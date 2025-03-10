@@ -30,6 +30,14 @@
         (call .proc.mount_fs (subj))
         (call .proc.mounton_fs_dirs (subj))
 
+        ;; After udev is loaded and has relabeled /dev, dinit might
+        ;; loose access to /dev/null as it is no longer devtmp.fs
+        (call .null.append_nodedev_chr_files (subj))
+
+        ;; Comprimise for /dev/null in race with udev to create it
+        ;; TODO: implement relabeling of /dev in dinit
+        (call .devtmp.append_fs_chr_files (subj))
+
         (blockinherit .sys.agent.template))))
 
 (in file.unconfined
