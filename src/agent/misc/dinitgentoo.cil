@@ -23,25 +23,21 @@
 
       (block mnt
 
-        (call .binfmtmisc.mount_fs (subj))
         (call .binfmtmisc.mounton_fs_dirs (subj))
 
-        (call .cgroup.mount_fs (subj))
         (call .cgroup.mounton_fs_dirs (subj))
-
-        (call .devpts.mount_fs (subj))
 
         (call .devtmp.addname_fs_dirs (subj))
         (call .devtmp.create_fs_dirs (subj))
         (call .devtmp.mounton_fs_dirs (subj))
 
-        (call .proc.mount_fs (subj))
+        (call .fs.mount_all_fs (subj))
+
         (call .proc.mounton_fs_dirs (subj))
 
         (call .root.mounton_file_dirs (subj))
 
-        (call .tmp.mount_fs (subj))
-
+        ;; remount / rw
         (call .xattr.remount_fs (subj))
 
         ;; After udev is loaded and has relabeled /dev, dinit might
