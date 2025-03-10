@@ -23,19 +23,12 @@
 
       (block mnt
 
-        (call .binfmtmisc.mounton_fs_dirs (subj))
-
-        (call .cgroup.mounton_fs_dirs (subj))
-
         (call .devtmp.addname_fs_dirs (subj))
         (call .devtmp.create_fs_dirs (subj))
-        (call .devtmp.mounton_fs_dirs (subj))
 
         (call .fs.mount_all_fs (subj))
 
-        (call .proc.mounton_fs_dirs (subj))
-
-        (call .root.mounton_file_dirs (subj))
+        (call .mount.mountpoint.mounton_all_dirs (subj))
 
         ;; remount / rw
         (call .xattr.remount_fs (subj))

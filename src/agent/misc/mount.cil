@@ -5,6 +5,9 @@
 
   (block mountpoint
 
+    (macro mounton_all_dirs ((type ARG1))
+           (allow ARG1 typeattr mounton_dir))
+
     (macro type ((type ARG1))
            (typeattributeset typeattr ARG1))
 
