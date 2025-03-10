@@ -21,6 +21,12 @@
 
       (block mnt
 
+        (call .binfmtmisc.mount_fs (subj))
+        (call .binfmtmisc.mounton_fs_dirs (subj))
+
+        (call .cgroup.mount_fs (subj))
+        (call .cgroup.mounton_fs_dirs (subj))
+
         (call .proc.mount_fs (subj))
         (call .proc.mounton_fs_dirs (subj))
 
