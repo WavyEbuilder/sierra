@@ -8,6 +8,9 @@
   (blockinherit .fs.macro_template_lnk_files)
   (blockinherit .noseclabelfs.template)
 
+  (optional procnoseclabelfs_mount
+            (call .mount.mountpoint.type (fs)))
+
   (block getattr_fs_pattern
 
     (macro type ((type ARG1))
