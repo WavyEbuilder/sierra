@@ -1,7 +1,13 @@
 ;; SPDX-FileCopyrightText: © 2025 Rahul Sandhu <nvraxn@gmail.com>
 ;; SPDX-License-Identifier: GPL-3.0-or-later
 
+(typealias portage_t)
+(typealias portage_fetch_t)
+(typealias portage_sandbox_t)
+
 (block portage
+
+  (typealiasactual portage_t subj)
 
   (blockinherit .hybrid.agent.template)
 
@@ -85,6 +91,8 @@
 
   (block fetch
 
+    (typealiasactual portage_fetch_t subj)
+
     (blockinherit .hybrid.agent.template))
 
   (block gpg
@@ -123,6 +131,8 @@
     (blockinherit .file.log.template))
 
   (block sandbox
+
+    (typealiasactual portage_sandbox_t subj)
 
     (blockinherit .hybrid.agent.template))
 
