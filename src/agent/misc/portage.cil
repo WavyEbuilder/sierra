@@ -108,6 +108,8 @@
 
     (macro log_file_type_transition_file ((type ARG1))
            (call .log.file_type_transition
+                 (ARG1 file file "emerge.log"))
+           (call .log.file_type_transition
                  (ARG1 file file "emerge-fetch.log"))
            (call .log.file_type_transition
                  (ARG1 file dir "portage"))
@@ -141,6 +143,8 @@
                  (ARG1 file dir "cvs-src"))
            (call .portage.db.file_type_transition
                  (ARG1 file dir "egit-src"))
+           (call .portage.db.file_type_transition
+                 (ARG1 file dir "git3-src"))
            (call .portage.db.file_type_transition
                  (ARG1 file dir "go-src"))
            (call .portage.db.file_type_transition
