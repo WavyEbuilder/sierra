@@ -83,6 +83,10 @@
 
     (blockinherit .file.db.ebuild.template))
 
+  (block fetch
+
+    (blockinherit .hybrid.agent.template))
+
   (block gpg
 
     (filecon "/etc/portage/gpg" dir file_context)
@@ -117,6 +121,10 @@
                  (ARG1 file dir "sandbox")))
 
     (blockinherit .file.log.template))
+
+  (block sandbox
+
+    (blockinherit .hybrid.agent.template))
 
   (block srcrepo
 
