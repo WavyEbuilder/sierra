@@ -1,0 +1,254 @@
+;; SPDX-FileCopyrightText: © 2025 Rahul Sandhu <nvraxn@gmail.com>
+;; SPDX-License-Identifier: GPL-3.0-or-later
+
+(block portage
+
+  (blockinherit .hybrid.agent.template)
+
+  (block cache
+
+    (filecon "/var/cache/edb" dir file_context)
+    (filecon "/var/cache/edb/.*" any file_context)
+
+    (filecon "/var/cache/eix" dir file_context)
+    (filecon "/var/cache/eix/.*" any file_context)
+
+    (filecon "/var/lib/portage" dir file_context)
+    (filecon "/var/lib/portage/.*" any file_context)
+
+    (macro cache_file_type_transition_file ((type ARG1))
+           (call .cache.file_type_transition
+                 (ARG1 file dir "edb"))
+           (call .cache.file_type_transition
+                 (ARG1 file dir "eix")))
+
+    (macro state_file_type_transition_file ((type ARG1))
+           (call .state.file_type_transition
+                 (ARG1 file dir "portage")))
+
+    (blockinherit .file.cache.template))
+
+  (block conf
+
+    (filecon "/etc/make\.conf" file file_context)
+
+    (filecon "/etc/make\.globals" file file_context)
+
+    (filecon "/etc/make\.profile" symlink file_context)
+
+    (filecon "/etc/portage" dir file_context)
+    (filecon "/etc/portage/.*" any file_context)
+
+    (macro conf_file_type_transition_file ((type ARG1))
+           (call .conf.file_type_transition
+                 (ARG1 file file "make.conf"))
+           (call .conf.file_type_transition
+                 (ARG1 file file "make.globals"))
+           (call .conf.file_type_transition
+                 (ARG1 file dir "portage")))
+
+    (blockinherit .file.conf.portage.template))
+
+  (block db
+
+    (filecon "/var/db/pkg" dir file_context)
+    (filecon "/var/db/pkg/.*" any file_context)
+
+    (macro db_file_type_transition_file ((type ARG1))
+           (call .db.file_type_transition
+                 (ARG1 file dir "pkg")))
+
+    (blockinherit .file.db.template))
+
+  (block ebuild
+
+    (filecon "/var/cache/binpkgs" dir file_context)
+    (filecon "/var/cache/binpkgs/.*" any file_context)
+
+    (filecon "/var/cache/distfiles" dir file_context)
+    (filecon "/var/cache/distfiles/.*" any file_context)
+
+    (filecon "/var/db/repos" dir file_context)
+    (filecon "/var/db/repos/.*" any file_context)
+
+    (macro cache_file_type_transition_file ((type ARG1))
+           (call .db.file_type_transition
+                 (ARG1 file dir "binpkgs"))
+           (call .db.file_type_transition
+                 (ARG1 file dir "distfiles")))
+
+    (macro db_file_type_transition_file ((type ARG1))
+           (call .db.file_type_transition
+                 (ARG1 file dir "repos")))
+
+    (blockinherit .file.db.ebuild.template))
+
+  (block gpg
+
+    (filecon "/etc/portage/gpg" dir file_context)
+    (filecon "/etc/portage/gpg/.*" any file_context)
+
+    (macro portage_conf_file_type_transition_file ((type ARG1))
+           (call .portage.conf.file_type_transition
+                 (ARG1 file dir "gpg")))
+
+    (blockinherit .file.conf.portage.template))
+
+  (block log
+
+    (filecon "/var/log/emerge\.log.*" file file_context)
+
+    (filecon "/var/log/emerge-fetch\.log" file file_context)
+
+    (filecon "/var/log/portage/" dir file_context)
+    (filecon "/var/log/portage/.*" any file_context)
+
+    (filecon "/var/log/sandbox/" dir file_context)
+    (filecon "/var/log/sandbox/.*" any file_context)
+
+    (macro log_file_type_transition_file ((type ARG1))
+           (call .log.file_type_transition
+                 (ARG1 file file "emerge-fetch.log"))
+           (call .log.file_type_transition
+                 (ARG1 file dir "portage"))
+           (call .log.file_type_transition
+                 (ARG1 file dir "sandbox")))
+
+    (blockinherit .file.log.template))
+
+  (block srcrepo
+
+    (filecon "/var/cache/distfiles/cvs-src" dir file_context)
+    (filecon "/var/cache/distfiles/cvs-src/.*" any file_context)
+
+    (filecon "/var/cache/distfiles/egit-src" dir file_context)
+    (filecon "/var/cache/distfiles/egit-src/.*" any file_context)
+
+    (filecon "/var/cache/distfiles/git[0-9]-src" dir file_context)
+    (filecon "/var/cache/distfiles/git[0-9]-src/.*" any file_context)
+
+    (filecon "/var/cache/distfiles/go-src" dir file_context)
+    (filecon "/var/cache/distfiles/go-src/.*" any file_context)
+
+    (filecon "/var/cache/distfiles/hg-src" dir file_context)
+    (filecon "/var/cache/distfiles/hg-src/.*" any file_context)
+
+    (filecon "/var/cache/distfiles/svn-src" dir file_context)
+    (filecon "/var/cache/distfiles/svn-src/.*" any file_context)
+
+    (macro ebuild_db_file_type_transition_file ((type ARG1))
+           (call .portage.db.file_type_transition
+                 (ARG1 file dir "cvs-src"))
+           (call .portage.db.file_type_transition
+                 (ARG1 file dir "egit-src"))
+           (call .portage.db.file_type_transition
+                 (ARG1 file dir "go-src"))
+           (call .portage.db.file_type_transition
+                 (ARG1 file dir "hg-src"))
+           (call .portage.db.file_type_transition
+                 (ARG1 file dir "svn-src")))
+
+    (blockinherit .file.cache.template))
+
+  (block tmp
+
+    (filecon "/var/tmp/binpkgs" dir file_context)
+    (filecon "/var/tmp/binpkgs/.*" any file_context)
+
+    (filecon "/var/tmp/emerge-webrsync" dir file_context)
+    (filecon "/var/tmp/emerge-webrsync/.*" any file_context)
+
+    (filecon "/var/tmp/portage" dir file_context)
+    (filecon "/var/tmp/portage/.*" any file_context)
+
+    (filecon "/var/tmp/portage-pkg" dir file_context)
+    (filecon "/var/tmp/portage-pkg/.*" any file_context)
+
+    (macro tmp_file_type_transition_file ((type ARG1))
+           (call .tmp.file_type_transition
+                 (ARG1 file dir "binpkgs"))
+           (call .tmp.file_type_transition
+                 (ARG1 file dir "emerge-webrsync"))
+           (call .tmp.file_type_transition
+                 (ARG1 file dir "portage"))
+           (call .tmp.file_type_transition
+                 (ARG1 file dir "portage-pkg")))
+
+    (blockinherit .file.tmp.template)))
+
+(in file.conf
+
+    (block portage
+
+      (macro type ((type ARG1))
+             (typeattributeset typeattr ARG1))
+
+      (blockinherit file.all_macro_template_files)
+      (blockinherit file.all_macro_template_files)
+      (blockinherit file.all_macro_template_lnk_files)
+
+      (typeattribute typeattr)
+
+      (call file.conf.type (typeattr))
+
+      (block base_template
+
+        (blockabstract base_template)
+
+        (blockinherit .file.conf.base_template)
+
+        (call .file.conf.portage.type (file)))
+
+      (block template
+
+        (blockabstract template)
+
+        (blockinherit .file.conf.portage.base_template)
+        (blockinherit .file.macro_template_dirs)
+        (blockinherit .file.macro_template_files)
+        (blockinherit .file.macro_template_lnk_files))))
+
+(in file.db
+
+    (block ebuild
+
+      (macro type ((type ARG1))
+             (typeattributeset typeattr ARG1))
+
+      (blockinherit file.all_macro_template_files)
+      (blockinherit file.all_macro_template_files)
+      (blockinherit file.all_macro_template_lnk_files)
+
+      (typeattribute typeattr)
+
+      (call file.db.type (typeattr))
+
+      (block base_template
+
+        (blockabstract base_template)
+
+        (blockinherit .file.db.base_template)
+
+        (call .file.db.ebuild.type (file)))
+
+      (block template
+
+        (blockabstract template)
+
+        (blockinherit .file.db.ebuild.base_template)
+        (blockinherit .file.macro_template_dirs)
+        (blockinherit .file.macro_template_files)
+        (blockinherit .file.macro_template_lnk_files))))
+
+(in file.unconfined
+
+    (call .portage.cache.cache_file_type_transition_file (typeattr))
+    (call .portage.cache.state_file_type_transition_file (typeattr))
+    (call .portage.conf.conf_file_type_transition_file (typeattr))
+    (call .portage.db.db_file_type_transition_file (typeattr))
+    (call .portage.ebuild.cache_file_type_transition_file (typeattr))
+    (call .portage.ebuild.db_file_type_transition_file (typeattr))
+    (call .portage.gpg.portage_conf_file_type_transition_file (typeattr))
+    (call .portage.log.log_file_type_transition_file (typeattr))
+    (call .portage.srcrepo.ebuild_db_file_type_transition_file (typeattr))
+    (call .portage.tmp.tmp_file_type_transition_file (typeattr)))

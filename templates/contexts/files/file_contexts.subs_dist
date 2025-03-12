@@ -14,6 +14,9 @@
 /usr/local/sbin /usr/bin
 /usr/local/share /usr/share
 /usr/local/src /usr/src
+/usr/portage /var/db/repos/gentoo
+/usr/portage/distfiles /var/cache/distfiles
+/usr/portage/packages /var/cache/binpkgs
 /usr/sbin /usr/bin
 /usr/tmp /tmp
 /var/mail /var/spool/mail
