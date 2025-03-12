@@ -1,1 +1,4 @@
 sys.role:sys.subj
+user.role:user.subj
+staff.role:user.subj
+admin.role:user.subj
