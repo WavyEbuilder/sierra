@@ -51,6 +51,8 @@
            (call .conf.file_type_transition
                  (ARG1 file file "make.globals"))
            (call .conf.file_type_transition
+                 (ARG1 file lnk_file "make.profile"))
+           (call .conf.file_type_transition
                  (ARG1 file dir "portage")))
 
     (blockinherit .file.conf.portage.template))
