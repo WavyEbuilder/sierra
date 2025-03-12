@@ -277,6 +277,21 @@
     (call .portage.srcrepo.ebuild_db_file_type_transition_file (typeattr))
     (call .portage.tmp.tmp_file_type_transition_file (typeattr)))
 
+(in after .portage.exec
+
+    (filecon "/usr/bin/emerge" file file_context)
+    (filecon "/usr/bin/glsa-check" file file_context)
+    (filecon "/usr/bin/sandbox" file file_context)
+    (filecon "/usr/lib/python-exec/python[0-9]\.[0-9]*/glsa-check" file file_context)
+    (filecon "/usr/lib/python-exec/python[0-9]\.[0-9]*/emaint" file file_context)
+    (filecon "/usr/lib/python-exec/python[0-9]\.[0-9]*/emerge" file file_context))
+
+(in after .portage.fetch.exec
+
+    (filecon "/usr/bin/emerge-webrsync" file file_context)
+    (filecon "/usr/bin/layman" file file_context)
+    (filecon "/usr/lib/python-exec/python[0-9]\.[0-9]*/layman" file file_context))
+
 (in admin
 
     (call .portage.role (role)))
