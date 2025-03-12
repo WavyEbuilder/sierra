@@ -276,3 +276,7 @@
     (call .portage.log.log_file_type_transition_file (typeattr))
     (call .portage.srcrepo.ebuild_db_file_type_transition_file (typeattr))
     (call .portage.tmp.tmp_file_type_transition_file (typeattr)))
+
+(in admin
+
+    (call .portage.role (role)))
