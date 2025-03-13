@@ -34,6 +34,8 @@
   (call .proc.mounton_fs_dirs (subj))
   (call .proc.unmount_fs (subj))
 
+  (call .shell.exec.execute_file_files (subj))
+
   (call conf.list_file_dirs (subj))
 
   (call data.list_file_dirs (subj))
