@@ -62,7 +62,7 @@
 
   (block service
 
-    (filecon "/usr/lib/dinit.d/tty*" file file_context)
+    (filecon "/usr/lib/dinit\.d/tty[0-9]" file file_context)
 
     (blockinherit .file.lib.service.template)))
 
