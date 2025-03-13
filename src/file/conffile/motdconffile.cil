@@ -1,0 +1,46 @@
+;; SPDX-FileCopyrightText: © 2025 Rahul Sandhu <nvraxn@gmail.com>
+;; SPDX-License-Identifier: GPL-3.0-or-later
+
+(in file.unconfined
+
+    (call .motd.conf.conf_file_type_transition_file (typeattr)))
+
+(block motd
+
+  (block conf
+
+    (filecon "/etc/issue" file file_context)
+    (filecon "/etc/issue\..*" file file_context)
+    (filecon "/etc/issue\.d" dir file_context)
+    (filecon "/etc/issue\.d/.*" any file_context)
+    (filecon "/etc/motd" file file_context)
+    (filecon "/etc/motd\..*" file file_context)
+    (filecon "/etc/update-motd\.d" dir file_context)
+    (filecon "/etc/update-motd\.d/.*" any file_context)
+
+    (macro conf_file_type_transition_file ((type ARG1))
+	   (call .conf.file_type_transition
+		 (ARG1 file dir "issue.d"))
+	   (call .conf.file_type_transition
+		 (ARG1 file dir "update-motd.d"))
+	   (call .conf.file_type_transition
+		 (ARG1 file file "issue"))
+	   (call .conf.file_type_transition
+		 (ARG1 file file "issue.net"))
+	   (call .conf.file_type_transition
+		 (ARG1 file file "motd")))
+
+    (blockinherit .file.conf.template)
+
+    (block read_file_pattern
+
+      (macro type ((type ARG1))
+	     (typeattributeset typeattr ARG1))
+
+      (typeattribute typeattr)
+
+      (call list_file_dirs (typeattr))
+      (call read_file_files (typeattr))
+      (call read_file_lnk_files (typeattr))
+
+      (call .conf.search_file_pattern.type (typeattr)))))

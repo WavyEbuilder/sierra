@@ -1,0 +1,35 @@
+;; SPDX-FileCopyrightText: © 2025 Rahul Sandhu <nvraxn@gmail.com>
+;; SPDX-License-Identifier: GPL-3.0-or-later
+
+(in file.unconfined
+
+    (call .utmp.log.log_file_type_transition_file (typeattr)))
+
+(in utmp
+
+    (block log
+
+      (filecon "/var/log/btmp" file file_context)
+      (filecon "/var/log/btmp\..*" file file_context)
+
+      (filecon "/var/log/lastlog" file file_context)
+      (filecon "/var/log/lastlog\..*" file file_context)
+
+      (filecon "/var/log/wtmp" file file_context)
+      (filecon "/var/log/wtmp\..*" file file_context)
+
+      (macro dontaudit_writeinherited_file_files ((type ARG1))
+	     (dontaudit ARG1 file writeinherited_file))
+
+      (macro log_file_type_transition_file ((type ARG1))
+	     (call .log.file_type_transition
+		   (ARG1 file file "btmp"))
+	     (call .log.file_type_transition
+		   (ARG1 file file "lastlog"))
+	     (call .log.file_type_transition
+		   (ARG1 file file "wtmp")))
+
+      (blockinherit .file.log.base_template)
+      (blockinherit .file.macro_template_files)
+
+      (call .rbacsep.exempt.obj.type (file))))

@@ -1,0 +1,75 @@
+;; SPDX-FileCopyrightText: © 2025 Rahul Sandhu <nvraxn@gmail.com>
+;; SPDX-License-Identifier: GPL-3.0-or-later
+
+(block getty
+
+  (blockinherit .sys.agent.template)
+
+  (allow subj self
+	 (capability (chown dac_override dac_read_search fsetid sys_tty_config)))
+  (allow subj self (capability2 (checkpoint_restore)))
+  (allow subj self create_unix_dgram_socket)
+
+  (call run.manage_file_files (subj))
+  (call run.watch_file_files (subj))
+  (call run.run_file_type_transition_file (subj))
+
+  (call .cgroup.getattr_fs_pattern.type (subj))
+
+  (call .crypto.read_sysctlfile_pattern.type (subj))
+
+  (call .devpts.search_fs_pattern.type (subj))
+
+  (call .locale.data.map_file_pattern.type (subj))
+  (call .locale.read_file_pattern.type (subj))
+
+  (call .log.search_file_pattern.type (subj))
+
+  (call .logindefs.read_file_files (subj))
+
+  (call .loginserialtermdev.open_all_chr_files (subj))
+  (call .loginserialtermdev.readwriteinherited_all_chr_files (subj))
+  (call .loginserialtermdev.setattr_all_chr_files (subj))
+
+  (call .motd.conf.read_file_pattern.type (subj))
+
+  (call .osrelease.read_sysctlfile_pattern.type (subj))
+
+  (call .random.read_sysctlfile_pattern.type (subj))
+
+  (call .rbacsep.usefdtarget.type (subj))
+
+  (call .selinux.linked.type (subj))
+
+  (call .subj.interactivefd.type (subj))
+
+  (call .utmp.log.write_file_files (subj))
+  (call .utmp.run.readwrite_file_files (subj))
+
+  (block run
+
+    (filecon "/run/agetty\.reload" file file_context)
+
+    (macro run_file_type_transition_file ((type ARG1))
+	   (call .run.file_type_transition
+		 (ARG1 file file "agetty.reload")))
+
+    (macro watch_file_files ((type ARG1))
+	   (allow ARG1 file (file (watch))))
+
+    (blockinherit .file.macro_template_files)
+    (blockinherit .file.run.base_template))
+
+  (block service
+
+    (filecon "/usr/lib/dinit.d/tty*" file file_context)
+
+    (blockinherit .file.lib.service.template)))
+
+(in file.unconfined
+
+    (call .getty.run.run_file_type_transition_file (typeattr)))
+
+(in after getty.exec
+
+    (filecon "/usr/bin/agetty" file file_context))

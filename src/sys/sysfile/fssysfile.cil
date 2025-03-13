@@ -7,7 +7,28 @@
 
     (blockinherit .sysfile.fs.template)
     (blockinherit .sysfile.macro_template_dirs)
-    (blockinherit .sysfile.macro_template_lnk_files))
+    (blockinherit .sysfile.macro_template_lnk_files)
+
+    (block search_sysfile_pattern
+
+      (macro type ((type ARG1))
+             (typeattributeset typeattr ARG1))
+
+      (typeattribute typeattr)
+
+      (call search_sysfile_dirs (typeattr))
+
+      (call .sys.search_fs_pattern.type (typeattr)))
+
+    (block traverse_sysfile_pattern
+
+      (macro type ((type ARG1))
+             (typeattributeset typeattr ARG1))
+
+      (typeattribute typeattr)
+
+      (call read_sysfile_lnk_files (typeattr))
+      (call search_sysfile_pattern.type (typeattr))))
 
 (in sysfile
 

@@ -17,8 +17,24 @@
 
   (call .sys.associate_fs (fs))
 
-  ;; TODO: does cgroupfs need to be RBAC
-  ;; exempt?
-  (call .rbacsep.exempt.obj.type (fs))
+  (block getattr_fs_pattern
 
-) ;; namespace cgroup
+    (macro type ((type ARG1))
+           (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (allow typeattr fs (filesystem (getattr)))
+
+    (call search_fs_pattern.type (typeattr)))
+
+  (block search_fs_pattern
+
+    (macro type ((type ARG1))
+           (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (call search_fs_dirs (typeattr))
+
+    (call .fs.search_sysfile_pattern.type (typeattr))))

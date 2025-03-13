@@ -6,4 +6,15 @@
   (genfscon "proc" "/sys" procfile_context)
 
   (blockinherit .procfile.base_template)
-  (blockinherit .procfile.macro_template_dirs))
+  (blockinherit .procfile.macro_template_dirs)
+
+  (block search_procfile_pattern
+
+    (macro type ((type ARG1))
+           (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (call search_procfile_dirs (typeattr))
+
+    (call .proc.search_fs_pattern.type (typeattr))))

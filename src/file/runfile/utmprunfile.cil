@@ -1,0 +1,24 @@
+;; SPDX-FileCopyrightText: © 2025 Rahul Sandhu <nvraxn@gmail.com>
+;; SPDX-License-Identifier: GPL-3.0-or-later
+
+(block utmp
+
+  (block run
+
+    (filecon "/run/utmp" file file_context)
+
+    (macro run_file_type_transition_file ((type ARG1))
+	   (call .run.file_type_transition
+		 (ARG1 file file "utmp")))
+
+    (macro watch_file_files ((type ARG1))
+	   (allow ARG1 file (file (watch))))
+
+    (blockinherit .file.macro_template_files)
+    (blockinherit .file.run.base_template)
+
+    (call .rbacsep.exempt.obj.type (file))))
+
+(in file.unconfined
+
+    (call .utmp.run.run_file_type_transition_file (typeattr)))

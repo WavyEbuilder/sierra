@@ -6,7 +6,28 @@
   (genfscon "proc" "/sys/crypto" sysctlfile_context)
 
   (blockinherit .sysctlfile.crypto.template)
-  (blockinherit .sysctlfile.macro_template_dirs))
+  (blockinherit .sysctlfile.macro_template_dirs)
+
+  (block read_sysctlfile_pattern
+
+    (macro type ((type ARG1))
+           (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (call read_sysctlfile_files (typeattr))
+    (call search_sysctlfile_pattern.type (typeattr)))
+
+  (block search_sysctlfile_pattern
+
+    (macro type ((type ARG1))
+           (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (call search_sysctlfile_dirs (typeattr))
+
+    (call .sysctl.search_procfile_pattern.type (typeattr))))
 
 (in sysctlfile
 

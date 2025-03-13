@@ -10,4 +10,25 @@
     (genfscon "proc" "/sys/kernel/random" sysctlfile_context)
 
     (blockinherit .sysctlfile.kernel.template)
-    (blockinherit .sysctlfile.macro_template_dirs))
+    (blockinherit .sysctlfile.macro_template_dirs)
+
+    (block read_sysctlfile_pattern
+
+      (macro type ((type ARG1))
+             (typeattributeset typeattr ARG1))
+
+      (typeattribute typeattr)
+
+      (call read_sysctlfile_files (typeattr))
+      (call search_sysctlfile_pattern.type (typeattr)))
+
+    (block search_sysctlfile_pattern
+
+      (macro type ((type ARG1))
+             (typeattributeset typeattr ARG1))
+
+      (typeattribute typeattr)
+
+      (call search_sysctlfile_dirs (typeattr))
+
+      (call .kernel.search_sysctlfile_pattern.type (typeattr))))

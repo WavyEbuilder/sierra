@@ -8,4 +8,26 @@
     (blockinherit .fs.macro_template_dirs)
     (blockinherit .fs.macro_template_files)
     (blockinherit .fs.macro_template_lnk_files)
-    (blockinherit .seclabelfs.template))
+    (blockinherit .seclabelfs.template)
+
+    (call .xattr.associate_fs_pattern.type (fs))
+
+    (block getattr_fs_pattern
+
+      (macro type ((type ARG1))
+             (typeattributeset typeattr ARG1))
+
+      (typeattribute typeattr)
+
+      (allow typeattr fs (filesystem (getattr))))
+
+    (block search_fs_pattern
+
+      (macro type ((type ARG1))
+             (typeattributeset typeattr ARG1))
+
+      (typeattribute typeattr)
+
+      (call search_fs_dirs (typeattr))
+
+      (call .root.search_file_pattern.type (typeattr))))

@@ -11,4 +11,15 @@
   (blockinherit .fs.macro_template_dirs)
   (blockinherit .fs.macro_template_chr_files)
   (blockinherit .fs.macro_template_fs)
-  (blockinherit .seclabelfs.base_template))
+  (blockinherit .seclabelfs.base_template)
+
+  (block search_fs_pattern
+
+    (macro type ((type ARG1))
+           (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (call search_fs_dirs (typeattr))
+
+    (call .dev.search_file_pattern.type (typeattr))))

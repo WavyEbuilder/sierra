@@ -1,0 +1,167 @@
+;; SPDX-FileCopyrightText: © 2025 Rahul Sandhu <nvraxn@gmail.com>
+;; SPDX-License-Identifier: GPL-3.0-or-later
+
+;; From dssp5
+
+(in file.conf
+
+    (block selinux
+
+      (macro type ((type ARG1))
+	     (typeattributeset typeattr ARG1))
+
+      (blockinherit file.all_macro_template_dirs)
+      (blockinherit file.all_macro_template_files)
+
+      (typeattribute typeattr)
+
+      (call file.conf.type (typeattr))
+
+      (block base_template
+
+	(blockabstract base_template)
+
+	(blockinherit .file.conf.base_template)
+
+	(call .file.conf.selinux.type (file)))
+
+      (block template
+
+	(blockabstract template)
+
+	(blockinherit .file.conf.selinux.base_template)
+	(blockinherit .file.macro_template_dirs)
+	(blockinherit .file.macro_template_files))))
+
+(in file.unconfined
+
+    (call .selinux.conf.conf_file_type_transition_file (typeattr))
+    (call .selinux.default.selinux_conf_file_type_transition_file (typeattr))
+    (call .selinux.file.selinux_default_file_type_transition_file (typeattr)))
+
+(in selinux
+
+    (block conf
+
+      (filecon "/etc/selinux" dir file_context)
+      (filecon "/etc/selinux/.*" any file_context)
+
+      (macro conf_file_type_transition_file ((type ARG1))
+	     (call .conf.file_type_transition
+		   (ARG1 file dir "selinux")))
+
+      (macro getattr_file_files ((type ARG1))
+	     (allow ARG1 file (file (getattr))))
+
+      (blockinherit .file.conf.selinux.template)
+
+      (block read_file_pattern
+
+	(macro type ((type ARG1))
+	       (typeattributeset typeattr ARG1))
+
+	(typeattribute typeattr)
+
+	(call read_file_files (typeattr))
+	(call search_file_pattern.type (typeattr)))
+
+      (block search_file_pattern
+
+	(macro type ((type ARG1))
+	       (typeattributeset typeattr ARG1))
+
+	(typeattribute typeattr)
+
+	(call search_file_dirs (typeattr))
+
+	(call .conf.search_file_pattern.type (typeattr))))
+
+    (block default
+
+      (filecon "/etc/selinux/([^/]*/)?contexts" dir file_context)
+      (filecon "/etc/selinux/([^/]*/)?contexts/.*" any file_context)
+
+      (macro selinux_conf_file_type_transition_file ((type ARG1))
+	     (call conf.file_type_transition
+		   (ARG1 file dir "contexts")))
+
+      (blockinherit .file.conf.selinux.template)
+
+      (block read_file_pattern
+
+	(macro type ((type ARG1))
+	       (typeattributeset typeattr ARG1))
+
+	(typeattribute typeattr)
+
+	(call conf.read_file_pattern.type (typeattr))
+
+	(call default.read_file_files (typeattr))
+	(call default.search_file_pattern.type (typeattr))
+
+	(call linked.type (typeattr)))
+
+      (block search_file_pattern
+
+	(macro type ((type ARG1))
+	       (typeattributeset typeattr ARG1))
+
+	(typeattribute typeattr)
+
+	(call search_file_dirs (typeattr))
+
+	(call conf.search_file_pattern.type (typeattr))))
+
+    (block file
+
+      (filecon "/etc/selinux/([^/]*/)?contexts/files" dir file_context)
+      (filecon "/etc/selinux/([^/]*/)?contexts/files/.*" any file_context)
+
+      (macro selinux_default_file_type_transition_file ((type ARG1))
+	     (call default.file_type_transition
+		   (ARG1 file dir "files")))
+
+      (macro map_file_files ((type ARG1))
+	     (allow ARG1 file (file (map))))
+
+      (blockinherit .file.conf.selinux.template)
+
+      (block read_file_pattern
+
+	(macro type ((type ARG1))
+	       (typeattributeset typeattr ARG1))
+
+	(typeattribute typeattr)
+
+	(call conf.read_file_pattern.type (typeattr))
+
+	(call file.map_file_files (typeattr))
+	(call file.read_file_files (typeattr))
+	(call file.search_file_pattern.type (typeattr))
+
+	(call linked.type (typeattr)))
+
+      (block search_file_pattern
+
+	(macro type ((type ARG1))
+	       (typeattributeset typeattr ARG1))
+
+	(typeattribute typeattr)
+
+	(call search_file_dirs (typeattr))
+
+	(call default.search_file_pattern.type (typeattr))))
+
+    (block linked
+
+      (macro type ((type ARG1))
+	     (typeattributeset typeattr ARG1))
+
+      (typeattribute typeattr)
+
+      (call getattr_fs (typeattr))
+
+      (call conf.getattr_file_files (typeattr))
+      (call conf.search_file_pattern.type (typeattr))
+
+      (call .fs.search_sysfile_pattern.type (typeattr))))

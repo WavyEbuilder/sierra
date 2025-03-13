@@ -10,7 +10,28 @@
     (blockinherit .sysfile.macro_template_lnk_files)
 
     (optional kernelsysfile_mount
-              (call .mount.mountpoint.type (sysfile))))
+              (call .mount.mountpoint.type (sysfile)))
+
+    (block search_sysfile_pattern
+
+      (macro type ((type ARG1))
+             (typeattributeset typeattr ARG1))
+
+      (typeattribute typeattr)
+
+      (call search_sysfile_dirs (typeattr))
+
+      (call .sys.search_fs_pattern.type (typeattr)))
+
+    (block traverse_sysfile_pattern
+
+      (macro type ((type ARG1))
+             (typeattributeset typeattr ARG1))
+
+      (typeattribute typeattr)
+
+      (call read_sysfile_lnk_files (typeattr))
+      (call search_sysfile_pattern.type (typeattr))))
 
 (in sysfile
 

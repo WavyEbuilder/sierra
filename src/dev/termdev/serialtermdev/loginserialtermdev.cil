@@ -4,10 +4,19 @@
 (block loginserialtermdev
 
   (macro all_type_change ((type ARG1)(type ARG2))
-	 (typechange ARG1 typeattr chr_file ARG2))
+         (typechange ARG1 typeattr chr_file ARG2))
+
+  (macro dontaudit_readwriteinherited_all_chr_files ((type ARG1))
+         (dontaudit ARG1 typeattr readwriteinherited_chr_file))
+
+  (macro open_all_chr_files ((type ARG1))
+         (allow ARG1 typeattr (chr_file (open))))
+
+  (macro setattr_all_chr_files ((type ARG1))
+         (allow ARG1 typeattr (chr_file (setattr))))
 
   (macro type ((type ARG1))
-	 (typeattributeset typeattr ARG1))
+         (typeattributeset typeattr ARG1))
 
   (typeattribute typeattr)
 
