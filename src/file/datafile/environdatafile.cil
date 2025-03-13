@@ -1,0 +1,32 @@
+;; SPDX-FileCopyrightText: © 2025 Rahul Sandhu <nvraxn@gmail.com>
+;; SPDX-License-Identifier: GPL-3.0-or-later
+
+(block environ
+
+  (block data
+
+    (filecon "/usr/lib/environment\.d" dir file_context)
+    (filecon "/usr/lib/environment\.d/.*" any file_context)
+
+    (macro lib_file_type_transition_file ((type ARG1))
+	   (call .lib.file_type_transition
+		 (ARG1 file dir "environment.d")))
+
+    (blockinherit .file.data.template)
+
+    (block read_file_pattern
+
+      (macro type ((type ARG1))
+	     (typeattributeset typeattr ARG1))
+
+      (typeattribute typeattr)
+
+      (call list_file_dirs (typeattr))
+      (call read_file_files (typeattr))
+      (call read_file_lnk_files (typeattr))
+
+      (call .data.search_file_pattern.type (typeattr)))))
+
+(in file.unconfined
+
+    (call .environ.data.lib_file_type_transition_file (typeattr)))

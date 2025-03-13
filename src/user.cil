@@ -56,6 +56,13 @@
 
     (call user.type (typeattr))
 
+    (call .shell.exec.entrypoint_file_files (typeattr))
+    (call .shell.exec.execute_file_files (typeattr))
+
+    (call .shellrc.list_file_dirs (typeattr))
+    (call .shellrc.read_file_files (typeattr))
+    (call .shellrc.read_file_lnk_files (typeattr))
+
     (block base_template
 
       (blockabstract base_template)

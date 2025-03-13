@@ -1,0 +1,34 @@
+;; SPDX-FileCopyrightText: © 2025 Rahul Sandhu <nvraxn@gmail.com>
+;; SPDX-License-Identifier: GPL-3.0-or-later
+
+(block shellrc
+
+  (filecon "/etc/bash\.bashrc" file file_context)
+  (filecon "/etc/bash\.bashrc\..*" file file_context)
+
+  (filecon "/etc/bash" dir file_context)
+  (filecon "/etc/bash/.*" any file_context)
+
+  (filecon "/etc/profile" file file_context)
+  (filecon "/etc/profile\..*" file file_context)
+
+  (filecon "/etc/profile\.d" dir file_context)
+  (filecon "/etc/profile\.d/.*" any file_context)
+
+  (macro conf_file_type_transition_file ((type ARG1))
+	 (call .conf.file_type_transition
+	       (ARG1 file file "bash.bashrc"))
+	 (call .conf.file_type_transition
+	       (ARG1 file dir "bash"))
+	 (call .conf.file_type_transition
+	       (ARG1 file file "profile"))
+	 (call .conf.file_type_transition
+	       (ARG1 file file "profile.env"))
+	 (call .conf.file_type_transition
+	       (ARG1 file dir "profile.d")))
+
+  (blockinherit .file.conf.template))
+
+(in file.unconfined
+
+    (call .shellrc.conf_file_type_transition_file (typeattr)))

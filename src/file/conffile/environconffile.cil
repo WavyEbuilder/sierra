@@ -1,0 +1,47 @@
+;; SPDX-FileCopyrightText: © 2025 Rahul Sandhu <nvraxn@gmail.com>
+;; SPDX-License-Identifier: GPL-3.0-or-later
+
+(in environ
+
+    (block conf
+
+      (filecon "/etc/environment" file file_context)
+      (filecon "/etc/environment\..*" file file_context)
+      (filecon "/etc/environment\.d" dir file_context)
+      (filecon "/etc/environment\.d/.*" any file_context)
+
+      (macro conf_file_type_transition_file ((type ARG1))
+	     (call .conf.file_type_transition
+		   (ARG1 file dir "environment.d"))
+	     (call .conf.file_type_transition
+		   (ARG1 file file "environment")))
+
+      (blockinherit .file.conf.base_template)
+      (blockinherit .file.macro_template_dirs)
+      (blockinherit .file.macro_template_files)
+
+      (block read_file_pattern
+
+	(macro type ((type ARG1))
+	       (typeattributeset typeattr ARG1))
+
+	(typeattribute typeattr)
+
+	(call list_file_dirs (typeattr))
+	(call read_file_files (typeattr))
+
+	(call .conf.search_file_pattern.type (typeattr))))
+
+    (block read_file_pattern
+
+      (macro type ((type ARG1))
+	     (typeattributeset typeattr ARG1))
+
+      (typeattribute typeattr)
+
+      (call conf.read_file_pattern.type (typeattr))
+      (call data.read_file_pattern.type (typeattr))))
+
+(in file.unconfined
+
+    (call .environ.conf.conf_file_type_transition_file (typeattr)))
