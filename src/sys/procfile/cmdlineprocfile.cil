@@ -5,4 +5,15 @@
 
   (genfscon "proc" "/cmdline" procfile_context)
 
-  (blockinherit .procfile.template))
+  (blockinherit .procfile.template)
+
+  (block read_procfile_pattern
+
+    (macro type ((type ARG1))
+           (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (call read_procfile_files (typeattr))
+
+    (call .proc.search_fs_pattern.type (typeattr))))
