@@ -79,6 +79,8 @@
         (call run.list_file_dirs (subj))
         (call run.read_file_files (subj))
 
+        (call .fs.search_sysctlfile_pattern.type (subj))
+
         (call .sysctl.search_procfile_pattern.type (subj))
 
         (block conf
