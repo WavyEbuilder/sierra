@@ -116,6 +116,8 @@
         (call .mod.deletename_file_dirs (subj))
         (call .mod.read_file_lnk_files (subj))
 
+        (call .run.search_file_pattern.type (subj))
+
         (call .sys.moduleload.type (subj))
         ;; For module signing, kmod signature is checked using the public
         ;; X.509 keys on the kernel's system key ring:
