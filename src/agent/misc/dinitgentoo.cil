@@ -117,7 +117,7 @@
 
 (in after dinit.helper.lo.exec
 
-    (filecon "/usr/lib/dinit\.d/early/helpers/kmod" file file_context))
+    (filecon "/usr/lib/dinit\.d/early/helpers/lo" file file_context))
 
 (in after dinit.helper.mnt.exec
 
