@@ -91,7 +91,15 @@
 
         (call .cmdline.read_procfile_pattern.type (subj))
 
+        (call .file.mod.load_all_files (subj))
+        (call .file.mod.map_all_files (subj))
+        (call .file.mod.read_all_files (subj))
+
         (call .kmod.manage_file_files (subj))
+
+        (call .mod.delete_file_files (subj))
+        (call .mod.deletename_file_dirs (subj))
+        (call .mod.read_file_lnk_files (subj))
 
         (call .sys.moduleload.type (subj))
 
