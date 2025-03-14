@@ -100,6 +100,8 @@
 
       (block swap
 
+        (call .fstab.read_file_files (subj))
+
         (blockinherit .sys.agent.template))
 
       (block swclock
