@@ -108,11 +108,28 @@
 
       (block swclock
 
+        (call state.manage_file_dirs (subj))
+        (call state.manage_file_files (subj))
+
+        (block state
+
+          (filecon "/var/lib/swclock" dir file_context)
+          (filecon "/var/lib/swclock/.*" any file_context)
+
+          (macro state_file_type_transition_file ((type ARG1))
+                 (call .state.file_type_transition
+                       (ARG1 file dir "swclock")))
+
+          (blockinherit .file.macro_template_dirs)
+          (blockinherit .file.macro_template_files)
+          (blockinherit .file.state.base_template))
+
         (blockinherit .sys.agent.template))))
 
 (in file.unconfined
 
-    (call .dinit.helper.exec.dinit_lib_file_type_transition_file (typeattr)))
+    (call .dinit.helper.exec.dinit_lib_file_type_transition_file (typeattr))
+    (call .dinit.helper.swclock.state.state_file_type_transition_file (typeattr)))
 
 (in after dinit.helper.exec
 
