@@ -5,4 +5,26 @@
 
   (genfscon "nsfs" "/" fs_context)
 
-  (blockinherit .noseclabelfs.template))
+  (macro getattr_fs_files ((type ARG1))
+         (allow ARG1 fs (file (getattr))))
+
+  (blockinherit .noseclabelfs.template)
+
+  (block getattr_fs_files_pattern
+
+    (macro type ((type ARG1))
+           (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (call getattr_fs_files (typeattr)))
+
+  (block read_fs_pattern
+
+    (macro type ((type ARG1))
+           (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (call read_fs_files (typeattr))
+    (call search_fs_dirs (typeattr))))

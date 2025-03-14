@@ -5,9 +5,58 @@
 
   (genfscon "sysfs" "/devices" sysfile_context)
 
+  (macro setattr_sysfile_files ((type ARG1))
+         (allow ARG1 sysfile (file (setattr))))
+
+  (macro watch_sysfile_dirs ((type ARG1))
+         (allow ARG1 sysfile (dir (watch))))
+
   (blockinherit .sysfile.devices.template)
   (blockinherit .sysfile.macro_template_dirs)
-  (blockinherit .sysfile.macro_template_lnk_files))
+  (blockinherit .sysfile.macro_template_lnk_files)
+
+  (block list_sysfile_pattern
+
+    (macro type ((type ARG1))
+           (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (call list_sysfile_dirs (typeattr))
+
+    (call .sys.search_fs_pattern.type (typeattr)))
+
+  (block read_sysfile_pattern
+
+    (macro type ((type ARG1))
+           (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (call list_sysfile_pattern.type (typeattr))
+    (call read_sysfile_files (typeattr))
+    (call read_sysfile_lnk_files (typeattr)))
+
+  (block search_sysfile_pattern
+
+    (macro type ((type ARG1))
+           (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (call search_sysfile_dirs (typeattr))
+
+    (call .sys.search_fs_pattern.type (typeattr)))
+
+  (block traverse_sysfile_pattern
+
+    (macro type ((type ARG1))
+           (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (call read_sysfile_lnk_files (typeattr))
+    (call search_sysfile_pattern.type (typeattr))))
 
 (in sysfile
 

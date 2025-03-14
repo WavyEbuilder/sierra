@@ -1,14 +1,203 @@
 ;; SPDX-FileCopyrightText: © 2025 Rahul Sandhu <nvraxn@gmail.com>
 ;; SPDX-License-Identifier: GPL-3.0-or-later
 
+(block image
+
+  (blockinherit .file.base_template)
+  (blockinherit .file.macro_template_dirs)
+  (blockinherit .file.macro_template_files)
+
+  (call .mount.image.type (file))
+
+  (call .tmp.associate_fs (file))
+
+  (call .xattr.associate_fs_pattern.type (file)))
+
 (block mount
+
+  (macro dontaudit_link_subj_keyrings ((type ARG1))
+	 (dontaudit ARG1 subj (key (link))))
+
+  (blockinherit .hybrid.agent.template)
+
+  (allow subj self
+	 (capability (dac_read_search fowner setgid setuid sys_admin
+				      sys_rawio)))
+  (allow subj self (cap_userns (dac_override dac_read_search sys_admin)))
+  (allow subj self create_unix_dgram_socket)
+
+  (call exec.execute_file_files (subj))
+
+  (call image.readwrite_all_files (subj))
+  (call image.search_all_dirs (subj))
+
+  (call mountpoint.list_all_dirs (subj))
+  (call mountpoint.mounton_all_dirs (subj))
+
+  (call run.manage_file_dirs (subj))
+  (call run.manage_file_files (subj))
+  (call run.run_file_type_transition_file (subj))
+
+  (call .block.list_sysfile_dirs (subj))
+  (call .block.read_sysfile_lnk_files (subj))
+
+  (call .cert.read_file_pattern.type (subj))
+
+  (call .console.readinherited_serialtermdev_chr_files (subj))
+
+  (call .debug.search_fs_pattern.type (subj))
+
+  (call .dev.traverse_sysfile_pattern.type (subj))
+
+  (call .devices.list_sysfile_pattern.type (subj))
+  (call .devices.read_sysfile_files (subj))
+
+  (call .filesystems.read_procfile_files (subj))
+
+  (call .fs.getattr_all_dirs (subj))
+
+  (call .fs.getattr_all_fs (subj))
+  (call .fs.mount_all_fs (subj))
+  (call .fs.remount_all_fs (subj))
+  ;; mount -o fscontext=\"...\"
+  (call .fs.relabel_all_fs (subj))
+  (call .fs.unmount_all_fs (subj))
+
+  (call .fs.read_sysctlfile_files (subj))
+  (call .fs.search_sysctlfile_pattern.type (subj))
+
+  ;; added for /sys/fs/resctrl
+  ;; prefer to not associate fs.sysfile with mount mountpoint type
+  (call .fs.mounton_sysfile_dirs (subj))
+
+  (call .fstab.read_file_files (subj))
+
+  (call .list_invalid_dirs (subj))
+
+  (call .locale.data.map_file_pattern.type (subj))
+  (call .locale.read_file_pattern.type (subj))
+
+  (call .loopcontrol.readwrite_nodedev_chr_files (subj))
+
+  (call .ns.read_fs_pattern.type (subj))
+
+  (call .rbacsep.exempt.subj.type (subj))
+
+  (call .selinux.linked.type (subj))
+
+  (call .stordev.readwrite.type (subj))
+  (call .stordev.readwrite_all_blk_files (subj))
+  (call .stordev.readwrite_all_chr_files (subj))
+
+  (call .sys.dontaudit_setsched_subj_processes (subj))
+  (call .sys.modulerequest_system (subj))
+
+  (call .sys.tmpfs.appendinherited_file_files (subj))
+  (call .sys.tmpfs.auditwriteaccess_file_dirs (subj))
+  (call .sys.tmpfs.list_file_dirs (subj))
+
+  ;; /var/run
+  (call .var.read_file_lnk_files (subj))
+
+  (block image
+
+    (macro deletename_all_dirs ((type ARG1))
+	   (allow ARG1 typeattr deletename_dir))
+
+    (macro getattr_all_files ((type ARG1))
+	   (allow ARG1 typeattr (file (getattr))))
+
+    (macro list_all_dirs ((type ARG1))
+	   (allow ARG1 typeattr list_dir))
+
+    (macro manage_all_files ((type ARG1))
+	   (allow ARG1 typeattr manage_file))
+
+    (macro read_all_files ((type ARG1))
+	   (allow ARG1 typeattr read_file))
+
+    (macro readinherited_all_files ((type ARG1))
+	   (allow ARG1 typeattr readinherited_file))
+
+    (macro readwrite_all_dirs ((type ARG1))
+	   (allow ARG1 typeattr readwrite_dir))
+
+    (macro readwrite_all_files ((type ARG1))
+	   (allow ARG1 typeattr readwrite_file))
+
+    (macro relabel_all_files ((type ARG1))
+	   (allow ARG1 typeattr relabel_file))
+
+    (macro search_all_dirs ((type ARG1))
+	   (allow ARG1 typeattr search_dir))
+
+    (macro setattr_all_files ((type ARG1))
+	   (allow ARG1 typeattr (file (setattr))))
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr))
 
   (block mountpoint
 
+    (macro dontaudit_auditaccess_all_dirs ((type ARG1))
+	   (dontaudit ARG1 typeattr (dir (audit_access))))
+
+    (macro dontaudit_getattr_all_dirs ((type ARG1))
+	   (dontaudit ARG1 typeattr (dir (getattr))))
+
+    (macro auditwriteaccess_all_dirs ((type ARG1))
+	   (allow ARG1 typeattr (dir (getattr write))))
+
+    (macro list_all_dirs ((type ARG1))
+	   (allow ARG1 typeattr list_dir))
+
     (macro mounton_all_dirs ((type ARG1))
-           (allow ARG1 typeattr mounton_dir))
+	   (allow ARG1 typeattr mounton_dir))
+
+    (macro readwrite_all_dirs ((type ARG1))
+	   (allow ARG1 typeattr readwrite_dir))
+
+    (macro search_all_dirs ((type ARG1))
+	   (allow ARG1 typeattr search_dir))
 
     (macro type ((type ARG1))
-           (typeattributeset typeattr ARG1))
+	   (typeattributeset typeattr ARG1))
 
-    (typeattribute typeattr)))
+    (typeattribute typeattr))
+
+  (block run
+
+    (filecon "/run/mount" dir file_context)
+    (filecon "/run/mount/.*" any ())
+
+    (macro watch_file_dirs ((type ARG1))
+	   (allow ARG1 file (dir (watch))))
+
+    (macro watch_file_files ((type ARG1))
+	   (allow ARG1 file (file (watch))))
+
+    (macro watchreads_file_files ((type ARG1))
+	   (allow ARG1 file (file (watch_reads))))
+
+    (macro run_file_type_transition_file ((type ARG1))
+	   (call .run.file_type_transition
+		 (ARG1 file dir "mount")))
+
+    (blockinherit .file.macro_template_dirs)
+    (blockinherit .file.macro_template_files)
+    (blockinherit .file.run.base_template)
+
+    (call .rbacsep.exempt.obj.type (file))))
+
+(in file.unconfined
+
+    (call .mount.run.run_file_type_transition_file (typeattr)))
+
+(in after mount.exec
+
+    (filecon "/usr/bin/mount" file file_context)
+    (filecon "/usr/bin/mount\..*" file file_context)
+    (filecon "/usr/bin/umount" file file_context)
+    (filecon "/usr/bin/umount\..*" file file_context))

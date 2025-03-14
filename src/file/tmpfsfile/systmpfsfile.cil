@@ -5,6 +5,15 @@
 
     (block tmpfs
 
+      (macro auditwriteaccess_file_dirs ((type ARG1))
+             (allow ARG1 file (dir (getattr write))))
+
+      (macro dontaudit_getattr_file_dirs ((type ARG1))
+             (dontaudit ARG1 file (dir (getattr))))
+
+      (macro dontaudit_search_file_dirs ((type ARG1))
+             (dontaudit ARG1 file search_dir))
+
       (blockinherit .file.tmpfs.template)
 
       (block search_file_pattern

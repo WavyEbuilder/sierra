@@ -5,6 +5,9 @@
 
 (block sys
 
+  (macro dontaudit_setsched_subj_processes ((type ARG1))
+         (dontaudit ARG1 subj (process (setsched))))
+
   (macro exec_subj_type_transition ((type ARG1))
          (allow ARG1 subj (process (transition)))
 

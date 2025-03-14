@@ -7,4 +7,26 @@
 
     (blockinherit .fs.macro_template_dirs)
     (blockinherit .fs.macro_template_files)
-    (blockinherit .seclabelfs.template))
+    (blockinherit .seclabelfs.template)
+
+    (block search_fs_pattern
+
+      (macro type ((type ARG1))
+             (typeattributeset typeattr ARG1))
+
+      (typeattribute typeattr)
+
+      (call search_fs_dirs (typeattr))
+
+      (call .kernel.search_sysfile_pattern.type (typeattr)))
+
+    (block search_sysctlfile_pattern
+
+      (macro type ((type ARG1))
+             (typeattributeset typeattr ARG1))
+
+      (typeattribute typeattr)
+
+      (call search_sysctlfile_dirs (typeattr))
+
+      (call .sysctl.search_procfile_pattern.type (typeattr))))
