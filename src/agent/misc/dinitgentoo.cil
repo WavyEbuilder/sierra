@@ -5,6 +5,11 @@
       (call .dinit.unix_stream_connect (subj))
       (call .dinit.readwrite_subj_unix_stream_sockets (subj))
 
+      (call .dinit.service.search_file_dirs (subj))
+
+      (call .coreutils.exec.execute_file_files (subj))
+      (call .shell.exec.execute_file_files (subj))
+
       ;; After udev is loaded and has relabeled /dev, dinit might
       ;; loose access to /dev/null as it is no longer devtmp.fs
       (call .null.append_nodedev_chr_files (subj))
