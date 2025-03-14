@@ -13,6 +13,10 @@
       (call .shell.exec.execute_file_files (subj))
 
       ;; After udev is loaded and has relabeled /dev, dinit might
+      ;; loose access to /dev/console as it is no longer devtmp.fs
+      (call .console.readwrite_serialtermdev_chr_files (subj))
+
+      ;; After udev is loaded and has relabeled /dev, dinit might
       ;; loose access to /dev/null as it is no longer devtmp.fs
       (call .null.append_nodedev_chr_files (subj))
       (call .null.read_nodedev_chr_files (subj))
