@@ -89,6 +89,8 @@
         (call .devtmp.append_fs_chr_files (subj))
         (call .devtmp.read_fs_chr_files (subj))
 
+        (call .debug.search_fs_pattern.type (subj))
+
         (call .cmdline.read_procfile_pattern.type (subj))
 
         (call .file.mod.load_all_files (subj))
