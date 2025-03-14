@@ -211,6 +211,24 @@
 
       (block seedrng
 
+        (call state.manage_file_dirs (subj))
+        (call state.manage_file_files (subj))
+
+        (call .state.search_file_pattern.type (subj))
+
+        (block state
+
+          (filecon "/var/lib/seedrng" dir file_context)
+          (filecon "/var/lib/seedrng/.*" any file_context)
+
+          (macro state_file_type_transition_file ((type ARG1))
+                 (call .state.file_type_transition
+                       (ARG1 file dir "seedrng")))
+
+          (blockinherit .file.macro_template_dirs)
+          (blockinherit .file.macro_template_files)
+          (blockinherit .file.state.base_template))
+
         (blockinherit .sys.agent.template))
 
       (block swap
@@ -244,6 +262,7 @@
 (in file.unconfined
 
     (call .dinit.helper.exec.dinit_lib_file_type_transition_file (typeattr))
+    (call .dinit.helper.seedrng.state.state_file_type_transition_file (typeattr))
     (call .dinit.helper.swclock.state.state_file_type_transition_file (typeattr))
     (call .dinit.helper.kmod.conf.conf_file_type_transition_file (typeattr))
     (call .dinit.helper.kmod.data.lib_file_type_transition_file (typeattr))
