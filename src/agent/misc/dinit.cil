@@ -40,6 +40,7 @@
 
   (call data.list_file_dirs (subj))
 
+  (call .log.addname_file_dirs (subj))
   (call .log.manage_file_files (subj))
   (call .log.traverse_file_pattern.type (subj))
 
