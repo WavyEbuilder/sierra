@@ -77,6 +77,8 @@
 
         (call .fs.mount_all_fs (subj))
 
+        (call .fstab.read_file_files (subj))
+
         (call .mount.mountpoint.mounton_all_dirs (subj))
 
         ;; remount / rw
