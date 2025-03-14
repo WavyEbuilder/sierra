@@ -60,6 +60,21 @@
 
       (block hwclock
 
+        ;; After udev is loaded and has relabeled /dev, hwclock might
+        ;; loose access to /dev/null as it is no longer devtmp.fs
+        (call .null.append_nodedev_chr_files (subj))
+        (call .null.read_nodedev_chr_files (subj))
+
+        ;; Comprimise for /dev/null in race with udev to create it
+        ;; TODO: implement relabeling of /dev in dinit
+        (call .devtmp.append_fs_chr_files (subj))
+        (call .devtmp.read_fs_chr_files (subj))
+
+        (call .locale.data.map_file_pattern.type (subj))
+        (call .locale.read_file_pattern.type (subj))
+
+        (allow subj self (capability (sys_time)))
+
         (blockinherit .sys.agent.template))
 
       (block kmod
