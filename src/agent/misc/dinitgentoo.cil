@@ -68,6 +68,9 @@
 
       (block lo
 
+        (allow subj self (capability (net_admin)))
+        (allow subj self create_udp_socket)
+
         (blockinherit .sys.agent.template))
 
       (block mnt
