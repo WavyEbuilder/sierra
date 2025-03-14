@@ -79,6 +79,16 @@
 
       (block kmod
 
+        ;; After udev is loaded and has relabeled /dev, kmod might
+        ;; loose access to /dev/null as it is no longer devtmp.fs
+        (call .null.append_nodedev_chr_files (subj))
+        (call .null.read_nodedev_chr_files (subj))
+
+        ;; Comprimise for /dev/null in race with udev to create it
+        ;; TODO: implement relabeling of /dev in dinit
+        (call .devtmp.append_fs_chr_files (subj))
+        (call .devtmp.read_fs_chr_files (subj))
+
         (blockinherit .sys.agent.template))
 
       (block lo
