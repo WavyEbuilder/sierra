@@ -22,6 +22,8 @@
       (call .devtmp.append_fs_chr_files (subj))
       (call .devtmp.read_fs_chr_files (subj))
 
+      (call .hostname.read_file_files (subj))
+
       (call .machineid.read_file_files (subj))
 
       (call .selinux.conf.list_file_dirs (subj))
