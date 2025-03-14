@@ -70,6 +70,8 @@
         (call .devtmp.append_fs_chr_files (subj))
         (call .devtmp.read_fs_chr_files (subj))
 
+        (call .devtmp.search_fs_dirs (subj))
+
         (call .locale.data.map_file_pattern.type (subj))
         (call .locale.read_file_pattern.type (subj))
 
