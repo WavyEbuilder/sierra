@@ -117,6 +117,9 @@
         (call .mod.read_file_lnk_files (subj))
 
         (call .sys.moduleload.type (subj))
+        ;; For module signing, kmod signature is checked using the public
+        ;; X.509 keys on the kernel's system key ring:
+        ;; https://www.kernel.org/doc/html/v4.15/admin-guide/module-signing.html
         (call .sys.search_subj_keyrings (subj))
 
         (call .sysfile.module.list_all_dirs (subj))
