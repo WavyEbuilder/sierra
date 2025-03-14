@@ -81,6 +81,8 @@
 
         (call .fs.search_sysctlfile_pattern.type (subj))
 
+        (call .run.search_file_pattern.type (subj))
+
         (call .sysctl.search_procfile_pattern.type (subj))
 
         (block conf
