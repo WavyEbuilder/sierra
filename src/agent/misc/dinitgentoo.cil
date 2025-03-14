@@ -31,6 +31,9 @@
       (call .run.addname_file_dirs (subj))
       (call .run.create_file_dirs (subj))
 
+      ;; For kdump
+      (allow subj .dinit.helper.exec.file (file (execute_no_trans)))
+
       (call .fsck.subj_type_transition (subj))
 
       (call .hostname.subj_type_transition (subj))
