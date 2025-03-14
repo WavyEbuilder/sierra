@@ -89,6 +89,16 @@
         (call .devtmp.append_fs_chr_files (subj))
         (call .devtmp.read_fs_chr_files (subj))
 
+        (call conf.list_file_dirs (subj))
+        (call conf.read_file_files (subj))
+        (call conf.read_file_lnk_files (subj))
+
+        (call data.list_file_dirs (subj))
+        (call data.read_file_files (subj))
+
+        (call run.list_file_dirs (subj))
+        (call run.read_file_files (subj))
+
         (call .debug.search_fs_pattern.type (subj))
 
         (call .cmdline.read_procfile_pattern.type (subj))
@@ -116,6 +126,48 @@
         (allow subj self (system (module_load)))
 
         (allow subj .sys.subj (system (module_request)))
+
+        (block conf
+
+          (filecon "/etc/modules" file file_context)
+          (filecon "/etc/modules\..*" file file_context)
+
+          (filecon "/etc/modules-load\.d" dir file_context)
+          (filecon "/etc/modules-load\.d/.*" any file_context)
+
+          (macro conf_file_type_transition_file ((type ARG1))
+                 (call .conf.file_type_transition
+                       (ARG1 file dir "modules-load.d"))
+                 (call .conf.file_type_transition
+                       (ARG1 file file "modules")))
+
+          (blockinherit .file.conf.template))
+
+        (block data
+
+          (filecon "/usr/lib/modules-load\.d" dir file_context)
+          (filecon "/usr/lib/modules-load\.d/.*" any file_context)
+
+          (macro lib_file_type_transition_file ((type ARG1))
+                 (call .lib.file_type_transition
+                       (ARG1 file dir "modules-load.d")))
+
+          (blockinherit .file.data.base_template)
+          (blockinherit .file.macro_template_dirs)
+          (blockinherit .file.macro_template_files))
+
+        (block run
+
+          (filecon "/run/modules-load\.d" dir file_context)
+          (filecon "/run/modules-load\.d/.*" any file_context)
+
+          (macro run_file_type_transition_file ((type ARG1))
+                 (call .run.file_type_transition
+                       (ARG1 file dir "modules-load.d")))
+
+          (blockinherit .file.macro_template_dirs)
+          (blockinherit .file.macro_template_files)
+          (blockinherit .file.run.base_template))
 
         (blockinherit .sys.agent.template))
 
@@ -187,7 +239,10 @@
 (in file.unconfined
 
     (call .dinit.helper.exec.dinit_lib_file_type_transition_file (typeattr))
-    (call .dinit.helper.swclock.state.state_file_type_transition_file (typeattr)))
+    (call .dinit.helper.swclock.state.state_file_type_transition_file (typeattr))
+    (call .dinit.helper.kmod.conf.conf_file_type_transition_file (typeattr))
+    (call .dinit.helper.kmod.data.lib_file_type_transition_file (typeattr))
+    (call .dinit.helper.kmod.run.run_file_type_transition_file (typeattr)))
 
 (in after dinit.helper.exec
 
