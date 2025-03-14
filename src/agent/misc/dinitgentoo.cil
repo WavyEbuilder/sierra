@@ -89,6 +89,8 @@
         (call .devtmp.append_fs_chr_files (subj))
         (call .devtmp.read_fs_chr_files (subj))
 
+        (call .cmdline.read_procfile_pattern.type (subj))
+
         (blockinherit .sys.agent.template))
 
       (block lo
