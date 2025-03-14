@@ -34,7 +34,11 @@
 
       (call .udev.subj_type_transition (subj))
 
+      (call kmod.subj_type_transition (subj))
       (call mnt.subj_type_transition (subj))
+      (call seedrng.subj_type_transition (subj))
+      (call swap.subj_type_transition (subj))
+      (call swclock.subj_type_transition (subj))
 
       (blockinherit .sys.agent.template)
 
