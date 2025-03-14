@@ -38,6 +38,10 @@
 
       (blockinherit .sys.agent.template)
 
+      (block kmod
+
+        (blockinherit .sys.agent.template))
+
       (block mnt
 
         (call .devtmp.addname_fs_dirs (subj))
@@ -62,7 +66,15 @@
 
         (blockinherit .sys.agent.template))
 
+      (block seedrng
+
+        (blockinherit .sys.agent.template))
+
       (block swap
+
+        (blockinherit .sys.agent.template))
+
+      (block swclock
 
         (blockinherit .sys.agent.template))))
 
