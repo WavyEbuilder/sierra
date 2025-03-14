@@ -30,6 +30,10 @@
 
       (call .mount.subj_type_transition (subj))
 
+      (call .tmpfiles.subj_type_transition (subj))
+
+      (call .udev.subj_type_transition (subj))
+
       (call mnt.subj_type_transition (subj))
 
       (blockinherit .sys.agent.template)

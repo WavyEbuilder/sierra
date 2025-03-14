@@ -1,0 +1,42 @@
+;; SPDX-FileCopyrightText: © 2025 Rahul Sandhu <nvraxn@gmail.com>
+;; SPDX-License-Identifier: GPL-3.0-or-later
+
+(block tmpfiles
+
+  (call .anon_inode.unconfined.type (subj))
+  (call .booleanfile.unconfined.type (subj))
+  (call .bpffile.unconfined.type (subj))
+  (call .cgroupfile.unconfined.type (subj))
+  (call .debugfile.unconfined.type (subj))
+  (call .file.unconfined.type (subj))
+  (call .fs.unconfined.type (subj))
+  (call .invalid.unconfined.type (subj))
+  (call .net.ib.endport.unconfined.type (subj))
+  (call .net.ib.pkey.unconfined.type (subj))
+  (call .net.netif.unconfined.type (subj))
+  (call .net.netnode.unconfined.type (subj))
+  (call .net.packet.unconfined.type (subj))
+  (call .net.peer.unconfined.type (subj))
+  (call .net.port.unconfined.type (subj))
+  (call .net.spd.unconfined.type (subj))
+  (call .nodedev.unconfined.type (subj))
+  (call .procfile.unconfined.type (subj))
+  (call .pstorefile.unconfined.type (subj))
+  (call .ptytermdev.unconfined.type (subj))
+  (call .securityfile.unconfined.type (subj))
+  (call .selinux.unconfined.type (subj))
+  (call .serialtermdev.unconfined.type (subj))
+  (call .stordev.unconfined.type (subj))
+  (call .subj.unconfined.type (subj))
+  (call .sys.unconfined.type (subj))
+  (call .sysctlfile.unconfined.type (subj))
+  (call .sysfile.unconfined.type (subj))
+  (call .termdev.unconfined.type (subj))
+  (call .tracefile.unconfined.type (subj))
+  (call .unlabeled.unconfined.type (subj))
+
+  (blockinherit .sys.agent.template))
+
+(in after tmpfiles.exec
+
+    (filecon "/usr/bin/systemd-tmpfiles" file file_context))
