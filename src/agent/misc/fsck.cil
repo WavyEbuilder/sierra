@@ -1,0 +1,60 @@
+;; From dssp5
+
+(block fsck
+
+  (blockinherit .sys.agent.template)
+
+  (allow subj self (capability (dac_read_search sys_rawio)))
+
+  (call run.manage_file_dirs (subj))
+  (call run.manage_file_files (subj))
+  (call run.run_file_type_transition_file (subj))
+
+  (call .block.traverse_sysfile_pattern.type (subj))
+
+  (call .dev.traverse_sysfile_pattern.type (subj))
+
+  (call .devices.list_sysfile_pattern.type (subj))
+  (call .devices.read_sysfile_files (subj))
+
+  (call .fstab.read_file_files (subj))
+
+  (call .locale.data.map_file_pattern.type (subj))
+  (call .locale.read_file_pattern.type (subj))
+
+  (call .mount.image.search_all_dirs (subj))
+
+  (call .mount.mountpoint.list_all_dirs (subj))
+
+  (call .mount.run.read_file_files (subj))
+  (call .mount.run.search_file_dirs (subj))
+
+  (call .shell.exec.mapexecute_file_files (subj))
+  (call .shell.exec.read_file_files (subj))
+
+  (call .stordev.read.type (subj))
+  (call .stordev.read_all_blk_files (subj))
+  (call .stordev.read_all_chr_files (subj))
+
+  (call .selinux.linked.type (subj))
+
+  (block run
+
+    (filecon "/run/fsck" dir file_context)
+    (filecon "/run/fsck/.*" any file_context)
+
+    (macro run_file_type_transition_file ((type ARG1))
+	   (call .run.file_type_transition
+		 (ARG1 file dir "fsck")))
+
+    (blockinherit .file.macro_template_dirs)
+    (blockinherit .file.macro_template_files)
+    (blockinherit .file.run.base_template)))
+
+(in file.unconfined
+
+    (call .fsck.run.run_file_type_transition_file (typeattr)))
+
+(in after fsck.exec
+
+    (filecon "/usr/bin/fsck" file file_context))

@@ -26,6 +26,8 @@
 
       (call .selinux.conf.list_file_dirs (subj))
 
+      (call .fsck.subj_type_transition (subj))
+
       (call .mount.subj_type_transition (subj))
 
       (call mnt.subj_type_transition (subj))
