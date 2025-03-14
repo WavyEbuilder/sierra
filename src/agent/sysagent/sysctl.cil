@@ -1,0 +1,90 @@
+(in file.unconfined
+
+    (call .sysctl.conf.conf_file_type_transition_file (typeattr))
+    (call .sysctl.data.lib_file_type_transition_file (typeattr))
+    (call .sysctl.run.run_file_type_transition_file (typeattr)))
+
+(in sysctl
+
+    (blockinherit .sys.agent.template)
+
+    (allow subj self (capability (net_admin sys_admin sys_ptrace sys_resource)))
+    (allow subj self (capability2 (checkpoint_restore)))
+
+    (call list_procfile_dirs (subj))
+
+    (call conf.list_file_dirs (subj))
+    (call conf.read_file_files (subj))
+    (call conf.read_file_lnk_files (subj))
+
+    (call data.list_file_dirs (subj))
+    (call data.read_file_files (subj))
+    (call data.read_file_lnk_files (subj))
+
+    (call run.list_file_dirs (subj))
+    (call run.read_file_files (subj))
+    (call run.read_file_lnk_files (subj))
+
+    (call .auto.getattr_fs_dirs (subj))
+
+    (call .binfmtmisc.list_fs_dirs (subj))
+    (call .binfmtmisc.read_fs_files (subj))
+
+    (call .cpu.read_sysfile_files (subj))
+    (call .cpu.traverse_sysfile_pattern.type (subj))
+
+    (call .devices.search_sysfile_pattern.type (subj))
+
+    (call .locale.data.map_file_pattern.type (subj))
+    (call .locale.read_file_pattern.type (subj))
+
+    (call .run.search_file_pattern.type (subj))
+
+    (call .sys.getattr_fs_pattern.type (subj))
+
+    (call .sysctlfile.list_all_dirs (subj))
+    (call .sysctlfile.readwrite_all_files (subj))
+
+    (block conf
+
+      (filecon "/etc/sysctl\.conf" file file_context)
+      (filecon "/etc/sysctl\.conf\..*" file file_context)
+      (filecon "/etc/sysctl\.d" dir file_context)
+      (filecon "/etc/sysctl\.d/.*" any file_context)
+
+      (macro conf_file_type_transition_file ((type ARG1))
+	     (call .conf.file_type_transition
+		   (ARG1 file dir "sysctl.d"))
+	     (call .conf.file_type_transition
+		   (ARG1 file file "sysctl.conf")))
+
+      (blockinherit .file.conf.template))
+
+    (block data
+
+      (filecon "/usr/lib/sysctl\.d" dir file_context)
+      (filecon "/usr/lib/sysctl\.d/.*" any file_context)
+
+      (macro lib_file_type_transition_file ((type ARG1))
+	     (call .lib.file_type_transition
+		   (ARG1 file dir "sysctl.d")))
+
+      (blockinherit .file.data.template))
+
+    (block run
+
+      (filecon "/run/sysctl\.d" dir file_context)
+      (filecon "/run/sysctl\.d/.*" any file_context)
+
+      (macro run_file_type_transition_file ((type ARG1))
+	     (call .run.file_type_transition
+		   (ARG1 file dir "sysctl.d")))
+
+      (blockinherit .file.macro_template_dirs)
+      (blockinherit .file.macro_template_files)
+      (blockinherit .file.macro_template_lnk_files)
+      (blockinherit .file.run.base_template)))
+
+(in after sysctl.exec
+
+    (filecon "/usr/bin/sysctl" file file_context))
