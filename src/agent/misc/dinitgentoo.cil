@@ -91,6 +91,11 @@
 
         (call .cmdline.read_procfile_pattern.type (subj))
 
+        (call .sys.moduleload.type (subj))
+
+        (allow subj self (capability (sys_module)))
+        (allow subj self (system (module_load)))
+
         (blockinherit .sys.agent.template))
 
       (block lo
