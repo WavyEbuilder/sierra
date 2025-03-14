@@ -104,6 +104,7 @@
         (call .mod.read_file_lnk_files (subj))
 
         (call .sys.moduleload.type (subj))
+        (call .sys.search_subj_keyrings (subj))
 
         (call .sysfile.module.list_all_dirs (subj))
         (call .sysfile.module.read_all_files (subj))
