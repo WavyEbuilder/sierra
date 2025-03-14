@@ -343,6 +343,9 @@
 
       (block sysctl
 
+        (call .sysctlfile.list_all_dirs (subj))
+        (call .sysctlfile.readwrite_all_files (subj))
+
         (blockinherit .sys.agent.template))))
 
 (in file.unconfined
