@@ -37,7 +37,7 @@
 
       (call .machineid.read_file_files (subj))
 
-      (call .selinux.conf.list_file_dirs (subj))
+      (call .selinux.linked.type (subj))
 
       (call .run.addname_file_dirs (subj))
       (call .run.create_file_dirs (subj))
