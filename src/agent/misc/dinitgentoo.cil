@@ -69,6 +69,55 @@
 
       (block binfmt
 
+        (call conf.list_file_dirs (subj))
+        (call conf.read_file_files (subj))
+        (call conf.read_file_lnk_files (subj))
+
+        (call data.list_file_dirs (subj))
+        (call data.read_file_files (subj))
+
+        (call run.list_file_dirs (subj))
+        (call run.read_file_files (subj))
+
+        (call .sysctl.search_procfile_pattern.type (subj))
+
+        (block conf
+
+          (filecon "/etc/binfmt\.d" dir file_context)
+          (filecon "/etc/binfmt\.d/.*" any file_context)
+
+          (macro conf_file_type_transition_file ((type ARG1))
+                 (call .conf.file_type_transition
+                       (ARG1 file dir "binfmt.d")))
+
+          (blockinherit .file.conf.template))
+
+        (block data
+
+          (filecon "/usr/lib/binfmt\.d" dir file_context)
+          (filecon "/usr/lib/binfmt\.d/.*" any file_context)
+
+          (macro lib_file_type_transition_file ((type ARG1))
+                 (call .lib.file_type_transition
+                       (ARG1 file dir "binfmt.d")))
+
+          (blockinherit .file.data.base_template)
+          (blockinherit .file.macro_template_dirs)
+          (blockinherit .file.macro_template_files))
+
+        (block run
+
+          (filecon "/run/binfmt\.d" dir file_context)
+          (filecon "/run/binfmt\.d/.*" any file_context)
+
+          (macro run_file_type_transition_file ((type ARG1))
+                 (call .run.file_type_transition
+                       (ARG1 file dir "binfmt.d")))
+
+          (blockinherit .file.macro_template_dirs)
+          (blockinherit .file.macro_template_files)
+          (blockinherit .file.run.base_template))
+
         (blockinherit .sys.agent.template))
 
       (block hwclock
@@ -290,11 +339,14 @@
 (in file.unconfined
 
     (call .dinit.helper.exec.dinit_lib_file_type_transition_file (typeattr))
-    (call .dinit.helper.seedrng.state.state_file_type_transition_file (typeattr))
-    (call .dinit.helper.swclock.state.state_file_type_transition_file (typeattr))
+    (call .dinit.helper.binfmt.conf.conf_file_type_transition_file (typeattr))
+    (call .dinit.helper.binfmt.data.lib_file_type_transition_file (typeattr))
+    (call .dinit.helper.binfmt.run.run_file_type_transition_file (typeattr))
     (call .dinit.helper.kmod.conf.conf_file_type_transition_file (typeattr))
     (call .dinit.helper.kmod.data.lib_file_type_transition_file (typeattr))
-    (call .dinit.helper.kmod.run.run_file_type_transition_file (typeattr)))
+    (call .dinit.helper.kmod.run.run_file_type_transition_file (typeattr))
+    (call .dinit.helper.seedrng.state.state_file_type_transition_file (typeattr))
+    (call .dinit.helper.swclock.state.state_file_type_transition_file (typeattr)))
 
 (in after dinit.helper.exec
 
