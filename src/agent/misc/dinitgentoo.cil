@@ -63,6 +63,7 @@
       (call seedrng.subj_type_transition (subj))
       (call swap.subj_type_transition (subj))
       (call swclock.subj_type_transition (subj))
+      (call sysctl.subj_type_transition (subj))
 
       (blockinherit .sys.agent.template)
 
@@ -280,6 +281,10 @@
           (blockinherit .file.macro_template_files)
           (blockinherit .file.state.base_template))
 
+        (blockinherit .sys.agent.template))
+
+      (block sysctl
+
         (blockinherit .sys.agent.template))))
 
 (in file.unconfined
@@ -335,3 +340,7 @@
 (in after dinit.helper.swclock.exec
 
     (filecon "/usr/lib/dinit\.d/early/helpers/swclock" file file_context))
+
+(in after dinit.helper.sysctl.exec
+
+    (filecon "/usr/lib/dinit\.d/early/helpers/sysctl" file file_context))
