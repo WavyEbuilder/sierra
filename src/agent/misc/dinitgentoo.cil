@@ -225,6 +225,8 @@
 
         (call .state.search_file_pattern.type (subj))
 
+        (allow subj self (capability (sys_admin)))
+
         (block state
 
           (filecon "/var/lib/seedrng" dir file_context)
