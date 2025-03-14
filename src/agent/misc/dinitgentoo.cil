@@ -60,6 +60,8 @@
 
       (block hwclock
 
+        (call .clock.write_nodedev_chr_files (subj))
+
         ;; After udev is loaded and has relabeled /dev, hwclock might
         ;; loose access to /dev/null as it is no longer devtmp.fs
         (call .null.append_nodedev_chr_files (subj))
