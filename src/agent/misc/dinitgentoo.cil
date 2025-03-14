@@ -91,6 +91,8 @@
 
         (call .cmdline.read_procfile_pattern.type (subj))
 
+        (call .kmod.manage_file_files (subj))
+
         (call .sys.moduleload.type (subj))
 
         (allow subj self (capability (sys_module)))

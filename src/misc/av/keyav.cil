@@ -44,3 +44,20 @@
 (in subj.unconfined
 
     (allow typeattr subj.typeattr (key (all))))
+
+(in sys
+
+    (macro dontaudit_create_subj_keyrings ((type ARG1))
+           (dontaudit ARG1 subj (key (create))))
+
+    (macro link_subj_keyrings ((type ARG1))
+           (allow ARG1 subj (key (link))))
+
+    (macro search_subj_keyrings ((type ARG1))
+           (allow ARG1 subj (key (search))))
+
+    (macro setattr_subj_keyrings ((type ARG1))
+           (allow ARG1 subj (key (setattr))))
+
+    (macro write_subj_keyrings ((type ARG1))
+           (allow ARG1 subj (key (write)))))

@@ -28,3 +28,11 @@
 
     (allow typeattr self (bpf (not (map_read map_write prog_run))))
     (allow typeattr subj.typeattr (bpf (map_read map_write prog_run))))
+
+(in sys
+
+    (macro mapread_subj_bpfs ((type ARG1))
+           (allow ARG1 subj (bpf (map_read))))
+
+    (macro mapwrite_subj_bpfs ((type ARG1))
+           (allow ARG1 subj (bpf (map_write)))))

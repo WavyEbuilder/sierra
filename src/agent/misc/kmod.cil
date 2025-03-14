@@ -1,0 +1,171 @@
+;; From dssp5
+
+(block kmod
+
+  (filecon "/usr/lib/modules/[^/]+/modules\.alias" file file_context)
+  (filecon "/usr/lib/modules/[^/]+/modules\.alias\..*" file file_context)
+  (filecon "/usr/lib/modules/[^/]+/modules\.block" file file_context)
+  (filecon "/usr/lib/modules/[^/]+/modules\.builtin" file file_context)
+  (filecon "/usr/lib/modules/[^/]+/modules\.builtin\..*" file file_context)
+  (filecon "/usr/lib/modules/[^/]+/modules\.dep" file file_context)
+  (filecon "/usr/lib/modules/[^/]+/modules\.dep\..*" file file_context)
+  (filecon "/usr/lib/modules/[^/]+/modules\.devname" file file_context)
+  (filecon "/usr/lib/modules/[^/]+/modules\.devname\..*" file file_context)
+  (filecon "/usr/lib/modules/[^/]+/modules\.drm" file file_context)
+  (filecon "/usr/lib/modules/[^/]+/modules\.modesetting" file file_context)
+  (filecon "/usr/lib/modules/[^/]+/modules\.networking" file file_context)
+  (filecon "/usr/lib/modules/[^/]+/modules\.order" file file_context)
+  (filecon "/usr/lib/modules/[^/]+/modules\.softdep" file file_context)
+  (filecon "/usr/lib/modules/[^/]+/modules\.symbols" file file_context)
+  (filecon "/usr/lib/modules/[^/]+/modules\.symbols\..*" file file_context)
+  (filecon "/usr/lib/modules/[^/]+/modules\.weakdep" file file_context)
+
+  (macro map_file_files ((type ARG1))
+	 (allow ARG1 file (file (map))))
+
+  (macro mod_file_type_transition_file ((type ARG1)(name ARG2))
+	 (call .mod.file_type_transition
+	       (ARG1 file file ARG2)))
+
+  (blockinherit .file.data.base_template)
+  (blockinherit .file.macro_template_files)
+  (blockinherit .sys.agent.template)
+
+  (allow subj self (capability (sys_admin sys_module)))
+  (allow subj self (key (write)))
+  ;; Linux 6.6.13-1 compatibility can be removed with Linux 6.7
+  (allow subj self (system (module_load)))
+
+  (call manage_file_files (subj))
+  (call map_file_files (subj))
+  (call mod_file_type_transition_file (subj "*"))
+
+  (call conf.list_file_dirs (subj))
+  (call conf.read_file_files (subj))
+
+  (call data.list_file_dirs (subj))
+  (call data.read_file_files (subj))
+
+  (call exec.execute_file_files (subj))
+
+  (call run.list_file_dirs (subj))
+  (call run.read_file_files (subj))
+
+  (call .boot.read_file_files (subj))
+  (call .boot.read_file_lnk_files (subj))
+  (call .boot.search_file_pattern.type (subj))
+
+  (call .cert.read_file_files (subj))
+  (call .cert.search_file_pattern.type (subj))
+
+  (call .cmdline.read_procfile_pattern.type (subj))
+
+  (call .crypto.read_sysctlfile_pattern.type (subj))
+
+  (call .debug.search_fs_pattern.type (subj))
+
+  (call .file.mod.load_all_files (subj))
+  (call .file.mod.map_all_files (subj))
+  (call .file.mod.read_all_files (subj))
+
+  (call .mod.delete_file_files (subj))
+  (call .mod.deletename_file_dirs (subj))
+  (call .mod.read_file_lnk_files (subj))
+
+  (call .modules.read_procfile_pattern.type (subj))
+
+  (call .stordev.read.type (subj))
+  (call .stordev.read_all_blk_files (subj))
+
+  (call .sys.moduleload.type (subj))
+  (call .sys.modulerequest_system (subj))
+
+  (call .sys.mapread_subj_bpfs (subj))
+  (call .sys.mapwrite_subj_bpfs (subj))
+  (call .sys.search_subj_keyrings (subj))
+
+  (call .sysfile.module.list_all_dirs (subj))
+  (call .sysfile.module.read_all_files (subj))
+
+  (call .trace.search_fs_pattern.type (subj))
+
+  (block conf
+
+    (filecon "/etc/depmod\.d" dir file_context)
+    (filecon "/etc/depmod\.d/.*" any file_context)
+    (filecon "/etc/modprobe\.d" dir file_context)
+    (filecon "/etc/modprobe\.d/.*" any file_context)
+
+    (macro conf_file_type_transition_file ((type ARG1))
+	   (call .conf.file_type_transition
+		 (ARG1 file dir "depmod.d"))
+	   (call .conf.file_type_transition
+		 (ARG1 file dir "modprobe.d")))
+
+    (blockinherit .file.conf.base_template)
+    (blockinherit .file.macro_template_dirs)
+    (blockinherit .file.macro_template_files))
+
+  (block data
+
+    (filecon "/usr/lib/depmod\.d" dir file_context)
+    (filecon "/usr/lib/depmod\.d/.*" any file_context)
+    (filecon "/usr/lib/modprobe\.d" dir file_context)
+    (filecon "/usr/lib/modprobe\.d/.*" any file_context)
+
+    (macro lib_file_type_transition_file ((type ARG1))
+	   (call .lib.file_type_transition
+		 (ARG1 file dir "depmod.d"))
+	   (call .lib.file_type_transition
+		 (ARG1 file dir "modprobe.d")))
+
+    (blockinherit .file.data.base_template)
+    (blockinherit .file.macro_template_dirs)
+    (blockinherit .file.macro_template_files))
+
+  (block run
+
+    (filecon "/run/depmod\.d" dir file_context)
+    (filecon "/run/depmod\.d/.*" any file_context)
+    (filecon "/run/modprobe\.d" dir file_context)
+    (filecon "/run/modprobe\.d/.*" any file_context)
+
+    (macro run_file_type_transition_file ((type ARG1))
+	   (call .run.file_type_transition
+		 (ARG1 file dir "depmod.d"))
+	   (call .run.file_type_transition
+		 (ARG1 file dir "modprobe.d")))
+
+    (blockinherit .file.macro_template_dirs)
+    (blockinherit .file.macro_template_files)
+    (blockinherit .file.run.base_template)))
+
+(in file.unconfined
+
+    (call .kmod.conf.conf_file_type_transition_file (typeattr))
+    (call .kmod.data.lib_file_type_transition_file (typeattr))
+    (call .kmod.mod_file_type_transition_file (typeattr "modules.alias"))
+    (call .kmod.mod_file_type_transition_file (typeattr "modules.alias.bin"))
+    (call .kmod.mod_file_type_transition_file (typeattr "modules.block"))
+    (call .kmod.mod_file_type_transition_file (typeattr "modules.builtin"))
+    (call .kmod.mod_file_type_transition_file
+	  (typeattr "modules.builtin.alias.bin"))
+    (call .kmod.mod_file_type_transition_file (typeattr "modules.builtin.bin"))
+    (call .kmod.mod_file_type_transition_file
+	  (typeattr "modules.builtin.modinfo"))
+    (call .kmod.mod_file_type_transition_file (typeattr "modules.dep"))
+    (call .kmod.mod_file_type_transition_file (typeattr "modules.dep.bin"))
+    (call .kmod.mod_file_type_transition_file (typeattr "modules.devname"))
+    (call .kmod.mod_file_type_transition_file (typeattr "modules.drm"))
+    (call .kmod.mod_file_type_transition_file (typeattr "modules.modesetting"))
+    (call .kmod.mod_file_type_transition_file (typeattr "modules.networking"))
+    (call .kmod.mod_file_type_transition_file (typeattr "modules.order"))
+    (call .kmod.mod_file_type_transition_file (typeattr "modules.softdep"))
+    (call .kmod.mod_file_type_transition_file (typeattr "modules.symbols"))
+    (call .kmod.mod_file_type_transition_file (typeattr "modules.symbols.bin"))
+    (call .kmod.mod_file_type_transition_file (typeattr "modules.weakdep"))
+    (call .kmod.run.run_file_type_transition_file (typeattr)))
+
+(in after kmod.exec
+
+    (filecon "/usr/bin/kmod" file file_context))
