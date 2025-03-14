@@ -56,6 +56,10 @@
         (call .devtmp.append_fs_chr_files (subj))
         (call .devtmp.read_fs_chr_files (subj))
 
+        (blockinherit .sys.agent.template))
+
+      (block swap
+
         (blockinherit .sys.agent.template))))
 
 (in file.unconfined
@@ -76,3 +80,7 @@
 (in after dinit.helper.mnt.exec
 
     (filecon "/usr/lib/dinit\.d/early/helpers/mnt" file file_context))
+
+(in after dinit.helper.mnt.exec
+
+    (filecon "/usr/lib/dinit\.d/early/helpers/swap" file file_context))
