@@ -107,7 +107,9 @@
         (call .sysfile.module.read_all_files (subj))
 
         (allow subj self (capability (sys_module)))
-        (allow subj self (system (module_load module_request)))
+        (allow subj self (system (module_load)))
+
+        (allow subj .sys.subj (system (module_request)))
 
         (blockinherit .sys.agent.template))
 
