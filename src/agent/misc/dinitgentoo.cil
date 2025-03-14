@@ -31,6 +31,8 @@
 
       (call .fsck.subj_type_transition (subj))
 
+      (call .hostname.subj_type_transition (subj))
+
       (call .mount.subj_type_transition (subj))
 
       (call .tmpfiles.subj_type_transition (subj))

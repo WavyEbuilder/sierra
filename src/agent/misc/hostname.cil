@@ -1,0 +1,14 @@
+;; SPDX-FileCopyrightText: © 2025 Rahul Sandhu <nvraxn@gmail.com>
+;; SPDX-License-Identifier: GPL-3.0-or-later
+
+(in hostname
+
+    (blockinherit .hybrid.agent.template)
+
+    (allow subj self (capability (sys_admin)))
+    (allow subj self (cap_userns (sys_admin)))
+    (allow subj self create_unix_dgram_socket))
+
+(in after hostname.exec
+
+    (filecon "/usr/bin/hostname" file file_context))
