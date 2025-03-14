@@ -64,7 +64,7 @@
 
     (filecon "/usr/lib/dinit\.d/tty[0-9]" file file_context)
 
-    (blockinherit .file.lib.service.template)))
+    (blockinherit .file.service.template)))
 
 (in file.unconfined
 

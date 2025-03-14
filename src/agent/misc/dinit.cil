@@ -82,36 +82,71 @@
            (call .lib.file_type_transition
                  (ARG1 file dir "dinit\.d")))
 
+    (call .file.service.type (file))
+
     (blockinherit .file.macro_template_dirs)
-    (blockinherit .file.lib.service.template)))
+    (blockinherit .file.macro_template_lnk_files)
+    (blockinherit .file.service.template)))
 
-(in file.lib
+(in file.data
 
-  (block service
+    (block dinit
 
-    (macro type ((type ARG1))
-           (typeattributeset typeattr ARG1))
+      (macro type ((type ARG1))
+             (typeattributeset typeattr ARG1))
 
-    (blockinherit file.all_macro_template_files)
+      (blockinherit .file.all_macro_template_dirs)
+      (blockinherit .file.all_macro_template_files)
+      (blockinherit .file.all_macro_template_lnk_files)
 
-    (typeattribute typeattr)
+      (typeattribute typeattr)
 
-    (call data.type (typeattr))
+      (call .file.data.type (typeattr))
 
-    (block base_template
+      (block base_template
 
-      (blockabstract base_template)
+        (blockabstract base_template)
 
-      (blockinherit .file.lib.base_template)
+        (blockinherit .file.data.base_template)
 
-      (call .file.lib.service.type (file)))
+        (call .file.data.systemd.type (file)))
 
-    (block template
+      (block template
 
-      (blockabstract template)
+        (blockabstract template)
 
-      (blockinherit .file.macro_template_files)
-      (blockinherit .file.lib.service.base_template))))
+        (blockinherit .file.data.dinit.base_template)
+        (blockinherit .file.macro_template_dirs)
+        (blockinherit .file.macro_template_files)
+        (blockinherit .file.macro_template_lnk_files))))
+
+(in file
+
+    (block service
+
+      (macro type ((type ARG1))
+             (typeattributeset typeattr ARG1))
+
+      (blockinherit file.all_macro_template_files)
+
+      (typeattribute typeattr)
+
+      (call file.data.dinit.type (typeattr))
+
+      (block base_template
+
+        (blockabstract base_template)
+
+        (blockinherit .file.base_template)
+
+        (call .file.service.type (file)))
+
+      (block template
+
+        (blockabstract template)
+
+        (blockinherit .file.macro_template_files)
+        (blockinherit .file.service.base_template))))
 
 (in file.unconfined
 
