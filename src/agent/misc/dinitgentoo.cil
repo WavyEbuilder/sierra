@@ -119,7 +119,9 @@
                  (ARG1 file dir "scripts")))
 
     (filecon "/usr/lib/dinit\.d/early/helpers/.*" file file_context)
-    (filecon "/usr/lib/dinit\.d/early/scripts/.*" file file_context))
+    (filecon "/usr/lib/dinit\.d/early/scripts/.*" file file_context)
+
+    (filecon "/usr/libexec/dinit-devd" file file_context))
 
 (in after dinit.helper.hwclock.exec
 
