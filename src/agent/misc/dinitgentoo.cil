@@ -79,6 +79,11 @@
         (call run.list_file_dirs (subj))
         (call run.read_file_files (subj))
 
+        (call .binfmtmisc.auditwriteaccess_fs_dirs (subj))
+        (call .binfmtmisc.getattr_fs (subj))
+        (call .binfmtmisc.search_fs_dirs (subj))
+        (call .binfmtmisc.write_fs_files (subj))
+
         (call .fs.search_sysctlfile_pattern.type (subj))
 
         (call .run.search_file_pattern.type (subj))

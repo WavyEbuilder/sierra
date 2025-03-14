@@ -5,4 +5,7 @@
 
   (genfscon "binfmt_misc" "/" fs_context)
 
+  (macro auditwriteaccess_fs_dirs ((type ARG1))
+         (allow ARG1 fs (dir (getattr write))))
+
   (blockinherit .noseclabelfs.template))
