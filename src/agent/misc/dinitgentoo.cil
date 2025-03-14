@@ -214,6 +214,8 @@
         (call state.manage_file_dirs (subj))
         (call state.manage_file_files (subj))
 
+        (call .random.read_sysctlfile_pattern.type (subj))
+
         (call .state.search_file_pattern.type (subj))
 
         (block state
