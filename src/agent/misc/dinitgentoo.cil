@@ -26,6 +26,9 @@
       (call .devtmp.append_fs_chr_files (subj))
       (call .devtmp.read_fs_chr_files (subj))
 
+      (call .cgroup.readwrite_fs_files (subj))
+      (call .cgroup.search_fs_pattern.type (subj))
+
       (call .fs.search_sysfile_pattern.type (subj))
 
       (call .hostname.read_file_files (subj))
