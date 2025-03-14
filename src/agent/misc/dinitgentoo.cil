@@ -24,6 +24,8 @@
 
       (call .machineid.read_file_files (subj))
 
+      (call .selinux.conf.list_file_dirs (subj))
+
       (call mnt.subj_type_transition (subj))
 
       (blockinherit .sys.agent.template)
