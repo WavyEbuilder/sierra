@@ -17,6 +17,9 @@
 
       (block hook
 
+        ;; For umount
+        (call .mount.subj_type_transition (subj))
+
         (blockinherit .sys.agent.template))))
 
 (in after .dinit.shutdown.exec
