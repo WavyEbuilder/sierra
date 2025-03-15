@@ -1,0 +1,119 @@
+(block nss
+
+  (filecon "/etc/default/nss" file file_context)
+  (filecon "/etc/default/nss\..*" file file_context)
+  (filecon "/etc/nsswitch\.conf" file file_context)
+  (filecon "/etc/nsswitch\.conf\..*" file file_context)
+  (filecon "/etc/host\.conf" file file_context)
+  (filecon "/etc/host\.conf\..*" file file_context)
+
+  (macro conf_file_type_transition_file ((type ARG1))
+	 (call .conf.file_type_transition
+	       (ARG1 file file "host.conf"))
+	 (call .conf.file_type_transition
+	       (ARG1 file file "nss"))
+	 (call .conf.file_type_transition
+	       (ARG1 file file "nsswitch.conf")))
+
+  (blockinherit .file.conf.base_template)
+  (blockinherit .file.macro_template_files)
+
+  (block dns
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (allow typeattr self create_netlink_route_socket)
+    (allow typeattr self create_udp_socket)
+    (allow typeattr self (netlink_route_socket (nlmsg_read)))
+
+    (call linked.type (typeattr))
+
+    (call .net.egress_netifs (typeattr))
+    (call .net.nodebind_netnode_udp_sockets (typeattr))
+    (call .net.sendto_nodes (typeattr))
+
+    (call .resolv.conf.read_file_files (typeattr))
+
+    (optional nss_invalidassociationsboolfile
+	      (call .invalidassociations.type (typeattr)))
+
+    (optional nss_invalidpacketsboolfile
+	      (call .invalidpackets.type (typeattr)))
+
+    (optional nss_invalidpeersboolfile
+	      (call .invalidpeers.type (typeattr))))
+
+  (block hosts
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (call dns.type (typeattr))
+
+    (call .hosts.read_file_files (typeattr)))
+
+  (block linked
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (call read_file_files (typeattr))
+
+    (call nscd.type (typeattr))
+
+    (call .conf.search_file_pattern.type (typeattr)))
+
+  (block nscd
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (allow typeattr self create_unix_stream_socket)
+
+    (call .run.search_file_pattern.type (typeattr)))
+
+  (block passwdgroup
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (call linked.type (typeattr))
+
+    (call .passwd.read_file_files (typeattr)))
+
+  (block protocols
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (call linked.type (typeattr))
+
+    (call .protocols.read_file_files (typeattr)))
+
+  (block services
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (call linked.type (typeattr))
+
+    (call .services.conf.read_file_files (typeattr))))
+
+(in file.unconfined
+
+    (call .nss.conf_file_type_transition_file (typeattr)))

@@ -1,0 +1,20 @@
+;; SPDX-FileCopyrightText: © 2025 Rahul Sandhu <nvraxn@gmail.com>
+;; SPDX-License-Identifier: GPL-3.0-or-later
+
+(block services
+
+  (block conf
+
+    (filecon "/etc/services" file file_context)
+    (filecon "/etc/services\..*" file file_context)
+
+    (macro conf_file_type_transition_file ((type ARG1))
+	   (call .conf.file_type_transition
+		 (ARG1 file file "services")))
+
+    (blockinherit .file.conf.base_template)
+    (blockinherit .file.macro_template_files)))
+
+(in file.unconfined
+
+    (call .services.conf.conf_file_type_transition_file (typeattr)))
