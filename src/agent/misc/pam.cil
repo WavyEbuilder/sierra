@@ -1,0 +1,120 @@
+;; SPDX-FileCopyrightText: © 2025 Rahul Sandhu <nvraxn@gmail.com>
+;; SPDX-License-Identifier: GPL-3.0-or-later
+
+(block pam
+
+  (block conf
+
+    (filecon "/etc/pam\.conf" file file_context)
+    (filecon "/etc/pam\.conf\..*" file file_context)
+    (filecon "/etc/pam\.d" dir file_context)
+    (filecon "/etc/pam\.d/.*" any file_context)
+    (filecon "/etc/security" dir file_context)
+    (filecon "/etc/security/.*" any file_context)
+
+    (macro conf_file_type_transition_file ((type ARG1))
+	   (call .conf.file_type_transition
+		 (ARG1 file dir "pam.d"))
+	   (call .conf.file_type_transition
+		 (ARG1 file dir "security"))
+	   (call .conf.file_type_transition
+		 (ARG1 file file "pam.conf")))
+
+    (blockinherit .file.conf.template))
+
+  (block data
+
+    (filecon "/usr/lib/pam\.d" dir file_context)
+    (filecon "/usr/lib/pam\.d/.*" any file_context)
+
+    (filecon "/usr/share/pam" dir file_context)
+    (filecon "/usr/share/pam/.*" any file_context)
+
+    (filecon "/usr/share/pam-configs" dir file_context)
+    (filecon "/usr/share/pam-configs/.*" any file_context)
+
+    (macro data_file_type_transition_file ((type ARG1))
+	   (call .data.file_type_transition
+		 (ARG1 file dir "pam"))
+	   (call .data.file_type_transition
+		 (ARG1 file dir "pam-configs")))
+
+    (macro lib_file_type_transition_file ((type ARG1))
+	   (call .lib.file_type_transition
+		 (ARG1 file dir "pam.d")))
+
+    (blockinherit .file.data.template))
+
+  (block linked
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (call conf.list_file_dirs (typeattr))
+    (call conf.read_file_files (typeattr))
+
+    (call data.list_file_dirs (typeattr))
+    (call data.read_file_files (typeattr)))
+
+  (block login
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr))
+
+  (block state
+
+    (filecon "/var/lib/pam" dir file_context)
+    (filecon "/var/lib/pam/.*" any file_context)
+
+    (macro state_file_type_transition_file ((type ARG1))
+	   (call .state.file_type_transition
+		 (ARG1 file dir "pam")))
+
+    (blockinherit .file.macro_template_dirs)
+    (blockinherit .file.macro_template_files)
+    (blockinherit .file.state.base_template)))
+
+(in exec
+
+    (filecon "/etc/security/namespace\.init" file file_context))
+
+(in file.run
+
+    (block pam
+
+      (macro type ((type ARG1))
+	     (typeattributeset typeattr ARG1))
+
+      (blockinherit .file.all_macro_template_dirs)
+      (blockinherit .file.all_macro_template_files)
+
+      (typeattribute typeattr)
+
+      (call .file.run.type (typeattr))
+
+      (block base_template
+
+	(blockabstract base_template)
+
+	(blockinherit .file.run.base_template)
+
+	(call .file.run.pam.type (file)))
+
+      (block template
+
+	(blockabstract template)
+
+	(blockinherit .file.run.pam.base_template)
+	(blockinherit .file.macro_template_dirs)
+	(blockinherit .file.macro_template_files))))
+
+(in file.unconfined
+
+    (call .pam.conf.conf_file_type_transition_file (typeattr))
+    (call .pam.data.data_file_type_transition_file (typeattr))
+    (call .pam.data.lib_file_type_transition_file (typeattr))
+    (call .pam.state.state_file_type_transition_file (typeattr)))
