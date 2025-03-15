@@ -33,6 +33,8 @@
 
   (call .motd.conf.read_file_pattern.type (subj))
 
+  (call .nss.passwdgroup.type (subj))
+
   (call .osrelease.read_sysctlfile_pattern.type (subj))
 
   (call .random.read_sysctlfile_pattern.type (subj))
