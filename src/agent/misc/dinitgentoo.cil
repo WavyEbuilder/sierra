@@ -269,6 +269,10 @@
 
         (call .mount.mountpoint.mounton_all_dirs (subj))
 
+        ;; Lookup the tty group
+        ;; auto *ttyg = getgrnam("tty");
+        (call .nss.passwdgroup.type (subj))
+
         ;; remount / rw
         (call .xattr.remount_fs (subj))
 
