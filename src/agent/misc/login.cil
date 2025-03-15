@@ -1,0 +1,22 @@
+;; SPDX-FileCopyrightText: © 2025 Rahul Sandhu <nvraxn@gmail.com>
+;; SPDX-License-Identifier: GPL-3.0-or-later
+
+(block login
+
+  (blockinherit .sys.agent.template)
+
+  (block sulogin
+
+    (blockinherit .sys.agent.template)))
+
+(in getty
+
+    (call .login.subj_type_transition (subj)))
+
+(in after login.exec
+
+    (filecon "/usr/bin/login" file file_context))
+
+(in after login.sulogin.exec
+
+    (filecon "/usr/bin/sulogin" file file_context))
