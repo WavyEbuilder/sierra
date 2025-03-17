@@ -10,6 +10,9 @@
 
       (call .dinit.unix_stream_connect (subj))
 
+      ;; For umount
+      (call .mount.subj_type_transition (subj))
+
       ;; search for /run/dinitctl
       (call .run.search_file_pattern.type (subj))
 
