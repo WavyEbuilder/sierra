@@ -286,6 +286,9 @@
         (call .devtmp.append_fs_chr_files (subj))
         (call .devtmp.read_fs_chr_files (subj))
 
+        ;; Needed for mount(2) and umount(2)
+        (allow subj self (capability (sys_admin)))
+
         (blockinherit .sys.agent.template))
 
       (block seedrng
