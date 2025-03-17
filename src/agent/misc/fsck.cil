@@ -12,6 +12,8 @@
 
   (call .block.traverse_sysfile_pattern.type (subj))
 
+  (call .console.readwriteinherited_serialtermdev_chr_files (subj))
+
   (call .dev.traverse_sysfile_pattern.type (subj))
 
   (call .devices.list_sysfile_pattern.type (subj))
