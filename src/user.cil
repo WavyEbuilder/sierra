@@ -61,6 +61,16 @@
     (call .coreutils.exec.entrypoint_file_files (subj))
     (call .coreutils.exec.execute_file_files (subj))
 
+    (call .exec.list_file_dirs (typeattr))
+
+    (call .locale.data.map_file_pattern.type (typeattr))
+    (call .locale.read_file_pattern.type (typeattr))
+
+    (call .nss.passwdgroup.type (typeattr))
+
+    (call .proc.list_fs_dirs (typeattr))
+    (call .proc.getattr_fs_pattern.type (typeattr))
+
     (call .shell.exec.entrypoint_file_files (typeattr))
     (call .shell.exec.execute_file_files (typeattr))
 
