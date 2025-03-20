@@ -18,6 +18,8 @@
     (blockinherit unpriv.template)
     (blockinherit unpriv.subj_template)
 
+    (call .sys.termdev.readwriteinherited_all_chr_files (subj))
+
     (block unpriv
 
       (macro dontaudit_create_all_keyrings ((type ARG1))
