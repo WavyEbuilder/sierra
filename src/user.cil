@@ -56,6 +56,14 @@
 
     (call user.type (typeattr))
 
+    (boolean allow_unknown_agents false)
+
+    (booleanif allow_unknown_agents
+               (true
+
+                 (call .exec.entrypoint_file_files (subj))
+                 (call .exec.execute_file_files (subj))))
+
     (call .conf.list_file_dirs (typeattr))
 
     (call .coreutils.exec.entrypoint_file_files (subj))
