@@ -61,13 +61,13 @@
     (booleanif allow_unknown_agents
                (true
 
-                 (call .exec.entrypoint_file_files (subj))
-                 (call .exec.execute_file_files (subj))))
+                 (call .exec.entrypoint_file_files (typeattr))
+                 (call .exec.execute_file_files (typeattr))))
 
     (call .conf.list_file_dirs (typeattr))
 
-    (call .coreutils.exec.entrypoint_file_files (subj))
-    (call .coreutils.exec.execute_file_files (subj))
+    (call .coreutils.exec.entrypoint_file_files (typeattr))
+    (call .coreutils.exec.execute_file_files (typeattr))
 
     (call .data.list_file_dirs (typeattr))
 
