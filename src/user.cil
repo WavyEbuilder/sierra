@@ -58,6 +58,9 @@
 
     (call .conf.list_file_dirs (typeattr))
 
+    (call .coreutils.exec.entrypoint_file_files (subj))
+    (call .coreutils.exec.execute_file_files (subj))
+
     (call .shell.exec.entrypoint_file_files (typeattr))
     (call .shell.exec.execute_file_files (typeattr))
 
