@@ -39,6 +39,9 @@
 
       (call .selinux.linked.type (subj))
 
+      ;; Relabel /dev
+      (call .setfiles.exec.execute_file_files (subj))
+
       (call .run.addname_file_dirs (subj))
       (call .run.create_file_dirs (subj))
 
