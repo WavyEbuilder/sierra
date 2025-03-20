@@ -1,0 +1,18 @@
+(in selinux
+
+    (block state
+
+      (filecon "/var/lib/selinux" dir file_context)
+      (filecon "/var/lib/selinux/.*" any file_context)
+
+      (macro state_file_type_transition_file ((type ARG1))
+	     (call .state.file_type_transition
+		   (ARG1 file dir "selinux")))
+
+      (blockinherit .file.macro_template_dirs)
+      (blockinherit .file.macro_template_files)
+      (blockinherit .file.state.base_template)))
+
+(in file.unconfined
+
+    (call .selinux.state.state_file_type_transition_file (typeattr)))
