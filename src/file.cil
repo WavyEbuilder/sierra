@@ -8,6 +8,9 @@
 	 (typetransition ARG1 ARG2 ARG3 ARG4 ARG5)
 	 (allow ARG1 ARG2 addname_dir))
 
+  (macro dontaudit_search_all_dirs ((type ARG1))
+         (dontaudit ARG1 typeattr search_dir))
+
   (macro type ((type ARG1))
 	 (typeattributeset typeattr ARG1))
 

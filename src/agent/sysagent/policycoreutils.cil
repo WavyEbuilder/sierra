@@ -1,0 +1,241 @@
+(block semodule
+
+  (blockinherit .sys.agent.template)
+
+  (call tmp.manage_file_files (subj))
+  (call tmp.tmp_file_type_transition_file (subj))
+
+  (call .ibac.objchangesys.type (subj))
+
+  (call .loadpolicy_selinux_security (subj))
+
+  (call .caplastcap.read_sysctlfile_pattern.type (subj))
+
+  (call .console.readwriteinherited_serialtermdev_chr_files (subj))
+
+  ;; load_policy
+  (call .exec.execute_file_files (subj))
+
+  (call .file.dontaudit_search_all_dirs (subj))
+
+  (call .file.sec.relabelto.type (subj))
+  (call .file.sec.write.type (subj))
+
+  (call .fs.getattr_all_fs (subj))
+
+  (call .logindefs.read_file_files (subj))
+
+  (call .mount.mountpoint.search_all_dirs (subj))
+
+  (call .nss.passwdgroup.type (subj))
+
+  (call .proc.getattr_fs_pattern.type (subj))
+
+  (call .random.read_sysctlfile_pattern.type (subj))
+
+  (call .rbac.objchangesys.type (subj))
+
+  (call .selinux.loadpolicy.type (subj))
+
+  (call .selinux.getattr_fs (subj))
+  (call .selinux.map_fs_files (subj))
+  (call .selinux.search_fs_pattern.type (subj))
+  (call .selinux.readwrite_fs_files (subj))
+
+  (call .selinux.conf.manage_file_dirs (subj))
+  (call .selinux.conf.manage_file_files (subj))
+  (call .selinux.conf.relabel_file_files (subj))
+  (call .selinux.conf.conf_file_type_transition_file (subj))
+
+  (call .selinux.default.manage_file_dirs (subj))
+  (call .selinux.default.manage_file_files (subj))
+  (call .selinux.default.selinux_conf_file_type_transition_file (subj))
+
+  (call .selinux.file.manage_file_dirs (subj))
+  (call .selinux.file.manage_file_files (subj))
+  (call .selinux.file.map_file_files (subj))
+  (call .selinux.file.relabel_file_files (subj))
+  (call .selinux.file.selinux_default_file_type_transition_file (subj))
+
+  (call .selinux.policy.manage_file_dirs (subj))
+  (call .selinux.policy.manage_file_files (subj))
+  (call .selinux.policy.map_file_files (subj))
+  (call .selinux.policy.relabel_file_files (subj))
+  (call .selinux.policy.selinux_conf_file_type_transition_file (subj))
+
+  (call .selinux.state.manage_file_dirs (subj))
+  (call .selinux.state.manage_file_files (subj))
+  (call .selinux.state.relabel_file_dirs (subj))
+  (call .selinux.state.relabel_file_files (subj))
+
+  (call .setfiles.subj_type_transition (subj))
+
+  (call .shells.conf.read_file_files (subj))
+
+  (call .sys.tmp.manage_file_dirs (subj))
+  (call .sys.tmp.manage_file_files (subj))
+  (call .sys.tmp.map_file_files (subj))
+
+  (block tmp
+
+    (macro tmp_file_type_transition_file ((type ARG1))
+	   (call .tmp.file_type_transition
+		 (ARG1 file file "*")))
+
+    (blockinherit .file.macro_template_files)
+    (blockinherit .file.tmp.base_template)))
+
+(block setfiles
+
+  (blockinherit .sys.agent.template)
+
+  (call common.type (subj))
+
+  (block common
+
+    (macro type ((type ARG1))
+	   (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (allow typeattr self
+	   (capability (audit_write dac_override dac_read_search fowner)))
+    (allow typeattr self create_netlink_audit_socket)
+    (allow typeattr self (netlink_audit_socket (nlmsg_relay)))
+
+    (call .caplastcap.read_sysctlfile_pattern.type (typeattr))
+
+    (call .cgroupfile.list_all_dirs (typeattr))
+    (call .cgroupfile.relabel_all_dirs (typeattr))
+    (call .cgroupfile.relabel_all_files (typeattr))
+
+    (call .console.readwriteinherited_serialtermdev_chr_files (typeattr))
+
+    (call .cpu.read_sysfile_files (typeattr))
+
+    (call .debugfile.list_all_dirs (typeattr))
+    (call .debugfile.relabel_all_dirs (typeattr))
+    (call .debugfile.relabel_all_files (typeattr))
+
+    (call .dev.relabel_all_chr_files (typeattr))
+
+    ;; dos.fs is not seclabelfs. for underlying (/boot)?/efi mountpoint
+    (call .dos.relabelto_fs_dirs (typeattr))
+
+    (call .file.list_all_dirs (typeattr))
+    (call .file.read_all_lnk_files (typeattr))
+    (call .file.relabel_all_file (typeattr))
+
+    (call .file.auth.relabelto.type (typeattr))
+
+    (call .file.sec.relabelto.type (typeattr))
+
+    (call .filesystems.read_procfile_files (typeattr))
+
+    (call .fs.list_all_dirs (typeattr))
+    (call .fs.read_all_lnk_files (typeattr))
+
+    (call .ibac.objchange.type (typeattr))
+
+    (call .overcommitmemory.read_sysctlfile_pattern.type (typeattr))
+
+    (call .proc.getattr_fs_pattern.type (typeattr))
+
+    ;; proc.fs is not seclabelfs. for underlying /proc mountpoint
+    (call .proc.relabelto_fs_dirs (typeattr))
+
+    (call .pstorefile.list_all_dirs (typeattr))
+    (call .pstorefile.relabel_all_dirs (typeattr))
+    (call .pstorefile.relabel_all_files (typeattr))
+
+    (call .rbac.objchange.type (typeattr))
+
+    (call .seclabelfs.getattr_all_fs (typeattr))
+    (call .seclabelfs.relabel_all_file (typeattr))
+
+    (call .checkcontext_selinux_security (typeattr))
+
+    (call .selinux.default.read_file_pattern.type (typeattr))
+    (call .selinux.file.read_file_pattern.type (typeattr))
+    (call .selinux.linked.type (typeattr))
+    (call .selinux.policy.map_file_files (typeattr))
+    (call .selinux.policy.read_file_files (typeattr))
+    (call .selinux.state.read_file_files (typeattr))
+
+    (call .selinux.readwrite_fs_files (typeattr))
+
+    (call .shells.conf.read_file_files (typeattr))
+
+    (call .stordev.relabel_all_blk_files (typeattr))
+
+    (call .sysfile.list_all_dirs (typeattr))
+    (call .sysfile.read_all_lnk_files (typeattr))
+    (call .sysfile.relabel_all_dirs (typeattr))
+    (call .sysfile.relabel_all_files (typeattr))
+    (call .sysfile.relabel_all_lnk_files (typeattr))
+
+    (call .tracefile.list_all_dirs (typeattr))
+    (call .tracefile.relabel_all_dirs (typeattr))
+    (call .tracefile.relabel_all_files (typeattr))
+
+    ;; the map/read files is for unlabeled policy.X and file_contexts
+    (call .list_unlabeled_dirs (typeattr))
+    (call .map_unlabeled_files (typeattr))
+    (call .read_unlabeled_files (typeattr))
+    (call .read_unlabeled_lnk_files (typeattr))
+    (call .relabelfrom_unlabeled (typeattr))
+
+    ;; the map/read files is for invalid policy.X and file_contexts (mkosi for example)
+    (call .getattr_invalid_fs (typeattr))
+    (call .map_invalid_files (typeattr))
+    (call .list_invalid_dirs (typeattr))
+    (call .read_invalid_files (typeattr))
+    (call .read_invalid_lnk_files (typeattr))
+    (call .relabelfrom_invalid (typeattr)))
+
+  (block macadmin
+
+    (macro role ((role ARG1))
+	   (roleattributeset roleattr ARG1))
+
+    (macro manual_subj_type_transition ((type ARG1))
+	   (allow ARG1 subj (process (transition)))
+
+	   (allow subj ARG1 (process (sigchld)))
+	   (allow subj ARG1 (fd (use)))
+	   (allow subj ARG1 readwriteinherited_fifo_file)
+
+	   (call setfiles.exec.mapexecute_file_files (ARG1))
+	   (call setfiles.exec.read_file_files (ARG1)))
+
+    (blockinherit .subj.common.base_template)
+
+    (roleattribute roleattr)
+    (roletype roleattr subj)
+
+    (allow subj self (capability2 (mac_admin)))
+
+    (call setfiles.common.type (subj))
+
+    (call setfiles.exec.entrypoint_file_files (subj))
+    (call setfiles.exec.mapexecute_file_files (subj))
+    (call setfiles.exec.read_file_files (subj))
+
+    (call .relabelto_invalid (subj))
+
+    (call .sys.agent.type (subj))
+
+    (call .relabelto_unlabeled (subj))))
+
+(in user
+
+    (call .semodule.exec.execute_file_files (subj))
+    (call .setfiles.exec.execute_file_files (subj)))
+
+(in after semodule.exec
+
+    (filecon "/usr/bin/semodule" file file_context))
+
+(in after setfiles.exec
+
+    (filecon "/usr/bin/setfiles" file file_context))

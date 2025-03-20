@@ -127,6 +127,9 @@
 (macro manage_invalid_sock_files ((type ARG1))
        (allow ARG1 invalid manage_sock_file))
 
+(macro map_invalid_files ((type ARG1))
+       (allow ARG1 invalid (file (map))))
+
 (macro mapexecute_invalid_chr_files ((type ARG1))
        (allow ARG1 invalid mapexecute_chr_file))
 

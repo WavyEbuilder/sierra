@@ -114,6 +114,9 @@
 (macro manage_unlabeled_sock_files ((type ARG1))
        (allow ARG1 unlabeled manage_sock_file))
 
+(macro map_unlabeled_files ((type ARG1))
+       (allow ARG1 unlabeled (file (map))))
+
 (macro mapexecute_unlabeled_chr_files ((type ARG1))
        (allow ARG1 unlabeled mapexecute_chr_file))
 

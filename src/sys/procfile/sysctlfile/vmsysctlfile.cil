@@ -6,14 +6,25 @@
   (genfscon "proc" "/sys/vm" sysctlfile_context)
 
   (blockinherit .sysctlfile.macro_template_dirs)
-  (blockinherit .sysctlfile.vm.template))
+  (blockinherit .sysctlfile.vm.template)
+
+  (block search_sysctlfile_pattern
+
+    (macro type ((type ARG1))
+           (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (call search_sysctlfile_dirs (typeattr))
+
+    (call .sysctl.search_procfile_pattern.type (typeattr))))
 
 (in sysctlfile
 
     (block vm
 
       (macro type ((type ARG1))
-	     (typeattributeset typeattr ARG1))
+             (typeattributeset typeattr ARG1))
 
       (typeattribute typeattr)
 
@@ -24,15 +35,15 @@
 
       (block base_template
 
-	(blockabstract base_template)
+        (blockabstract base_template)
 
-	(blockinherit .sysctlfile.base_template)
+        (blockinherit .sysctlfile.base_template)
 
-	(call .sysctlfile.vm.type (sysctlfile)))
+        (call .sysctlfile.vm.type (sysctlfile)))
 
       (block template
 
-	(blockabstract template)
+        (blockabstract template)
 
-	(blockinherit .sysctlfile.vm.base_template)
-	(blockinherit .sysctlfile.macro_template_files))))
+        (blockinherit .sysctlfile.vm.base_template)
+        (blockinherit .sysctlfile.macro_template_files))))

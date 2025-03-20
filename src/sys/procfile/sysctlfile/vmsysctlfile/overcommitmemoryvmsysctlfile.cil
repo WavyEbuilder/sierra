@@ -3,6 +3,18 @@
 
 (block overcommitmemory
 
-  (genfscon "proc" "/sys/vm/overcommit_memory" sysctlfile_context)
+  (genfscon "proc" "/sys/vm/overcommit_memory"
+            sysctlfile_context)
 
-  (blockinherit .sysctlfile.vm.template))
+  (blockinherit .sysctlfile.vm.template)
+
+  (block read_sysctlfile_pattern
+
+    (macro type ((type ARG1))
+           (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (call read_sysctlfile_files (typeattr))
+
+    (call .vm.search_sysctlfile_pattern.type (typeattr))))

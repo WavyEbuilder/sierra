@@ -108,12 +108,6 @@
 	   (call .mqueue.fs_type_transition
 		 (ARG1 file file ARG2))))
 
-(in sys.tmp
-
-    (macro tmp_file_type_transition_file ((type ARG1)(class ARG2)(name ARG3))
-	   (call .tmp.file_type_transition
-		 (ARG1 file ARG2 ARG3))))
-
 (in sys.tmpfs
 
     (macro tmp_fs_type_transition_file ((type ARG1)(class ARG2)(name ARG3))

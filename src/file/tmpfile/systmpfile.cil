@@ -3,6 +3,25 @@
 
 (in sys
 
+    (call tmp.tmp_file_type_transition_file (subj dir "*"))
+    (call tmp.tmp_file_type_transition_file (subj fifo_file "*"))
+    (call tmp.tmp_file_type_transition_file (subj file "*"))
+    (call tmp.tmp_file_type_transition_file (subj lnk_file "*"))
+    (call tmp.tmp_file_type_transition_file (subj sock_file "*"))
+
     (block tmp
+
+      (macro map_file_files ((type ARG1))
+             (allow ARG1 file (file (map))))
+
+      (macro open_file_files ((type ARG1))
+             (allow ARG1 file (file (open))))
+
+      (macro setattr_file_files ((type ARG1))
+             (allow ARG1 file (file (setattr))))
+
+      (macro tmp_file_type_transition_file ((type ARG1)(class ARG2)(name ARG3))
+             (call .tmp.file_type_transition
+                   (ARG1 file ARG2 ARG3)))
 
       (blockinherit .file.tmp.template)))
