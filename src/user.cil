@@ -56,6 +56,8 @@
 
     (call user.type (typeattr))
 
+    (call .conf.list_file_dirs (typeattr))
+
     (call .shell.exec.entrypoint_file_files (typeattr))
     (call .shell.exec.execute_file_files (typeattr))
 
