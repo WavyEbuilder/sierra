@@ -48,6 +48,9 @@
     (macro mapexecute_ptytermdev_chr_files ((type ARG1))
 	   (allow ARG1 ptytermdev mapexecute_chr_file))
 
+    (macro open_ptytermdev_chr_files ((type ARG1))
+           (allow ARG1 ptytermdev (chr_file (open))))
+
     (macro read_ptytermdev_chr_files ((type ARG1))
 	   (allow ARG1 ptytermdev read_chr_file))
 

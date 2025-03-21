@@ -1599,3 +1599,23 @@
     (allow typeattr subj.typeattr
 	   (unix_stream_socket (accept connectto listen)))
     (allow typeattr subj.typeattr (vsock_socket (accept listen))))
+
+(in sys
+
+    (macro accept_subj_unix_stream_sockets ((type ARG1))
+           (allow ARG1 subj (unix_stream_socket (accept))))
+
+    (macro dontaudit_readwrite_subj_unix_stream_sockets ((type ARG1))
+           (dontaudit ARG1 subj readwrite_unix_stream_socket))
+
+    (macro readwrite_subj_netlink_audit_sockets ((type ARG1))
+           (allow ARG1 subj readwrite_netlink_audit_socket))
+
+    (macro readwrite_subj_netlink_kobject_uevent_sockets ((type ARG1))
+           (allow ARG1 subj readwrite_netlink_kobject_uevent_socket))
+
+    (macro readwrite_subj_tcp_sockets ((type ARG1))
+           (allow ARG1 subj readwrite_tcp_socket))
+
+    (macro readwrite_subj_vsock_sockets ((type ARG1))
+           (allow ARG1 subj readwrite_vsock_socket)))
