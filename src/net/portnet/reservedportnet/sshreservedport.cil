@@ -1,0 +1,8 @@
+(block ssh
+
+  (portcon "dccp" 22 port_context)
+  (portcon "sctp" 22 port_context)
+  (portcon "tcp" 22 port_context)
+  (portcon "udp" 22 port_context)
+
+  (blockinherit .net.port.reserved.template))
