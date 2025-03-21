@@ -37,7 +37,26 @@
   (optional dosnoseclabelfs_mount
             (call .mount.mountpoint.type (fs)))
 
-  (blockinherit .noseclabelfs.template))
+  (blockinherit .noseclabelfs.template)
+
+  (block getattr_fs_pattern
+
+    (macro type ((type ARG1))
+           (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (allow typeattr fs (filesystem (getattr))))
+
+  (block manage_fs_pattern
+
+    (macro type ((type ARG1))
+           (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (call manage_fs_dirs (typeattr))
+    (call manage_fs_files (typeattr))))
 
 (in fs.unconfined
     (call .dos.boot_file_type_transition_fs (typeattr))
