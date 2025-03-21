@@ -17,6 +17,8 @@
 
   (call .pam.login.type (subj))
 
+  (allow subj self (process (getcap setcap)))
+
   (block sulogin
 
     (blockinherit .sys.agent.template)))
