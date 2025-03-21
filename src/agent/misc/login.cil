@@ -17,6 +17,8 @@
 
   (call .pam.login.type (subj))
 
+  (allow subj self
+         (capability (audit_write dac_override dac_read_search sys_tty_config)))
   (allow subj self (process (getcap setcap)))
 
   (allow subj self create_netlink_audit_socket)
