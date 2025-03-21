@@ -1,0 +1,27 @@
+(block metalog
+
+  (blockinherit .sys.agent.template)
+
+  (block tmp
+
+    (filecon "/dev/log" socket file_context)
+
+    (macro map_file_files ((type ARG1))
+           (allow ARG1 file (file (map))))
+
+    (macro tmp_fs_type_transition_file ((type ARG1)(class ARG2)(name ARG3))
+           (call .tmp.fs_type_transition
+                 (ARG1 file ARG2 ARG3)))
+
+    (blockinherit .file.macro_template_files)
+    (blockinherit .file.macro_template_sock_files)
+    (blockinherit .file.tmp.base_template)))
+
+(in file.unconfined
+
+    (call .metalog.tmp.tmp_fs_type_transition_file
+	  (typeattr sock_file "log")))
+
+(in after metalog.exec
+
+    (filecon "/usr/bin/metalog" file file_context))
