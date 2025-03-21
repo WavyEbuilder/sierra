@@ -1,0 +1,54 @@
+(in shellrc
+
+    (block home
+
+      (filecon "HOME_DIR/\.bashrc" file file_context)
+      (filecon "HOME_DIR/\.bashrc\..*" file file_context)
+      (filecon "HOME_DIR/\.bashrc\.d" dir file_context)
+      (filecon "HOME_DIR/\.bashrc\.d/.*" any file_context)
+      (filecon "HOME_DIR/\.bash_login" file file_context)
+      (filecon "HOME_DIR/\.bash_login\..*" file file_context)
+      (filecon "HOME_DIR/\.bash_logout" file file_context)
+      (filecon "HOME_DIR/\.bash_logout\..*" file file_context)
+      (filecon "HOME_DIR/\.bash_profile" file file_context)
+      (filecon "HOME_DIR/\.bash_profile\..*" file file_context)
+      (filecon "HOME_DIR/\.cshrc" file file_context)
+      (filecon "HOME_DIR/\.cshrc\..*" file file_context)
+      (filecon "HOME_DIR/\.profile" file file_context)
+      (filecon "HOME_DIR/\.profile\..*" file file_context)
+      (filecon "HOME_DIR/\.tcshrc" file file_context)
+      (filecon "HOME_DIR/\.tcshrc\..*" file file_context)
+
+      (macro user_home_file_type_transition_file ((type ARG1))
+	     (call .user.home.file_type_transition
+		   (ARG1 file file ".bashrc"))
+	     (call .user.home.file_type_transition
+		   (ARG1 file file ".bash_login"))
+	     (call .user.home.file_type_transition
+		   (ARG1 file file ".bash_logout"))
+	     (call .user.home.file_type_transition
+		   (ARG1 file file ".bash_profile"))
+	     (call .user.home.file_type_transition
+		   (ARG1 file file ".cshrc"))
+	     (call .user.home.file_type_transition
+		   (ARG1 file file ".profile"))
+	     (call .user.home.file_type_transition
+		   (ARG1 file file ".tcshrc"))
+	     (call .user.home.file_type_transition
+		   (ARG1 file dir ".bashrc.d")))
+
+      (blockinherit .file.macro_template_dirs)
+      (blockinherit .file.macro_template_files)
+      (blockinherit .file.user.home.base_template)))
+
+(in file.unconfined
+
+    (call .shellrc.home.user_home_file_type_transition_file (typeattr)))
+
+(in user
+
+    (call .shellrc.home.manage_file_dirs (subj))
+    (call .shellrc.home.manage_file_files (subj))
+    (call .shellrc.home.relabel_file_dirs (subj))
+    (call .shellrc.home.relabel_file_files (subj))
+    (call .shellrc.home.user_home_file_type_transition_file (subj)))
