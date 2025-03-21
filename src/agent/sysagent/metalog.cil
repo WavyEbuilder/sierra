@@ -10,6 +10,17 @@
   (allow subj self (capability2 (syslog)))
   (allow subj self (process (setpgid)))
 
+  (block client
+
+    (macro type ((type ARG1))
+           (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (call .devlog.write_file_sock_files (typeattr))
+
+    (call sendto_subj_unix_dgram_sockets (typeattr)))
+
   (block conf
 
     (filecon "/etc/metalog\.conf" file file_context)
