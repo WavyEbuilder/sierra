@@ -6,6 +6,7 @@
   (call metalog.conf.read_file_files (subj))
 
   (allow subj self (capability2 (syslog)))
+  (allow subj self (process (setpgid)))
 
   (block conf
 
