@@ -1,0 +1,220 @@
+(in file.unconfined
+
+    (call .user.home.home_file_type_transition_file (typeattr dir "*")))
+
+(in file.user
+
+    (block home
+
+      (macro dontaudit_getattr_all_dirs ((type ARG1))
+	     (dontaudit ARG1 typeattr (dir (getattr))))
+
+      (macro dontaudit_getattr_all_files ((type ARG1))
+	     (dontaudit ARG1 typeattr (file (getattr))))
+
+      (macro dontaudit_relabel_all_files ((type ARG1))
+	     (dontaudit ARG1 typeattr relabel_file))
+
+      (macro getattr_all_files ((type ARG1))
+	     (allow ARG1 typeattr (file (getattr))))
+
+      (macro map_all_files ((type ARG1))
+	     (allow ARG1 typeattr (file (map))))
+
+      (macro type ((type ARG1))
+	     (typeattributeset typeattr ARG1))
+
+      (blockinherit file.all_macro_template_dirs)
+      (blockinherit file.all_macro_template_fifo_files)
+      (blockinherit file.all_macro_template_files)
+      (blockinherit file.all_macro_template_lnk_files)
+      (blockinherit file.all_macro_template_sock_files)
+
+      (typeattribute typeattr)
+
+      (call file.home.type (typeattr))
+      (call file.user.type (typeattr))
+
+      (block base_template
+
+	(blockabstract base_template)
+
+	(blockinherit .file.user.base_template)
+
+	(call .file.user.home.type (file)))
+
+      (block except
+
+	(macro map_all_files ((type ARG1))
+	       (allow ARG1 typeattr (file (map))))
+
+	(macro type ((type ARG1))
+	       (typeattributeset typeattr ARG1))
+
+	(blockinherit file.all_macro_template_dirs)
+	(blockinherit file.all_macro_template_fifo_files)
+	(blockinherit file.all_macro_template_files)
+	(blockinherit file.all_macro_template_lnk_files)
+	(blockinherit file.all_macro_template_sock_files)
+
+	(typeattribute typeattr)
+
+	(typeattributeset typeattr (and file.user.home.typeattr
+					(not (exception.typeattr)))))
+
+      (block exception
+
+	(macro type ((type ARG1))
+	       (typeattributeset typeattr ARG1))
+
+	(typeattribute typeattr)
+
+	(call file.exception.type (typeattr))
+	(call file.user.home.type (typeattr)))
+
+      (block template
+
+	(blockabstract template)
+
+	(blockinherit .file.macro_template_dirs)
+	(blockinherit .file.macro_template_fifo_files)
+	(blockinherit .file.macro_template_files)
+	(blockinherit .file.macro_template_lnk_files)
+	(blockinherit .file.macro_template_sock_files)
+	(blockinherit .file.user.home.base_template))))
+
+(in sys.agent
+
+    (call .user.home.dontaudit_search_file_dirs (typeattr)))
+
+(in user
+
+    (block home
+
+      (filecon "HOME_DIR" dir file_context)
+      (filecon "HOME_DIR/.*" any file_context)
+
+      (macro auditwriteaccess_file_dirs ((type ARG1))
+	     (allow ARG1 file (dir (getattr write))))
+
+      (macro dontaudit_relabel_file_files ((type ARG1))
+	     (dontaudit ARG1 file relabel_file))
+
+      (macro dontaudit_search_file_dirs ((type ARG1))
+	     (dontaudit ARG1 file search_dir))
+
+      (macro dontaudit_writeinherited_file_dirs ((type ARG1))
+	     (dontaudit ARG1 file writeinherited_dir))
+
+      (macro dontaudit_writeinherited_file_files ((type ARG1))
+	     (dontaudit ARG1 file writeinherited_file))
+
+      (macro getattr_file_dirs ((type ARG1))
+	     (allow ARG1 file (dir (getattr))))
+
+      (macro getattr_file_files ((type ARG1))
+	     (allow ARG1 file (file (getattr))))
+
+      (macro home_file_type_transition_file ((type ARG1)(class ARG2)(name ARG3))
+	     (call .home.file_type_transition
+		   (ARG1 file ARG2 ARG3)))
+
+      (macro map_file_files ((type ARG1))
+	     (allow ARG1 file (file (map))))
+
+      (macro mounton_file_lnk_files ((type ARG1))
+	     (allow ARG1 file mounton_lnk_file))
+
+      (macro open_file_files ((type ARG1))
+	     (allow ARG1 file (file (open))))
+
+      (macro setattr_file_dirs ((type ARG1))
+	     (allow ARG1 file (dir (setattr))))
+
+      (macro setattr_file_files ((type ARG1))
+	     (allow ARG1 file (file (setattr))))
+
+      (macro watch_file_dirs ((type ARG1))
+	     (allow ARG1 file (dir (watch))))
+
+      (macro watch_file_files ((type ARG1))
+	     (allow ARG1 file (file (watch))))
+
+      (blockinherit .file.user.home.template)
+
+      (block addname_file_dir_pattern
+
+	(macro type ((type ARG1))
+	       (typeattributeset typeattr ARG1))
+
+	(typeattribute typeattr)
+
+	(call addname_file_dirs (typeattr))
+
+	(call .home.search_file_pattern.type (typeattr)))
+
+      (block manage_file_pattern
+
+	(macro type ((type ARG1))
+	       (typeattributeset typeattr ARG1))
+
+	(typeattribute typeattr)
+
+	(call manage_file_dirs (typeattr))
+	(call manage_file_fifo_files (typeattr))
+	(call manage_file_files (typeattr))
+	(call manage_file_lnk_files (typeattr))
+	(call manage_file_sock_files (typeattr))
+
+	(call .home.search_file_pattern.type (typeattr)))
+
+      (block read_file_pattern
+
+	(macro type ((type ARG1))
+	       (typeattributeset typeattr ARG1))
+
+	(typeattribute typeattr)
+
+	(call list_file_dirs (typeattr))
+	(call read_file_fifo_files (typeattr))
+	(call read_file_files (typeattr))
+	(call read_file_lnk_files (typeattr))
+	(call read_file_sock_files (typeattr))
+
+	(call .home.search_file_pattern.type (typeattr)))
+
+      (block relabel_file_pattern
+
+	(macro type ((type ARG1))
+	       (typeattributeset typeattr ARG1))
+
+	(typeattribute typeattr)
+
+	(call relabel_file_dirs (typeattr))
+	(call relabel_file_fifo_files (typeattr))
+	(call relabel_file_files (typeattr))
+	(call relabel_file_lnk_files (typeattr))
+	(call relabel_file_sock_files (typeattr))
+
+	(call .home.search_file_pattern.type (typeattr)))
+
+      (block search_file_pattern
+
+	(macro type ((type ARG1))
+	       (typeattributeset typeattr ARG1))
+
+	(typeattribute typeattr)
+
+	(call search_file_dirs (typeattr))
+
+	(call .home.traverse_file_pattern.type (typeattr)))
+
+      (block traverse_file_pattern
+
+	(macro type ((type ARG1))
+	       (typeattributeset typeattr ARG1))
+
+	(typeattribute typeattr)
+
+	(call read_file_lnk_files (typeattr))
+	(call search_file_pattern.type (typeattr)))))
