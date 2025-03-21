@@ -1,0 +1,31 @@
+(block unixchkpwd
+
+  (blockinherit .hybrid.agent.template)
+
+  (allow subj self (capability (audit_write dac_read_search setuid)))
+  (allow subj self (process (getcap)))
+  (allow subj self create_netlink_audit_socket)
+  (allow subj self create_unix_dgram_socket)
+  (allow subj self (netlink_audit_socket (nlmsg_relay)))
+
+  (call .caplastcap.read_sysctlfile_pattern.type (subj))
+
+  (call .locale.data.map_file_pattern.type (subj))
+  (call .locale.read_file_pattern.type (subj))
+
+  (call .loginserialtermdev.dontaudit_readwriteinherited_all_chr_files (subj))
+
+  (call .nss.passwdgroup.type (subj))
+
+  (call .proc.getattr_fs_pattern.type (subj))
+
+  (call .selinux.linked.type (subj))
+
+  (call .shadow.read_file_files (subj))
+  (call .shadow.read.type (subj))
+
+  (call .user.termdev.dontaudit_readwriteinherited_all_chr_files (subj)))
+
+(in after unixchkpwd.exec
+
+    (filecon "/usr/bin/unix_chkpwd" file file_context))
