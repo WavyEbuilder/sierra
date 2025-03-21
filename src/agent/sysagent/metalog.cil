@@ -10,6 +10,9 @@
   (call .devlog.dev_file_type_transition_file (subj))
   (call .devlog.manage_file_sock_files (subj))
 
+  (call .locale.data.map_file_pattern.type (subj))
+  (call .locale.read_file_pattern.type (subj))
+
   (call .log.manage_file_files (subj))
 
   (allow subj self (capability2 (syslog)))
