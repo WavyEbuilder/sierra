@@ -22,6 +22,9 @@
   (call .sys.syslogconsole_system (subj))
   (call .sys.syslogmod_system (subj))
 
+  ;; legacy /var/run
+  (call .var.traverse_file_pattern.type (subj))
+
   (allow subj self (capability2 (syslog)))
   (allow subj self (process (setpgid)))
 
