@@ -5,6 +5,7 @@
   (call conf.list_file_dirs (subj))
   (call conf.read_file_files (subj))
 
+  (call run.manage_file_files (subj))
   (call run.run_file_type_transition_file (subj))
 
   (call .devlog.dev_file_type_transition_file (subj))
