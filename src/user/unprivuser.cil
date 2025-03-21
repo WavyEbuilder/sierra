@@ -18,6 +18,8 @@
     (blockinherit unpriv.template)
     (blockinherit unpriv.subj_template)
 
+    (call .loginserialtermdev.all_type_change (subj serialtermdev))
+
     (call .sys.termdev.readwriteinherited_all_chr_files (subj))
 
     (block unpriv
@@ -50,6 +52,15 @@
       (call .rbacsep.usefdsource.type (typeattr))
 
       (call .subj.useinteractivefd.type (typeattr))
+
+      (optional unprivuser_unpriv_opensshserver
+                (call .openssh.server.ptytermdev_type_change
+                      (typeattr ptytermdev))
+                (call .openssh.server.readwriteinherited_subj_fifo_files
+                      (typeattr))
+                (call .openssh.server.use_subj_fds (typeattr))
+
+                (call .rbacsep.exemptsource.type (typeattr)))
 
       (block role_template
 
