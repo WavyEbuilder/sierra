@@ -90,6 +90,9 @@
     (call .shellrc.read_file_files (typeattr))
     (call .shellrc.read_file_lnk_files (typeattr))
 
+    (call .terminfo.conf.read_file_pattern.type (typeattr))
+    (call .terminfo.data.read_file_pattern.type (typeattr))
+
     (block base_template
 
       (blockabstract base_template)
