@@ -1,0 +1,48 @@
+(in sys.termdev
+
+    (macro user_all_type_change ((type ARG1))
+           (call .sys.user_ptytermdev_type_change (ARG1))
+           (call .sys.user_serialtermdev_type_change (ARG1))))
+
+(in termdev.unconfined
+
+    (call .sys.termdev.user_all_type_change (typeattr)))
+
+(in user
+
+    (block termdev
+
+      (macro dontaudit_readwriteinherited_all_chr_files ((type ARG1))
+             (dontaudit ARG1 typeattr readwriteinherited_chr_file))
+
+      (macro open_all_chr_files ((type ARG1))
+             (allow ARG1 typeattr (chr_file (open))))
+
+      (macro setattr_all_chr_files ((type ARG1))
+             (allow ARG1 typeattr (chr_file (setattr))))
+
+      (macro type ((type ARG1))
+             (typeattributeset typeattr ARG1))
+
+      (typeattribute typeattr)
+
+      (blockinherit .file.all_macro_template_chr_files)))
+
+(in user.common
+
+    (call termdev.readwrite_all_chr_files (typeattr)))
+
+(in after user.termdev.appendinherited_all_chr_files
+    (allowx ARG1 typeattr IOCTLCONSOLE_NOT_TIOCLINUX)
+    (allowx ARG1 typeattr IOCTLTTY_NOT_TIOCSTI)
+    (allowx ARG1 typeattr IOCTLVT))
+
+(in after user.termdev.readwriteinherited_all_chr_files
+    (allowx ARG1 typeattr IOCTLCONSOLE_NOT_TIOCLINUX)
+    (allowx ARG1 typeattr IOCTLTTY_NOT_TIOCSTI)
+    (allowx ARG1 typeattr IOCTLVT))
+
+(in after user.termdev.writeinherited_all_chr_files
+    (allowx ARG1 typeattr IOCTLCONSOLE_NOT_TIOCLINUX)
+    (allowx ARG1 typeattr IOCTLTTY_NOT_TIOCSTI)
+    (allowx ARG1 typeattr IOCTLVT))
