@@ -67,6 +67,8 @@
 
       (call .crypto.read_sysctlfile_pattern.type (subj))
 
+      (call .devlog.write_file_sock_files (subj))
+
       (call .devpts.fs_type_transition (subj ptytermdev chr_file "*"))
       (call .devpts.getattr_fs (subj))
 
