@@ -9,7 +9,7 @@
          (call .dev.file_type_transition
                (ARG1 file sock_file "log")))
 
-  (blockinherit .file.base_template)
+  (blockinherit .file.dev.base_template)
   (blockinherit .file.macro_template_files))
 
 (in file.unconfined
