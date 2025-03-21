@@ -17,6 +17,8 @@
 
   (call .metalog.client.type (subj))
 
+  (call .nss.passwdgroup.type (subj))
+
   (call .pam.login.type (subj))
 
   (allow subj self
