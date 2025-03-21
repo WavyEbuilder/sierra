@@ -10,7 +10,7 @@
                (ARG1 file sock_file "log")))
 
   (blockinherit .file.dev.base_template)
-  (blockinherit .file.macro_template_files))
+  (blockinherit .file.macro_template_sock_files))
 
 (in file.unconfined
 
