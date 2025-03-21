@@ -11,4 +11,12 @@
 	   (call .loginserialtermdev.all_type_change
 		 (ARG1 serialtermdev)))
 
-    (blockinherit .serialtermdev.template))
+    (macro open_serialtermdev_chr_files ((type ARG1))
+	   (allow ARG1 serialtermdev (chr_file (open))))
+
+    (macro setattr_serialtermdev_chr_files ((type ARG1))
+	   (allow ARG1 serialtermdev (chr_file (setattr))))
+
+    (blockinherit .serialtermdev.template)
+
+    (call termdev.type (serialtermdev)))

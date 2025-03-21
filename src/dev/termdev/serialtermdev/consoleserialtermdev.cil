@@ -9,6 +9,9 @@
          (call .dev.file_type_transition
                (ARG1 serialtermdev chr_file ARG2)))
 
+  (macro open_serialtermdev_chr_files ((type ARG1))
+         (allow ARG1 serialtermdev (chr_file (open))))
+
   (blockinherit .serialtermdev.template))
 
 (in termdev.unconfined

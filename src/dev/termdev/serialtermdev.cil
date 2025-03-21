@@ -3,6 +3,15 @@
 
 (block serialtermdev
 
+  (macro getattr_all_chr_files ((type ARG1))
+         (allow ARG1 typeattr (chr_file (getattr))))
+
+  (macro open_all_chr_files ((type ARG1))
+         (allow ARG1 typeattr (chr_file (open))))
+
+  (macro setattr_all_chr_files ((type ARG1))
+         (allow ARG1 typeattr (chr_file (setattr))))
+
   (macro type ((type ARG1))
 	 (typeattributeset typeattr ARG1))
 

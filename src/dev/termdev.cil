@@ -3,6 +3,12 @@
 
 (block termdev
 
+  (macro getattr_all_chr_files ((type ARG1))
+         (allow ARG1 typeattr (chr_file (getattr))))
+
+  (macro open_all_chr_files ((type ARG1))
+         (allow ARG1 typeattr (chr_file (open))))
+
   (macro type ((type ARG1))
 	 (typeattributeset typeattr ARG1))
 

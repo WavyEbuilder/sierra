@@ -42,7 +42,56 @@
 
   (block sulogin
 
-    (blockinherit .sys.agent.template)))
+    (blockinherit .sys.agent.template)
+
+    ;; should be able to dontaudit or drop CAP_SYS_ADMIN in favor of CAP_CHECKPOINT_RESTORE with Linux 6.7
+    ;; https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e0f25b8992345aa5f113da2815f5add98738c611
+    (allow subj self (capability (dac_read_search sys_admin sys_tty_config)))
+    (allow subj self (process (getpgid setexec setsched)))
+    (allow subj self (capability2 (checkpoint_restore)))
+
+    (call .checkcontext_selinux_security (subj))
+    (call .computerelabel_selinux_security (subj))
+    (call .computeuser_selinux_security (subj))
+
+    (call .console.open_serialtermdev_chr_files (subj))
+    (call .console.readwriteinherited_serialtermdev_chr_files (subj))
+
+    (call .consoles.read_procfile_files (subj))
+
+    (call .dev.list_file_pattern.type (subj))
+
+    (call .locale.data.map_file_pattern.type (subj))
+    (call .locale.read_file_pattern.type (subj))
+
+    (call .loginserialtermdev.open_all_chr_files (subj))
+    (call .loginserialtermdev.readwriteinherited_all_chr_files (subj))
+    (call .loginserialtermdev.relabel_all_chr_files (subj))
+
+    (call .nss.passwdgroup.type (subj))
+
+    (call .random.read_sysctlfile_pattern.type (subj))
+
+    (call .selinux.default.read_file_pattern.type (subj))
+    (call .selinux.readwrite_fs_pattern.type (subj))
+
+    (call .serialtermdev.getattr_all_chr_files (subj))
+
+    (call .shadow.read.type (subj))
+    (call .shadow.read_file_files (subj))
+
+    (call .shell.exec.mapexecute_file_files (subj))
+    (call .shell.exec.read_file_files (subj))
+
+    (call .subj.interactivefd.type (subj))
+
+    (call .sys.open_serialtermdev_chr_files (subj))
+    (call .sys.relabel_serialtermdev_chr_files (subj))
+
+    ;; failsafe_context
+    (call .sys.user.signal_subj_processes (subj))
+    (call .sys.user.signull_subj_processes (subj))
+    (call .sys.user.transition_subj_processes (subj))))
 
 (in getty
 
