@@ -1,0 +1,140 @@
+(in file.user
+
+    (block tmp
+
+      (macro map_all_files ((type ARG1))
+	     (allow ARG1 typeattr (file (map))))
+
+      (macro type ((type ARG1))
+	     (typeattributeset typeattr ARG1))
+
+      (blockinherit .file.all_macro_template_dirs)
+      (blockinherit .file.all_macro_template_fifo_files)
+      (blockinherit .file.all_macro_template_files)
+      (blockinherit .file.all_macro_template_lnk_files)
+      (blockinherit .file.all_macro_template_sock_files)
+
+      (typeattribute typeattr)
+
+      (call .file.tmp.type (typeattr))
+      (call .file.user.type (typeattr))
+
+      (block base_template
+
+	(blockabstract base_template)
+
+	(blockinherit .file.user.base_template)
+
+	(call .file.user.tmp.type (file)))
+
+      (block except
+
+	(macro map_all_files ((type ARG1))
+	       (allow ARG1 typeattr (file (map))))
+
+	(macro type ((type ARG1))
+	       (typeattributeset typeattr ARG1))
+
+	(blockinherit file.all_macro_template_dirs)
+	(blockinherit file.all_macro_template_fifo_files)
+	(blockinherit file.all_macro_template_files)
+	(blockinherit file.all_macro_template_lnk_files)
+	(blockinherit file.all_macro_template_sock_files)
+
+	(typeattribute typeattr)
+
+	(typeattributeset typeattr (and file.user.tmp.typeattr
+					(not (exception.typeattr)))))
+
+      (block exception
+
+	(macro type ((type ARG1))
+	       (typeattributeset typeattr ARG1))
+
+	(typeattribute typeattr)
+
+	(call file.exception.type (typeattr))
+	(call file.user.tmp.type (typeattr)))
+
+      (block template
+
+	(blockabstract template)
+
+	(blockinherit .file.macro_template_dirs)
+	(blockinherit .file.macro_template_fifo_files)
+	(blockinherit .file.macro_template_files)
+	(blockinherit .file.macro_template_lnk_files)
+	(blockinherit .file.macro_template_sock_files)
+	(blockinherit .file.user.tmp.base_template))))
+
+(in user
+
+    (block tmp
+
+      (macro map_file_files ((type ARG1))
+	     (allow ARG1 file (file (map))))
+
+      (macro tmp_file_type_transition_file ((type ARG1)(class ARG2)(name ARG3))
+	     (call .tmp.file_type_transition
+		   (ARG1 file ARG2 ARG3)))
+
+      (blockinherit .file.user.tmp.template)
+
+      (optional usertmpfile_postfixsendmail
+		(call .postfix.sendmail.mailer.tmp.type (file)))
+
+      (block manage_file_pattern
+
+	(macro type ((type ARG1))
+	       (typeattributeset typeattr ARG1))
+
+	(typeattribute typeattr)
+
+	(call manage_file_dirs (typeattr))
+	(call manage_file_fifo_files (typeattr))
+	(call manage_file_files (typeattr))
+	(call manage_file_lnk_files (typeattr))
+	(call manage_file_sock_files (typeattr))
+
+	(call .tmp.search_file_pattern.type (typeattr)))
+
+      (block read_file_pattern
+
+	(macro type ((type ARG1))
+	       (typeattributeset typeattr ARG1))
+
+	(typeattribute typeattr)
+
+	(call list_file_dirs (typeattr))
+	(call read_file_fifo_files (typeattr))
+	(call read_file_files (typeattr))
+	(call read_file_lnk_files (typeattr))
+	(call read_file_sock_files (typeattr))
+
+	(call .tmp.search_file_pattern.type (typeattr)))
+
+      (block relabel_file_pattern
+
+	(macro type ((type ARG1))
+	       (typeattributeset typeattr ARG1))
+
+	(typeattribute typeattr)
+
+	(call relabel_file_dirs (typeattr))
+	(call relabel_file_fifo_files (typeattr))
+	(call relabel_file_files (typeattr))
+	(call relabel_file_lnk_files (typeattr))
+	(call relabel_file_sock_files (typeattr))
+
+	(call .tmp.search_file_pattern.type (typeattr)))
+
+      (block search_file_pattern
+
+	(macro type ((type ARG1))
+	       (typeattributeset typeattr ARG1))
+
+	(typeattribute typeattr)
+
+	(call search_file_dirs (typeattr))
+
+	(call .tmp.search_file_pattern.type (typeattr)))))
