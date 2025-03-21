@@ -2,6 +2,8 @@
 
   (blockinherit .sys.agent.template)
 
+  (call .devlog.dev_file_type_transition_file (subj))
+
   (call metalog.conf.list_file_dirs (subj))
   (call metalog.conf.read_file_files (subj))
 
@@ -21,28 +23,11 @@
            (call .conf.file_type_transition
                  (ARG1 file dir "metalog.d")))
 
-    (blockinherit .file.conf.template))
-
-  (block tmp
-
-    (filecon "/dev/log" socket file_context)
-
-    (macro map_file_files ((type ARG1))
-           (allow ARG1 file (file (map))))
-
-    (macro tmp_fs_type_transition_file ((type ARG1)(class ARG2)(name ARG3))
-           (call .tmp.fs_type_transition
-                 (ARG1 file ARG2 ARG3)))
-
-    (blockinherit .file.macro_template_files)
-    (blockinherit .file.macro_template_sock_files)
-    (blockinherit .file.tmp.base_template)))
+    (blockinherit .file.conf.template)))
 
 (in file.unconfined
 
-    (call .metalog.conf.conf_file_type_transition_file (typeattr))
-    (call .metalog.tmp.tmp_fs_type_transition_file
-          (typeattr sock_file "log")))
+    (call .metalog.conf.conf_file_type_transition_file (typeattr)))
 
 (in after metalog.exec
 
