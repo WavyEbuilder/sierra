@@ -18,6 +18,9 @@
 
   (call .run.deletename_file_dirs (subj))
 
+  (call .sys.syslogconsole_system (subj))
+  (call .sys.syslogmod_system (subj))
+
   (allow subj self (capability2 (syslog)))
   (allow subj self (process (setpgid)))
 
