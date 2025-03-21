@@ -23,6 +23,12 @@
 
   (call .proc.getattr_fs_pattern.type (subj))
 
+  (call .sys.read_subj_states (subj))
+
+  (call .sys.termdev.open_all_chr_files (subj))
+  (call .sys.termdev.relabel_all_chr_files (subj))
+  (call .sys.termdev.setattr_all_chr_files (subj))
+
   (allow subj self
          (capability (audit_write dac_override dac_read_search sys_tty_config)))
   (allow subj self (netlink_audit_socket (nlmsg_relay)))
