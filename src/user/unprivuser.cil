@@ -24,6 +24,9 @@
 
     (call .loginserialtermdev.all_type_change (subj serialtermdev))
 
+    (call .selinux.default.read_file_pattern.type (subj))
+    (call .selinux.file.read_file_pattern.type (subj))
+
     (call .sys.termdev.readwriteinherited_all_chr_files (subj))
 
     (block unpriv
