@@ -29,6 +29,11 @@
 
     (call .sys.termdev.readwriteinherited_all_chr_files (subj))
 
+    (call .tmp.deletename_file_dirs (subj))
+
+    (call .tmp.deletename_fs_dirs (subj))
+    (call .tmp.getattr_fs_pattern.type (subj))
+
     (block unpriv
 
       (macro dontaudit_create_all_keyrings ((type ARG1))
