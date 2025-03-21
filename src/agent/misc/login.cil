@@ -5,6 +5,8 @@
 
   (blockinherit .sys.agent.template)
 
+  (call .caplastcap.read_sysctlfile_pattern.type (subj))
+
   (call .loginserialtermdev.open_all_chr_files (subj))
   (call .loginserialtermdev.readwriteinherited_all_chr_files (subj))
   (call .loginserialtermdev.relabel_all_chr_files (subj))
