@@ -1,0 +1,26 @@
+(in file.unconfined
+
+    (call .bashcomp.home.conf.user_home_conf_file_type_transition_file
+	  (typeattr)))
+
+(in bashcomp
+
+    (block home
+
+      (block conf
+
+	(filecon "HOME_DIR/\.config/bash_completion" file file_context)
+	(filecon "HOME_DIR/\.config/bash_completion\..*" file file_context)
+
+	(macro user_home_conf_file_type_transition_file ((type ARG1))
+	       (call .user.home.conf.file_type_transition
+		     (ARG1 file file "bash_completion")))
+
+	(blockinherit .file.macro_template_files)
+	(blockinherit .file.user.home.conf.base_template))))
+
+(in user
+
+    (call .bashcomp.home.conf.manage_file_files (subj))
+    (call .bashcomp.home.conf.relabel_file_files (subj))
+    (call .bashcomp.home.conf.user_home_conf_file_type_transition_file (subj)))
