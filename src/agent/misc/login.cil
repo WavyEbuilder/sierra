@@ -32,6 +32,14 @@
 
   (dontaudit subj self (key (write)))
 
+  (optional login_unprivuser
+            (call .user.unpriv.create_all_keyrings (subj))
+            (call .user.unpriv.rlimitinh_all_processes (subj))
+            (call .user.unpriv.signal_all_processes (subj))
+            (call .user.unpriv.signull_all_processes (subj))
+            (call .user.unpriv.transition_all_processes (subj))
+            (call .user.unpriv.write_all_keyrings (subj)))
+
   (block sulogin
 
     (blockinherit .sys.agent.template)))
