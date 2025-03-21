@@ -13,4 +13,26 @@
     (blockinherit .fs.macro_template_lnk_files)
     (blockinherit .noseclabelfs.template)
 
-    (call .rbacsep.exempt.obj.type (fs)))
+    (call .rbacsep.exempt.obj.type (fs))
+
+    (block getattr_fs_pattern
+
+      (macro type ((type ARG1))
+             (typeattributeset typeattr ARG1))
+
+      (typeattribute typeattr)
+
+      (allow typeattr fs (filesystem (getattr))))
+
+    (block manage_fs_pattern
+
+      (macro type ((type ARG1))
+             (typeattributeset typeattr ARG1))
+
+      (typeattribute typeattr)
+
+      (call manage_fs_dirs (typeattr))
+      (call manage_fs_files (typeattr))
+      (call manage_fs_lnk_files (typeattr))
+
+      (call .fuse.search_sysfile_pattern.type (typeattr))))
