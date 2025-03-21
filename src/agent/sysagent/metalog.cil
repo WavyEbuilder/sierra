@@ -25,6 +25,9 @@
   (allow subj self (capability2 (syslog)))
   (allow subj self (process (setpgid)))
 
+  (allow subj self create_unix_dgram_socket)
+  (allow subj self create_unix_stream_socket)
+
   (block client
 
     (macro type ((type ARG1))
