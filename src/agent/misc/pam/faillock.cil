@@ -1,0 +1,57 @@
+(block faillock
+
+  (blockinherit .sys.agent.template)
+
+  (allow subj self (capability (audit_write chown)))
+  (allow subj self create_netlink_audit_socket)
+  (allow subj self (netlink_audit_socket (nlmsg_relay)))
+
+  (call run.list_file_dirs (subj))
+  (call run.readwrite_file_files (subj))
+  (call run.setattr_file_files (subj))
+
+  (call .caplastcap.read_sysctlfile_pattern.type (subj))
+
+  (call .devpts.search_fs_pattern.type (subj))
+
+  (call .locale.read_file_pattern.type (subj))
+
+  (call .nss.passwdgroup.type (subj))
+
+  (call .proc.getattr_fs_pattern.type (subj))
+
+  (call .sys.termdev.open_all_chr_files (subj))
+
+  (call .user.termdev.open_all_chr_files (subj))
+
+  (block run
+
+    (filecon "/run/faillock" dir file_context)
+    (filecon "/run/faillock/.*" any file_context)
+
+    (macro run_file_type_transition_file ((type ARG1))
+	   (call .run.file_type_transition
+		 (ARG1 file dir "faillock")))
+
+    (macro setattr_file_files ((type ARG1))
+	   (allow ARG1 file (file (setattr))))
+
+    (blockinherit .file.macro_template_dirs)
+    (blockinherit .file.macro_template_files)
+    (blockinherit .file.run.pam.base_template)
+
+    (call .rbacsep.exempt.obj.type (file))))
+
+(in file.unconfined
+
+    (call .faillock.run.run_file_type_transition_file (typeattr)))
+
+(in pam.linked
+
+    (call .faillock.run.manage_file_files (typeattr))
+    (call .faillock.run.manage_file_dirs (typeattr))
+    (call .faillock.run.run_file_type_transition_file (typeattr)))
+
+(in after faillock.exec
+
+    (filecon "/usr/bin/faillock" file file_context))
