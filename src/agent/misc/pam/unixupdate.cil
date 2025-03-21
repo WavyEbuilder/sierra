@@ -1,0 +1,38 @@
+(block unixupdate
+
+  (blockinherit .hybrid.agent.template)
+
+  (allow subj self (capability (chown dac_override dac_read_search fsetid)))
+  (allow subj self (process (setfscreate)))
+  (allow subj self create_unix_dgram_socket)
+
+  (call .conf.deletename_file_dirs (subj))
+
+  (call .file.auth.write.type (subj))
+
+  (call .ibac.objchangesys.type (subj))
+
+  (call .locale.data.map_file_pattern.type (subj))
+  (call .locale.read_file_pattern.type (subj))
+
+  (call .nss.linked.type (subj))
+
+  (call .passwd.manage_file_files (subj))
+  (call .passwd.map_file_files (subj))
+
+  (call .pwdlock.conf_file_type_transition_file (subj "*"))
+  (call .pwdlock.manage_file_files (subj))
+
+  (call .rbac.objchangesys.type (subj))
+
+  (call .rbacsep.exempt.subj.type (subj))
+
+  (call .selinux.file.read_file_pattern.type (subj))
+
+  (call .shadow.manage_file_files (subj))
+  (call .shadow.map_file_files (subj))
+  (call .shadow.read.type (subj)))
+
+(in after unixupdate.exec
+
+    (filecon "/usr/bin/unix_update" file file_context))

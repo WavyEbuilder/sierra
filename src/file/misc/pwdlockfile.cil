@@ -1,0 +1,31 @@
+(block pwdlock
+
+  (filecon "/etc/\.pwd\.lock" file file_context)
+
+  (filecon "/etc/group\..*" file file_context)
+  (filecon "/etc/gshadow\..*" file file_context)
+  (filecon "/etc/nshadow\..*" file file_context)
+  (filecon "/etc/passwd\..*" file file_context)
+  (filecon "/etc/shadow\..*" file file_context)
+  (filecon "/etc/subgid\..*" file file_context)
+  (filecon "/etc/subuid\..*" file file_context)
+
+  (macro conf_file_type_transition_file ((type ARG1)(name ARG2))
+	 (call .conf.file_type_transition
+	       (ARG1 file file ARG2)))
+
+  (blockinherit .file.base_template)
+  (blockinherit .file.macro_template_files)
+
+  (call .xattr.associate_fs_pattern.type (file)))
+
+(in file.unconfined
+
+    (call .pwdlock.conf_file_type_transition_file (typeattr ".pwd.lock"))
+    (call .pwdlock.conf_file_type_transition_file (typeattr "group.lock"))
+    (call .pwdlock.conf_file_type_transition_file (typeattr "gshadow.lock"))
+    (call .pwdlock.conf_file_type_transition_file (typeattr "nshadow.lock"))
+    (call .pwdlock.conf_file_type_transition_file (typeattr "passwd.lock"))
+    (call .pwdlock.conf_file_type_transition_file (typeattr "shadow.lock"))
+    (call .pwdlock.conf_file_type_transition_file (typeattr "subgid.lock"))
+    (call .pwdlock.conf_file_type_transition_file (typeattr "subuid.lock")))

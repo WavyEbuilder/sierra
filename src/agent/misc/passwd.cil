@@ -29,8 +29,6 @@
 
     (call .random.read_sysctlfile_pattern.type (subj))
 
-    (call .systemd.journal.relay_msgs.type (subj))
-
     (call .unixupdate.subj_type_transition (subj)))
 
 (in user
