@@ -18,6 +18,10 @@
     (blockinherit unpriv.template)
     (blockinherit unpriv.subj_template)
 
+    (call home.manage_file_pattern.type (subj))
+    (call home.map_file_files (subj))
+    (call home.relabel_file_pattern.type (subj))
+
     (call .loginserialtermdev.all_type_change (subj serialtermdev))
 
     (call .sys.termdev.readwriteinherited_all_chr_files (subj))
