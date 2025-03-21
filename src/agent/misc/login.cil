@@ -5,6 +5,11 @@
 
   (blockinherit .sys.agent.template)
 
+  (call .loginserialtermdev.open_all_chr_files (subj))
+  (call .loginserialtermdev.readwriteinherited_all_chr_files (subj))
+  (call .loginserialtermdev.relabel_all_chr_files (subj))
+  (call .loginserialtermdev.setattr_all_chr_files (subj))
+
   (call .pam.login.type (subj))
 
   (block sulogin
