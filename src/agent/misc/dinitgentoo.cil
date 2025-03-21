@@ -397,7 +397,8 @@
     (filecon "/usr/lib/dinit\.d/early/helpers/.*" file file_context)
     (filecon "/usr/lib/dinit\.d/early/scripts/.*" file file_context)
 
-    (filecon "/usr/bin/dinit-devd" file file_context))
+    (filecon "/usr/bin/dinit-devd" file file_context)
+    (filecon "/usr/bin/udevd.wrapper" file file_context))
 
 (in after dinit.helper.binfmt.exec
 
