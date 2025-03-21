@@ -4,6 +4,7 @@
 /lib /usr/lib
 /lib64 /usr/lib
 /sbin /usr/bin
+/usr/lib/misc /usr/bin
 /usr/lib64 /usr/lib
 /usr/libexec /usr/bin
 /usr/local/bin /usr/bin
