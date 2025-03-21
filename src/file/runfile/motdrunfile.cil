@@ -1,0 +1,26 @@
+(in file.unconfined
+
+    (call .motd.run.run_file_type_transition_file
+          (typeattr dir "motd.d"))
+    (call .motd.run.run_file_type_transition_file
+          (typeattr file "motd.dynamic"))
+    (call .motd.run.run_file_type_transition_file
+          (typeattr file "motd.dynamic.new")))
+
+(in motd
+
+    (block run
+
+      (filecon "/run/motd\.d" dir file_context)
+      (filecon "/run/motd\.d/.*" any file_context)
+
+      (filecon "/run/motd\.dynamic" file file_context)
+      (filecon "/run/motd\.dynamic\..*" file file_context)
+
+      (macro run_file_type_transition_file ((type ARG1)(class ARG2)(name ARG3))
+             (call .run.file_type_transition
+                   (ARG1 file ARG2 ARG3)))
+
+      (blockinherit .file.macro_template_dirs)
+      (blockinherit .file.macro_template_files)
+      (blockinherit .file.run.base_template)))

@@ -1,0 +1,57 @@
+(selinuxuserdefault sys.id sys.lowlow)
+(userprefix sys.id sys.role)
+
+(in sys
+
+    (call user.role (role))
+
+    (block user
+
+      (macro dontaudit_getattr_subj_processes ((type ARG1))
+	     (dontaudit ARG1 subj (process (getattr))))
+
+      (macro dyntransition_subj_processes ((type ARG1))
+	     (allow ARG1 subj (process (dyntransition))))
+
+      (macro role ((role ARG1))
+	     (roleattributeset roleattr ARG1))
+
+      (macro unix_dgram_send ((type ARG1))
+	     (call sendto_subj_unix_dgram_sockets (ARG1))
+	     (call sys.tmp.write_file_sock_files (ARG1)))
+
+      (roleattribute roleattr)
+      (roletype roleattr subj)
+
+      (blockinherit .subj.base_template)
+      (blockinherit .user.macro_template)
+
+      (call sys.hugetlbfs.hugetlb_fs_type_transition_file (subj "*"))
+
+      (call sys.mqueuefs.mqueue_fs_type_transition_file (subj "*"))
+
+      (call sys.tmp.tmp_file_type_transition_file (subj dir "*"))
+      (call sys.tmp.tmp_file_type_transition_file (subj fifo_file "*"))
+      (call sys.tmp.tmp_file_type_transition_file (subj file "*"))
+      (call sys.tmp.tmp_file_type_transition_file (subj lnk_file "*"))
+      (call sys.tmp.tmp_file_type_transition_file (subj sock_file "*"))
+
+      (call sys.tmpfs.tmp_fs_type_transition_file (subj dir "*"))
+      (call sys.tmpfs.tmp_fs_type_transition_file (subj fifo_file "*"))
+      (call sys.tmpfs.tmp_fs_type_transition_file (subj file "*"))
+      (call sys.tmpfs.tmp_fs_type_transition_file (subj lnk_file "*"))
+      (call sys.tmpfs.tmp_fs_type_transition_file (subj sock_file "*"))
+
+      (call .rbac.subjchangetarget.type (subj))
+
+      (call .rbacsep.exempttarget.type (subj))
+      (call .rbacsep.usefdtarget.type (subj))
+
+      (call .unconfined.type (subj))
+
+      (call .user.type (subj))))
+
+(in sys.agent
+
+    (call sys.user.readwriteinherited_subj_fifo_files (typeattr))
+    (call sys.user.use_subj_fds (typeattr)))

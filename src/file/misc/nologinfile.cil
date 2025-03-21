@@ -1,0 +1,16 @@
+(block nologin
+
+  (filecon "/run/nologin" file file_context)
+
+  (macro run_file_type_transition_file ((type ARG1)(name ARG2))
+         (call .run.file_type_transition
+               (ARG1 file file ARG2)))
+
+  (blockinherit .file.base_template)
+  (blockinherit .file.macro_template_files)
+
+  (call .tmp.associate_fs (file)))
+
+(in file.unconfined
+
+    (call .nologin.run_file_type_transition_file (typeattr "nologin")))

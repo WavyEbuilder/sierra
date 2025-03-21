@@ -106,6 +106,8 @@
       (call .sys.relabelto_ptytermdev_chr_files (subj))
       (call .sys.setattr_ptytermdev_chr_files (subj))
 
+      (call .sys.user.dyntransition_subj_processes (subj))
+
       (call .tcpwrappers.read_file_files (subj))
 
       (call .tmp.deletename_file_dirs (subj))

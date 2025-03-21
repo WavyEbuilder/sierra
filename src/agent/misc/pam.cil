@@ -60,10 +60,98 @@
 
   (block login
 
-    (macro type ((type ARG1))
-	   (typeattributeset typeattr ARG1))
+    ;; to allow root logins (not encouraged):
+    ;; echo '(in pam.login \
+    ;;   (call .shadow.read.type (typeattr)) \
+    ;;   (call .shadow.read_file_files (typeattr)))' > mypamlogin.cil
+    ;; sudo semodule -i mypamlogin.cil
 
-    (typeattribute typeattr))
+    (macro link_all_keyrings ((type ARG1))
+           (allow ARG1 typeattr (key (link))))
+
+    (macro read_all_states ((type ARG1))
+           (allow ARG1 typeattr (state (read))))
+
+    (macro search_all_keyrings ((type ARG1))
+           (allow ARG1 typeattr (key (search))))
+
+    (macro type ((type ARG1))
+           (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (allow typeattr self
+           (capability (chown dac_read_search fowner fsetid kill setgid setuid
+                              sys_nice sys_resource)))
+    (allow typeattr self
+           (process (setexec setkeycreate setrlimit setsched)))
+
+    (call linked.type (typeattr))
+
+    (call .checkcontext_selinux_security (typeattr))
+
+    (call .computerelabel_selinux_security (typeattr))
+    (call .computeuser_selinux_security (typeattr))
+
+    (call .devpts.search_fs_pattern.type (typeattr))
+
+    ;; motd-dynamic: run-parts
+    (call .exec.execute_file_files (typeattr))
+
+    (call .hushlogins.read_file_pattern.type (typeattr))
+
+    (call .ibac.change.type (typeattr))
+
+    (call .mail.spool.search_file_pattern.type (typeattr))
+
+    ;; motd-dynamic /etc/update-motd.d
+    (call .motd.conf.execute_file_files (typeattr))
+    (call .motd.conf.list_file_dirs (typeattr))
+    (call .motd.run.manage_file_dirs (typeattr))
+    (call .motd.run.manage_file_files (typeattr))
+    (call .motd.run.run_file_type_transition_file (typeattr dir "motd.d"))
+    (call .motd.run.run_file_type_transition_file
+          (typeattr file "motd.dynamic.new"))
+
+    (call .nologin.read_file_files (typeattr))
+
+    (call .rbac.change.type (typeattr))
+
+    (call .rbacsep.usefdtarget.type (typeattr))
+
+    ;; motd-dynamic
+    (call .run.deletename_file_dirs (typeattr))
+
+    (call .selinux.default.read_file_pattern.type (typeattr))
+
+    ;; motd-dynamic
+    (call .shell.exec.execute_file_files (typeattr))
+
+    (call .subj.interactivefd.type (typeattr))
+
+    (call .sys.home.search_file_pattern.type (typeattr))
+
+    (call .sys.user.create_subj_keyrings (typeattr))
+    (call .sys.user.rlimitinh_subj_processes (typeattr))
+    (call .sys.user.signal_subj_processes (typeattr))
+    (call .sys.user.signull_subj_processes (typeattr))
+    (call .sys.user.transition_subj_processes (typeattr))
+    (call .sys.user.write_subj_keyrings (typeattr))
+
+    (call .unixupdate.subj_type_transition (typeattr))
+
+    (call .user.mail.spool.getattr_file_files (typeattr))
+
+    (call .utmp.log.writeinherited_file_files (typeattr))
+    (call .utmp.run.writeinherited_file_files (typeattr))
+
+    (optional pam_login_cinoseclabelfs
+              (call .ci.read_fs_files (typeattr))
+              (call .ci.traverse_fs_pattern.type (typeattr)))
+
+    (optional pam_login_nfsnoseclabelfs
+              (call .nfs.read_fs_files (typeattr))
+              (call .nfs.traverse_fs_pattern.type (typeattr))))
 
   (block state
 
