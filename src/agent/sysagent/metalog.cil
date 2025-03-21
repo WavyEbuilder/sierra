@@ -8,6 +8,7 @@
   (call run.run_file_type_transition_file (subj))
 
   (call .devlog.dev_file_type_transition_file (subj))
+  (call .devlog.manage_file_sock_files (subj))
 
   (call .log.manage_file_files (subj))
 
