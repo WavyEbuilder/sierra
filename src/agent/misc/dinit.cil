@@ -30,6 +30,8 @@
   (call .devtmp.readwrite_fs_chr_files (subj))
   (call .devtmp.search_fs_dirs (subj))
 
+  (call .devlog.dev_file_type_transition_file (subj))
+
   (call .proc.mount_fs (subj))
   (call .proc.mounton_fs_dirs (subj))
   (call .proc.unmount_fs (subj))
