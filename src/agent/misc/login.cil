@@ -5,6 +5,8 @@
 
   (blockinherit .sys.agent.template)
 
+  (call .pam.login.type (subj))
+
   (block sulogin
 
     (blockinherit .sys.agent.template)))
