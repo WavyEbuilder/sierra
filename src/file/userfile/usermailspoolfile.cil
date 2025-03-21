@@ -1,0 +1,29 @@
+(in file.unconfined
+
+    (call .user.mail.spool.mail_spool_file_type_transition_file
+	  (typeattr "root")))
+
+(in user
+
+    (block mail
+
+      (block spool
+
+	(filecon "/var/spool/mail/%{USERNAME}" file file_context)
+	(filecon "/var/spool/mail/%{USERNAME}\..*" file file_context)
+
+	(macro dontaudit_getattr_file_files ((type ARG1))
+	       (dontaudit ARG1 file (file (getattr))))
+
+	(macro getattr_file_files ((type ARG1))
+	       (allow ARG1 file (file (getattr))))
+
+	(macro map_file_files ((type ARG1))
+	       (allow ARG1 file (file (map))))
+
+	(macro mail_spool_file_type_transition_file ((type ARG1)(name ARG2))
+	       (call .mail.spool.file_type_transition
+		     (ARG1 file file ARG2)))
+
+	(blockinherit .file.macro_template_files)
+	(blockinherit .file.spool.mail.base_template))))
