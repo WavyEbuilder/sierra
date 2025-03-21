@@ -2,6 +2,21 @@
 
   (blockinherit .sys.agent.template)
 
+  (block conf
+
+    (filecon "/etc/metalog\.conf" file file_context)
+
+    (filecon "/etc/metalog\.d" dir file_context)
+    (filecon "/etc/metalog\.d/.*" any file_context)
+
+    (macro conf_file_type_transition_file ((type ARG1))
+           (call .conf.file_type_transition
+                 (ARG1 file file "metalog.conf"))
+           (call .conf.file_type_transition
+                 (ARG1 file dir "metalog.d")))
+
+    (blockinherit .file.conf.template))
+
   (block tmp
 
     (filecon "/dev/log" socket file_context)
@@ -19,8 +34,9 @@
 
 (in file.unconfined
 
+    (call .metalog.conf.conf_file_type_transition_file (typeattr))
     (call .metalog.tmp.tmp_fs_type_transition_file
-	  (typeattr sock_file "log")))
+          (typeattr sock_file "log")))
 
 (in after metalog.exec
 
