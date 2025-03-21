@@ -1,0 +1,16 @@
+(in file.unconfined
+
+    (call .bashcomp.data.data_file_type_transition_file (typeattr)))
+
+(block bashcomp
+
+  (block data
+
+    (filecon "/usr/share/bash-completion" dir file_context)
+    (filecon "/usr/share/bash-completion/.*" any file_context)
+
+    (macro data_file_type_transition_file ((type ARG1))
+	   (call .data.file_type_transition
+		 (ARG1 file dir "bash-completion")))
+
+    (blockinherit .file.data.template)))
