@@ -56,7 +56,42 @@
     (call conf.read_file_files (typeattr))
 
     (call data.list_file_dirs (typeattr))
-    (call data.read_file_files (typeattr)))
+    (call data.read_file_files (typeattr))
+
+    (call login.link_all_keyrings (typeattr))
+    (call login.search_all_keyrings (typeattr))
+
+    (call .computeav_selinux_security (typeattr))
+
+    (call .environ.read_file_pattern.type (typeattr))
+
+    (call .log.search_file_pattern.type (typeattr))
+
+    (call .logindefs.read_file_files (typeattr))
+
+    (call .run.search_file_pattern.type (typeattr))
+
+    (call .selinux.linked.type (typeattr))
+    (call .selinux.map_fs_files (typeattr))
+    (call .selinux.readwrite_fs_pattern.type (typeattr))
+
+    (call .shadow.dontaudit_read_file_files (typeattr))
+
+    (call .sys.link_subj_keyrings (typeattr))
+    (call .sys.search_subj_keyrings (typeattr))
+
+    (call .sys.user.link_subj_keyrings (typeattr))
+    (call .sys.user.search_subj_keyrings (typeattr))
+
+    (call .unixchkpwd.subj_type_transition (typeattr))
+
+    (call .user.unpriv.link_all_keyrings (typeattr))
+    (call .user.unpriv.search_all_keyrings (typeattr))
+
+    (call .utmp.log.append_file_files (typeattr))
+    (call .utmp.log.dontaudit_writeinherited_file_files (typeattr))
+    (call .utmp.log.read_file_files (typeattr))
+    (call .utmp.run.read_file_files (typeattr)))
 
   (block login
 
