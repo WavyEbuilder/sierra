@@ -30,6 +30,8 @@
   (allow subj self create_netlink_audit_socket)
   (allow subj self create_unix_dgram_socket)
 
+  (dontaudit subj self (key (write)))
+
   (block sulogin
 
     (blockinherit .sys.agent.template)))
