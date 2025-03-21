@@ -18,24 +18,46 @@
 
       ;; After udev is loaded and has relabeled /dev, dinit might
       ;; loose access to /dev/null as it is no longer devtmp.fs
-      (call .null.append_nodedev_chr_files (subj))
       (call .null.readwrite_nodedev_chr_files (subj))
 
       ;; Comprimise for /dev/null in race with udev to create it
       ;; TODO: implement relabeling of /dev in dinit
-      (call .devtmp.append_fs_chr_files (subj))
       (call .devtmp.readwrite_fs_chr_files (subj))
+
+      (call .caplastcap.read_sysctlfile_pattern.type (subj))
 
       (call .cgroup.readwrite_fs_files (subj))
       (call .cgroup.search_fs_pattern.type (subj))
 
+      (call .dev.list_file_pattern.type (subj))
+      (call .dev.relabel_all_blk_files (subj))
+      (call .dev.relabel_all_chr_files (subj))
+      (call .dev.relabelto_file_dirs (subj))
+      (call .dev.relabelto_file_fifo_files (subj))
+      (call .dev.relabelto_file_files (subj))
+      (call .dev.relabelto_file_lnk_files (subj))
+      (call .dev.relabelto_file_sock_files (subj))
+
+      (call .devtmp.list_fs_dirs (subj))
+      (call .devtmp.relabelfrom_fs_dirs (subj))
+      (call .devtmp.relabelfrom_fs_blk_files (subj))
+      (call .devtmp.relabelfrom_fs_chr_files (subj))
+      (call .devtmp.relabelfrom_fs_fifo_files (subj))
+      (call .devtmp.relabelfrom_fs_lnk_files (subj))
+      (call .devtmp.relabelfrom_fs_sock_files (subj))
       (call .devtmp.search_fs_dirs (subj))
 
-      (call .fs.search_sysfile_pattern.type (subj))
+      (call .file.dontaudit_search_all_dirs (subj))
+
+      (call .fs.getattr_all_fs (subj))
 
       (call .hostname.read_file_files (subj))
 
       (call .machineid.read_file_files (subj))
+
+      (call .selinux.file.map_file_files (subj))
+      (call .selinux.file.read_file_pattern.type (subj))
+      (call .selinux.file.search_file_dirs (subj))
 
       (call .selinux.linked.type (subj))
 
