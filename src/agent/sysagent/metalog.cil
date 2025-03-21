@@ -14,6 +14,7 @@
   (call .locale.read_file_pattern.type (subj))
 
   (call .log.manage_file_files (subj))
+  (call .log.manage_file_dirs (subj))
 
   (allow subj self (capability2 (syslog)))
   (allow subj self (process (setpgid)))
