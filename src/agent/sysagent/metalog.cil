@@ -2,10 +2,14 @@
 
   (blockinherit .sys.agent.template)
 
+  (call conf.list_file_dirs (subj))
+  (call conf.read_file_files (subj))
+
+  (call run.run_file_type_transition_file (subj))
+
   (call .devlog.dev_file_type_transition_file (subj))
 
-  (call metalog.conf.list_file_dirs (subj))
-  (call metalog.conf.read_file_files (subj))
+  (call .log.manage_file_files (subj))
 
   (allow subj self (capability2 (syslog)))
   (allow subj self (process (setpgid)))
@@ -34,11 +38,23 @@
            (call .conf.file_type_transition
                  (ARG1 file dir "metalog.d")))
 
-    (blockinherit .file.conf.template)))
+    (blockinherit .file.conf.template))
+
+  (block run
+
+    (filecon "/run/metalog\.pid" file file_context)
+
+    (macro run_file_type_transition_file ((type ARG1))
+           (call .run.file_type_transition
+                 (ARG1 file file "metalog.pid")))
+
+    (blockinherit .file.macro_template_files)
+    (blockinherit .file.run.template)))
 
 (in file.unconfined
 
-    (call .metalog.conf.conf_file_type_transition_file (typeattr)))
+    (call .metalog.conf.conf_file_type_transition_file (typeattr))
+    (call .metalog.run.run_file_type_transition_file (typeattr)))
 
 (in after metalog.exec
 
