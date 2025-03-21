@@ -2,6 +2,9 @@
 
   (blockinherit .sys.agent.template)
 
+  (call metalog.conf.list_file_dirs (subj))
+  (call metalog.conf.read_file_files (subj))
+
   (block conf
 
     (filecon "/etc/metalog\.conf" file file_context)
