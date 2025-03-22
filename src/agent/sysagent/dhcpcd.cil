@@ -11,6 +11,8 @@
   (call state.manage_file_dirs (subj))
   (call state.manage_file_files (subj))
 
+  (call .metalog.client.type (subj))
+
   (block conf
 
     (filecon "/etc/dhcpcd\.conf" file file_context)
