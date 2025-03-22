@@ -34,6 +34,9 @@
 
   (call .resolv.conf.manage_file_files (subj))
 
+  (allow subj self (capability
+         (net_admin net_bind_service net_raw setgid setuid sys_chroot)))
+
   (allow subj self create_netlink_generic_socket)
   (allow subj self create_netlink_kobject_uevent_socket)
   (allow subj self create_netlink_route_socket)
