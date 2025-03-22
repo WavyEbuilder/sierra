@@ -34,6 +34,16 @@
 
   (call .resolv.conf.manage_file_files (subj))
 
+  (allow subj self create_netlink_generic_socket)
+  (allow subj self create_netlink_kobject_uevent_socket)
+  (allow subj self create_netlink_route_socket)
+  (allow subj self create_packet_socket)
+  (allow subj self create_rawip_socket)
+  (allow subj self create_udp_socket)
+  (allow subj self create_unix_dgram_socket)
+  (allow subj self create_unix_stream_socket)
+  (allow subj self (netlink_route_socket (nlmsg_read nlmsg_write)))
+
   (block conf
 
     (filecon "/etc/dhcpcd\.conf" file file_context)
