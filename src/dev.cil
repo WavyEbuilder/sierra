@@ -8,6 +8,21 @@
 
   (typeattribute typeattr)
 
+  (macro dontaudit_getattr_all_chr_files ((type ARG1))
+         (dontaudit ARG1 typeattr (chr_file (getattr))))
+
+  (macro dontaudit_setattr_all_chr_files ((type ARG1))
+         (dontaudit ARG1 typeattr (chr_file (setattr))))
+
+  (macro getattr_all_chr_files ((type ARG1))
+         (allow ARG1 typeattr (chr_file (getattr))))
+
+  (macro setattr_all_blk_files ((type ARG1))
+         (allow ARG1 typeattr (blk_file (setattr))))
+
+  (macro setattr_all_chr_files ((type ARG1))
+         (allow ARG1 typeattr (chr_file (setattr))))
+
   (blockinherit .file.all_macro_template_blk_files)
   (blockinherit .file.all_macro_template_chr_files)
 
