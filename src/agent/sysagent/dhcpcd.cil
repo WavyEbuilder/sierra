@@ -30,12 +30,27 @@
     (blockinherit .file.macro_template_dirs)
     (blockinherit .file.macro_template_files)
     (blockinherit .file.macro_template_sock_files)
-    (blockinherit .file.run.base_template)))
+    (blockinherit .file.run.base_template))
+
+  (block state
+
+    (filecon "/var/lib/dhcpcd" dir file_context)
+    (filecon "/var/lib/dhcpcd/.*" any file_context)
+
+    (macro state_file_type_transition_file ((type ARG1))
+           (call .state.file_type_transition
+                 (ARG1 file dir "dhcpcd")))
+
+    (blockinherit .file.macro_template_dirs)
+    (blockinherit .file.macro_template_files)
+    (blockinherit .file.state.base_template)))
+
 
 (in file.unconfined
 
     (call .dhcpcd.conf.conf_file_type_transition_file (typeattr))
-    (call .dhcpcd.run.run_file_type_transition_file (typeattr)))
+    (call .dhcpcd.run.run_file_type_transition_file (typeattr))
+    (call .dhcpcd.state.state_file_type_transition_file (typeattr)))
 
 (in after dhcpcd.exec
 
