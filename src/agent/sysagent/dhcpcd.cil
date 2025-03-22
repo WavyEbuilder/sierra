@@ -22,8 +22,13 @@
 
   (call .hostname.read_sysctlfile_files (subj))
 
-  (call .ipv4.read_sysctlfile_files (subj))
-  (call .ipv6.read_sysctlfile_files (subj))
+  (call .ipv4.readwrite_sysctlfile_files (subj))
+  (call .ipv4.search_sysctlfile_dirs (subj))
+
+  (call .ipv6.readwrite_sysctlfile_files (subj))
+  (call .ipv6.search_sysctlfile_dirs (subj))
+
+  (call .kernel.read_sysfile_files (subj))
 
   (call .locale.data.map_file_pattern.type (subj))
   (call .locale.read_file_pattern.type (subj))
