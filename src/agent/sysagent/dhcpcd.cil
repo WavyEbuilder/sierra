@@ -8,6 +8,9 @@
   (call run.manage_file_files (subj))
   (call run.run_file_type_transition_file (subj))
 
+  (call state.manage_file_dirs (subj))
+  (call state.manage_file_files (subj))
+
   (block conf
 
     (filecon "/etc/dhcpcd\.conf" file file_context)
