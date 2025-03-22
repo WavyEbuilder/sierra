@@ -17,6 +17,8 @@
 
   (call .metalog.client.type (subj))
 
+  (call .random.read_nodedev_chr_files (subj))
+
   (call .resolv.conf.manage_file_files (subj))
 
   (block conf
