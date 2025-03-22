@@ -1,3 +1,3 @@
 sys.role:sys.subj@MCS_SUFFIX@ sys.role:sys.user.subj@MCS_SUFFIX@
-sys.role:login.subj@MCS_SUFFIX@ sys.role:sys.user.subj@MCS_SUFFIX@ user.role:user.subj@MCS_SUFFIX@ wheel.role:user.subj@MCS_SUFFIX@
+sys.role:login.subj@MCS_SUFFIX@ sys.role:sys.user.subj@MCS_SUFFIX@ user.role:user.subj@MCS_SUFFIX@ staff.role:user.subj@MCS_SUFFIX@
 sys.role:openssh.server.subj@MCS_SUFFIX@ sys.role:sys.user.subj@MCS_SUFFIX@ user.role:user.subj@MCS_SUFFIX@ staff.role:user.subj@MCS_SUFFIX@
