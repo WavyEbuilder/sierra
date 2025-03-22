@@ -47,6 +47,12 @@
             (call .user.unpriv.transition_all_processes (subj))
             (call .user.unpriv.write_all_keyrings (subj)))
 
+  (optional login_usertermdev
+            (call .user.termdev.open_all_chr_files (subj))
+            (call .user.termdev.readwriteinherited_all_chr_files (subj))
+            (call .user.termdev.relabel_all_chr_files (subj))
+            (call .user.termdev.setattr_all_chr_files (subj)))
+
   (block sulogin
 
     (blockinherit .sys.agent.template)
