@@ -35,6 +35,8 @@
 
   (call .metalog.client.type (subj))
 
+  (call .net.search_sysctlfile_pattern.type (subj))
+
   (call .random.read_nodedev_chr_files (subj))
 
   (call .resolv.conf.manage_file_files (subj))

@@ -6,7 +6,18 @@
     (genfscon "proc" "/sys/net" sysctlfile_context)
 
     (blockinherit .sysctlfile.macro_template_dirs)
-    (blockinherit .sysctlfile.net.template))
+    (blockinherit .sysctlfile.net.template)
+
+    (block search_sysctlfile_pattern
+
+      (macro type ((type ARG1))
+             (typeattributeset typeattr ARG1))
+
+      (typeattribute typeattr)
+
+      (call search_sysctlfile_dirs (typeattr))
+
+      (call .sysctl.search_procfile_pattern.type (typeattr))))
 
 (in sysctlfile
 
