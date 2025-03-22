@@ -11,6 +11,11 @@
   (call state.manage_file_dirs (subj))
   (call state.manage_file_files (subj))
 
+  ;; For /sys/class/net
+  (call .class.getattr_sysfile_files (subj))
+  (call .class.list_sysfile_pattern.type (subj))
+  (call .class.read_sysfile_lnk_files (subj))
+
   (call .cpuinfo.read_procfile_files (subj))
 
   (call .dhcp.namebind_port_udp_sockets (subj))
