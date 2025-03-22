@@ -11,6 +11,8 @@
   (call state.manage_file_dirs (subj))
   (call state.manage_file_files (subj))
 
+  (call .dhcp.namebind_port_udp_sockets (subj))
+
   (call .metalog.client.type (subj))
 
   (call .resolv.conf.manage_file_files (subj))
