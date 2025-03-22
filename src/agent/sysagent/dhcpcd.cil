@@ -13,6 +13,8 @@
 
   (call .metalog.client.type (subj))
 
+  (call .resolv.conf.manage_file_files (subj))
+
   (block conf
 
     (filecon "/etc/dhcpcd\.conf" file file_context)
