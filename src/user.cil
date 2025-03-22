@@ -69,6 +69,10 @@
     (call .coreutils.exec.entrypoint_file_files (typeattr))
     (call .coreutils.exec.execute_file_files (typeattr))
 
+    (call .cpu.read_sysfile_pattern.type (typeattr))
+
+    (call .cpuinfo.read_procfile_files (typeattr))
+
     (call .data.list_file_dirs (typeattr))
 
     (call .dev.getattr_all_chr_files (typeattr))
