@@ -35,7 +35,10 @@
 
   (call .metalog.client.type (subj))
 
+  (call .net.egress_netifs (subj))
+  (call .net.nodebind_netnode_udp_sockets (subj))
   (call .net.search_sysctlfile_pattern.type (subj))
+  (call .net.sendto_nodes (subj))
 
   (call .random.read_nodedev_chr_files (subj))
 
@@ -54,6 +57,10 @@
   (allow subj self create_unix_stream_socket)
   (allow subj self (netlink_route_socket (nlmsg_read nlmsg_write)))
 
+  (block script
+
+    (blockinherit .sys.agent.template))
+
   (block conf
 
     (filecon "/etc/dhcpcd\.conf" file file_context)
@@ -66,18 +73,11 @@
 
   (block data
 
-    (filecon "/usr/lib/dhcpcd" dir file_context)
-    (filecon "/usr/lib/dhcpcd/.*" any file_context)
-
     (filecon "/usr/share/dhcpcd" dir file_context)
     (filecon "/usr/share/dhcpcd/.*" any file_context)
 
     (macro data_file_type_transition_file ((type ARG1))
            (call .data.file_type_transition
-                 (ARG1 file dir "dhcpcd")))
-
-    (macro lib_file_type_transition_file ((type ARG1))
-           (call .lib.file_type_transition
                  (ARG1 file dir "dhcpcd")))
 
     (blockinherit .file.data.dhcpcd.template))
@@ -144,10 +144,13 @@
 
     (call .dhcpcd.conf.conf_file_type_transition_file (typeattr))
     (call .dhcpcd.data.data_file_type_transition_file (typeattr))
-    (call .dhcpcd.data.lib_file_type_transition_file (typeattr))
     (call .dhcpcd.run.run_file_type_transition_file (typeattr))
     (call .dhcpcd.state.state_file_type_transition_file (typeattr)))
 
 (in after dhcpcd.exec
 
     (filecon "/usr/bin/dhcpcd" file file_context))
+
+(in after dhcpcd.script.exec
+
+    (filecon "/usr/lib/dhcpcd/dhcpcd-run-hooks" file file_context))
