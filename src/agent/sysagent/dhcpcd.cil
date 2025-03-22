@@ -11,6 +11,8 @@
   (call state.manage_file_dirs (subj))
   (call state.manage_file_files (subj))
 
+  (call script.subj_type_transition (subj))
+
   ;; For /sys/class/net
   (call .class.getattr_sysfile_files (subj))
   (call .class.list_sysfile_pattern.type (subj))
