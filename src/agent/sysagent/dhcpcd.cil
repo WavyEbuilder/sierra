@@ -21,6 +21,24 @@
 
     (blockinherit .file.conf.template))
 
+  (block data
+
+    (filecon "/usr/lib/dhcpcd" dir file_context)
+    (filecon "/usr/lib/dhcpcd/.*" any file_context)
+
+    (filecon "/usr/share/dhcpcd" dir file_context)
+    (filecon "/usr/share/dhcpcd/.*" any file_context)
+
+    (macro data_file_type_transition_file ((type ARG1))
+           (call .data.file_type_transition
+                 (ARG1 file dir "dhcpcd")))
+
+    (macro lib_file_type_transition_file ((type ARG1))
+           (call .lib.file_type_transition
+                 (ARG1 file dir "dhcpcd")))
+
+    (blockinherit .file.data.dhcpcd.template))
+
   (block run
 
     (filecon "/run/dhcpcd" dir file_context)
@@ -48,10 +66,42 @@
     (blockinherit .file.macro_template_files)
     (blockinherit .file.state.base_template)))
 
+(in file.data
+
+    (block dhcpcd
+
+      (macro type ((type ARG1))
+             (typeattributeset typeattr ARG1))
+
+      (blockinherit file.all_macro_template_dirs)
+      (blockinherit file.all_macro_template_files)
+
+      (typeattribute typeattr)
+
+      (call file.data.type (typeattr))
+
+      (block base_template
+
+        (blockabstract base_template)
+
+        (blockinherit .file.data.base_template)
+
+        (call .file.data.dhcpcd.type (file)))
+
+      (block template
+
+        (blockabstract template)
+
+        (blockinherit file.all_macro_template_dirs)
+        (blockinherit file.all_macro_template_files)
+
+        (blockinherit .file.data.dhcpcd.base_template))))
 
 (in file.unconfined
 
     (call .dhcpcd.conf.conf_file_type_transition_file (typeattr))
+    (call .dhcpcd.data.data_file_type_transition_file (typeattr))
+    (call .dhcpcd.data.lib_file_type_transition_file (typeattr))
     (call .dhcpcd.run.run_file_type_transition_file (typeattr))
     (call .dhcpcd.state.state_file_type_transition_file (typeattr)))
 
