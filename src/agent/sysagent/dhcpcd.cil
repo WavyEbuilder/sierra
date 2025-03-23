@@ -53,6 +53,8 @@
 
   (allow subj self (capability
          (net_admin net_bind_service net_raw setgid setuid sys_chroot)))
+  (allow subj self (netlink_route_socket (nlmsg_read nlmsg_write)))
+  (allow subj self (process (setrlimit)))
 
   (allow subj self create_netlink_generic_socket)
   (allow subj self create_netlink_kobject_uevent_socket)
@@ -62,7 +64,6 @@
   (allow subj self create_udp_socket)
   (allow subj self create_unix_dgram_socket)
   (allow subj self create_unix_stream_socket)
-  (allow subj self (netlink_route_socket (nlmsg_read nlmsg_write)))
 
   (optional dhcpcd_invalidassociationsboolfile
             (call .invalidassociations.type (subj)))
