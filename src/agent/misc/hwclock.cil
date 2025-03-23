@@ -1,0 +1,51 @@
+(block hwclock
+
+  (blockinherit .sys.agent.template)
+
+  (allow subj self (capability (audit_write sys_time)))
+  (allow subj self (process (getcap)))
+  (allow subj self create_netlink_audit_socket)
+  (allow subj self (netlink_audit_socket (nlmsg_relay)))
+
+  (call conf.readwrite_file_files (subj))
+
+  (call .caplastcap.read_sysctlfile_pattern.type (subj))
+
+  (call .class.traverse_sysfile_pattern.type (subj))
+
+  (call .clock.read_nodedev_chr_files (subj))
+
+  (call .devices.read_sysfile_files (subj))
+  (call .devices.list_sysfile_pattern.type (subj))
+
+  (call .devpts.search_fs_pattern.type (subj))
+
+  (call .locale.data.map_file_pattern.type (subj))
+  (call .locale.read_file_pattern.type (subj))
+
+  (call .proc.getattr_fs_pattern.type (subj))
+
+  (block conf
+
+    (filecon "/etc/adjtime" file file_context)
+    (filecon "/etc/adjtime\..*" file file_context)
+
+    (filecon "/etc/default/hwclock" file file_context)
+    (filecon "/etc/default/hwclock\..*" file file_context)
+
+    (macro conf_file_type_transition_file ((type ARG1))
+	   (call .conf.file_type_transition
+		 (ARG1 file file "adjtime"))
+	   (call .conf.file_type_transition
+		 (ARG1 file file "hwclock")))
+
+    (blockinherit .file.conf.base_template)
+    (blockinherit .file.macro_template_files)))
+
+(in file.unconfined
+
+    (call .hwclock.conf.conf_file_type_transition_file (typeattr)))
+
+(in after hwclock.exec
+
+    (filecon "/usr/bin/hwclock" file file_context))
