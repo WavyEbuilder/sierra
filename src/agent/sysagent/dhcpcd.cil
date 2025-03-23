@@ -20,6 +20,8 @@
 
   (call .cpuinfo.read_procfile_files (subj))
 
+  (call .devices.read_sysfile_pattern.type (subj))
+
   (call .dhcp.namebind_port_udp_sockets (subj))
 
   (call .hostname.read_sysctlfile_files (subj))
