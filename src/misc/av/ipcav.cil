@@ -138,3 +138,28 @@
     (allow typeattr subj.typeattr (msgq (all)))
     (allow typeattr subj.typeattr (sem (all)))
     (allow typeattr subj.typeattr (shm (all))))
+
+(in sys
+
+    (macro readwrite_subj_msgq ((type ARG1))
+           (allow ARG1 subj readwrite_msgq))
+
+    (macro readwrite_subj_semaphores ((type ARG1))
+           (allow ARG1 subj readwrite_sem))
+
+    (macro readwrite_subj_shm ((type ARG1))
+           (allow ARG1 subj readwrite_shm)))
+
+(in sys.user
+
+    (macro destroy_subj_semaphores ((type ARG1))
+           (allow ARG1 subj (sem (destroy))))
+
+    (macro readwrite_subj_msgq ((type ARG1))
+           (allow ARG1 subj readwrite_msgq))
+
+    (macro readwrite_subj_semaphores ((type ARG1))
+           (allow ARG1 subj readwrite_sem))
+
+    (macro readwrite_subj_shm ((type ARG1))
+           (allow ARG1 subj readwrite_shm)))

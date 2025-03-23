@@ -1,0 +1,17 @@
+(block ntp
+
+  (portcon "dccp" 123 port_context)
+  (portcon "sctp" 123 port_context)
+  (portcon "tcp" 123 port_context)
+  (portcon "udp" 123 port_context)
+
+  (blockinherit .net.port.reserved.template)
+
+  (block cmd
+
+    (portcon "dccp" 323 port_context)
+    (portcon "sctp" 323 port_context)
+    (portcon "tcp" 323 port_context)
+    (portcon "udp" 323 port_context)
+
+    (blockinherit .net.port.reserved.template)))

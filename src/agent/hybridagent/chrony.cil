@@ -1,0 +1,277 @@
+(block chrony
+
+  (block cert
+
+    (filecon "/etc/ssl/chrony" dir file_context)
+    (filecon "/etc/ssl/chrony/.*" any file_context)
+
+    (macro cert_file_type_transition_file ((type ARG1))
+	   (call .cert.file_type_transition
+		 (ARG1 file dir "chrony")))
+
+    (blockinherit .file.cert.template))
+
+  (block client
+
+    (macro unix_dgram_send ((type ARG1))
+	   (call sendto_subj_unix_dgram_sockets (ARG1))
+	   (call chrony.run.search_file_dirs (ARG1))
+	   (call run.write_file_sock_files (ARG1)))
+
+    (blockinherit .hybrid.agent.template)
+
+    (allow subj self create_unix_dgram_socket)
+
+    (call run.manage_file_sock_files (subj))
+    (call run.chrony_run_file_type_transition_file (subj))
+
+    (call chrony.run.deletename_file_dirs (subj))
+
+    (call chrony.server.unix_dgram_send (subj))
+
+    (call .locale.data.map_file_pattern.type (subj))
+    (call .locale.data.read_file_pattern.type (subj))
+
+    (call .nss.hosts.type (subj))
+
+    (call .terminfo.read_file_pattern.type (subj))
+
+    (block run
+
+      (filecon "/run/chrony/chronyc.*\.sock" socket file_context)
+
+      (macro chrony_run_file_type_transition_file ((type ARG1))
+	     (call chrony.run.file_type_transition
+		   (ARG1 file sock_file "*")))
+
+      (blockinherit .file.run.chrony.template)))
+
+  (block conf
+
+    (filecon "/etc/chrony" dir file_context)
+    (filecon "/etc/chrony/.*" any file_context)
+
+    (filecon "/etc/default/chrony" file file_context)
+    (filecon "/etc/default/chrony\..*" file file_context)
+
+    (macro conf_file_type_transition_file ((type ARG1))
+	   (call .conf.file_type_transition
+		 (ARG1 file dir "chrony"))
+	   (call .conf.file_type_transition
+		 (ARG1 file file "chrony")))
+
+    (blockinherit .file.conf.template))
+
+  (block helper
+
+    (blockinherit .sys.agent.template)
+
+    (call run.manage_file_dirs (subj))
+    (call run.manage_file_files (subj))
+    (call run.run_file_type_transition_file (subj))
+
+    (call chrony.client.subj_type_transition (subj))
+
+    (call .run.deletename_file_dirs (subj))
+
+    (block run
+
+      (filecon "/run/chrony-helper" dir file_context)
+      (filecon "/run/chrony-helper/.*" any file_context)
+
+      (macro run_file_type_transition_file ((type ARG1))
+	     (call .run.file_type_transition
+		   (ARG1 file dir "chrony-helper")))
+
+      (blockinherit .file.macro_template_dirs)
+      (blockinherit .file.macro_template_files)
+      (blockinherit .file.run.chrony.base_template)))
+
+  (block log
+
+    (filecon "/var/log/chrony" dir file_context)
+    (filecon "/var/log/chrony/.*" any file_context)
+
+    (macro log_file_type_transition_file ((type ARG1))
+	   (call .log.file_type_transition
+		 (ARG1 file dir "chrony")))
+
+    (macro setattr_file_files ((type ARG1))
+	   (allow ARG1 file (file (setattr))))
+
+    (blockinherit .file.log.template))
+
+  (block run
+
+    (filecon "/run/chrony" dir file_context)
+    (filecon "/run/chrony/.*" any file_context)
+
+    (filecon "/run/chrony-dhcp" dir file_context)
+    (filecon "/run/chrony-dhcp/.*" any file_context)
+
+    (filecon "/run/chronyd\.pid" file file_context)
+
+    (filecon "/run/chrony\..*\.sock" socket file_context)
+
+    (macro run_file_type_transition_file ((type ARG1)(class ARG2)(name ARG3))
+	   (call .run.file_type_transition
+		 (ARG1 file ARG2 ARG3)))
+
+    (blockinherit .file.macro_template_dirs)
+    (blockinherit .file.macro_template_files)
+    (blockinherit .file.run.chrony.template))
+
+  (block server
+
+    (macro unix_dgram_send ((type ARG1))
+	   (call sendto_subj_unix_dgram_sockets (ARG1))
+	   (call chrony.run.search_file_dirs (ARG1))
+	   (call chrony.run.write_file_sock_files (ARG1)))
+
+    (blockinherit .sys.agent.template)
+
+    (allow subj self
+	   (capability (chown dac_override dac_read_search net_bind_service
+			      setgid setuid sys_time)))
+    (allow subj self (process (setcap)))
+    (allow subj self create_shm)
+    (allow subj self create_tcp_stream_socket)
+    (allow subj self create_unix_dgram_socket)
+
+    (call tmpfs.manage_file_files (subj))
+    (call tmpfs.map_file_files (subj))
+    (call tmpfs.tmp_fs_type_transition_file (subj))
+
+    (call chrony.cert.list_file_dirs (subj))
+    (call chrony.cert.read_file_files (subj))
+
+    (call chrony.client.unix_dgram_send (subj))
+
+    (call chrony.conf.list_file_dirs (subj))
+    (call chrony.conf.read_file_files (subj))
+
+    (call chrony.log.append_file_files (subj))
+    (call chrony.log.create_file_files (subj))
+    (call chrony.log.log_file_type_transition_file (subj))
+    (call chrony.log.manage_file_dirs (subj))
+    (call chrony.log.setattr_file_files (subj))
+
+    (call chrony.run.manage_file_dirs (subj))
+    (call chrony.run.manage_file_files (subj))
+    (call chrony.run.manage_file_sock_files (subj))
+    (call chrony.run.run_file_type_transition_file (subj dir "chrony"))
+    (call chrony.run.run_file_type_transition_file (subj file "chronyd.pid"))
+    (call chrony.run.run_file_type_transition_file (subj sock_file "*"))
+
+    (call chrony.state.manage_file_dirs (subj))
+    (call chrony.state.manage_file_files (subj))
+
+    (call .cert.read_file_files (subj))
+    (call .cert.search_file_pattern.type (subj))
+
+    (call .clock.readwrite_nodedev_chr_files (subj))
+
+    (call .hwclock.conf.read_file_files (subj))
+
+    (call .locale.data.map_file_pattern.type (subj))
+    (call .locale.read_file_pattern.type (subj))
+
+    (call .metalog.client.type (subj))
+
+    (call .nss.hosts.type (subj))
+    (call .nss.passwdgroup.type (subj))
+
+    (call .ntp.cmd.namebind_port_udp_sockets (subj))
+    (call .ntp.namebind_port_udp_sockets (subj))
+
+    (call .ntp.nts.namebind_port_tcp_sockets (subj))
+    (call .ntp.nts.nameconnect_port_tcp_sockets (subj))
+
+    (call .random.read_nodedev_chr_files (subj))
+
+    (call .run.deletename_file_dirs (subj))
+
+    (call .state.search_file_pattern.type (subj))
+
+    (call .sys.modulerequest_system (subj))
+    (call .sys.readwrite_subj_shm (subj))
+
+    (block tmpfs
+
+      (macro map_file_files ((type ARG1))
+	     (allow ARG1 file (file (map))))
+
+      (macro tmp_fs_type_transition_file ((type ARG1))
+	     (call .tmp.fs_type_transition
+		   (ARG1 file file "*")))
+
+      (blockinherit .file.macro_template_files)
+      (blockinherit .file.tmpfs.base_template)))
+
+  (block state
+
+    (filecon "/var/lib/chrony" dir file_context)
+    (filecon "/var/lib/chrony/.*" any file_context)
+
+    (macro state_file_type_transition_file ((type ARG1))
+	   (call .state.file_type_transition
+		 (ARG1 file dir "chrony")))
+
+    (blockinherit .file.macro_template_dirs)
+    (blockinherit .file.macro_template_files)
+    (blockinherit .file.state.base_template)))
+
+(in file.run
+
+    (block chrony
+
+      (macro type ((type ARG1))
+	     (typeattributeset typeattr ARG1))
+
+      (blockinherit file.all_macro_template_dirs)
+      (blockinherit file.all_macro_template_files)
+      (blockinherit file.all_macro_template_sock_files)
+
+      (typeattribute typeattr)
+
+      (call file.run.type (typeattr))
+
+      (block base_template
+
+	(blockabstract base_template)
+
+	(blockinherit .file.run.base_template)
+
+	(call .file.run.chrony.type (file)))
+
+      (block template
+
+	(blockabstract template)
+
+	(blockinherit .file.macro_template_sock_files)
+	(blockinherit .file.run.chrony.base_template))))
+
+(in file.unconfined
+
+    (call .chrony.cert.cert_file_type_transition_file (typeattr))
+    (call .chrony.conf.conf_file_type_transition_file (typeattr))
+    (call .chrony.helper.run.run_file_type_transition_file (typeattr))
+    (call .chrony.log.log_file_type_transition_file (typeattr))
+    (call .chrony.run.run_file_type_transition_file (typeattr dir "chrony"))
+    (call .chrony.run.run_file_type_transition_file
+	  (typeattr dir "chrony-dhcp"))
+    (call .chrony.run.run_file_type_transition_file
+	  (typeattr file "chronyd.pid"))
+    (call .chrony.state.state_file_type_transition_file (typeattr)))
+
+(in after chrony.client.exec
+
+    (filecon "/usr/bin/chronyc" file file_context))
+
+(in after chrony.helper.exec
+
+    (filecon "/usr/bin/chrony/chrony-helper" file file_context))
+
+(in after chrony.server.exec
+
+    (filecon "/usr/bin/chronyd" file file_context))

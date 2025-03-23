@@ -1,0 +1,10 @@
+(in ntp
+
+    (block nts
+
+      (portcon "dccp" 4460 port_context)
+      (portcon "sctp" 4460 port_context)
+      (portcon "tcp" 4460 port_context)
+      (portcon "udp" 4460 port_context)
+
+      (blockinherit .net.port.unreserved.template)))
