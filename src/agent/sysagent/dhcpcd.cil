@@ -64,6 +64,15 @@
   (allow subj self create_unix_stream_socket)
   (allow subj self (netlink_route_socket (nlmsg_read nlmsg_write)))
 
+  (optional dhcpcd_invalidassociationsboolfile
+            (call .invalidassociations.type (subj)))
+
+  (optional dhcpcd_invalidpacketsboolfile
+            (call .invalidpackets.type (subj)))
+
+  (optional dhcpcd_invalidpeersboolfile
+            (call .invalidpeers.type (subj)))
+
   (block script
 
     (blockinherit .sys.agent.template))
