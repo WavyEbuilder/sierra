@@ -46,6 +46,8 @@
   (call .net.search_sysctlfile_pattern.type (subj))
   (call .net.sendto_nodes (subj))
 
+  (call .ns.read_fs_pattern.type (subj))
+
   (call .nss.passwdgroup.type (subj))
 
   (call .random.read_nodedev_chr_files (subj))
