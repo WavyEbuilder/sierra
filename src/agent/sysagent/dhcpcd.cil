@@ -101,7 +101,7 @@
     (blockinherit .file.macro_template_dirs)
     (blockinherit .file.macro_template_files)
     (blockinherit .file.macro_template_sock_files)
-    (blockinherit .file.run.base_template))
+    (blockinherit .file.run.dhcpcd.base_template))
 
   (block state
 
@@ -146,6 +146,36 @@
         (blockinherit file.all_macro_template_files)
 
         (blockinherit .file.data.dhcpcd.base_template))))
+
+(in file.run
+
+    (block dhcpcd
+
+      (macro type ((type ARG1))
+             (typeattributeset typeattr ARG1))
+
+      (blockinherit file.all_macro_template_dirs)
+      (blockinherit file.all_macro_template_files)
+      (blockinherit file.all_macro_template_sock_files)
+
+      (typeattribute typeattr)
+
+      (call file.run.type (typeattr))
+
+      (block base_template
+
+        (blockabstract base_template)
+
+        (blockinherit .file.run.base_template)
+
+        (call .file.run.dhcpcd.type (file)))
+
+      (block template
+
+        (blockabstract template)
+
+        (blockinherit .file.macro_template_sock_files)
+        (blockinherit .file.run.dhcpcd.base_template))))
 
 (in file.unconfined
 
