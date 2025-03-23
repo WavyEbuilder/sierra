@@ -48,6 +48,9 @@
 
   (call .resolv.conf.manage_file_files (subj))
 
+  (call .sys.getattr_fs_pattern.type (subj))
+  (call .sys.modulerequest_system (subj))
+
   (allow subj self (capability
          (net_admin net_bind_service net_raw setgid setuid sys_chroot)))
 
