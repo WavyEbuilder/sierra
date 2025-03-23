@@ -13,6 +13,8 @@
 
   (call script.subj_type_transition (subj))
 
+  (call .bus.search_sysfile_pattern.type (subj))
+
   ;; For /sys/class/net
   (call .class.getattr_sysfile_files (subj))
   (call .class.list_sysfile_pattern.type (subj))
