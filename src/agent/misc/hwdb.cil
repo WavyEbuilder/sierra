@@ -1,0 +1,47 @@
+(block hwdb
+
+  (blockinherit .sys.agent.template)
+
+  (allow subj self (capability (dac_override dac_read_search)))
+  (allow subj self (process (setfscreate)))
+  (allow subj self create_unix_dgram_socket)
+
+  (call .caplastcap.read_sysctlfile_pattern.type (subj))
+
+  (call .cgroup.getattr_fs_pattern.type (subj))
+
+  (call .crypto.read_sysctlfile_pattern.type (subj))
+
+  (call .filesystems.read_procfile_files (subj))
+
+  (call .ibac.objchangesys.type (subj))
+
+  (call .metalog.client.type (subj))
+
+  (call .mount.image.search_all_dirs (subj))
+
+  (call .osrelease.read_sysctlfile_pattern.type (subj))
+
+  (call .proc.getattr_fs_pattern.type (subj))
+
+  (call .rbac.objchangesys.type (subj))
+
+  (call .selinux.file.read_file_pattern.type (subj))
+  (call .selinux.mapread_fs_pattern.type (subj))
+
+  (call .state.search_file_pattern.type (subj))
+
+  (call .udev.conf.list_file_dirs (subj))
+  (call .udev.conf.read_file_files (subj))
+
+  (call .udev.data.lib_file_type_transition_file (subj))
+  (call .udev.data.manage_file_dirs (subj))
+  (call .udev.data.manage_file_files (subj))
+  (call .udev.data.map_file_files (subj))
+  (call .udev.data.relabel_file_files (subj))
+
+  (call .xattr.getattr_fs_pattern.type (subj)))
+
+(in after .hwdb.exec
+
+    (filecon "/usr/bin/systemd-hwdb" file file_context))
