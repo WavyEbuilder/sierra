@@ -45,6 +45,9 @@
 
   (call exec.execute_file_files (subj))
 
+  ;; For nr_open
+  (call .fs.search_sysctlfile_pattern.type (subj))
+
   (call helper.exec.execute_file_files (subj))
 
   (call run.manage_file_dirs (subj))
@@ -65,6 +68,8 @@
   (call .class.getattr_sysfile_files (subj))
   (call .class.list_sysfile_pattern.type (subj))
   (call .class.read_sysfile_lnk_files (subj))
+
+  (call .cmdline.read_procfile_pattern.type (subj))
 
   (call .cpu.readwrite_sysfile_files (subj))
   (call .cpu.traverse_sysfile_pattern.type (subj))
