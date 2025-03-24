@@ -39,6 +39,8 @@
 
   (call conf.manage_file_dirs (subj))
   (call conf.manage_file_files (subj))
+  ;; For /etc/udev/hwdb.bin
+  (call conf.map_file_files (subj))
 
   (call data.list_file_dirs (subj))
   (call data.map_file_files (subj))
