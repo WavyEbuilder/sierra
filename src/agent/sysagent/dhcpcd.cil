@@ -5,7 +5,9 @@
   (call conf.list_file_dirs (subj))
   (call conf.read_file_files (subj))
 
+  (call run.manage_file_dirs (subj))
   (call run.manage_file_files (subj))
+  (call run.manage_file_sock_files (subj))
   (call run.run_file_type_transition_file (subj))
 
   (call state.manage_file_dirs (subj))
@@ -54,13 +56,18 @@
 
   (call .resolv.conf.manage_file_files (subj))
 
+  (call .state.search_file_pattern.type (subj))
+
   (call .sys.getattr_fs_pattern.type (subj))
   (call .sys.modulerequest_system (subj))
+
+  (call .udev.run.read_file_pattern.type (subj))
 
   (allow subj self (capability
          (net_admin net_bind_service net_raw setgid setuid sys_chroot)))
   (allow subj self (netlink_route_socket (nlmsg_read nlmsg_write)))
   (allow subj self (process (setrlimit)))
+  (allow subj self (unix_stream_socket (accept listen)))
 
   (allow subj self create_netlink_generic_socket)
   (allow subj self create_netlink_kobject_uevent_socket)
