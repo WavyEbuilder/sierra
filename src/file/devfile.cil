@@ -12,6 +12,15 @@
     (filecon "/dev/.*" socket file_context)
     (filecon "/dev/.*" symlink file_context)
 
+    (macro dontaudit_getattr_blk_file_files ((type ARG1))
+           (dontaudit ARG1 file (blk_file (getattr))))
+
+    (macro dontaudit_getattr_chr_file_files ((type ARG1))
+           (dontaudit ARG1 file (chr_file (getattr))))
+
+    (macro dontaudit_watch_blk_file_files ((type ARG1))
+           (dontaudit ARG1 file (blk_file (watch))))
+
     (macro root_file_type_transition_file ((type ARG1))
 	   (call .root.file_type_transition
 		 (ARG1 file dir "dev")))

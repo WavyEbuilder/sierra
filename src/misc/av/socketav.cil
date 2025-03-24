@@ -315,6 +315,7 @@
 (classpermission readwrite_bluetooth_socket)
 (classpermission readwrite_dccp_socket)
 (classpermission readwrite_netlink_audit_socket)
+(classpermission readwrite_netlink_kobject_uevent_socket)
 (classpermission readwrite_sctp_socket)
 (classpermission readwrite_tcp_socket)
 (classpermission readwrite_tun_socket)
@@ -600,6 +601,11 @@
 		    (netlink_audit_socket (append bind connect getattr getopt
 						  ioctl read setopt shutdown
 						  write)))
+(classpermissionset readwrite_netlink_kobject_uevent_socket
+                    (netlink_kobject_uevent_socket (append bind connect getattr
+                                                           getopt ioctl read
+                                                           setopt shutdown
+                                                           write)))
 (classpermissionset readwrite_sctp_socket
 		    (sctp_socket (append bind connect getattr getopt ioctl read
 					 setopt shutdown write)))

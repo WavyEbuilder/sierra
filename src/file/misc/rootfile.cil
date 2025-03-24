@@ -9,6 +9,18 @@
   (filecon "/usr/bin" symlink file_context)
   (filecon "/usr/lib" symlink file_context)
 
+  (macro auditreadaccess_file_dirs ((type ARG1))
+         (allow ARG1 file (dir (getattr read))))
+
+  (macro auditwriteaccess_file_dirs ((type ARG1))
+         (allow ARG1 file (dir (getattr write))))
+
+  (macro dontaudit_auditaccess_file_dirs ((type ARG1))
+         (dontaudit ARG1 file (dir (audit_access))))
+
+  (macro watch_file_dirs ((type ARG1))
+         (allow ARG1 file (dir (watch))))
+
   (blockinherit .file.base_template)
   (blockinherit .file.macro_template_dirs)
   (blockinherit .file.macro_template_lnk_files)

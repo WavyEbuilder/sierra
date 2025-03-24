@@ -3,40 +3,291 @@
 
 (block udev
 
-  (call .anon_inode.unconfined.type (subj))
-  (call .booleanfile.unconfined.type (subj))
-  (call .bpffile.unconfined.type (subj))
-  (call .cgroupfile.unconfined.type (subj))
-  (call .debugfile.unconfined.type (subj))
-  (call .file.unconfined.type (subj))
-  (call .fs.unconfined.type (subj))
-  (call .invalid.unconfined.type (subj))
-  (call .net.ib.endport.unconfined.type (subj))
-  (call .net.ib.pkey.unconfined.type (subj))
-  (call .net.netif.unconfined.type (subj))
-  (call .net.netnode.unconfined.type (subj))
-  (call .net.packet.unconfined.type (subj))
-  (call .net.peer.unconfined.type (subj))
-  (call .net.port.unconfined.type (subj))
-  (call .net.spd.unconfined.type (subj))
-  (call .nodedev.unconfined.type (subj))
-  (call .procfile.unconfined.type (subj))
-  (call .pstorefile.unconfined.type (subj))
-  (call .ptytermdev.unconfined.type (subj))
-  (call .securityfile.unconfined.type (subj))
-  (call .selinux.unconfined.type (subj))
-  (call .serialtermdev.unconfined.type (subj))
-  (call .stordev.unconfined.type (subj))
-  (call .subj.unconfined.type (subj))
-  (call .sys.unconfined.type (subj))
-  (call .sysctlfile.unconfined.type (subj))
-  (call .sysfile.unconfined.type (subj))
-  (call .termdev.unconfined.type (subj))
-  (call .tracefile.unconfined.type (subj))
-  (call .unlabeled.unconfined.type (subj))
+  (macro dontaudit_readwriteinherited_subj_udp_sockets ((type ARG1))
+         (allow ARG1 subj readwriteinherited_udp_socket))
 
-  (blockinherit .sys.agent.template))
+  (macro unix_stream_connect ((type ARG1))
+         (call connectto_subj_unix_stream_sockets (ARG1))
+         (call run.search_file_dirs (ARG1))
+         (call run.write_file_sock_files (ARG1)))
 
-(in after udev.exec
+  (blockinherit .sys.agent.template)
+
+  ;; udev triggers may execute commands on events, and
+  ;; some of those may not be known to policy.
+  (boolean allow_unknown_agents false)
+
+  (booleanif allow_unknown_agents
+             (true
+
+               (call .sys.exec_subj_type_transition (subj))))
+
+  (allow subj self
+         (capability (chown dac_override dac_read_search fowner fsetid
+	              net_admin sys_admin sys_module sys_ptrace
+                      sys_rawio sys_resource)))
+  (allow subj self (process (getsched setfscreate setrlimit)))
+  (allow subj self create_netlink_kobject_uevent_socket)
+  (allow subj self create_netlink_route_socket)
+  (allow subj self create_udp_socket)
+  (allow subj self create_unix_dgram_socket)
+  (allow subj self (key (write)))
+  (allow subj self (netlink_route_socket (nlmsg_read nlmsg_write)))
+  (allow subj self (system (module_load))) ;; Linux 6.6.13-1
+  (allow subj self (unix_stream_socket (accept connectto)))
+
+  (call conf.manage_file_dirs (subj))
+  (call conf.manage_file_files (subj))
+
+  (call data.list_file_dirs (subj))
+  (call data.map_file_files (subj))
+  (call data.read_file_files (subj))
+
+  (call exec.execute_file_files (subj))
+
+  (call helper.exec.execute_file_files (subj))
+
+  (call run.manage_file_dirs (subj))
+  (call run.manage_file_files (subj))
+  (call run.manage_file_lnk_files (subj))
+  (call run.manage_file_sock_files (subj))
+  (call run.run_file_type_transition_file (subj))
+  (call run.watch_file_dirs (subj))
+
+  (call .block.traverse_sysfile_pattern.type (subj))
+
+  (call .bus.list_sysfile_pattern.type (subj))
+  (call .bus.read_sysfile_lnk_files (subj))
+  (call .bus.readwrite_sysfile_files (subj))
+
+  (call .caplastcap.read_sysctlfile_pattern.type (subj))
+
+  (call .class.getattr_sysfile_files (subj))
+  (call .class.list_sysfile_pattern.type (subj))
+  (call .class.read_sysfile_lnk_files (subj))
+
+  (call .cpu.readwrite_sysfile_files (subj))
+  (call .cpu.traverse_sysfile_pattern.type (subj))
+
+  (call .crypto.read_sysctlfile_pattern.type (subj))
+
+  (call .debug.search_fs_pattern.type (subj))
+
+  ;; race: udev will print warnings
+  (call .dev.dontaudit_getattr_blk_file_files (subj))
+  (call .dev.dontaudit_watch_blk_file_files (subj))
+
+  (call .dev.readwrite_all_blk_files (subj))
+  (call .dev.readwrite_all_chr_files (subj))
+  (call .dev.relabel_all_blk_files (subj))
+  (call .dev.relabel_all_chr_files (subj))
+  (call .dev.setattr_all_blk_files (subj))
+  (call .dev.setattr_all_chr_files (subj))
+
+  (call .dev.manage_file (subj))
+  (call .dev.relabelfrom_file (subj))
+  (call .dev.relabelto_file_dirs (subj))
+  (call .dev.relabelto_file_fifo_files (subj))
+  (call .dev.relabelto_file_files (subj))
+  (call .dev.relabelto_file_lnk_files (subj))
+  (call .dev.relabelto_file_sock_files (subj))
+
+  (call .dev.traverse_sysfile_pattern.type (subj))
+
+  (call .devices.list_sysfile_pattern.type (subj))
+  (call .devices.readwrite_sysfile_files (subj))
+  (call .devices.read_sysfile_lnk_files (subj))
+
+  (call .efivar.read_fs_files (subj))
+  (call .efivar.search_fs_pattern.type (subj))
+
+  (call .file.mod.load_all_files (subj))
+  (call .file.mod.map_all_files (subj))
+  (call .file.mod.read_all_files (subj))
+
+  (call .firmware.data.read_file_files (subj))
+  (call .firmware.data.read_file_lnk_files (subj))
+  (call .firmware.data.search_file_dirs (subj))
+
+  (call .firmware.read_sysfile_files (subj))
+
+  (call .fwattrs.read_sysfile_lnk_files (subj))
+  (call .fwattrs.readwrite_sysfile_files (subj))
+  (call .fwattrs.search_sysfile_dirs (subj))
+
+  (call .hwclock.subj_type_transition (subj))
+
+  (call .ibac.objchangesys.type (subj))
+
+  (call .kmod.conf.list_file_dirs (subj))
+  (call .kmod.conf.read_file_files (subj))
+
+  (call .kmod.data.list_file_dirs (subj))
+  (call .kmod.data.read_file_files (subj))
+
+  (call .kmod.map_file_files (subj))
+  (call .kmod.read_file_files (subj))
+
+  (call .kmod.subj_type_transition (subj))
+
+  (call .locale.data.map_file_pattern.type (subj))
+  (call .locale.read_file_pattern.type (subj))
+
+  (call .logger.subj_type_transition (subj))
+
+  (call .mem.readwrite.type (subj))
+
+  (call .memory.readwrite_sysfile_files (subj))
+  (call .memory.traverse_sysfile_pattern.type (subj))
+
+  (call .mod.search_file_dirs (subj))
+
+  (call .module.list_sysfile_pattern.type (subj))
+  (call .module.readwrite_sysfile_files (subj))
+
+  (call .mount.image.readwrite_all_files (subj))
+  (call .mount.image.relabel_all_files (subj))
+  (call .mount.image.setattr_all_files (subj))
+
+  (call .node.readwrite_sysfile_files (subj))
+  (call .node.traverse_sysfile_pattern.type (subj))
+
+  (call .ns.getattr_fs_files_pattern.type (subj))
+
+  (call .nss.passwdgroup.type (subj))
+
+  (call .osrelease.read_sysctlfile_pattern.type (subj))
+
+  (call .proc.getattr_fs_pattern.type (subj))
+
+  (call .random.read_sysctlfile_pattern.type (subj))
+
+  (call .rbac.objchangesys.type (subj))
+
+  (call .root.auditwriteaccess_file_dirs (subj))
+
+  (call .security.search_fs_dirs (subj))
+
+  (call .selinux.file.read_file_pattern.type (subj))
+  (call .selinux.mapread_fs_pattern.type (subj))
+
+  (call .shell.exec.execute_file_files (subj))
+
+  (call .stordev.readwrite.type (subj))
+  (call .stordev.watch_all_blk_files (subj))
+  (call .stordev.watch_all_chr_files (subj))
+
+  (call .sys.moduleload.type (subj))
+  (call .sys.modulerequest_system (subj))
+  (call .sys.search_subj_keyrings (subj))
+  (call .sys.signal_subj_processes (subj))
+
+  (call .sys.getattr_fs_pattern.type (subj))
+  (call .sys.readwrite_subj_netlink_kobject_uevent_sockets (subj))
+
+  (call .tmp.getattr_fs_pattern.type (subj))
+
+  (call .trace.search_fs_pattern.type (subj))
+
+  (call .xattr.getattr_fs_pattern.type (subj))
+
+  (block conf
+
+    (filecon "/etc/udev" dir file_context)
+    (filecon "/etc/udev/.*" any file_context)
+
+    (macro conf_file_type_transition_file ((type ARG1))
+    (call .conf.file_type_transition
+          (ARG1 file dir "udev")))
+
+    (macro map_file_files ((type ARG1))
+           (allow ARG1 file (file (map))))
+
+    (blockinherit .file.conf.template)
+
+    (block read_file_pattern
+
+    (macro type ((type ARG1))
+           (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (call list_file_dirs (typeattr))
+    (call read_file_files (typeattr))
+
+    (call .conf.search_file_pattern.type (typeattr))))
+
+    (block data
+
+      (filecon "/usr/lib/udev" dir file_context)
+      (filecon "/usr/lib/udev/.*" any file_context)
+
+      (macro lib_file_type_transition_file ((type ARG1))
+             (call .lib.file_type_transition
+                   (ARG1 file dir "udev")))
+
+      (macro map_file_files ((type ARG1))
+             (allow ARG1 file (file (map))))
+
+      (blockinherit .file.data.base_template)
+      (blockinherit .file.macro_template_dirs)
+      (blockinherit .file.macro_template_files))
+
+    (block helper
+
+      (block exec
+
+        (filecon "/usr/lib/udev/ata_id" file file_context)
+        (filecon "/usr/lib/udev/cdrom_id" file file_context)
+        (filecon "/usr/lib/udev/dmi_memory_id" file file_context)
+        (filecon "/usr/lib/udev/fido_id" file file_context)
+        (filecon "/usr/lib/udev/hid2hci" file file_context)
+        (filecon "/usr/lib/udev/hwclock-set" file file_context)
+        (filecon "/usr/lib/udev/iocost" file file_context)
+        (filecon "/usr/lib/udev/mtd_probe" file file_context)
+        (filecon "/usr/lib/udev/mtp-probe" file file_context)
+        (filecon "/usr/lib/udev/scsi_id" file file_context)
+        (filecon "/usr/lib/udev/v4l_id" file file_context)
+
+        (blockinherit .file.exec.template)))
+
+    (block run
+
+      (filecon "/run/udev" dir file_context)
+      (filecon "/run/udev/.*" any file_context)
+
+      (macro run_file_type_transition_file ((type ARG1))
+             (call .run.file_type_transition
+                   (ARG1 file dir "udev")))
+
+      (macro watch_file_dirs ((type ARG1))
+             (allow ARG1 file (dir (watch))))
+
+      (blockinherit .file.macro_template_dirs)
+      (blockinherit .file.macro_template_files)
+      (blockinherit .file.macro_template_lnk_files)
+      (blockinherit .file.macro_template_sock_files)
+      (blockinherit .file.run.base_template)
+
+      (block read_file_pattern
+
+        (macro type ((type ARG1))
+               (typeattributeset typeattr ARG1))
+
+        (typeattribute typeattr)
+
+        (call list_file_dirs (typeattr))
+        (call read_file_files (typeattr))
+        (call read_file_lnk_files (typeattr))
+
+        (call .run.search_file_pattern.type (typeattr)))))
+
+(in file.unconfined
+
+    (call .udev.conf.conf_file_type_transition_file (typeattr))
+    (call .udev.data.lib_file_type_transition_file (typeattr))
+    (call .udev.run.run_file_type_transition_file (typeattr)))
+
+(in after .udev.exec
 
     (filecon "/usr/bin/udevadm" file file_context))

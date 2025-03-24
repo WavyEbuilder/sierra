@@ -1,0 +1,16 @@
+(in file.unconfined
+
+    (call .firmware.data.lib_file_type_transition_file (typeattr)))
+
+(in firmware
+
+    (block data
+
+      (filecon "/usr/lib/firmware" dir file_context)
+      (filecon "/usr/lib/firmware/.*" any file_context)
+
+      (macro lib_file_type_transition_file ((type ARG1))
+             (call .lib.file_type_transition
+                   (ARG1 file dir "firmware")))
+
+      (blockinherit .file.data.template)))

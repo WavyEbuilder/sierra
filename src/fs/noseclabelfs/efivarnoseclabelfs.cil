@@ -5,4 +5,15 @@
 
   (genfscon "efivarfs" "/" fs_context)
 
-  (blockinherit .noseclabelfs.template))
+  (blockinherit .noseclabelfs.template)
+
+  (block search_fs_pattern
+
+    (macro type ((type ARG1))
+           (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (call search_fs_dirs (typeattr))
+
+    (call .firmware.search_sysfile_pattern.type (typeattr))))

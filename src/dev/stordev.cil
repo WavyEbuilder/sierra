@@ -11,6 +11,24 @@
 
   (typeattribute typeattr)
 
+  (macro getattr_all_blk_files ((type ARG1))
+         (allow ARG1 typeattr (blk_file (getattr))))
+
+  (macro getattr_all_chr_files ((type ARG1))
+         (allow ARG1 typeattr (chr_file (getattr))))
+
+  (macro setattr_all_blk_files ((type ARG1))
+         (allow ARG1 typeattr (blk_file (setattr))))
+
+  (macro setattr_all_chr_files ((type ARG1))
+         (allow ARG1 typeattr (chr_file (setattr))))
+
+  (macro watch_all_blk_files ((type ARG1))
+         (allow ARG1 typeattr (blk_file (watch))))
+
+  (macro watch_all_chr_files ((type ARG1))
+         (allow ARG1 typeattr (chr_file (watch))))
+
   (blockinherit .file.all_macro_template_blk_files)
   (blockinherit .file.all_macro_template_chr_files)
 

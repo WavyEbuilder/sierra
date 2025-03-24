@@ -1,0 +1,11 @@
+(block fwattrs
+
+  ;; modprobe think-lmi
+  ;; manage BIOS setup from:
+  ;; /sys/devices/virtual/firmware-attributes/thinklmi/attributes
+  ;; https://github.com/torvalds/linux/blob/master/Documentation/ABI/testing/sysfs-class-firmware-attributes
+  (genfscon "sysfs" "/devices/virtual/firmware-attributes" sysfile_context)
+
+  (blockinherit .sysfile.devices.template)
+  (blockinherit .sysfile.macro_template_dirs)
+  (blockinherit .sysfile.macro_template_lnk_files))

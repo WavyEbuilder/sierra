@@ -7,4 +7,38 @@
 
   (blockinherit .sysfile.devices.template)
   (blockinherit .sysfile.macro_template_dirs)
-  (blockinherit .sysfile.macro_template_lnk_files))
+  (blockinherit .sysfile.macro_template_lnk_files)
+
+  (block read_sysfile_pattern
+
+    (macro type ((type ARG1))
+           (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (call list_sysfile_dirs (typeattr))
+    (call read_sysfile_files (typeattr))
+    (call read_sysfile_lnk_files (typeattr))
+
+    (call .devices.search_sysfile_pattern.type (typeattr)))
+
+  (block search_sysfile_pattern
+
+    (macro type ((type ARG1))
+           (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (call search_sysfile_dirs (typeattr))
+
+    (call .devices.search_sysfile_pattern.type (typeattr)))
+
+  (block traverse_sysfile_pattern
+
+    (macro type ((type ARG1))
+           (typeattributeset typeattr ARG1))
+
+    (typeattribute typeattr)
+
+    (call read_sysfile_lnk_files (typeattr))
+    (call search_sysfile_pattern.type (typeattr))))
