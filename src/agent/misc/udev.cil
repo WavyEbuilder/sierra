@@ -33,7 +33,9 @@
   (allow subj self create_unix_dgram_socket)
   (allow subj self (key (write)))
   (allow subj self (netlink_route_socket (nlmsg_read nlmsg_write)))
+  (allow subj self (process (getcap))) ;; pager
   (allow subj self (system (module_load))) ;; Linux 6.6.13-1
+  (allow subj self (unix_dgram_socket (sendto))) ;; notify
   ;; /run/udev/control
   (allow subj self (unix_stream_socket (accept connectto listen)))
 
