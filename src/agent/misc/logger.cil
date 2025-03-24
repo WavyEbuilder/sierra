@@ -1,0 +1,23 @@
+(block logger
+
+  (blockinherit .hybrid.agent.template)
+
+  (allow subj self (capability (sys_admin)))
+  (allow subj self create_unix_dgram_socket)
+
+  (call .crypto.read_sysctlfile_pattern.type (subj))
+
+  (call .locale.data.map_file_pattern.type (subj))
+  (call .locale.read_file_pattern.type (subj))
+
+  (call .metalog.client.type (subj))
+
+  (call .nss.passwdgroup.type (subj))
+
+  (call .selinux.linked.type (subj))
+
+  (call .sys.signull_subj_processes (subj)))
+
+(in after logger.exec
+
+    (filecon "/usr/bin/logger" file file_context))
