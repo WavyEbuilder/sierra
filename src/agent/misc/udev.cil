@@ -34,7 +34,8 @@
   (allow subj self (key (write)))
   (allow subj self (netlink_route_socket (nlmsg_read nlmsg_write)))
   (allow subj self (system (module_load))) ;; Linux 6.6.13-1
-  (allow subj self (unix_stream_socket (accept connectto)))
+  ;; /run/udev/control
+  (allow subj self (unix_stream_socket (accept connectto listen)))
 
   (call conf.manage_file_dirs (subj))
   (call conf.manage_file_files (subj))
