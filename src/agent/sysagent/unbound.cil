@@ -61,6 +61,10 @@
     (call .locale.data.map_file_pattern.type (subj))
     (call .locale.read_file_pattern.type (subj))
 
+    ;; Calls getpwnam(3) to drop privileges:
+    ;; https://github.com/NLnetLabs/unbound/blob/master/daemon/unbound.c#L538-L542
+    (call .nss.passwdgroup.type (subj))
+
     (blockinherit .sys.agent.template))
 
   (block state
