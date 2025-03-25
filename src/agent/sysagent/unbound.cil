@@ -45,6 +45,8 @@
 
   (block server
 
+    (allow subj self (process (setrlimit)))
+
     (call conf.list_file_dirs (subj))
     (call conf.read_file_files (subj))
 
