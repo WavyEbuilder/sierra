@@ -54,6 +54,8 @@
     (call state.manage_file_dirs (subj))
     (call state.manage_file_files (subj))
 
+    (call .cert.read_file_pattern.type (subj))
+
     (blockinherit .sys.agent.template))
 
   (block state
