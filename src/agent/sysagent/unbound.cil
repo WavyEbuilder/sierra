@@ -56,6 +56,9 @@
 
     (call .cert.read_file_pattern.type (subj))
 
+    (call .locale.data.map_file_pattern.type (subj))
+    (call .locale.read_file_pattern.type (subj))
+
     (blockinherit .sys.agent.template))
 
   (block state
