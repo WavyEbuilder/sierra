@@ -45,7 +45,10 @@
 
   (block server
 
+    (allow subj self (netlink_route_socket (nlmsg_read nlmsg_write)))
     (allow subj self (process (setrlimit)))
+
+    (allow subj self create_netlink_route_socket)
 
     (call conf.list_file_dirs (subj))
     (call conf.read_file_files (subj))
