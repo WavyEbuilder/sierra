@@ -87,6 +87,8 @@
     ;; https://github.com/NLnetLabs/unbound/blob/master/daemon/unbound.c#L538-L542
     (call .nss.passwdgroup.type (subj))
 
+    (call .run.deletename_file_dirs (subj))
+
     (optional unbound_invalidassociationsboolfile
               (call .invalidassociations.type (subj)))
 
