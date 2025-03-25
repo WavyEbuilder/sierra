@@ -74,10 +74,9 @@
 
 (in file.unconfined
 
-    (call .dhcpcd.conf.conf_file_type_transition_file (typeattr))
-    (call .dhcpcd.data.data_file_type_transition_file (typeattr))
-    (call .dhcpcd.run.run_file_type_transition_file (typeattr))
-    (call .dhcpcd.state.state_file_type_transition_file (typeattr)))
+    (call .unbound.conf.conf_file_type_transition_file (typeattr))
+    (call .unbound.run.run_file_type_transition_file (typeattr))
+    (call .unbound.state.state_file_type_transition_file (typeattr)))
 
 (in after unbound.checkconf.exec
 
