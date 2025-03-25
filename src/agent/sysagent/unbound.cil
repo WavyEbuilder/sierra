@@ -57,6 +57,8 @@
     (call .locale.data.map_file_pattern.type (subj))
     (call .locale.read_file_pattern.type (subj))
 
+    (call .metalog.client.type (subj))
+
     (call .net.egress_netifs (subj))
     (call .net.nodebind_netnode_tcp_sockets (subj))
     (call .net.nodebind_netnode_udp_sockets (subj))
