@@ -24,7 +24,7 @@
 
   (block run
 
-    (filecon "/run/unbound.sock" socket file_context)
+    (filecon "/run/unbound\.sock" socket file_context)
 
     (macro run_file_type_transition_file ((type ARG1))
            (call .run.file_type_transition
