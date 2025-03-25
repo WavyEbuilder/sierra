@@ -99,7 +99,9 @@
            (call .conf.file_type_transition
                  (ARG1 file file "dhcpcd.conf")))
 
-    (blockinherit .file.conf.template))
+    (blockinherit .file.macro_template_dirs)
+    (blockinherit .file.macro_template_files)
+    (blockinherit .file.conf.base_template))
 
   (block data
 
