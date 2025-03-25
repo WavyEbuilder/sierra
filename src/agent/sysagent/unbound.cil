@@ -37,8 +37,11 @@
     (allow subj self (capability (net_bind_service setgid setuid sys_resource)))
     (allow subj self (netlink_route_socket (nlmsg_read nlmsg_write)))
     (allow subj self (process (setrlimit)))
+    (allow subj self (unix_stream_socket (accept listen)))
 
     (allow subj self create_netlink_route_socket)
+    (allow subj self create_tcp_stream_socket)
+    (allow subj self create_udp_socket)
 
     (call conf.list_file_dirs (subj))
     (call conf.read_file_files (subj))
