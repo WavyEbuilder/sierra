@@ -22,17 +22,6 @@
 
     (blockinherit .sys.agent.template))
 
-  (block data
-
-    (filecon "/usr/share/unbound" dir file_context)
-    (filecon "/usr/share/unbound/.*" any file_context)
-
-    (macro data_file_type_transition_file ((type ARG1))
-           (call .data.file_type_transition
-                 (ARG1 file dir "unbound")))
-
-    (blockinherit .file.data.unbound.template))
-
   (block run
 
     (filecon "/run/unbound.sock" socket file_context)
@@ -82,37 +71,6 @@
     (blockinherit .file.macro_template_dirs)
     (blockinherit .file.macro_template_files)
     (blockinherit .file.state.base_template)))
-
-(in file.data
-
-    (block unbound
-
-      (macro type ((type ARG1))
-             (typeattributeset typeattr ARG1))
-
-      (blockinherit file.all_macro_template_dirs)
-      (blockinherit file.all_macro_template_files)
-
-      (typeattribute typeattr)
-
-      (call file.data.type (typeattr))
-
-      (block base_template
-
-        (blockabstract base_template)
-
-        (blockinherit .file.data.base_template)
-
-        (call .file.data.unbound.type (file)))
-
-      (block template
-
-        (blockabstract template)
-
-        (blockinherit file.all_macro_template_dirs)
-        (blockinherit file.all_macro_template_files)
-
-        (blockinherit .file.data.unbound.base_template))))
 
 (in file.unconfined
 
