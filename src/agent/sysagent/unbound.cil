@@ -1,0 +1,120 @@
+;; SPDX-FileCopyrightText: © 2025 Rahul Sandhu <nvraxn@gmail.com>
+;; SPDX-License-Identifier: GPL-3.0-or-later
+
+(block unbound
+
+  (block checkconf
+
+    (blockinherit .sys.agent.template))
+
+  (block conf
+
+    (filecon "/etc/unbound" dir file_context)
+    (filecon "/etc/unbound/.*" any file_context)
+
+    (macro conf_file_type_transition_file ((type ARG1))
+           (call .conf.file_type_transition
+                 (ARG1 file dir "unbound")))
+
+    (blockinherit .file.conf.template))
+
+  (block control
+
+    (blockinherit .sys.agent.template))
+
+  (block data
+
+    (filecon "/usr/share/unbound" dir file_context)
+    (filecon "/usr/share/unbound/.*" any file_context)
+
+    (macro data_file_type_transition_file ((type ARG1))
+           (call .data.file_type_transition
+                 (ARG1 file dir "unbound")))
+
+    (blockinherit .file.data.unbound.template))
+
+  (block run
+
+    (filecon "/run/unbound.sock" socket file_context)
+
+    (macro run_file_type_transition_file ((type ARG1))
+           (call .run.file_type_transition
+                 (ARG1 file sock_file "unbound.sock")))
+
+    (blockinherit .file.run.template))
+
+  (block server
+
+    (call conf.list_file_dirs (subj))
+    (call conf.read_file_files (subj))
+
+    (call run.manage_file_sock_files (subj))
+    (call run.run_file_type_transition_file (subj))
+
+    (call state.manage_file_dirs (subj))
+    (call state.manage_file_files (subj))
+
+    (blockinherit .sys.agent.template))
+
+  (block state
+
+    (filecon "/var/lib/unbound" dir file_context)
+    (filecon "/var/lib/unbound/.*" any file_context)
+
+    (macro state_file_type_transition_file ((type ARG1))
+           (call .state.file_type_transition
+                 (ARG1 file dir "unbound")))
+
+    (blockinherit .file.macro_template_dirs)
+    (blockinherit .file.macro_template_files)
+    (blockinherit .file.state.base_template)))
+
+(in file.data
+
+    (block unbound
+
+      (macro type ((type ARG1))
+             (typeattributeset typeattr ARG1))
+
+      (blockinherit file.all_macro_template_dirs)
+      (blockinherit file.all_macro_template_files)
+
+      (typeattribute typeattr)
+
+      (call file.data.type (typeattr))
+
+      (block base_template
+
+        (blockabstract base_template)
+
+        (blockinherit .file.data.base_template)
+
+        (call .file.data.unbound.type (file)))
+
+      (block template
+
+        (blockabstract template)
+
+        (blockinherit file.all_macro_template_dirs)
+        (blockinherit file.all_macro_template_files)
+
+        (blockinherit .file.data.unbound.base_template))))
+
+(in file.unconfined
+
+    (call .dhcpcd.conf.conf_file_type_transition_file (typeattr))
+    (call .dhcpcd.data.data_file_type_transition_file (typeattr))
+    (call .dhcpcd.run.run_file_type_transition_file (typeattr))
+    (call .dhcpcd.state.state_file_type_transition_file (typeattr)))
+
+(in after unbound.control.exec
+
+    (filecon "/usr/bin/unbound-checkconf" file file_context))
+
+(in after unbound.control.exec
+
+    (filecon "/usr/bin/unbound-control" file file_context))
+
+(in after unbound.server.exec
+
+    (filecon "/usr/bin/unbound" file file_context))
