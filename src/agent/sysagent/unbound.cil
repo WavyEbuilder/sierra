@@ -34,6 +34,7 @@
 
   (block server
 
+    (allow subj self (capability (net_bind_service setgid setuid sys_resource)))
     (allow subj self (netlink_route_socket (nlmsg_read nlmsg_write)))
     (allow subj self (process (setrlimit)))
 
