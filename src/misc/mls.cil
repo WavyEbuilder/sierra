@@ -1115,4 +1115,7 @@
 
 (sensitivityorder (unclassified confidential secret topsecret))
 
-(sensitivitycategory s0 catset)
+(sensitivitycategory unclassified catset)
+(sensitivitycategory confidential catset)
+(sensitivitycategory secret catset)
+(sensitivitycategory topsecret catset)

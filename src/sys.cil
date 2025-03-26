@@ -23,8 +23,8 @@
          (call roleallow.role (ARG1))
          (call userrole.user (ARG2)))
 
-  (level low (s0))
-  (level high (s0 .catset))
+  (level low (unclassified))
+  (level high (topsecret .catset))
 
   (levelrange lowlow (low low))
   (levelrange lowhigh (low high))
