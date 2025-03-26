@@ -18,6 +18,8 @@
 
       (blockinherit .file.all_macro_template_chr_files)
 
+      (call .mls.trustedobject.type (typeattr))
+
       (call .rbacsep.exempt.obj.type (typeattr))))
 
 (in after sys.termdev.appendinherited_all_chr_files

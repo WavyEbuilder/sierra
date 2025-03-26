@@ -13,6 +13,8 @@
 
   (blockinherit .nodedev.template)
 
+  (call .mls.trustedobject.type (nodedev))
+
   (call .rbacsep.exempt.obj.type (nodedev)))
 
 ;; TIOCLINUX, subcode=TIOCL_GETMOUSEREPORTING
