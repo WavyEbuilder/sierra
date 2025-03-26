@@ -9,12 +9,12 @@
   ;; Security clearance of the subject must be
   ;; less than or equal to the security
   ;; classification of the object to read it.
-  (mlsconstrain (constrainobject (read))
+  (mlsconstrain (constrainobject (execute getattr read))
                 (or (or (dom l1 l2)
                         (eq t1 exempt.typeattr))
                     (eq t2 trustedobject.typeattr)))
 
-  (mlsconstrain (fifo_file (read))
+  (mlsconstrain (fifo_file (execute getattr read))
                 (or (or (dom l1 l2)
                         (eq t1 exempt.typeattr))
                     (eq t2 trustedobject.typeattr)))

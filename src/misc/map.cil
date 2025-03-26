@@ -1,7 +1,7 @@
 ;; SPDX-FileCopyrightText: © 2025 Dominick Grift <dominick.grift@defensec.nl>
 ;; SPDX-License-Identifier: Unlicense
 
-(classmap constrainobject (append create getattr read relabelto setattr write))
+(classmap constrainobject (append create execute getattr read relabelto setattr write))
 
 (classmap files
 	  (create delete manage read readwrite relabel relabelfrom relabelto
@@ -21,6 +21,14 @@
 (classmapping constrainobject create (file (create)))
 (classmapping constrainobject create (lnk_file (create)))
 (classmapping constrainobject create (sock_file (create)))
+
+(classmapping constrainobject execute (blk_file (execute)))
+(classmapping constrainobject execute (chr_file (execute)))
+(classmapping constrainobject execute (dir (execute)))
+(classmapping constrainobject execute (fifo_file (execute)))
+(classmapping constrainobject execute (file (execute)))
+(classmapping constrainobject execute (lnk_file (execute)))
+(classmapping constrainobject execute (sock_file (execute)))
 
 (classmapping constrainobject getattr (blk_file (getattr)))
 (classmapping constrainobject getattr (chr_file (getattr)))
