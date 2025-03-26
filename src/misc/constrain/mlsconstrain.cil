@@ -6,9 +6,6 @@
   ;; Bell–LaPadula Model:
   ;; Read down, write up
 
-  ;; MLS is still experimental
-  (call exempt.type (.agent.typeattr))
-
   ;; Security clearance of the subject must be
   ;; less than or equal to the security
   ;; classification of the object to read it.
