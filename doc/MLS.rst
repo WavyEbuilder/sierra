@@ -25,6 +25,13 @@ MLS Excemption
 
 Subjects associated with the ``mls.exempt.typeattr`` type-attribute are exempt from all MLS constraints. The macro ``mls.exempt.type`` may be called to associate a domain with the mls excemption type-attribute.
 
+Trusted Objects
+---------------
+
+Types associated with the ``mls.trustedobject.typeattr`` type-attribute may have subjects of all security clearances read from or write to them regardless of their security classification. The macro ``mls.trustedobject.type`` may be called to associate a type with the mls trustedobject type-attribute.
+
+Only filesystem objects (such as files and directories) may be trustedobjects. Various objects are trustedobjects out of the box in sierra, such as ``/dev/null`` and ``/dev/zero``; use ``seinfo -xa mls.trustedobject.typeattr`` to see all trustedobjects in the current loaded policy.
+
 Terminology
 -----------
 - Subject: a user or process.
