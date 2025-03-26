@@ -20,6 +20,11 @@ Writing objects
 ---------------
 Subjects may write to objects of the same or higher security classification. Objects of a lower classification may not be written to in order to prevent leaking sensitive data.
 
+MLS Excemption
+--------------
+
+Subjects associated with the `mls.exempt.typeattr` type-attribute are exempt from all MLS constraints. The macro `mls.exempt.type` may be called to associate a domain with the mls excemption type-attribute.
+
 Terminology
 -----------
 - Subject: a user or process.
