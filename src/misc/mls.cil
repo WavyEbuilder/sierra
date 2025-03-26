@@ -1099,5 +1099,20 @@
 (categoryset catset (range c0 c1023))
 
 (sensitivity s0)
-(sensitivityorder (s0))
+(sensitivity s1)
+(sensitivity s2)
+(sensitivity s3)
+
+(sensitivityalias unclassified)
+(sensitivityalias confidential)
+(sensitivityalias secret)
+(sensitivityalias topsecret)
+
+(sensitivityaliasactual unclassified s0)
+(sensitivityaliasactual confidential s1)
+(sensitivityaliasactual secret s2)
+(sensitivityaliasactual topsecret s3)
+
+(sensitivityorder (unclassified confidential secret topsecret))
+
 (sensitivitycategory s0 catset)
