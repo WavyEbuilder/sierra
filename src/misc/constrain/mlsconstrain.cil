@@ -23,11 +23,11 @@
   ;; must be greater than or equal to the security
   ;; clearence of the subject: sensitive data must
   ;; remain sensitive.
-  (mlsconstrain (constrainobject (append create write))
+  (mlsconstrain (constrainobject (append create relabelto write))
                 (or (domby h1 h2)
                     (eq t1 exempt.typeattr)))
 
-  (mlsconstrain (fifo_file (append create write))
+  (mlsconstrain (fifo_file (append create relabelto write))
                 (or (domby h1 h2)
                     (eq t1 exempt.typeattr)))
 
