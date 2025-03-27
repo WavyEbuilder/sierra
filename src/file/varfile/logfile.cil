@@ -3,7 +3,9 @@
 
 (block log
 
-  (filecon "/var/log" dir file_context)
+  (context dir_context (.sys.id .sys.role file .sys.lowhigh))
+
+  (filecon "/var/log" dir dir_context)
   (filecon "/var/log/.*" any file_context)
 
   (macro var_file_type_transition_file ((type ARG1))

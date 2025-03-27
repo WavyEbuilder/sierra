@@ -28,6 +28,7 @@
 
   (levelrange lowlow (low low))
   (levelrange lowhigh (low high))
+  (levelrange highhigh (high high))
 
   (role role)
   (roletype role subj)
