@@ -24,6 +24,27 @@
 		  (or (dom h1 h2)
 		      (neq t1 constrained.typeattr))))
 
+(in mls
+
+    (mlsconstrain (filesystem (relabelto))
+                  (or (dom h1 h2)
+                      (eq t1 exempt.typeattr)))
+
+    (mlsconstrain (filesystem (getattr quotaget))
+                  (or (or (or (dom l1 l2)
+                              (and (eq t1 filereadtoclr.typeattr)
+                                   (dom h1 l2)))
+                          (eq t1 fileread.typeattr))
+                      (eq t1 exempt.typeattr)))
+
+    (mlsconstrain (filesystem (mount quotamod relabelfrom remount unmount))
+                  (or (or (or (eq l1 l2)
+                              (and (and (eq t1 filewritetoclr.typeattr)
+                                        (dom h1 l2))
+                                   (domby l1 l2)))
+                          (eq t1 filewrite.typeattr))
+                      (eq t1 exempt.typeattr))))
+
 (in rbac
 
     (constrain (filesystem (relabelto))
