@@ -2,14 +2,14 @@
 MLS Support
 ===========
 
-Sierra ships with MLS support enabled out of the box. Sierra's MLS model follows the `Bell–LaPadula model <https://en.wikipedia.org/wiki/Bell%E2%80%93LaPadula_model>`_. 4 sensitivity levels are configured as follows:
+Sierra ships with MLS support enabled out of the box. Sierra's MLS model follows the `Bell–LaPadula model <https://en.wikipedia.org/wiki/Bell%E2%80%93LaPadula_model>`_ modified to use the concept of write equality to assist with data integrity. 4 sensitivity levels are configured as follows:
 
 - s0: unclassified
 - s1: confidential
 - s2: secret
 - s3: topsecret
 
-The MLS model follows a read down, write up approach. MLS is designed to ensure data confidentiality; subjects are prevented from downgrading the classification of their data.
+Sierra's MLS model follows a read down, write equal approach. MLS is designed to ensure data confidentiality; subjects are prevented from downgrading the classification of their data. Integrity is also protected by preventing writing up for subjects, but integrity protection is not the main goal of Sierra's MLS constraints.
 
 Reading objects
 ---------------
@@ -18,7 +18,7 @@ Subjects may read objects whose security classification is at the same level or 
 
 Writing objects
 ---------------
-Subjects may write to objects of the same or higher security classification. Objects of a lower classification may not be written to in order to prevent leaking sensitive data.
+Subjects may write only to objects of the same security classification. Objects of a lower classification may not be written to in order to prevent leaking sensitive data. Objects of a higher classification may not be written to to ensure data integrity; files with a higher classification that are relied on by subjects with a higher clearance should not be modified by subjects with a lower clearance.
 
 MLS Excemption
 --------------
