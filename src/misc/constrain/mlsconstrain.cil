@@ -110,7 +110,7 @@
                                           (dom h1 h2)))
                                  (and (eq t3 filedowngrade.typeattr)
                                       (incomp h1 h2))))
-                        (eq t1 exempt.typeattr)))
+                        (eq t3 exempt.typeattr)))
 
   ;; DANGEROUS: Subjects associated with this rule are
   ;; exempt from all MLS constraints.
