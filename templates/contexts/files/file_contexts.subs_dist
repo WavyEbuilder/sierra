@@ -6,6 +6,7 @@
 /sbin /usr/bin
 /usr/lib/misc /usr/bin
 /usr/lib64 /usr/lib
+/usr/lib64/misc /usr/bin
 /usr/libexec /usr/bin
 /usr/local/bin /usr/bin
 /usr/local/etc /etc
