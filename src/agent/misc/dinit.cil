@@ -50,9 +50,13 @@
 
   (call run.manage_file_sock_files (subj))
   (call run.run_file_type_transition_file (subj))
+  (call run.sys_tmpfs_file_type_transition_file (subj))
 
   (call service.list_file_dirs (subj))
   (call service.read_file_files (subj))
+
+  ;; /run may not be labelled properly by the time the control socket is created.
+  (call .sys.tmpfs.addname_file_dirs (subj))
 
   (call .sys.syslogconsole_system (subj))
 
@@ -70,6 +74,11 @@
 
     (macro run_file_type_transition_file ((type ARG1))
            (call .run.file_type_transition
+                 (ARG1 file sock_file "dinitctl")))
+
+    ;; /run may not be labelled properly by the time the control socket is created.
+    (macro sys_tmpfs_file_type_transition_file ((type ARG1))
+           (call .sys.tmpfs.file_type_transition
                  (ARG1 file sock_file "dinitctl")))
 
     (blockinherit .file.run.template))
