@@ -1,0 +1,16 @@
+;; SPDX-FileCopyrightText: © 2025 Rahul Sandhu <nvraxn@gmail.com>
+;; SPDX-License-Identifier: GPL-3.0-or-later
+
+(block perl
+
+  (block exec
+
+    (filecon "/usr/bin/perl" file file_context)
+
+    (macro auditexecuteaccess_file_files ((type ARG1))
+	   (allow ARG1 file (file (execute getattr))))
+
+    (macro dontaudit_execute_no_trans_file_files ((type ARG1))
+	   (dontaudit ARG1 file (file (execute_no_trans))))
+
+    (blockinherit .file.exec.template)))

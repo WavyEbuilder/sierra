@@ -1,0 +1,78 @@
+;; SPDX-FileCopyrightText: © 2025 Rahul Sandhu <nvraxn@gmail.com>
+;; SPDX-License-Identifier: GPL-3.0-or-later
+
+(in file.lib
+
+    (block perl
+
+      (macro type ((type ARG1))
+             (typeattributeset typeattr ARG1))
+
+      (blockinherit file.all_macro_template_files)
+
+      (typeattribute typeattr)
+
+      (call file.lib.type (typeattr))
+
+      (block base_template
+
+        (blockabstract base_template)
+
+        (blockinherit .file.lib.base_template)
+
+        (call .file.lib.perl.type (file)))
+
+      (block template
+
+        (blockabstract template)
+
+        (blockinherit .file.lib.perl.base_template)
+        (blockinherit .file.macro_template_files))))
+
+(in file.unconfined
+
+    (call .perl.lib.lib_file_type_transition_file (typeattr)))
+
+(in perl
+
+    (block lib
+  
+      (filecon "/usr/lib/perl" dir file_context)
+      (filecon "/usr/lib/perl/.*" any file_context)
+  
+      (filecon "/usr/lib/perl5" dir file_context)
+      (filecon "/usr/lib/perl5/.*" any file_context)
+  
+      (macro lib_file_type_transition_file ((type ARG1))
+  	   (call .lib.file_type_transition
+  		 (ARG1 file dir "perl"))
+  	   (call .lib.file_type_transition
+  		 (ARG1 file dir "perl5")))
+  
+      (blockinherit .file.lib.perl.template)
+      (blockinherit .file.macro_template_dirs)
+      (blockinherit .file.macro_template_lnk_files)
+  
+      (block mapexecute_file_pattern
+  
+        (macro type ((type ARG1))
+               (typeattributeset typeattr ARG1))
+  
+        (typeattribute typeattr)
+  
+        (call mapexecute_file_files (typeattr))
+  
+        (call .lib.search_file_pattern.type (typeattr)))
+  
+      (block read_file_pattern
+  
+        (macro type ((type ARG1))
+  	     (typeattributeset typeattr ARG1))
+  
+        (typeattribute typeattr)
+  
+        (call list_file_dirs (typeattr))
+        (call read_file_files (typeattr))
+        (call read_file_lnk_files (typeattr))
+  
+        (call .lib.search_file_pattern.type (typeattr)))))
