@@ -1,0 +1,263 @@
+(in file.content
+
+    (block user
+
+      (macro map_all_files ((type ARG1))
+	     (allow ARG1 typeattr (file (map))))
+
+      (macro type ((type ARG1))
+	     (typeattributeset typeattr ARG1))
+
+      (blockinherit .file.all_macro_template_dirs)
+      (blockinherit .file.all_macro_template_fifo_files)
+      (blockinherit .file.all_macro_template_files)
+      (blockinherit .file.all_macro_template_lnk_files)
+      (blockinherit .file.all_macro_template_sock_files)
+
+      (typeattribute typeattr)
+
+      (call .file.content.type (typeattr))
+      (call .file.user.type (typeattr))
+
+      (block ra
+
+	(macro map_all_files ((type ARG1))
+	       (allow ARG1 typeattr (file (map))))
+
+	(macro setattr_all_files ((type ARG1))
+	       (allow ARG1 typeattr (file (setattr))))
+
+	(macro type ((type ARG1))
+	       (typeattributeset typeattr ARG1))
+
+	(blockinherit .file.all_macro_template_dirs)
+	(blockinherit .file.all_macro_template_fifo_files)
+	(blockinherit .file.all_macro_template_files)
+	(blockinherit .file.all_macro_template_lnk_files)
+	(blockinherit .file.all_macro_template_sock_files)
+
+	(typeattribute typeattr)
+
+	(call .file.content.ra.type (typeattr))
+	(call .file.content.user.type (typeattr))
+
+	(block base_template
+
+	  (blockabstract base_template)
+
+	  (blockinherit .file.content.ra.base_template)
+
+	  (call .file.content.user.ra.type (file)))
+
+	(block template
+
+	  (blockabstract template)
+
+	  (macro map_file_files ((type ARG1))
+		 (allow ARG1 file (file (map))))
+
+	  (macro setattr_file_files ((type ARG1))
+		 (allow ARG1 file (file (setattr))))
+
+	  (blockinherit .file.content.user.ra.base_template)
+	  (blockinherit .file.macro_template_dirs)
+	  (blockinherit .file.macro_template_files)))
+
+      (block ro
+
+	(macro map_all_files ((type ARG1))
+	       (allow ARG1 typeattr (file (map))))
+
+	(macro type ((type ARG1))
+	       (typeattributeset typeattr ARG1))
+
+	(blockinherit .file.all_macro_template_dirs)
+	(blockinherit .file.all_macro_template_fifo_files)
+	(blockinherit .file.all_macro_template_files)
+	(blockinherit .file.all_macro_template_lnk_files)
+	(blockinherit .file.all_macro_template_sock_files)
+
+	(typeattribute typeattr)
+
+	(call .file.content.ro.type (typeattr))
+	(call .file.content.user.type (typeattr))
+
+	(block base_template
+
+	  (blockabstract base_template)
+
+	  (blockinherit .file.content.ro.base_template)
+
+	  (call .file.content.user.ro.type (file)))
+
+	(block template
+
+	  (blockabstract template)
+
+	  (macro map_file_files ((type ARG1))
+		 (allow ARG1 file (file (map))))
+
+	  (blockinherit .file.content.user.ro.base_template)
+	  (blockinherit .file.macro_template_dirs)
+	  (blockinherit .file.macro_template_files)))
+
+      (block rw
+
+	(macro map_all_files ((type ARG1))
+	       (allow ARG1 typeattr (file (map))))
+
+	(macro type ((type ARG1))
+	       (typeattributeset typeattr ARG1))
+
+	(blockinherit .file.all_macro_template_dirs)
+	(blockinherit .file.all_macro_template_fifo_files)
+	(blockinherit .file.all_macro_template_files)
+	(blockinherit .file.all_macro_template_lnk_files)
+	(blockinherit .file.all_macro_template_sock_files)
+
+	(typeattribute typeattr)
+
+	(call .file.content.rw.type (typeattr))
+	(call .file.content.user.type (typeattr))
+
+	(block base_template
+
+	  (blockabstract base_template)
+
+	  (blockinherit .file.content.rw.base_template)
+
+	  (call .file.content.user.rw.type (file)))
+
+	(block template
+
+	  (blockabstract template)
+
+	  (macro map_file_files ((type ARG1))
+		 (allow ARG1 file (file (map))))
+
+	  (macro tmp_file_type_transition_file
+		 ((type ARG1)(class ARG2)(name ARG3))
+		 (call .tmp.file_type_transition
+		       (ARG1 file ARG2 ARG3)))
+
+	  (blockinherit .file.content.user.rw.base_template)
+	  (blockinherit .file.macro_template_dirs)
+	  (blockinherit .file.macro_template_fifo_files)
+	  (blockinherit .file.macro_template_files)
+	  (blockinherit .file.macro_template_lnk_files)
+	  (blockinherit .file.macro_template_sock_files)))
+
+      (block script
+
+	(macro type ((type ARG1))
+	       (typeattributeset typeattr ARG1))
+
+	(typeattribute typeattr)
+
+	(call .file.content.script.type (typeattr))
+
+	(block exec
+
+	  (macro entrypoint_all_files ((type ARG1))
+		 (allow ARG1 typeattr (file (entrypoint))))
+
+	  (macro map_all_files ((type ARG1))
+		 (allow ARG1 typeattr (file (map))))
+
+	  (macro type ((type ARG1))
+		 (typeattributeset typeattr ARG1))
+
+	  (blockinherit .file.all_macro_template_dirs)
+	  (blockinherit .file.all_macro_template_files)
+	  (blockinherit .file.all_macro_template_lnk_files)
+
+	  (typeattribute typeattr)
+
+	  (call .file.content.script.exec.type (typeattr))
+	  (call .file.content.user.type (typeattr)))
+
+	(block template
+
+	  (blockabstract template)
+
+	  (macro role ((role ARG1))
+		 (roleattributeset roleattr ARG1))
+
+	  (macro subj_type_transition ((type ARG1))
+		 (allow ARG1 subj (process (transition)))
+
+		 (allow subj ARG1 (process (sigchld)))
+		 (allow subj ARG1 (fd (use)))
+		 (allow subj ARG1 readwriteinherited_fifo_file)
+
+		 (call exec.mapexecute_file_files (ARG1))
+		 (call exec.read_file_files (ARG1))
+		 (call exec.subj_type_transition (ARG1 subj)))
+
+	  (blockinherit .subj.common.template)
+
+	  (roleattribute roleattr)
+	  (roletype roleattr subj)
+
+	  (call .file.content.script.type (subj))
+	  (call .file.content.user.script.type (subj))
+
+	  (call .user.agent.type (subj))
+
+	  (block exec
+
+	    (blockinherit .file.exec.template)
+	    (blockinherit .file.macro_template_dirs)
+
+	    (call entrypoint_file_files (subj))
+	    (call list_file_dirs (subj))
+	    (call mapexecute_file_files (subj))
+	    (call read_file_files (subj))
+
+	    (call .file.content.script.exec.type (file))
+	    (call .file.content.user.script.exec.type (file))
+
+	    (call .user.agent.exec.type (file)))))
+
+      (block template
+
+	(blockabstract template)
+
+	(block ra
+
+	  (blockinherit .file.content.user.ra.template))
+
+	(block ro
+
+	  (blockinherit .file.content.user.ro.template))
+
+	(block rw
+
+	  (blockinherit .file.content.user.rw.template))
+
+	(block script
+
+	  (call ra.append_file_files (subj))
+	  (call ra.create_file_files (subj))
+	  (call ra.delete_file_files (subj))
+	  (call ra.map_file_files (subj))
+	  (call ra.read_file_files (subj))
+	  (call ra.readwrite_file_dirs (subj))
+	  (call ro.list_file_dirs (subj))
+	  (call ro.map_file_files (subj))
+	  (call ro.read_file_files (subj))
+	  (call rw.manage_file_dirs (subj))
+	  (call rw.manage_file_fifo_files (subj))
+	  (call rw.manage_file_files (subj))
+	  (call rw.manage_file_lnk_files (subj))
+	  (call rw.manage_file_sock_files (subj))
+	  (call rw.map_file_files (subj))
+	  (call rw.tmp_file_type_transition_file (subj dir "*"))
+	  (call rw.tmp_file_type_transition_file (subj fifo_file "*"))
+	  (call rw.tmp_file_type_transition_file (subj file "*"))
+	  (call rw.tmp_file_type_transition_file (subj lnk_file "*"))
+	  (call rw.tmp_file_type_transition_file (subj sock_file "*"))
+
+	  (call .tmp.deletename_file_dirs (subj))
+
+	  (blockinherit .file.content.user.script.template)))))
