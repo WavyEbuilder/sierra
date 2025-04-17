@@ -1,0 +1,28 @@
+name: Build sierra
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout sierra sources
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y build-essential autoconf automake libtool policycoreutils secilc setools
+
+      - name: Generate configure script
+        run: autoreconf --install
+
+      - name: Configure sierra
+        run: ./configure
+
+      - name: Build monolithic sierra policy
+        run: make
