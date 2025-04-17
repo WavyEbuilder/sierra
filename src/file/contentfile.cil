@@ -1,0 +1,185 @@
+;; From dssp5-debian
+
+(in file
+
+    (block content
+
+      (macro map_all_files ((type ARG1))
+	     (allow ARG1 typeattr (file (map))))
+
+      (macro type ((type ARG1))
+	     (typeattributeset typeattr ARG1))
+
+      (blockinherit file.all_macro_template_dirs)
+      (blockinherit file.all_macro_template_fifo_files)
+      (blockinherit file.all_macro_template_files)
+      (blockinherit file.all_macro_template_lnk_files)
+      (blockinherit file.all_macro_template_sock_files)
+
+      (typeattribute typeattr)
+
+      (call file.type (typeattr))
+
+      (call .xattr.associate_fs_pattern.type (typeattr))
+
+      (block ra
+
+	(macro map_all_files ((type ARG1))
+	       (allow ARG1 typeattr (file (map))))
+
+	(macro type ((type ARG1))
+	       (typeattributeset typeattr ARG1))
+
+	(blockinherit file.all_macro_template_dirs)
+	(blockinherit file.all_macro_template_fifo_files)
+	(blockinherit file.all_macro_template_files)
+	(blockinherit file.all_macro_template_lnk_files)
+	(blockinherit file.all_macro_template_sock_files)
+
+	(typeattribute typeattr)
+
+	(call file.content.type (typeattr))
+
+	(block base_template
+
+	  (blockabstract base_template)
+
+	  (blockinherit .file.base_template)
+
+	  (call .file.content.ra.type (file)))
+
+	(block template
+
+	  (blockabstract template)
+
+	  (macro map_file_files ((type ARG1))
+		 (allow ARG1 file (file (map))))
+
+	  (blockinherit .file.content.ra.base_template)
+	  (blockinherit .file.macro_template_dirs)
+	  (blockinherit .file.macro_template_files)))
+
+      (block ro
+
+	(macro map_all_files ((type ARG1))
+	       (allow ARG1 typeattr (file (map))))
+
+	(macro type ((type ARG1))
+	       (typeattributeset typeattr ARG1))
+
+	(blockinherit file.all_macro_template_dirs)
+	(blockinherit file.all_macro_template_fifo_files)
+	(blockinherit file.all_macro_template_files)
+	(blockinherit file.all_macro_template_lnk_files)
+	(blockinherit file.all_macro_template_sock_files)
+
+	(typeattribute typeattr)
+
+	(call file.content.type (typeattr))
+
+	(block base_template
+
+	  (blockabstract base_template)
+
+	  (blockinherit .file.base_template)
+
+	  (call .file.content.ro.type (file)))
+
+	(block template
+
+	  (blockabstract template)
+
+	  (macro map_file_files ((type ARG1))
+		 (allow ARG1 file (file (map))))
+
+	  (blockinherit .file.content.ro.base_template)
+	  (blockinherit .file.macro_template_dirs)
+	  (blockinherit .file.macro_template_files)))
+
+      (block rw
+
+	(macro map_all_files ((type ARG1))
+	       (allow ARG1 typeattr (file (map))))
+
+	(macro type ((type ARG1))
+	       (typeattributeset typeattr ARG1))
+
+	(blockinherit file.all_macro_template_dirs)
+	(blockinherit file.all_macro_template_fifo_files)
+	(blockinherit file.all_macro_template_files)
+	(blockinherit file.all_macro_template_lnk_files)
+	(blockinherit file.all_macro_template_sock_files)
+
+	(typeattribute typeattr)
+
+	(call file.content.type (typeattr))
+
+	(block base_template
+
+	  (blockabstract base_template)
+
+	  (blockinherit .file.base_template)
+
+	  (call .file.content.rw.type (file)))
+
+	(block template
+
+	  (blockabstract template)
+
+	  (macro map_file_files ((type ARG1))
+		 (allow ARG1 file (file (map))))
+
+	  (macro tmp_file_type_transition_file
+		 ((type ARG1)(class ARG2)(name ARG3))
+		 (call .tmp.file_type_transition
+		       (ARG1 file ARG2 ARG3)))
+
+	  (blockinherit .file.content.rw.base_template)
+	  (blockinherit .file.macro_template_dirs)
+	  (blockinherit .file.macro_template_fifo_files)
+	  (blockinherit .file.macro_template_files)
+	  (blockinherit .file.macro_template_lnk_files)
+	  (blockinherit .file.macro_template_sock_files)))
+
+      (block script
+
+	(macro type ((type ARG1))
+	       (typeattributeset typeattr ARG1))
+
+	(typeattribute typeattr)
+
+	(call .exec.execute_file_files (typeattr))
+
+	(call .locale.data.map_file_pattern.type (typeattr))
+	(call .locale.read_file_pattern.type (typeattr))
+
+	(call .nss.passwdgroup.type (typeattr))
+
+	(call .perl.read_file_pattern.type (typeattr))
+
+	(call .random.read_nodedev_chr_files (typeattr))
+
+	(call .selinux.linked.type (typeattr))
+
+	(call .shell.exec.execute_file_files (typeattr))
+
+	(call .xattr.getattr_fs_pattern.type (typeattr))
+
+	(block exec
+
+	  (macro entrypoint_all_files ((type ARG1))
+		 (allow ARG1 typeattr (file (entrypoint))))
+
+	  (macro map_all_files ((type ARG1))
+		 (allow ARG1 typeattr (file (map))))
+
+	  (macro type ((type ARG1))
+		 (typeattributeset typeattr ARG1))
+
+	  (blockinherit file.all_macro_template_dirs)
+	  (blockinherit file.all_macro_template_files)
+	  (blockinherit file.all_macro_template_lnk_files)
+
+	  (typeattribute typeattr)
+
+	  (call file.content.type (typeattr))))))
