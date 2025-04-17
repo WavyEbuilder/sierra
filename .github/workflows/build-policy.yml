@@ -23,7 +23,7 @@ jobs:
         run: autoreconf --install
 
       - name: Configure sierra
-        run: ./configure
+        run: ./configure --with-polvers=33 # CI runner kernel version not new enough
 
       - name: Build monolithic policy
         run: make
