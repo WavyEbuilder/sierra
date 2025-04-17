@@ -17,7 +17,7 @@ jobs:
 
           emerge-webrsync -q
           getuto
-          emerge -qgn app-admin/setools sys-apps/policycoreutils sys-apps/secilc
+          emerge -qgn app-text/scdoc app-admin/setools sys-apps/policycoreutils sys-apps/secilc
 
       - name: Generate configure script
         run: autoreconf --install
