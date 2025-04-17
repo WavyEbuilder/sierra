@@ -1,0 +1,51 @@
+;; echo "user.private.file" \
+;; >> /etc/selinux/$SELINUXTYPE/contexts/customizable_types
+
+(in file.unconfined
+
+    (call .user.private.readwrite.type (typeattr)))
+
+(in setfiles.common
+
+    (call .user.private.readwrite.type (typeattr)))
+
+(in user
+
+    (call private.manage_file_dirs (subj))
+    (call private.manage_file_fifo_files (subj))
+    (call private.manage_file_files (subj))
+    (call private.manage_file_lnk_files (subj))
+    (call private.manage_file_sock_files (subj))
+    (call private.mapexecute_file_files (subj))
+    (call private.readwrite.type (subj))
+    (call private.relabel_file_dirs (subj))
+    (call private.relabel_file_fifo_files (subj))
+    (call private.relabel_file_files (subj))
+    (call private.relabel_file_lnk_files (subj))
+    (call private.relabel_file_sock_files (subj))
+
+    (block private
+
+      (blockinherit .file.content.user.rw.template)
+
+      (neverallow readwrite.not_typeattr file (dir (append read write)))
+      (neverallow readwrite.not_typeattr file
+                  (fifo_file (append read write)))
+      (neverallow readwrite.not_typeattr file (file (append read write)))
+      (neverallow readwrite.not_typeattr file
+                  (lnk_file (append read write)))
+      (neverallow readwrite.not_typeattr file
+                  (sock_file (append read write)))
+
+      (call .file.user.home.exception.type (file))
+      (call .file.user.tmp.exception.type (file))
+
+      (block readwrite
+
+	(macro type ((type ARG1))
+               (typeattributeset typeattr ARG1))
+
+	(typeattribute not_typeattr)
+	(typeattribute typeattr)
+
+	(typeattributeset not_typeattr (not typeattr)))))
