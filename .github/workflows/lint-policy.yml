@@ -1,0 +1,25 @@
+name: Lint sierra
+
+on:
+  workflow_run:
+    workflows: ["Build sierra"]
+    types:
+      - completed
+  [pull_request, push]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    container: gentoo/stage3:latest
+
+    steps:
+      - name: Validate policy
+        run: sechecker testing/sechecker.ini policy.33 -o sechecker.log
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        if: ${{ always() }}
+        with:
+          name: sechecker.log
+          path: |
+            sechecker.log
