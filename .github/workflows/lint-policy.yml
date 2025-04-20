@@ -5,7 +5,8 @@ on:
     workflows: ["Build sierra"]
     types:
       - completed
-  [pull_request, push]
+  pull_request:
+  push:
 
 jobs:
   lint:
