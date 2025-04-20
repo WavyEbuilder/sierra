@@ -14,6 +14,9 @@ jobs:
     container: gentoo/stage3:latest
 
     steps:
+      - name: Install dependencies
+        run: emerge -qgn app-admin/setools
+
       - name: Validate policy
         run: sechecker testing/sechecker.ini policy.33 -o sechecker.log
 
